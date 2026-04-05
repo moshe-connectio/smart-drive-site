@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Vehicle } from '@modules/vehicles/lib/repository';
-import { formatPrice, formatKilometers, generateVehicleSlug } from '@shared/utils/formatting';
+import { formatPrice, formatKilometers } from '@shared/utils/formatting';
 import VehicleImageGallery from './VehicleImageGallery';
 import ImageLightbox from './ImageLightbox';
 
@@ -17,9 +17,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const handleContentClick = () => {
-    // Generate SEO-friendly slug: vehicle-name-year-id
-    const slug = generateVehicleSlug(vehicle.title, vehicle.year, vehicle.id);
-    router.push(`/vehicles/${slug}`);
+    router.push(`/vehicles/${vehicle.slug}`);
   };
 
   const handleImageChange = (index: number) => {
