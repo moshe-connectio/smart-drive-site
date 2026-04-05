@@ -179,7 +179,7 @@ export default function AccessibilityWidget() {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
+        className="fixed bottom-6 left-6 z-9999 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
         style={{
           background: 'var(--color-primary)',
           color: '#fff',
@@ -198,13 +198,13 @@ export default function AccessibilityWidget() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-[9998] bg-black/40"
+            className="fixed inset-0 z-9998 bg-black/40"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Panel */}
           <div
-            className="fixed bottom-24 left-6 z-[9999] w-80 max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl"
+            className="fixed bottom-24 left-6 z-9999 w-80 max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl"
             style={{
               background: 'var(--color-gray-100)',
               border: '1px solid var(--color-gray-200)',
