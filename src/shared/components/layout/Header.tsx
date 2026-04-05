@@ -7,79 +7,60 @@ import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 import MobileMenu from './MobileMenu';
 
-export function Header() {
-  const socialLinks = [
-    { 
-      name: 'Facebook', 
-      url: dealershipConfig.social.facebook,
-      icon: FaFacebook,
-    },
-    { 
-      name: 'Instagram', 
-      url: dealershipConfig.social.instagram,
-      icon: FaInstagram,
-    },
-    { 
-      name: 'WhatsApp', 
-      url: dealershipConfig.social.whatsapp,
-      icon: FaWhatsapp,
-    },
-    { 
-      name: 'YouTube', 
-      url: dealershipConfig.social.youtube,
-      icon: FaYoutube,
-    },
-  ];
+const navLinks = [
+  { href: ROUTES.vehicles, label: 'רכבים' },
+  { href: '/new-vehicles', label: 'רכבים חדשים' },
+  { href: ROUTES.about, label: 'אודות' },
+];
 
+const socialLinks = [
+  { name: 'Facebook', url: dealershipConfig.social.facebook, icon: FaFacebook },
+  { name: 'Instagram', url: dealershipConfig.social.instagram, icon: FaInstagram },
+  { name: 'WhatsApp', url: dealershipConfig.social.whatsapp, icon: FaWhatsapp },
+  { name: 'YouTube', url: dealershipConfig.social.youtube, icon: FaYoutube },
+];
+
+export function Header() {
   return (
     <header className="bg-header border-header sticky top-0 z-50 border-b shadow-sm">
       <Container>
-        <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
-          {/* Logo - Right */}
-          <Link 
-            href={ROUTES.home} 
-            className="flex items-center shrink-0 group hover:opacity-90 transition-opacity duration-200"
+        <div className="flex items-center h-14 md:h-[72px]">
+
+          {/* Logo — right side (RTL) */}
+          <Link
+            href={ROUTES.home}
+            className="shrink-0 group transition-opacity hover:opacity-85"
           >
             <Image
               src="/logo.png"
               alt={dealershipConfig.business.name}
               width={160}
               height={50}
-              className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+              className="h-8 md:h-11 w-auto object-contain"
               priority
             />
           </Link>
 
-          {/* Desktop Navigation - Hidden on mobile */}
-          <nav className="hidden md:flex items-center gap-8 flex-1 justify-center">
-            <Link 
-              href={ROUTES.vehicles} 
-              className="font-medium transition-all duration-200 text-sm lg:text-base relative group"
-              style={{ color: 'var(--color-gray-700)' }}
-            >
-              רכבים
-              <span className="absolute -bottom-1 right-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 rounded-full" style={{ background: 'var(--color-primary)' }}></span>
-            </Link>
-            <Link 
-              href="/new-vehicles" 
-              className="font-medium transition-all duration-200 text-sm lg:text-base relative group"
-              style={{ color: 'var(--color-gray-700)' }}
-            >
-              רכבים חדשים
-              <span className="absolute -bottom-1 right-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 rounded-full" style={{ background: 'var(--color-primary)' }}></span>
-            </Link>
-            <Link 
-              href={ROUTES.about}
-              className="font-medium transition-all duration-200 text-sm lg:text-base relative group"
-              style={{ color: 'var(--color-gray-700)' }}
-            >
-              אודות
-              <span className="absolute -bottom-1 right-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 rounded-full" style={{ background: 'var(--color-primary)' }}></span>
-            </Link>
+          {/* Desktop Navigation — centered, spread wide */}
+          <nav className="hidden md:flex items-center justify-center flex-1 gap-10 lg:gap-14 xl:gap-16 mx-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="relative py-1 font-semibold text-sm lg:text-[15px] transition-colors duration-200 group"
+                style={{ color: 'var(--color-gray-700)' }}
+              >
+                {link.label}
+                <span
+                  className="absolute -bottom-0.5 right-0 h-[2px] w-0 group-hover:w-full rounded-full transition-all duration-300"
+                  style={{ background: 'var(--color-primary)' }}
+                />
+              </Link>
+            ))}
           </nav>
 
-          {/* Desktop Social + CTA - Hidden on mobile */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-3 shrink-0">
+          {/* Desktop — social icons + CTA (left side in RTL) */}
+          <div className="hidden md:flex items-center gap-1.5 lg:gap-2 shrink-0">
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
@@ -88,15 +69,17 @@ export function Header() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon-link transition-all duration-200 hover:scale-110 p-2 rounded-lg"
-                  style={{ color: 'var(--color-gray-500)' }}
+                  className="w-9 h-9 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-110"
+                  style={{ color: 'var(--color-gray-400)' }}
                   title={social.name}
                   aria-label={social.name}
                 >
-                  <Icon className="w-[18px] h-[18px]" />
+                  <Icon className="w-[17px] h-[17px]" />
                 </a>
               );
             })}
+
+            <div className="w-px h-6 mx-1.5" style={{ background: 'var(--color-border)' }} />
 
             <LeadModalButton
               formId="general"
@@ -106,13 +89,13 @@ export function Header() {
             />
           </div>
 
-          {/* Mobile: CTA + Hamburger */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile — icon-only CTA + hamburger */}
+          <div className="flex md:hidden items-center gap-1.5 mr-auto">
             <LeadModalButton
               formId="general"
-              buttonLabel="פרטים"
+              buttonLabel=""
               variant="primary"
-              className="text-xs py-1.5 px-3"
+              className="w-9 h-9 p-0"
             />
             <MobileMenu />
           </div>
