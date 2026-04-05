@@ -91,12 +91,8 @@ export const metadata: Metadata = {
 
   // ─── Icons ────────────────────────────────────────────────────────────────
   icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-touch-icon.png',
-    shortcut: '/favicon-16x16.png',
+    icon: '/logo.png',
+    apple: '/logo.png',
   },
 
   // ─── Manifest (PWA) ───────────────────────────────────────────────────────
