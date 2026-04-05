@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Vehicle } from '@modules/vehicles/lib/repository';
 import { formatPrice, formatKilometers, generateVehicleSlug } from '@shared/utils/formatting';
 import VehicleImageGallery from './VehicleImageGallery';
+import ImageLightbox from './ImageLightbox';
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -13,6 +14,7 @@ interface VehicleCardProps {
 export function VehicleCard({ vehicle }: VehicleCardProps) {
   const router = useRouter();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const handleContentClick = () => {
     // Generate SEO-friendly slug: vehicle-name-year-id
@@ -38,9 +40,27 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       )}
 
       {/* Image Gallery Section - Fixed Height */}
-      <div className="p-3 flex items-center justify-center overflow-hidden min-h-56" style={{ background: 'var(--color-gray-200)' }}>
+      <div
+        className="p-3 flex items-center justify-center overflow-hidden min-h-56 cursor-zoom-in"
+        style={{ background: 'var(--color-gray-200)' }}
+        onClick={() => {
+          if (vehicle.images && vehicle.images.length > 0) {
+            setLightboxOpen(true);
+          }
+        }}
+      >
         <VehicleImageGallery images={vehicle.images} vehicleTitle={vehicle.title} selectedIndex={selectedImageIndex} disableThumbnailClick={false} onImageChange={handleImageChange} />
       </div>
+
+      {/* Lightbox Modal */}
+      {lightboxOpen && vehicle.images && vehicle.images.length > 0 && (
+        <ImageLightbox
+          images={vehicle.images}
+          initialIndex={selectedImageIndex}
+          vehicleTitle={vehicle.title}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
 
       {/* Clickable Content Section - flex-1 to grow */}
       <div className="p-5 flex flex-col flex-1 cursor-pointer" onClick={handleContentClick}>
