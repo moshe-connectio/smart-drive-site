@@ -174,7 +174,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                 </div>
 
                 {/* Price */}
-                <div className="rounded-lg p-4 sm:p-6 mb-4 sm:mb-6" style={{ background: 'rgba(26, 101, 224, 0.1)', border: '1px solid rgba(26, 101, 224, 0.2)' }}>
+                <div className="rounded-lg p-4 sm:p-6 mb-4 sm:mb-6" style={{ background: 'rgba(26, 63, 168, 0.06)', border: '1px solid rgba(26, 63, 168, 0.15)' }}>
                   <p className="text-xs sm:text-sm mb-2" style={{ color: 'var(--color-silver-400)' }}>מחיר</p>
                   <p className="text-3xl sm:text-4xl font-bold text-success">
                     {formatPrice(vehicle.price)}
@@ -274,8 +274,8 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                       </button>
                     </>
                   ) : (
-                    <div className="bg-yellow-900/30 border-l-4 border-yellow-500 p-4 rounded">
-                      <p className="text-yellow-400 font-semibold text-sm">
+                    <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                      <p className="text-yellow-700 font-semibold text-sm">
                         ⚠️ רכב זה כבר נמכר
                       </p>
                     </div>

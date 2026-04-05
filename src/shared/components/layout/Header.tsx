@@ -30,7 +30,7 @@ export function Header() {
   ];
 
   return (
-    <header className="bg-header border-header sticky top-0 z-50 border-b">
+    <header className="bg-header border-header sticky top-0 z-50 border-b shadow-sm">
       <Container>
         <div className="flex items-center justify-between h-16 sm:h-20 px-2 sm:px-4">
           {/* Logo - Right */}
@@ -52,17 +52,19 @@ export function Header() {
           <nav className="flex items-center gap-6 sm:gap-10 flex-1 justify-center">
             <Link 
               href={ROUTES.vehicles} 
-              className="text-gray-600 hover:text-primary font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              className="font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              style={{ color: 'var(--color-gray-700)' }}
             >
               רכבים
-              <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 rounded-full"></span>
+              <span className="absolute -bottom-1 right-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 rounded-full" style={{ background: 'var(--color-primary)' }}></span>
             </Link>
             <Link 
               href="/new-vehicles" 
-              className="text-gray-600 hover:text-primary font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              className="font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              style={{ color: 'var(--color-gray-700)' }}
             >
               רכבים חדשים
-              <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 rounded-full"></span>
+              <span className="absolute -bottom-1 right-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 rounded-full" style={{ background: 'var(--color-primary)' }}></span>
             </Link>
           </nav>
 
@@ -76,7 +78,8 @@ export function Header() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-primary transition-all duration-200 hover:scale-110 p-1.5 sm:p-2 rounded-lg hover:bg-gray-300 hidden sm:block"
+                  className="social-icon-link transition-all duration-200 hover:scale-110 p-1.5 sm:p-2 rounded-lg hidden sm:block"
+                  style={{ color: 'var(--color-gray-400)' }}
                   title={social.name}
                   aria-label={social.name}
                 >

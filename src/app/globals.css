@@ -1,76 +1,85 @@
 @import "tailwindcss";
 
 /**
- * Smart & Drive - Premium Dark Theme
- * Dark charcoal background with metallic blue & silver accents
+ * Smart & Drive - Premium Modern Theme
+ * Clean white/light base with deep navy, gold accents, warm tones
  */
 
 :root {
-  /* Primary Colors - Metallic Blue */
-  --color-primary-50: #e8f0fe;
-  --color-primary-100: #c5d9fc;
-  --color-primary-200: #9ebffa;
-  --color-primary-300: #74a4f7;
-  --color-primary-400: #528ef5;
-  --color-primary-500: #3078f2;
-  --color-primary-600: #1a65e0;
-  --color-primary-700: #1453c4;
-  --color-primary-800: #0f42a8;
-  --color-primary-900: #0a2f7a;
-  --color-primary: #1a65e0;
+  /* Primary Colors - Deep Navy Blue */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #d9e2fc;
+  --color-primary-200: #b3c5f9;
+  --color-primary-300: #7a9bf4;
+  --color-primary-400: #4a73ec;
+  --color-primary-500: #2553d4;
+  --color-primary-600: #1a3fa8;
+  --color-primary-700: #15327e;
+  --color-primary-800: #0f2254;
+  --color-primary-900: #0a1636;
+  --color-primary: #1a3fa8;
 
-  /* Silver/Chrome Accent */
-  --color-silver-100: #f5f6f8;
-  --color-silver-200: #e4e7ec;
-  --color-silver-300: #cdd2da;
-  --color-silver-400: #a8b0bd;
-  --color-silver-500: #8490a0;
+  /* Gold / Warm Accent */
+  --color-gold-50: #fefce8;
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fde047;
+  --color-gold-400: #facc15;
+  --color-gold-500: #d4a017;
+  --color-gold: #d4a017;
+
+  /* Silver/Neutral */
+  --color-silver-100: #f8f9fb;
+  --color-silver-200: #eef0f4;
+  --color-silver-300: #dde1e8;
+  --color-silver-400: #9ca3af;
+  --color-silver-500: #6b7280;
 
   /* Success Colors */
-  --color-success-light: #0d3d2e;
+  --color-success-light: #ecfdf5;
   --color-success: #10b981;
-  --color-success-dark: #34d399;
+  --color-success-dark: #059669;
 
   /* Warning Colors */
-  --color-warning-light: #3d2f0d;
+  --color-warning-light: #fffbeb;
   --color-warning: #f59e0b;
-  --color-warning-dark: #fbbf24;
+  --color-warning-dark: #d97706;
 
   /* Error Colors */
-  --color-error-light: #3d1414;
+  --color-error-light: #fef2f2;
   --color-error: #ef4444;
-  --color-error-dark: #f87171;
+  --color-error-dark: #dc2626;
 
-  /* Dark Gray Scale */
-  --color-gray-50: #0b0d10;
-  --color-gray-100: #0f1218;
-  --color-gray-200: #151922;
-  --color-gray-300: #1c212d;
-  --color-gray-400: #252b3a;
+  /* Light Gray Scale */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
   --color-gray-500: #6b7280;
-  --color-gray-600: #9ca3af;
-  --color-gray-700: #c8cfd8;
-  --color-gray-800: #e0e4ea;
-  --color-gray-900: #f4f5f7;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
 
-  /* Semantic Colors - Dark Theme */
-  --color-background: #0d1017;
-  --color-background-secondary: #111520;
-  --color-background-tertiary: #161b28;
+  /* Semantic Colors - Light Premium Theme */
+  --color-background: #ffffff;
+  --color-background-secondary: #f5f7fa;
+  --color-background-tertiary: #eef1f6;
   
-  --color-text-primary: #f4f5f7;
-  --color-text-secondary: #a8b0bd;
-  --color-text-tertiary: #6b7280;
-  --color-text-inverse: #0d1017;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
   
-  --color-border-light: #1c212d;
-  --color-border: #252b3a;
-  --color-border-dark: #2f3847;
+  --color-border-light: #f0f1f4;
+  --color-border: #e5e7eb;
+  --color-border-dark: #d1d5db;
 
   /* Card Colors */
-  --color-card-bg: #111520;
-  --color-card-hover: #161b28;
-  --color-card-border: #1c212d;
+  --color-card-bg: #ffffff;
+  --color-card-hover: #fafbfc;
+  --color-card-border: #e5e7eb;
 
   /* Spacing Scale */
   --spacing-1: 0.25rem;
@@ -96,14 +105,14 @@
   --radius-3xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows - Blue glow */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-  --shadow-blue: 0 4px 20px -2px rgba(26, 101, 224, 0.25);
-  --shadow-blue-lg: 0 8px 30px -4px rgba(26, 101, 224, 0.35);
+  /* Shadows - Soft & Elegant */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.07);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+  --shadow-card: 0 2px 12px -2px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 12px 24px -4px rgba(26, 63, 168, 0.12);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -111,21 +120,23 @@
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Typography */
-  --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-primary: "Heebo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-family-hebrew: "Heebo", "Rubik", -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #1a65e0 0%, #0a2f7a 100%);
-  --gradient-secondary: linear-gradient(135deg, #1453c4 0%, #0f42a8 100%);
-  --gradient-hero: linear-gradient(135deg, #0a1628 0%, #0d1017 40%, #111520 100%);
+  --gradient-primary: linear-gradient(135deg, #1a3fa8 0%, #2553d4 100%);
+  --gradient-secondary: linear-gradient(135deg, #0f2254 0%, #1a3fa8 100%);
+  --gradient-hero: linear-gradient(135deg, #0a1636 0%, #15327e 50%, #1a3fa8 100%);
+  --gradient-gold: linear-gradient(135deg, #d4a017 0%, #facc15 50%, #d4a017 100%);
+  --gradient-navy-soft: linear-gradient(180deg, #0f2254 0%, #1a3fa8 100%);
   --gradient-silver: linear-gradient(135deg, #b8bfc9 0%, #d8dce3 50%, #98a3b0 100%);
-  --gradient-card: linear-gradient(180deg, #111520 0%, #0f1218 100%);
+  --gradient-card: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
   
   /* Footer Colors */
-  --color-footer-bg: #080a0f;
-  --color-footer-text: #9ca3af;
-  --color-footer-border: #1c212d;
-  --color-secondary-text: #74a4f7;
+  --color-footer-bg: #0a1636;
+  --color-footer-text: #94a3c4;
+  --color-footer-border: #1a3060;
+  --color-secondary-text: #1a3fa8;
 }
 
 body {
@@ -151,9 +162,9 @@ body {
   }
   
   .bg-header {
-    background-color: rgba(13, 16, 23, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom-color: var(--color-border);
   }
   
@@ -327,4 +338,9 @@ html.a11y-no-animations *::after {
 /* Grayscale */
 html.a11y-grayscale {
   filter: grayscale(1) !important;
+}
+
+/* Social icon hover */
+.social-icon-link:hover {
+  color: var(--color-primary) !important;
 }
