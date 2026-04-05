@@ -237,7 +237,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
       {/* Lead Form Modal */}
       {isLeadModalOpen && (
         <div
-          className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-0 sm:p-4"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
           role="dialog"
           aria-modal="true"
           aria-label="טופס יצירת קשר"
