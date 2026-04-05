@@ -52,7 +52,7 @@ export function Header() {
               >
                 {link.label}
                 <span
-                  className="absolute -bottom-0.5 right-0 h-[2px] w-0 group-hover:w-full rounded-full transition-all duration-300"
+                  className="absolute -bottom-0.5 right-0 h-0.5 w-0 group-hover:w-full rounded-full transition-all duration-300"
                   style={{ background: 'var(--color-primary)' }}
                 />
               </Link>

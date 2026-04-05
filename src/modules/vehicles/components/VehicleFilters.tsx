@@ -71,7 +71,7 @@ export function VehicleFilters({ brands, categories, onFilterChange }: VehicleFi
 
   return (
     <div
-      className="rounded-2xl mb-8 overflow-hidden"
+      className="rounded-2xl mb-8"
       style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-md)' }}
     >
       {/* Filter Header */}
