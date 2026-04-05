@@ -4,6 +4,7 @@ import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6'
 import { Container } from './Container';
 import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
+import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 
 export function Header() {
   const socialLinks = [
@@ -76,7 +77,7 @@ export function Header() {
             </Link>
           </nav>
 
-          {/* Social Links - Left */}
+          {/* Social Links + CTA - Left */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {socialLinks.map((social) => {
               const Icon = social.icon;
@@ -95,6 +96,13 @@ export function Header() {
                 </a>
               );
             })}
+
+            <LeadModalButton
+              formId="general"
+              buttonLabel="השאר פרטים"
+              variant="primary"
+              className="text-sm py-2 px-4 sm:px-5"
+            />
           </div>
         </div>
       </Container>
