@@ -278,35 +278,119 @@ html.a11y-font-xl {
 
 /* High Contrast – forced-color palette instead of filter */
 html.a11y-high-contrast {
+  /* Backgrounds */
   --color-background: #000;
   --color-background-secondary: #111;
   --color-background-tertiary: #1a1a1a;
+
+  /* Text */
   --color-text-primary: #fff;
   --color-text-secondary: #e0e0e0;
   --color-text-tertiary: #ccc;
-  --color-border: #555;
-  --color-border-light: #333;
+  --color-text-inverse: #000;
+
+  /* Borders */
+  --color-border: #666;
+  --color-border-light: #444;
+  --color-border-dark: #888;
+
+  /* Card */
   --color-card-bg: #111;
-  --color-card-border: #555;
+  --color-card-hover: #1a1a1a;
+  --color-card-border: #666;
+
+  /* Primary — bright blue for visibility on black */
   --color-primary: #5b9aff;
   --color-primary-50: #1a2a4a;
+  --color-primary-100: #1e3460;
+  --color-primary-200: #2a4a80;
+  --color-primary-300: #4a7acc;
+  --color-primary-400: #5b9aff;
+  --color-primary-500: #5b9aff;
+  --color-primary-600: #5b9aff;
+  --color-primary-700: #8ab8ff;
+  --color-primary-800: #111;
+  --color-primary-900: #000;
+  --color-secondary-text: #5b9aff;
+
+  /* Gold — bright yellow for visibility */
   --color-gold: #ffd54f;
+  --color-gold-50: #332b00;
+  --color-gold-100: #4d4000;
+  --color-gold-200: #665500;
+  --color-gold-300: #ccaa00;
+  --color-gold-400: #ffe082;
+  --color-gold-500: #ffd54f;
+
+  /* Status colors — high contrast versions */
   --color-success: #66ff99;
   --color-success-dark: #33cc66;
+  --color-success-light: #0a2a10;
+  --color-warning: #ffcc00;
+  --color-warning-dark: #ffaa00;
+  --color-warning-light: #2a2200;
   --color-error: #ff6666;
+  --color-error-dark: #ff4444;
+  --color-error-light: #2a0a0a;
+
+  /* Gray scale — inverted for dark bg */
+  --color-gray-50: #111;
+  --color-gray-100: #1a1a1a;
+  --color-gray-200: #333;
+  --color-gray-300: #666;
+  --color-gray-400: #999;
   --color-gray-500: #ccc;
   --color-gray-600: #ddd;
   --color-gray-700: #eee;
   --color-gray-800: #f0f0f0;
   --color-gray-900: #fff;
-  --color-footer-bg: #000;
-  --color-footer-text: #ddd;
+
+  /* Silver — light for dark bg */
+  --color-silver-100: #1a1a1a;
+  --color-silver-200: #333;
   --color-silver-300: #ccc;
   --color-silver-400: #bbb;
   --color-silver-500: #aaa;
+
+  /* Footer */
+  --color-footer-bg: #000;
+  --color-footer-text: #ddd;
+  --color-footer-border: #444;
+
+  /* Shadows — visible on dark bg */
+  --shadow-sm: 0 1px 2px 0 rgb(255 255 255 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(255 255 255 / 0.07);
+  --shadow-card: 0 0 0 1px #666;
+  --shadow-card-hover: 0 0 0 2px #5b9aff;
 }
+
+/* Force override hardcoded bg-white / bg-[#f5f7fa] in high contrast */
 html.a11y-high-contrast body {
   background: #000 !important;
+  color: #fff !important;
+}
+html.a11y-high-contrast .bg-white {
+  background-color: #000 !important;
+}
+html.a11y-high-contrast .bg-header {
+  background-color: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+html.a11y-high-contrast [style*="background: #f5f7fa"],
+html.a11y-high-contrast [style*="background: '#f5f7fa'"],
+html.a11y-high-contrast [style*="background:#f5f7fa"] {
+  background: #111 !important;
+}
+html.a11y-high-contrast [style*="color: '#0a1636'"],
+html.a11y-high-contrast [style*="color: #0a1636"],
+html.a11y-high-contrast [style*="color:#0a1636"] {
+  color: #000 !important;
+}
+html.a11y-high-contrast .text-white {
+  color: #fff !important;
+}
+html.a11y-high-contrast .text-gray-900 {
   color: #fff !important;
 }
 

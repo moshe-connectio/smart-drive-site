@@ -42,7 +42,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       {/* Image Gallery Section - Fixed Height */}
       <div
         className="p-3 flex items-center justify-center overflow-hidden min-h-44 sm:min-h-56 cursor-zoom-in"
-        style={{ background: '#f5f7fa' }}
+        style={{ background: 'var(--color-background-secondary)' }}
         onClick={() => {
           if (vehicle.images && vehicle.images.length > 0) {
             setLightboxOpen(true);

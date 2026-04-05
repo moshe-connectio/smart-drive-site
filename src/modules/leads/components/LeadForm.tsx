@@ -51,13 +51,13 @@ export default function LeadForm({
     return (
       <div
         className={`flex flex-col items-center justify-center gap-3 text-center py-8 px-4 ${
-          variant === 'card' ? 'rounded-2xl shadow-md bg-white' : ''
+          variant === 'card' ? 'rounded-2xl shadow-md' : ''
         }`}
-        style={variant === 'card' ? { border: '1px solid var(--color-gray-200)' } : undefined}
+        style={variant === 'card' ? { border: '1px solid var(--color-gray-200)', background: 'var(--color-card-bg)' } : undefined}
       >
         <div
           className="w-16 h-16 rounded-full flex items-center justify-center text-3xl"
-          style={{ background: 'var(--color-primary)', color: '#fff' }}
+          style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
         >
           ✓
         </div>
@@ -81,14 +81,14 @@ export default function LeadForm({
       noValidate
       className={
         variant === 'card'
-          ? 'rounded-2xl shadow-md bg-white p-5 sm:p-6 flex flex-col gap-4'
+          ? 'rounded-2xl shadow-md p-5 sm:p-6 flex flex-col gap-4'
           : variant === 'inline'
           ? 'flex flex-col gap-4'
           : 'flex flex-col gap-3'
       }
       style={
         variant === 'card'
-          ? { border: '1px solid var(--color-gray-200)' }
+          ? { border: '1px solid var(--color-gray-200)', background: 'var(--color-card-bg)' }
           : undefined
       }
       aria-label={title}
@@ -224,9 +224,9 @@ export default function LeadForm({
           role="alert"
           className="text-sm font-medium px-3 py-2 rounded-lg"
           style={{
-            background: '#fff2f2',
-            color: '#c0392b',
-            border: '1px solid #f5c6cb',
+            background: 'var(--color-error-light)',
+            color: 'var(--color-error-dark)',
+            border: '1px solid var(--color-error)',
           }}
         >
           {error}
@@ -240,7 +240,7 @@ export default function LeadForm({
         className="w-full py-3 rounded-xl font-bold text-base transition-all duration-200 hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
         style={{
           background: 'var(--color-primary)',
-          color: '#fff',
+          color: 'var(--color-text-inverse)',
         }}
       >
         {isSubmitting ? (
