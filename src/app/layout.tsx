@@ -5,6 +5,7 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import { dealershipConfig } from "@core/config/site.config";
 import AccessibilityWidget from "@shared/components/ui/AccessibilityWidget";
+import CookieConsentBanner from "@shared/components/ui/CookieConsentBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
       >
         {children}
         <AccessibilityWidget />
+        <CookieConsentBanner />
       </body>
     </html>
   );
