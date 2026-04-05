@@ -34,14 +34,14 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     >
       {/* Sold Ribbon - RTL adjusted */}
       {!vehicle.is_published && (
-        <div className="absolute top-4 -left-8 transform -rotate-45 text-white font-bold py-1.5 px-12 shadow-lg text-xs z-10" style={{ background: 'var(--gradient-primary)' }}>
+        <div className="absolute top-4 -left-8 transform -rotate-45 text-white font-bold py-1.5 px-12 shadow-lg text-xs z-10" style={{ background: 'var(--color-primary)' }}>
           נמכר
         </div>
       )}
 
       {/* Image Gallery Section - Fixed Height */}
       <div
-        className="p-3 flex items-center justify-center overflow-hidden min-h-56 cursor-zoom-in"
+        className="p-3 flex items-center justify-center overflow-hidden min-h-44 sm:min-h-56 cursor-zoom-in"
         style={{ background: '#f5f7fa' }}
         onClick={() => {
           if (vehicle.images && vehicle.images.length > 0) {

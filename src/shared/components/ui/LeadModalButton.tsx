@@ -22,7 +22,7 @@ export function LeadModalButton({
 
   const buttonStyle =
     variant === 'gold'
-      ? { background: 'var(--gradient-gold)', color: '#0a1636', boxShadow: '0 4px 16px rgba(212,160,23,0.35)' }
+      ? { background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 16px rgba(212,160,23,0.35)' }
       : variant === 'outline'
       ? { border: '2px solid var(--color-primary)', color: 'var(--color-primary)', background: 'transparent' }
       : { background: 'var(--color-primary)', color: '#fff', boxShadow: '0 4px 16px rgba(26,101,224,0.3)' };

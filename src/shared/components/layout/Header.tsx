@@ -5,6 +5,7 @@ import { Container } from './Container';
 import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
+import MobileMenu from './MobileMenu';
 
 export function Header() {
   const socialLinks = [
@@ -33,7 +34,7 @@ export function Header() {
   return (
     <header className="bg-header border-header sticky top-0 z-50 border-b shadow-sm">
       <Container>
-        <div className="flex items-center justify-between h-16 sm:h-20 px-2 sm:px-4">
+        <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
           {/* Logo - Right */}
           <Link 
             href={ROUTES.home} 
@@ -41,19 +42,19 @@ export function Header() {
           >
             <Image
               src="/logo.png"
-              alt="Smart & Drive"
+              alt={dealershipConfig.business.name}
               width={160}
               height={50}
-              className="h-10 sm:h-12 w-auto object-contain"
+              className="h-8 sm:h-10 md:h-12 w-auto object-contain"
               priority
             />
           </Link>
 
-          {/* Navigation - Center */}
-          <nav className="flex items-center gap-6 sm:gap-10 flex-1 justify-center">
+          {/* Desktop Navigation - Hidden on mobile */}
+          <nav className="hidden md:flex items-center gap-8 flex-1 justify-center">
             <Link 
               href={ROUTES.vehicles} 
-              className="font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              className="font-medium transition-all duration-200 text-sm lg:text-base relative group"
               style={{ color: 'var(--color-gray-700)' }}
             >
               רכבים
@@ -61,7 +62,7 @@ export function Header() {
             </Link>
             <Link 
               href="/new-vehicles" 
-              className="font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              className="font-medium transition-all duration-200 text-sm lg:text-base relative group"
               style={{ color: 'var(--color-gray-700)' }}
             >
               רכבים חדשים
@@ -69,7 +70,7 @@ export function Header() {
             </Link>
             <Link 
               href={ROUTES.about}
-              className="font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              className="font-medium transition-all duration-200 text-sm lg:text-base relative group"
               style={{ color: 'var(--color-gray-700)' }}
             >
               אודות
@@ -77,8 +78,8 @@ export function Header() {
             </Link>
           </nav>
 
-          {/* Social Links + CTA - Left */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Desktop Social + CTA - Hidden on mobile */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-3 shrink-0">
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
@@ -87,12 +88,12 @@ export function Header() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon-link transition-all duration-200 hover:scale-110 p-1.5 sm:p-2 rounded-lg hidden sm:block"
-                  style={{ color: 'var(--color-gray-400)' }}
+                  className="social-icon-link transition-all duration-200 hover:scale-110 p-2 rounded-lg"
+                  style={{ color: 'var(--color-gray-500)' }}
                   title={social.name}
                   aria-label={social.name}
                 >
-                  <Icon className="w-4 sm:w-[18px] h-4 sm:h-[18px]" />
+                  <Icon className="w-[18px] h-[18px]" />
                 </a>
               );
             })}
@@ -101,8 +102,19 @@ export function Header() {
               formId="general"
               buttonLabel="השאר פרטים"
               variant="primary"
-              className="text-sm py-2 px-4 sm:px-5"
+              className="text-sm py-2 px-5"
             />
+          </div>
+
+          {/* Mobile: CTA + Hamburger */}
+          <div className="flex md:hidden items-center gap-2">
+            <LeadModalButton
+              formId="general"
+              buttonLabel="פרטים"
+              variant="primary"
+              className="text-xs py-1.5 px-3"
+            />
+            <MobileMenu />
           </div>
         </div>
       </Container>

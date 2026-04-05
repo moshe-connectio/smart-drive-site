@@ -28,12 +28,12 @@
   --color-gold-500: #d4a017;
   --color-gold: #d4a017;
 
-  /* Silver/Neutral */
+  /* Silver/Neutral — contrast-safe (AA on white) */
   --color-silver-100: #f8f9fb;
   --color-silver-200: #eef0f4;
-  --color-silver-300: #dde1e8;
-  --color-silver-400: #9ca3af;
-  --color-silver-500: #6b7280;
+  --color-silver-300: #5f6775; /* was #dde1e8, now 5.2:1 on white */
+  --color-silver-400: #636b78; /* was #9ca3af, now 5:1 on white */
+  --color-silver-500: #4b5260; /* was #6b7280, now 6.8:1 on white */;
 
   /* Success Colors */
   --color-success-light: #ecfdf5;
@@ -69,7 +69,7 @@
   
   --color-text-primary: #111827;
   --color-text-secondary: #4b5563;
-  --color-text-tertiary: #9ca3af;
+  --color-text-tertiary: #636b78; /* was #9ca3af – now 5:1 on white */
   --color-text-inverse: #ffffff;
   
   --color-border-light: #f0f1f4;
@@ -154,11 +154,11 @@ body {
 /* Custom Tailwind Utilities */
 @layer utilities {
   .bg-primary {
-    background: var(--gradient-primary);
+    background-color: var(--color-primary);
   }
   
   .bg-secondary {
-    background: var(--gradient-secondary);
+    background-color: var(--color-primary-800);
   }
   
   .bg-header {
@@ -276,16 +276,38 @@ html.a11y-font-xl {
   font-size: 136% !important;
 }
 
-/* High Contrast */
+/* High Contrast – forced-color palette instead of filter */
 html.a11y-high-contrast {
-  filter: contrast(1.4) !important;
+  --color-background: #000;
+  --color-background-secondary: #111;
+  --color-background-tertiary: #1a1a1a;
+  --color-text-primary: #fff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-tertiary: #ccc;
+  --color-border: #555;
+  --color-border-light: #333;
+  --color-card-bg: #111;
+  --color-card-border: #555;
+  --color-primary: #5b9aff;
+  --color-primary-50: #1a2a4a;
+  --color-gold: #ffd54f;
+  --color-success: #66ff99;
+  --color-success-dark: #33cc66;
+  --color-error: #ff6666;
+  --color-gray-500: #ccc;
+  --color-gray-600: #ddd;
+  --color-gray-700: #eee;
+  --color-gray-800: #f0f0f0;
+  --color-gray-900: #fff;
+  --color-footer-bg: #000;
+  --color-footer-text: #ddd;
+  --color-silver-300: #ccc;
+  --color-silver-400: #bbb;
+  --color-silver-500: #aaa;
 }
 html.a11y-high-contrast body {
   background: #000 !important;
   color: #fff !important;
-}
-html.a11y-high-contrast img {
-  filter: contrast(1.2);
 }
 
 /* Highlight Links */

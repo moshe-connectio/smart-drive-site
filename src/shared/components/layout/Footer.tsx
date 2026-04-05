@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <footer className="mt-0" style={{ background: 'var(--color-footer-bg)' }}>
       {/* Gold accent line */}
-      <div className="h-1" style={{ background: 'var(--gradient-gold)' }} />
+      <div className="h-1" style={{ background: 'var(--color-gold)' }} />
       <Container className="py-14">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* About */}

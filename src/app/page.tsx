@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getPublishedVehicles, Vehicle } from '@modules/vehicles/lib/repository';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
@@ -9,6 +10,31 @@ import { dealershipConfig } from '@core/config/site.config';
 import { LeadForm } from '@modules/leads';
 
 export const revalidate = 3600; // ISR - 1 hour for home page
+
+const siteUrl = dealershipConfig.seo.siteUrl;
+
+export const metadata: Metadata = {
+  title: dealershipConfig.seo.title,
+  description: dealershipConfig.seo.description,
+  keywords: dealershipConfig.seo.keywords,
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    type: 'website',
+    url: siteUrl,
+    title: dealershipConfig.seo.title,
+    description: dealershipConfig.seo.description,
+    images: [
+      {
+        url: dealershipConfig.seo.ogImage,
+        width: 1200,
+        height: 630,
+        alt: dealershipConfig.business.name,
+      },
+    ],
+  },
+};
 
 export default async function HomePage() {
   let vehicles: Vehicle[] = [];
@@ -32,12 +58,12 @@ export default async function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section - Premium Navy */}
-        <section className="relative overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
+        <section className="relative overflow-hidden" style={{ background: 'var(--color-primary-800)' }}>
           {/* Gold accent line top */}
-          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--gradient-gold)' }} />
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
 
           <Container>
-            <div className="text-center py-16 sm:py-24 relative z-10">
+            <div className="text-center py-12 sm:py-16 md:py-24 relative z-10">
               <span
                 className="inline-block text-xs font-bold tracking-widest uppercase mb-5 px-4 py-1.5 rounded-full"
                 style={{ color: 'var(--color-gold-400)', background: 'rgba(212,160,23,0.1)', border: '1px solid rgba(212,160,23,0.25)' }}
@@ -47,15 +73,15 @@ export default async function HomePage() {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                 {dealershipConfig.business.name}
               </h1>
-              <p className="text-lg sm:text-xl mb-10 text-white/65 max-w-xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 text-white/90 max-w-xl mx-auto">
                 {dealershipConfig.business.tagline}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a
                   href={ROUTES.vehicles}
-                  className="inline-flex items-center gap-2 font-bold py-4 px-12 rounded-xl text-white transition-all duration-300 hover:scale-105 text-lg"
-                  style={{ background: 'var(--gradient-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212, 160, 23, 0.4)' }}
+                  className="inline-flex items-center gap-2 font-bold py-3 px-8 sm:py-4 sm:px-12 rounded-xl transition-all duration-300 hover:scale-105 text-base sm:text-lg"
+                  style={{ background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212, 160, 23, 0.4)' }}
                 >
                   צפה בכל הרכבים
                   <svg className="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,25 +90,25 @@ export default async function HomePage() {
                 </a>
                 <Link
                   href="/new-vehicles"
-                  className="inline-flex items-center gap-2 font-semibold py-4 px-12 rounded-xl transition-all duration-300 hover:scale-105 text-white border-2 border-white/30 hover:border-white/60 hover:bg-white/10 text-lg"
+                  className="inline-flex items-center gap-2 font-semibold py-3 px-8 sm:py-4 sm:px-12 rounded-xl transition-all duration-300 hover:scale-105 text-white border-2 border-white/30 hover:border-white/60 hover:bg-white/10 text-base sm:text-lg"
                 >
                   רכבים חדשים
                 </Link>
               </div>
               
               {/* Stats */}
-              <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
+              <div className="mt-10 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-lg mx-auto">
                 <div>
-                  <div className="text-3xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{vehicles.length}+</div>
-                  <div className="text-sm mt-1 text-white/60">רכבים במלאי</div>
+                  <div className="text-2xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{vehicles.length}+</div>
+                  <div className="text-xs sm:text-sm mt-1 text-white/80">רכבים במלאי</div>
                 </div>
                 <div>
-                  <div className="text-3xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.yearsExperience}+</div>
-                  <div className="text-sm mt-1 text-white/60">שנות ניסיון</div>
+                  <div className="text-2xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.yearsExperience}+</div>
+                  <div className="text-xs sm:text-sm mt-1 text-white/80">שנות ניסיון</div>
                 </div>
                 <div>
-                  <div className="text-3xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.satisfaction}</div>
-                  <div className="text-sm mt-1 text-white/60">שביעות רצון</div>
+                  <div className="text-2xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.satisfaction}</div>
+                  <div className="text-xs sm:text-sm mt-1 text-white/80">שביעות רצון</div>
                 </div>
               </div>
             </div>
@@ -103,7 +129,7 @@ export default async function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
                 הדרך הנכונה לקנייה חכמה
               </h2>
-              <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--gradient-gold)' }} />
+              <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -162,7 +188,7 @@ export default async function HomePage() {
               <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
                 רכבים מומלצים
               </h2>
-              <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--gradient-gold)' }} />
+              <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
               <p className="text-lg mt-4" style={{ color: 'var(--color-gray-500)' }}>
                 בחר מהרכבים המשובחים שלנו
               </p>
@@ -238,14 +264,14 @@ export default async function HomePage() {
               </div>
 
               {/* Right - Stats Card */}
-              <div className="rounded-2xl p-10 relative overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
-                <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--gradient-gold)' }} />
+              <div className="rounded-2xl p-6 sm:p-10 relative overflow-hidden" style={{ background: 'var(--color-primary-800)' }}>
+                <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
                 <div className="space-y-8">
                   <div className="flex items-center gap-5">
                     <div className="text-5xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{vehicles.length}+</div>
                     <div>
                       <div className="text-white font-semibold text-lg">רכבים במלאי</div>
-                      <div className="text-white/50 text-sm">חדשים ומשומשים</div>
+                      <div className="text-white/80 text-sm">חדשים ומשומשים</div>
                     </div>
                   </div>
                   <div className="h-px bg-white/10" />
@@ -253,7 +279,7 @@ export default async function HomePage() {
                     <div className="text-5xl font-bold" style={{ color: 'var(--color-gold-400)' }}>1,500+</div>
                     <div>
                       <div className="text-white font-semibold text-lg">לקוחות מרוצים</div>
-                      <div className="text-white/50 text-sm">וממשיכים לספור</div>
+                      <div className="text-white/80 text-sm">וממשיכים לספור</div>
                     </div>
                   </div>
                   <div className="h-px bg-white/10" />
@@ -261,7 +287,7 @@ export default async function HomePage() {
                     <div className="text-5xl font-bold" style={{ color: 'var(--color-gold-400)' }}>4.9</div>
                     <div>
                       <div className="text-white font-semibold text-lg">דירוג ממוצע</div>
-                      <div className="text-white/50 text-sm flex items-center gap-1">
+                      <div className="text-white/80 text-sm flex items-center gap-1">
                         {[...Array(5)].map((_, i) => (
                           <svg key={i} className="w-4 h-4" style={{ color: 'var(--color-gold-400)' }} fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -278,18 +304,18 @@ export default async function HomePage() {
 
         {/* CTA Section */}
         {vehicles.length > 6 && (
-          <section className="relative overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
-            <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--gradient-gold)' }} />
+          <section className="relative overflow-hidden" style={{ background: 'var(--color-primary-800)' }}>
+            <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
             <Container>
-              <div className="text-center py-20 relative z-10">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-3 text-white">
+              <div className="text-center py-12 sm:py-20 relative z-10">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white">
                   עוד {vehicles.length - 6} רכבים מחכים לך
                 </h2>
-                <p className="mb-10 text-white/60 text-lg">גלה את כל המגוון שלנו</p>
+                <p className="mb-8 sm:mb-10 text-white/80 text-base sm:text-lg">גלה את כל המגוון שלנו</p>
                 <a
                   href={ROUTES.vehicles}
-                  className="inline-flex items-center gap-2 font-bold py-4 px-12 rounded-xl transition-all duration-300 hover:scale-105 text-lg"
-                  style={{ background: 'var(--gradient-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212, 160, 23, 0.4)' }}
+                  className="inline-flex items-center gap-2 font-bold py-3 px-8 sm:py-4 sm:px-12 rounded-xl transition-all duration-300 hover:scale-105 text-base sm:text-lg"
+                  style={{ background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212, 160, 23, 0.4)' }}
                 >
                   עיין בקטלוג המלא
                 </a>

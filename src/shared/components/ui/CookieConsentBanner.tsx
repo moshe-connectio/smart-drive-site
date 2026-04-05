@@ -245,7 +245,7 @@ export default function CookieConsentBanner() {
           <button
             onClick={handleAcceptAll}
             className="flex-1 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm text-white transition-all duration-200 hover:opacity-90"
-            style={{ background: 'var(--gradient-primary)', boxShadow: 'var(--shadow-blue)' }}
+            style={{ background: 'var(--color-primary)', boxShadow: 'var(--shadow-blue)' }}
           >
             אישור כל העוגיות
           </button>

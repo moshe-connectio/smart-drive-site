@@ -82,7 +82,7 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
     return (
       <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         {/* Header Section */}
-        <div style={{ background: 'var(--gradient-hero)', borderBottom: '1px solid var(--color-border)' }}>
+        <div style={{ background: 'var(--color-primary-800)', borderBottom: '1px solid var(--color-border)' }}>
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             {/* Breadcrumb */}
             <nav className="mb-8 flex items-center gap-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>

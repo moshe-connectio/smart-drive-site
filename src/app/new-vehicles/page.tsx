@@ -7,13 +7,30 @@ import { Metadata } from 'next';
 import { getAllManufacturers } from '@modules/new-vehicles/lib/repository';
 import { ManufacturerGrid } from '@modules/new-vehicles/components/ManufacturerGrid';
 
+import { dealershipConfig } from '@core/config/site.config';
+
+const siteUrl = dealershipConfig.seo.siteUrl;
+
 export const metadata: Metadata = {
-  title: 'רכבים חדשים | חנותנו',
-  description: 'גלה את כל הרכבים החדשים שנמכרים בישראל - יצרנים, דגמים ורמות גימור',
+  title: `רכבים חדשים | ${dealershipConfig.business.name}`,
+  description: `גלה את כל הרכבים החדשים שנמכרים בישראל - יצרנים, דגמים ורמות גימור. ${dealershipConfig.seo.description}`,
+  keywords: `רכבים חדשים, ${dealershipConfig.seo.keywords}`,
+  alternates: {
+    canonical: `${siteUrl}/new-vehicles`,
+  },
   openGraph: {
-    title: 'רכבים חדשים',
-    description: 'גלה את כל הרכבים החדשים',
     type: 'website',
+    url: `${siteUrl}/new-vehicles`,
+    title: `רכבים חדשים | ${dealershipConfig.business.name}`,
+    description: 'גלה את כל הרכבים החדשים שנמכרים בישראל - יצרנים, דגמים ורמות גימור',
+    images: [
+      {
+        url: dealershipConfig.seo.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `רכבים חדשים - ${dealershipConfig.business.name}`,
+      },
+    ],
   },
 };
 
@@ -24,7 +41,7 @@ async function NewVehiclesPage() {
     return (
       <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         {/* Header Section */}
-        <div className="py-12" style={{ background: 'var(--gradient-hero)', borderBottom: '1px solid var(--color-border)' }}>
+        <div className="py-12" style={{ background: 'var(--color-primary-800)', borderBottom: '1px solid var(--color-border)' }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-900 md:text-5xl">

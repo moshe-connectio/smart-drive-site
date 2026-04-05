@@ -179,7 +179,7 @@ export default function AccessibilityWidget() {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-18 left-4 sm:bottom-22 sm:left-6 z-9999 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
+        className="fixed bottom-[72px] left-4 sm:bottom-[88px] sm:left-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
         style={{
           background: 'var(--color-primary)',
           color: '#fff',
@@ -198,13 +198,13 @@ export default function AccessibilityWidget() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-9998 bg-black/40"
+            className="fixed inset-0 z-40 bg-black/40"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Panel */}
           <div
-            className="fixed inset-x-2 bottom-20 sm:inset-x-auto sm:bottom-24 sm:left-6 z-9999 w-auto sm:w-80 max-h-[75vh] overflow-y-auto rounded-2xl shadow-2xl"
+            className="fixed inset-x-2 bottom-20 sm:inset-x-auto sm:bottom-24 sm:left-6 z-50 w-auto sm:w-80 max-h-[75vh] overflow-y-auto rounded-2xl shadow-2xl"
             style={{
               background: 'var(--color-gray-100)',
               border: '1px solid var(--color-gray-200)',

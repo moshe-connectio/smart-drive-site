@@ -1,10 +1,37 @@
+import type { Metadata } from 'next';
 import { getPublishedVehicles, deleteSoldVehicles, getUniqueBrands, getUniqueCategories, Vehicle } from '@modules/vehicles/lib/repository';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import { FilterableVehicleGrid } from '@modules/vehicles/components/FilterableVehicleGrid';
+import { dealershipConfig } from '@core/config/site.config';
 
 export const revalidate = 60; // ISR - 1 minute
+
+const siteUrl = dealershipConfig.seo.siteUrl;
+
+export const metadata: Metadata = {
+  title: `רכבים למכירה | ${dealershipConfig.business.name}`,
+  description: `גלה את מגוון הרכבים שלנו - ${dealershipConfig.seo.description}`,
+  keywords: `רכבים למכירה, ${dealershipConfig.seo.keywords}`,
+  alternates: {
+    canonical: `${siteUrl}/vehicles`,
+  },
+  openGraph: {
+    type: 'website',
+    url: `${siteUrl}/vehicles`,
+    title: `רכבים למכירה | ${dealershipConfig.business.name}`,
+    description: `גלה את מגוון הרכבים שלנו - ${dealershipConfig.seo.description}`,
+    images: [
+      {
+        url: dealershipConfig.seo.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `רכבים למכירה - ${dealershipConfig.business.name}`,
+      },
+    ],
+  },
+};
 
 export default async function VehiclesPage() {
   let vehicles: Vehicle[] = [];
@@ -35,14 +62,14 @@ export default async function VehiclesPage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden py-14" style={{ background: 'var(--gradient-hero)' }}>
-          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--gradient-gold)' }} />
+        <section className="relative overflow-hidden py-10 sm:py-14" style={{ background: 'var(--color-primary-800)' }}>
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
           <Container>
             <div className="relative z-10">
-              <h1 className="text-4xl md:text-5xl font-bold mb-3 text-white">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 text-white">
                 רכבים למכירה
               </h1>
-              <p className="text-lg text-white/60">
+              <p className="text-base sm:text-lg text-white/90">
                 גלה את מגוון הרכבים שלנו - מחירים תחרותיים ושירות מעולה
               </p>
             </div>
@@ -52,22 +79,22 @@ export default async function VehiclesPage() {
         {/* Stats Bar */}
         <div className="py-6" style={{ background: 'var(--color-background-secondary)', borderBottom: '1px solid var(--color-border)' }}>
           <Container>
-            <div className="flex items-center justify-center gap-8 text-center">
+            <div className="flex items-center justify-center gap-4 sm:gap-8 text-center">
               <div>
-                <div className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
+                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
                   {vehicles.length}
                 </div>
-                <div className="text-sm" style={{ color: 'var(--color-gray-500)' }}>רכבים זמינים</div>
+                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>רכבים זמינים</div>
               </div>
-              <div className="w-px h-12" style={{ background: 'var(--color-border)' }}></div>
+              <div className="w-px h-10 sm:h-12" style={{ background: 'var(--color-border)' }}></div>
               <div>
-                <div className="text-3xl font-bold" style={{ color: 'var(--color-success)' }}>100%</div>
-                <div className="text-sm" style={{ color: 'var(--color-gray-500)' }}>מאושרים</div>
+                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-success)' }}>100%</div>
+                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>מאושרים</div>
               </div>
-              <div className="w-px h-12" style={{ background: 'var(--color-border)' }}></div>
+              <div className="w-px h-10 sm:h-12" style={{ background: 'var(--color-border)' }}></div>
               <div>
-                <div className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>24/7</div>
-                <div className="text-sm" style={{ color: 'var(--color-gray-500)' }}>שירות לקוחות</div>
+                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>24/7</div>
+                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>שירות לקוחות</div>
               </div>
             </div>
           </Container>
