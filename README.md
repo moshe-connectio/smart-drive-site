@@ -1,104 +1,116 @@
-git clone https://github.com/moshe-connectio/car-template-demo.git
-# Car Template Demo – E‑Commerce (Next.js + Supabase + Stripe)
+# Smart & Drive — אתר סוכנות רכב
 
-Template חנות מלאה בעברית (RTL) עם קטלוג מוצרים, חיפוש חכם, ותשלומים מאובטחים (Stripe: כרטיס אשראי, PayPal, Apple/Google Pay). פרוס ב‑Vercel, עם Supabase כ‑DB ו‑Storage.
+אתר מודרני לסוכנות רכב בעברית (RTL) עם קטלוג רכבים, סינון מתקדם, טפסי לידים ותמיכה בנגישות.  
+בנוי עם **Next.js 16**, **Tailwind CSS v4**, **Supabase** ופרוס על **Vercel**.
 
-## 🎯 מה יש כאן
-- 🛍️ קטלוג מוצרים עם סינון: קטגוריות, תגיות, מחיר, מיון
-- 🔍 חיפוש חכם בעברית (כסא/כיסא, אותיות סופיות) + שדה `search_keywords`
-- 🛒 עגלת קניות + Checkout מלא
-- 💳 תשלומים מאובטחים (Stripe) + Webhooks
-- 🖼️ גלריות תמונות למוצרים
-- ⚡ Next.js 16 (App Router) עם ISR
-- 🎨 RTL מלא + Tailwind v4
+## תכונות עיקריות
 
-## 🛠 טכנולוגיות
-- Next.js 16, TypeScript, Tailwind v4
-- Supabase (PostgreSQL + Storage)
-- Stripe Payments (Card / PayPal / Apple Pay / Google Pay)
-- Vercel Deployments (ISR)
+- קטלוג רכבים דינמי עם סינון לפי מותג, קטגוריה וחיפוש חופשי
+- דפי רכב עם כתובות SEO-friendly (עברית + UUID)
+- גלריית תמונות עם Lightbox
+- טפסי לידים (יצירת קשר) עם מודאל
+- עמוד רכבים חדשים (יצרנים, דגמים, מפרטים)
+- נגישות: מצב ניגודיות גבוהה עם 80+ משתני CSS
+- Mobile-first רספונסיבי + תפריט המבורגר
+- SEO מלא: metadata, JSON-LD, sitemap, robots.txt
+- ISR (Incremental Static Regeneration) לטעינה מהירה
+- RTL מלא עם תמיכה בעברית
 
-## 🧭 מבנה הפרויקט (רלוונטי)
+## טכנולוגיות
+
+| תחום | טכנולוגיה |
+|------|----------|
+| Framework | Next.js 16.0.7 (Turbopack, App Router) |
+| שפה | TypeScript |
+| עיצוב | Tailwind CSS v4 + CSS Variables |
+| מסד נתונים | Supabase (PostgreSQL) |
+| תמונות | Supabase Storage |
+| דיפלוי | Vercel (auto-deploy מ-main) |
+| CRM | Zoho CRM (Webhooks) |
+
+## מבנה הפרויקט
+
 ```
 src/
-  app/                # דפים ו-API Routes
-    products/         # קטלוג ודף מוצר
-    cart/             # עגלה
-    checkout/         # תשלום + success
-    api/payment/      # Stripe create-intent + webhook
-    api/webhooks/     # Products webhook
-  core/               # קונפיג גלובלי, Supabase client
-  modules/products/   # לוגיקת מוצרים, רכיבים ו-types
-  shared/             # קומפוננטות משותפות, utils, חנות Zustand
-public/vehicles/      # תמונות
+  app/                    # דפים ו-API Routes
+    vehicles/             # קטלוג רכבים + דף רכב בודד
+    new-vehicles/         # רכבים חדשים (יצרנים/דגמים)
+    about/                # אודות
+    api/                  # Webhooks, leads, vehicles, new-vehicles
+  core/
+    config/               # site.config.ts, theme.config.ts
+    lib/                  # supabase.ts, constants.ts
+  modules/
+    vehicles/             # קומפוננטות, repository, types
+    leads/                # טפסי לידים
+    new-vehicles/         # רכבים חדשים
+  shared/
+    components/layout/    # Header, Footer, MobileMenu, Container
+    components/ui/        # LeadModalButton, AccessibilityWidget
+    utils/                # formatting, search, keywords, theme
+public/
+  site.webmanifest        # PWA manifest
+  logo.png                # לוגו
 ```
 
-## 🚀 הפעלה מהירה
+## הפעלה מהירה
+
 ```bash
-git clone https://github.com/moshe-connectio/car-template-demo.git
+git clone https://github.com/moshe-connectio/smart-drive-site.git
 cd car-template-demo
 npm install
-cp .env.local.example .env.local   # מלא מפתחות Supabase + Stripe
+cp .env.local.example .env.local   # מלא מפתחות Supabase
 npm run dev
-# http://localhost:3000
 ```
 
-### .env.local (חובה)
+### משתני סביבה (.env.local)
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
-STRIPE_SECRET_KEY=...
-STRIPE_WEBHOOK_SECRET=...
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=https://smartanddrive.co.il
 ```
 
-## 🧱 בסיס נתונים (Supabase)
-- טבלאות: `products`, `categories`, `product_images`
-- שדות מפתח במוצרים: `name`, `slug`, `price`, `compare_at_price`, `category_id`, `tags[]`, `search_keywords`, `is_published`
-- Webhooks למוצרים: `/api/webhooks/products`
+## מסד נתונים (Supabase)
 
-## 💳 תשלומים (Stripe)
-- יצירת Intent: `/api/payment/create-intent`
-- Webhook אישורים: `/api/payment/webhook`
-- UI: `shared/components/payment/*`, `checkout/page.tsx`
-- קונפיג: `src/core/config/site.config.ts` → `payment.availableMethods = ['card','paypal','apple_pay','google_pay']`
+- `vehicles` — טבלת רכבים (id, slug, title, brand, model, year, price, km, images...)
+- `vehicle_images` — תמונות רכבים (image_url, position, alt_text)
+- `leads` — טפסי לידים
+- `new_vehicle_*` — טבלאות רכבים חדשים (manufacturers, models, trim_levels, specifications)
 
-## 🔍 חיפוש חכם
-- Normalization בעברית (`shared/utils/search.ts`): אותיות סופיות, י' כפולה, כסא/כיסא
-- שדה `search_keywords` לתמיכה בווריאציות איות
-- מדריך: `SMART_SEARCH_GUIDE.md`, `SEARCH_KEYWORDS_GUIDE.md`
+## SEO
 
-## 📦 דיפלוי
-- מהיר: `DEPLOYMENT_QUICK.md`
-- מלא: `DEPLOYMENT_GUIDE.md`
-- משתני סביבה ב‑Vercel זהים ל`.env.local`
-- Webhook Stripe: `https://your-domain.com/api/payment/webhook`
+- Metadata דינמי לכל דף + JSON-LD (WebSite, LocalBusiness, Car)
+- Sitemap אוטומטי (`/sitemap.xml`) עם כל הרכבים
+- robots.txt
+- כתובות ידידותיות: `/vehicles/שם-רכב-שנה--uuid`
 
-## 📚 מפת מסמכים (canonical)
-- `PROJECT_SUMMARY.md` – תמונת מצב מלאה של מה שנבנה (מוצר + תשלום + חיפוש)
-- `DEPLOYMENT_QUICK.md` / `DEPLOYMENT_GUIDE.md` – דפלוי ל‑Vercel
-- `STRIPE_SETUP_GUIDE.md` / `MULTIPLE_PAYMENT_METHODS.md` / `PAYMENT_INTEGRATION_GUIDE.md` – תשלומים
-- `SMART_SEARCH_GUIDE.md` / `SEARCH_KEYWORDS_GUIDE.md` – חיפוש ו‑SEO
-- `MODULAR_STRUCTURE.md` – ארכיטקטורה מודולרית
-- `DATABASE_SCHEMA.md` – סכימת DB (Supabase)
-- `WEBHOOK_DOCS.md` / `PRODUCTS_WEBHOOK.md` – Webhooks
-- `IMAGES_IMPLEMENTATION_GUIDE.md` / `LOCAL_IMAGES_GUIDE.md` / `VEHICLE_IMAGES_SUMMARY.md` – תמונות
-- Legacy/Old overviews: `PROJECT.md`, `PROJECT_HE.md`, `README_HE.md`, `REVIEW_SUMMARY.md`, `CODE_REVIEW.md` (השאירו לעיון, אך הסיכום העדכני הוא `PROJECT_SUMMARY.md`).
+## נגישות
 
-## 🧪 בדיקות מהירות
-1) `npm run build` – צריך לעבור נקי
-2) בדיקת תשלום ב‑Stripe test: כרטיס `4242 4242 4242 4242`
-3) חיפוש "כסא" צריך להחזיר מוצרים עם "כיסא"
+- מצב ניגודיות גבוהה עם 80+ CSS variable overrides
+- ווידג'ט נגישות צף
+- ניווט מקלדת
+- תקן WCAG AA
 
-## 🆘 תקלות נפוצות
-- Build נופל ב‑Vercel → ודא כל ה‑env של Stripe/Supabase קיימים
-- תשלום נכשל → בדוק מפתחות Live/Test ו‑Webhook Secret
-- חיפוש לא מחזיר תוצאות → מלא `search_keywords` או בדוק tags/קטגוריות
+## דיפלוי
 
-## 📞 צוות
-- Repo: https://github.com/moshe-connectio/car-template-demo
-- Deploy: Vercel (main branch auto-deploy)
+- Auto-deploy מ-branch `main` ל-Vercel
+- `git push origin main` — זה הכל
+- מדריכים: `DEPLOYMENT_QUICK.md`, `DEPLOYMENT_GUIDE.md`
 
-**Last Updated:** December 7, 2025 – מצב עדכני: Production Ready
+## תיעוד נוסף
+
+| קובץ | תיאור |
+|------|-------|
+| `DEPLOYMENT_QUICK.md` | דיפלוי מהיר |
+| `DEPLOYMENT_GUIDE.md` | מדריך דיפלוי מלא |
+| `DATABASE_SCHEMA.md` | סכמת DB |
+| `SUPABASE_SETUP_GUIDE.md` | הגדרת Supabase |
+| `SMART_SEARCH_GUIDE.md` | חיפוש חכם |
+| `MODULAR_STRUCTURE.md` | ארכיטקטורה מודולרית |
+
+---
+
+**Repo:** https://github.com/moshe-connectio/smart-drive-site  
+**Deploy:** Vercel (auto-deploy on push to main)  
+**עדכון אחרון:** אפריל 2026
