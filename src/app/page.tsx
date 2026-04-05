@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getPublishedVehicles, Vehicle } from '@modules/vehicles/lib/repository';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
@@ -36,17 +37,20 @@ export default async function HomePage() {
           <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(26,101,224,0.4) 0%, transparent 70%)' }} />
           
           <Container>
-            <div className="text-center py-24 sm:py-32 relative z-10">
-              {/* Decorative line */}
-              <div className="w-16 h-0.5 mx-auto mb-8" style={{ background: 'var(--gradient-silver)' }} />
+            <div className="text-center py-20 sm:py-28 relative z-10">
+              {/* Logo Image */}
+              <div className="mb-8">
+                <Image
+                  src="/logo.png"
+                  alt="Smart & Drive"
+                  width={320}
+                  height={120}
+                  className="mx-auto h-24 sm:h-32 w-auto object-contain drop-shadow-2xl"
+                  priority
+                />
+              </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
-                <span className="text-gray-900">Smart</span>
-                <span className="mx-2" style={{ color: 'var(--color-primary)' }}>&amp;</span>
-                <span className="text-gray-900">Drive</span>
-              </h1>
-              
-              <p className="text-xl sm:text-2xl mb-10 font-light" style={{ color: 'var(--color-silver-300)' }}>
+              <p className="text-xl sm:text-2xl mb-10 font-light text-white/80">
                 {dealershipConfig.business.tagline}
               </p>
               
@@ -63,8 +67,7 @@ export default async function HomePage() {
                 </a>
                 <a
                   href="/new-vehicles"
-                  className="inline-flex items-center gap-2 font-semibold py-3.5 px-10 rounded-xl transition-all duration-300 hover:scale-105"
-                  style={{ border: '1px solid var(--color-border-dark)', color: 'var(--color-silver-200)', background: 'rgba(255,255,255,0.03)' }}
+                  className="inline-flex items-center gap-2 font-semibold py-3.5 px-10 rounded-xl transition-all duration-300 hover:scale-105 text-white/90 border border-white/20 hover:border-white/40 hover:bg-white/5"
                 >
                   רכבים חדשים
                 </a>
@@ -73,16 +76,16 @@ export default async function HomePage() {
               {/* Stats */}
               <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
                 <div>
-                  <div className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>{vehicles.length}+</div>
-                  <div className="text-sm mt-1" style={{ color: 'var(--color-gray-500)' }}>רכבים במלאי</div>
+                  <div className="text-3xl font-bold text-white">{vehicles.length}+</div>
+                  <div className="text-sm mt-1 text-white/50">רכבים במלאי</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>{dealershipConfig.company.yearsExperience}+</div>
-                  <div className="text-sm mt-1" style={{ color: 'var(--color-gray-500)' }}>שנות ניסיון</div>
+                  <div className="text-3xl font-bold text-white">{dealershipConfig.company.yearsExperience}+</div>
+                  <div className="text-sm mt-1 text-white/50">שנות ניסיון</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>{dealershipConfig.company.satisfaction}</div>
-                  <div className="text-sm mt-1" style={{ color: 'var(--color-gray-500)' }}>שביעות רצון</div>
+                  <div className="text-3xl font-bold text-white">{dealershipConfig.company.satisfaction}</div>
+                  <div className="text-sm mt-1 text-white/50">שביעות רצון</div>
                 </div>
               </div>
 
@@ -96,11 +99,11 @@ export default async function HomePage() {
         <section style={{ background: 'var(--color-background-secondary)' }}>
           <Container className="py-20">
             <div className="text-center mb-14">
-              <h2 className="text-4xl font-bold text-gray-900 mb-3">
+              <h2 className="text-4xl font-bold text-white mb-3">
                 רכבים מומלצים
               </h2>
               <div className="w-12 h-0.5 mx-auto mb-4" style={{ background: 'var(--gradient-primary)' }} />
-              <p className="text-lg" style={{ color: 'var(--color-silver-400)' }}>
+              <p className="text-lg text-white/60">
                 בחר מהרכבים המשובחים שלנו
               </p>
             </div>
@@ -127,10 +130,10 @@ export default async function HomePage() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(26,101,224,0.5) 0%, transparent 70%)' }} />
             <Container>
               <div className="text-center py-20 relative z-10">
-                <h2 className="text-3xl font-bold mb-3 text-gray-900">
+                <h2 className="text-3xl font-bold mb-3 text-white">
                   עוד {vehicles.length - 6} רכבים מחכים לך
                 </h2>
-                <p className="mb-8" style={{ color: 'var(--color-silver-400)' }}>גלה את כל המגוון שלנו</p>
+                <p className="mb-8 text-white/60">גלה את כל המגוון שלנו</p>
                 <a
                   href={ROUTES.vehicles}
                   className="inline-flex items-center gap-2 font-semibold py-3.5 px-10 rounded-xl text-white transition-all duration-300 hover:scale-105"

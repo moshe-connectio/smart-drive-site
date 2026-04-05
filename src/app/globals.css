@@ -20,11 +20,11 @@
   --color-primary: #1a65e0;
 
   /* Silver/Chrome Accent */
-  --color-silver-100: #f0f2f5;
-  --color-silver-200: #d8dce3;
-  --color-silver-300: #b8bfc9;
-  --color-silver-400: #98a3b0;
-  --color-silver-500: #7a8799;
+  --color-silver-100: #f5f6f8;
+  --color-silver-200: #e4e7ec;
+  --color-silver-300: #cdd2da;
+  --color-silver-400: #a8b0bd;
+  --color-silver-500: #8490a0;
 
   /* Success Colors */
   --color-success-light: #0d3d2e;
@@ -49,17 +49,17 @@
   --color-gray-400: #252b3a;
   --color-gray-500: #6b7280;
   --color-gray-600: #9ca3af;
-  --color-gray-700: #c0c7d2;
-  --color-gray-800: #d8dce3;
-  --color-gray-900: #eef0f3;
+  --color-gray-700: #c8cfd8;
+  --color-gray-800: #e0e4ea;
+  --color-gray-900: #f4f5f7;
 
   /* Semantic Colors - Dark Theme */
   --color-background: #0d1017;
   --color-background-secondary: #111520;
   --color-background-tertiary: #161b28;
   
-  --color-text-primary: #eef0f3;
-  --color-text-secondary: #9ca3af;
+  --color-text-primary: #f4f5f7;
+  --color-text-secondary: #a8b0bd;
   --color-text-tertiary: #6b7280;
   --color-text-inverse: #0d1017;
   
