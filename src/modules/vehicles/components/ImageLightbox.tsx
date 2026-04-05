@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { VehicleImage } from '@modules/vehicles/lib/repository';
 
@@ -42,6 +42,31 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
     return () => { document.body.style.overflow = ''; };
   }, []);
 
+  // Touch swipe support
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    const absDx = Math.abs(dx);
+    const absDy = Math.abs(dy);
+
+    // Only trigger if horizontal swipe is dominant and > 50px
+    if (absDx > 50 && absDx > absDy * 1.5) {
+      if (dx > 0) goPrev(); // RTL: swipe right = prev
+      else goNext(); // RTL: swipe left = next
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  }, [goNext, goPrev]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
@@ -68,6 +93,8 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
       <div
         className="relative flex-1 w-full max-w-5xl flex items-center justify-center px-4 py-16"
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {/* Prev button */}
         {sortedImages.length > 1 && (

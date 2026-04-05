@@ -37,13 +37,13 @@ export default async function HomePage() {
           <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(26,101,224,0.4) 0%, transparent 70%)' }} />
           
           {/* Full-width Logo */}
-          <div className="relative z-10 w-full">
+          <div className="relative z-10 w-full flex justify-center sm:py-8 md:py-12">
             <Image
               src="/logo.png"
               alt="Smart & Drive"
               width={1920}
               height={600}
-              className="w-full h-auto object-cover drop-shadow-2xl"
+              className="w-full h-auto object-cover drop-shadow-2xl sm:max-w-4xl sm:rounded-xl"
               priority
             />
           </div>
