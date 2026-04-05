@@ -66,6 +66,14 @@ export function Header() {
               רכבים חדשים
               <span className="absolute -bottom-1 right-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 rounded-full" style={{ background: 'var(--color-primary)' }}></span>
             </Link>
+            <Link 
+              href={ROUTES.about}
+              className="font-medium transition-all duration-200 text-sm sm:text-base relative group"
+              style={{ color: 'var(--color-gray-700)' }}
+            >
+              אודות
+              <span className="absolute -bottom-1 right-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 rounded-full" style={{ background: 'var(--color-primary)' }}></span>
+            </Link>
           </nav>
 
           {/* Social Links - Left */}

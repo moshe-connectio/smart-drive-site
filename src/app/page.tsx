@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import { getPublishedVehicles, Vehicle } from '@modules/vehicles/lib/repository';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import { VehicleGrid } from '@modules/vehicles/components/VehicleGrid';
-import { APP_CONFIG, ROUTES } from '@core/lib/constants';
+import Link from 'next/link';
+import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 
 export const revalidate = 3600; // ISR - 1 hour for home page
@@ -32,30 +32,21 @@ export default async function HomePage() {
       <main className="flex-1">
         {/* Hero Section - Premium Navy */}
         <section className="relative overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
-          {/* Decorative Elements */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-white/10 -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-white/5 translate-x-1/3 translate-y-1/3" />
-          </div>
           {/* Gold accent line top */}
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--gradient-gold)' }} />
-          
-          {/* Full-width Logo */}
-          <div className="relative z-10 w-full flex justify-center sm:py-8 md:py-12">
-            <Image
-              src="/logo.png"
-              alt="Smart & Drive"
-              width={1920}
-              height={600}
-              className="w-full h-auto object-cover drop-shadow-2xl sm:max-w-4xl sm:rounded-xl"
-              priority
-            />
-          </div>
 
           <Container>
-            <div className="text-center py-10 sm:py-16 relative z-10">
-              
-              <p className="text-xl sm:text-2xl mb-10 font-light text-white/80">
+            <div className="text-center py-16 sm:py-24 relative z-10">
+              <span
+                className="inline-block text-xs font-bold tracking-widest uppercase mb-5 px-4 py-1.5 rounded-full"
+                style={{ color: 'var(--color-gold-400)', background: 'rgba(212,160,23,0.1)', border: '1px solid rgba(212,160,23,0.25)' }}
+              >
+                סוכנות רכב יוקרתית
+              </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+                {dealershipConfig.business.name}
+              </h1>
+              <p className="text-lg sm:text-xl mb-10 text-white/65 max-w-xl mx-auto">
                 {dealershipConfig.business.tagline}
               </p>
               
@@ -70,12 +61,12 @@ export default async function HomePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </a>
-                <a
+                <Link
                   href="/new-vehicles"
                   className="inline-flex items-center gap-2 font-semibold py-4 px-12 rounded-xl transition-all duration-300 hover:scale-105 text-white border-2 border-white/30 hover:border-white/60 hover:bg-white/10 text-lg"
                 >
                   רכבים חדשים
-                </a>
+                </Link>
               </div>
               
               {/* Stats */}
@@ -115,48 +106,47 @@ export default async function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* Feature 1 */}
-              <div className="text-center group">
-                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-8 h-8" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
+                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>אמינות מלאה</h3>
+                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>אמינות מלאה</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>כל רכב עובר בדיקה מקיפה של 150 נקודות לפני שהוא מוצע למכירה</p>
               </div>
 
               {/* Feature 2 */}
-              <div className="text-center group">
-                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-8 h-8" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
+                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>מחירים שקופים</h3>
+                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>מחירים שקופים</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>ללא עלויות נסתרות. המחיר שמופיע הוא המחיר הסופי - כולל העברת בעלות</p>
               </div>
 
               {/* Feature 3 */}
-              <div className="text-center group">
-                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-8 h-8" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
+                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>טרייד אין</h3>
+                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>טרייד אין</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>מחליפים רכב? אנחנו נקנה את הרכב הישן שלכם ונקזז מהמחיר</p>
               </div>
 
               {/* Feature 4 */}
-              <div className="text-center group">
-                <div className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-8 h-8" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
+                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>משלוח עד הבית</h3>
+                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>משלוח עד הבית</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>לא צריך לנסוע. אנחנו נביא את הרכב עד אליכם לנסיעת מבחן</p>
               </div>
             </div>

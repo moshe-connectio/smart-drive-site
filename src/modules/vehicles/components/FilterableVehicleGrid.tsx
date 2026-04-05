@@ -63,7 +63,7 @@ export function FilterableVehicleGrid({ vehicles, brands, categories }: Filterab
         onFilterChange={setFilters}
       />
       
-      <div className="mb-4" style={{ color: 'var(--color-silver-400)' }}>
+      <div className="mb-5 text-sm font-medium" style={{ color: 'var(--color-gray-500)' }}>
         מציג {filteredVehicles.length} מתוך {vehicles.length} רכבים
       </div>
 

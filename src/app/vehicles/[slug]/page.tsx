@@ -9,6 +9,7 @@ import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import VehicleImageGallery from '@modules/vehicles/components/VehicleImageGallery';
+import { LeadForm } from '@modules/leads';
 
 interface VehicleDetailPageProps {
   params: Promise<{
@@ -22,6 +23,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
   const [error, setError] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [slug, setSlug] = useState<string | null>(null);
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -260,18 +262,27 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                 <div className="space-y-2 sm:space-y-3">
                   {vehicle.is_published ? (
                     <>
-                      <button className="w-full bg-primary text-white font-bold py-2 sm:py-3 px-4 text-sm sm:text-base rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => setIsLeadModalOpen(true)}
+                        className="w-full bg-primary text-white font-bold py-3 px-4 text-base rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                      >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        צור קשר לשאלות
+                        השאר פרטים ונחזור אליך
                       </button>
-                      <button className="w-full border-2 border-primary text-primary font-bold py-2 sm:py-3 px-4 text-sm sm:text-base rounded-lg hover:bg-primary/5 transition-colors flex items-center justify-center gap-2">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      <a
+                        href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '972501234567'}?text=${encodeURIComponent(`שלום, אני מתעניין ברכב: ${vehicle.title}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full border-2 border-[#25D366] text-[#25D366] font-bold py-3 px-4 text-base rounded-lg hover:bg-[#25D366]/5 transition-all flex items-center justify-center gap-2"
+                      >
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.096.541 4.064 1.487 5.779L0 24l6.395-1.467A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.001-1.374l-.36-.213-3.718.853.882-3.63-.235-.373A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
                         </svg>
-                        שמור לבחירה
-                      </button>
+                        שלח הודעה בוואטסאפ
+                      </a>
                     </>
                   ) : (
                     <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
@@ -296,6 +307,61 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
       </main>
 
       <Footer />
+
+      {/* Lead Form Modal */}
+      {isLeadModalOpen && (
+        <div
+          className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center p-0 sm:p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="טופס יצירת קשר"
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsLeadModalOpen(false)}
+          />
+
+          {/* Modal Panel */}
+          <div className="relative z-10 w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl">
+            {/* Header bar */}
+            <div
+              className="flex items-center justify-between px-5 py-4"
+              style={{ background: 'var(--color-primary)', color: '#fff' }}
+            >
+              <div>
+                <p className="font-bold text-lg leading-tight">השאר פרטים</p>
+                <p className="text-sm opacity-80 leading-tight">{vehicle.title}</p>
+              </div>
+              <button
+                onClick={() => setIsLeadModalOpen(false)}
+                className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors"
+                aria-label="סגור טופס"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Form body */}
+            <div style={{ background: 'var(--color-gray-100, #f9fafb)' }}>
+              <div className="p-5">
+                <LeadForm
+                  formId="vehicle-inquiry"
+                  vehicleId={vehicle.id}
+                  vehicleTitle={vehicle.title}
+                  title=""
+                  showMessage
+                  submitLabel="שלח ונחזור אליך בהקדם"
+                  variant="minimal"
+                  onSuccess={() => setIsLeadModalOpen(false)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

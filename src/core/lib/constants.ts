@@ -16,6 +16,7 @@ export const APP_CONFIG = {
 export const ROUTES = {
   home: '/',
   vehicles: '/vehicles',
+  about: '/about',
   vehicleDetail: (slug: string) => `/vehicles/${slug}`,
   api: {
     webhooks: {

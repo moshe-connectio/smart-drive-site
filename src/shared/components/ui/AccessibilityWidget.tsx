@@ -179,7 +179,7 @@ export default function AccessibilityWidget() {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-9999 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
+        className="fixed bottom-18 left-4 sm:bottom-22 sm:left-6 z-9999 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
         style={{
           background: 'var(--color-primary)',
           color: '#fff',
