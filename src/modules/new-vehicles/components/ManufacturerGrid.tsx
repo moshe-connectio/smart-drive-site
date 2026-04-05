@@ -21,7 +21,8 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
         {[...Array(10)].map((_, i) => (
           <div
             key={i}
-            className="aspect-square animate-pulse rounded-lg bg-gray-200"
+            className="aspect-square animate-pulse rounded-lg"
+            style={{ background: 'var(--color-gray-200)' }}
           />
         ))}
       </div>
@@ -30,8 +31,8 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
 
   if (manufacturers.length === 0) {
     return (
-      <div className="flex min-h-64 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
-        <p className="text-center text-gray-500">אין יצרנים זמינים כעת</p>
+      <div className="flex min-h-64 items-center justify-center rounded-lg border-2 border-dashed" style={{ borderColor: 'var(--color-border)', background: 'var(--color-card-bg)' }}>
+        <p className="text-center" style={{ color: 'var(--color-silver-500)' }}>אין יצרנים זמינים כעת</p>
       </div>
     );
   }
@@ -42,9 +43,10 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
         <Link
           key={manufacturer.id}
           href={`/new-vehicles/${manufacturer.slug}`}
-          className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white transition-all hover:border-primary hover:shadow-md"
+          className="group relative overflow-hidden rounded-lg transition-all hover:shadow-md"
+          style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
         >
-          <div className="aspect-square flex flex-col items-center justify-center bg-linear-to-br from-gray-50 to-gray-100 p-4">
+          <div className="aspect-square flex flex-col items-center justify-center p-4" style={{ background: 'var(--color-gray-100)' }}>
             {/* לוגו יצרן */}
             {manufacturer.logo_url ? (
               <Image
@@ -56,8 +58,8 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
                 priority
               />
             ) : (
-              <div className="flex h-24 w-24 items-center justify-center rounded-lg bg-gray-200">
-                <span className="text-xs font-semibold text-gray-400">
+              <div className="flex h-24 w-24 items-center justify-center rounded-lg" style={{ background: 'var(--color-gray-200)' }}>
+                <span className="text-xs font-semibold" style={{ color: 'var(--color-silver-500)' }}>
                   {manufacturer.name.charAt(0)}
                 </span>
               </div>
@@ -69,7 +71,7 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
             </p>
 
             {/* ספירת דגמים */}
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs" style={{ color: 'var(--color-silver-500)' }}>
               {manufacturer.models_count} דגמים
             </p>
 

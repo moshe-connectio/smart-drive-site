@@ -7,10 +7,10 @@
 export const dealershipConfig = {
   // Business Information
   business: {
-    name: 'Smart Drive',
-    description: 'מציעים את מגוון הרכבים הטוב ביותר',
-    tagline: 'רכבים איכותיים, מחירים תחרותיים, שירות מעולה',
-    logo: '/logo.svg',
+    name: 'Smart & Drive',
+    description: 'הדרך הנכונה לקניה חכמה!',
+    tagline: 'הדרך הנכונה לקניה חכמה!',
+    logo: '/logo.png',
     favicon: '/favicon.ico',
   },
 
@@ -47,10 +47,10 @@ export const dealershipConfig = {
 
   // SEO & Meta
   seo: {
-    title: 'Smart Drive - רכבים למכירה',
-    description: 'סוכנות רכב מובילה המציעה מגוון רכבים איכותיים במחירים תחרותיים',
-    keywords: 'רכבים, מכירת רכבים, סוכנות רכב, רכבים משומשים, רכבים חדשים',
-    author: 'Smart Drive',
+    title: 'Smart & Drive - הדרך הנכונה לקניה חכמה!',
+    description: 'סוכנות רכב מובילה - מגוון רכבים איכותיים חדשים ומשומשים במחירים תחרותיים',
+    keywords: 'רכבים, מכירת רכבים, סוכנות רכב, רכבים משומשים, רכבים חדשים, Smart Drive',
+    author: 'Smart & Drive',
   },
 
   // Features & Sections

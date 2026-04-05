@@ -80,12 +80,12 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
     }
 
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         {/* Header Section */}
-        <div className="border-b border-gray-200 bg-linear-to-r from-primary/5 to-primary/10">
+        <div style={{ background: 'var(--gradient-hero)', borderBottom: '1px solid var(--color-border)' }}>
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             {/* Breadcrumb */}
-            <nav className="mb-8 flex items-center gap-2 text-sm text-gray-600">
+            <nav className="mb-8 flex items-center gap-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
               <Link
                 href="/new-vehicles"
                 className="hover:text-primary hover:underline"
@@ -120,7 +120,7 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
                 </h1>
                 
                 {manufacturerData.description && (
-                  <p className="mt-4 max-w-2xl text-lg text-gray-600">
+                  <p className="mt-4 max-w-2xl text-lg" style={{ color: 'var(--color-silver-300)' }}>
                     {manufacturerData.description}
                   </p>
                 )}
@@ -131,13 +131,13 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
                     <p className="text-3xl font-bold text-primary">
                       {manufacturerData.models_count}
                     </p>
-                    <p className="text-sm text-gray-600">דגמים</p>
+                    <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>דגמים</p>
                   </div>
                   <div>
                     <p className="text-3xl font-bold text-primary">
                       {manufacturerData.total_trim_levels}
                     </p>
-                    <p className="text-sm text-gray-600">רמות גימור</p>
+                    <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>רמות גימור</p>
                   </div>
                 </div>
               </div>
@@ -165,7 +165,7 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
             <h2 className="text-2xl font-bold text-gray-900">
               דגמים זמינים
             </h2>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
               בחר דגם כדי לראות את רמות הגימור והפרטים
             </p>
           </div>
@@ -177,8 +177,8 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
               manufacturerSlug={manufacturerData.slug}
             />
           ) : (
-            <div className="flex min-h-96 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
-              <p className="text-center text-gray-500">
+            <div className="flex min-h-96 items-center justify-center rounded-lg border-2 border-dashed" style={{ borderColor: 'var(--color-border)', background: 'var(--color-card-bg)' }}>
+              <p className="text-center" style={{ color: 'var(--color-silver-500)' }}>
                 אין דגמים זמינים כעת ליצרן זה
               </p>
             </div>
@@ -187,10 +187,10 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
 
         {/* Footer Info */}
         {manufacturerData.country && (
-          <div className="border-t border-gray-200 bg-gray-50 py-8">
+          <div className="py-8" style={{ borderTop: '1px solid var(--color-border)', background: 'var(--color-secondary-bg)' }}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="text-center">
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--color-silver-400)' }}>
                   <span className="font-semibold">ארץ המוצא:</span>{' '}
                   {manufacturerData.country}
                 </p>

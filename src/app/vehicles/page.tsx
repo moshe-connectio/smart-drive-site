@@ -30,41 +30,44 @@ export default async function VehiclesPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
       <Header />
 
       <main className="flex-1">
         {/* Hero Section */}
-        <div className="bg-primary text-white py-12">
+        <section className="relative overflow-hidden py-14" style={{ background: 'var(--gradient-hero)' }}>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(26,101,224,0.5) 0%, transparent 70%)' }} />
           <Container>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              רכבים למכירה
-            </h1>
-            <p className="text-xl opacity-90">
-              גלה את מגוון הרכבים שלנו - מחירים תחרותיים ושירות מעולה
-            </p>
+            <div className="relative z-10">
+              <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900">
+                רכבים למכירה
+              </h1>
+              <p className="text-lg" style={{ color: 'var(--color-silver-400)' }}>
+                גלה את מגוון הרכבים שלנו - מחירים תחרותיים ושירות מעולה
+              </p>
+            </div>
           </Container>
-        </div>
+        </section>
 
         {/* Stats Bar */}
-        <div className="bg-white border-b border-gray-200 py-6">
+        <div className="py-6" style={{ background: 'var(--color-background-secondary)', borderBottom: '1px solid var(--color-border)' }}>
           <Container>
             <div className="flex items-center justify-center gap-8 text-center">
               <div>
                 <div className="text-3xl font-bold text-primary">
                   {vehicles.length}
                 </div>
-                <div className="text-sm text-gray-600">רכבים זמינים</div>
+                <div className="text-sm" style={{ color: 'var(--color-silver-400)' }}>רכבים זמינים</div>
               </div>
-              <div className="w-px h-12 bg-gray-200"></div>
+              <div className="w-px h-12" style={{ background: 'var(--color-border)' }}></div>
               <div>
                 <div className="text-3xl font-bold text-success">100%</div>
-                <div className="text-sm text-gray-600">מאושרים</div>
+                <div className="text-sm" style={{ color: 'var(--color-silver-400)' }}>מאושרים</div>
               </div>
-              <div className="w-px h-12 bg-gray-200"></div>
+              <div className="w-px h-12" style={{ background: 'var(--color-border)' }}></div>
               <div>
                 <div className="text-3xl font-bold text-secondary">24/7</div>
-                <div className="text-sm text-gray-600">שירות לקוחות</div>
+                <div className="text-sm" style={{ color: 'var(--color-silver-400)' }}>שירות לקוחות</div>
               </div>
             </div>
           </Container>

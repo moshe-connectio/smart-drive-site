@@ -10,7 +10,8 @@ export function VehicleGrid({ vehicles }: VehicleGridProps) {
     return (
       <div className="text-center py-16">
         <svg 
-          className="mx-auto h-16 w-16 text-gray-400 mb-4" 
+          className="mx-auto h-16 w-16 mb-4" 
+          style={{ color: 'var(--color-silver-500)' }}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -25,7 +26,7 @@ export function VehicleGrid({ vehicles }: VehicleGridProps) {
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
           אין רכבים זמינים
         </h3>
-        <p className="text-gray-600">
+        <p style={{ color: 'var(--color-silver-400)' }}>
           נראה שאין רכבים במלאי כרגע. נסה שוב מאוחר יותר.
         </p>
       </div>

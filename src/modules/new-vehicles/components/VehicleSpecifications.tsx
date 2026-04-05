@@ -55,15 +55,15 @@ export function VehicleSpecifications({
   return (
     <div className="space-y-8">
       {/* Core Specifications Table */}
-      <div className="overflow-hidden rounded-lg border border-gray-200">
-        <table className="w-full divide-y divide-gray-200 text-sm">
-          <tbody className="divide-y divide-gray-200 bg-white">
+      <div className="overflow-hidden rounded-lg" style={{ border: '1px solid var(--color-border)' }}>
+        <table className="w-full text-sm" style={{ borderCollapse: 'separate' }}>
+          <tbody style={{ background: 'var(--color-card-bg)' }}>
             {filledCoreSpecs.map((spec, index) => (
-              <tr key={`${spec.label}-${index}`} className="hover:bg-gray-50">
+              <tr key={`${spec.label}-${index}`} style={{ borderBottom: '1px solid var(--color-border)' }}>
                 <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                   {spec.label}
                 </td>
-                <td className="px-4 py-3 text-gray-700">
+                <td className="px-4 py-3" style={{ color: 'var(--color-silver-300)' }}>
                   {spec.format
                     ? spec.format(spec.value)
                     : spec.value}
@@ -80,10 +80,10 @@ export function VehicleSpecifications({
           <h3 className="mb-4 text-lg font-semibold text-gray-900">
             ממדי הגוף
           </h3>
-          <div className="grid gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4 sm:grid-cols-2">
+          <div className="grid gap-4 rounded-lg p-4 sm:grid-cols-2" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-border)' }}>
             {bodyDimensions.length && (
               <div>
-                <p className="text-sm text-gray-600">אורך</p>
+                <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>אורך</p>
                 <p className="text-lg font-semibold text-gray-900">
                   {bodyDimensions.length} mm
                 </p>
@@ -91,7 +91,7 @@ export function VehicleSpecifications({
             )}
             {bodyDimensions.width && (
               <div>
-                <p className="text-sm text-gray-600">רוחב</p>
+                <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>רוחב</p>
                 <p className="text-lg font-semibold text-gray-900">
                   {bodyDimensions.width} mm
                 </p>
@@ -99,7 +99,7 @@ export function VehicleSpecifications({
             )}
             {bodyDimensions.height && (
               <div>
-                <p className="text-sm text-gray-600">גובה</p>
+                <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>גובה</p>
                 <p className="text-lg font-semibold text-gray-900">
                   {bodyDimensions.height} mm
                 </p>
@@ -107,7 +107,7 @@ export function VehicleSpecifications({
             )}
             {bodyDimensions.wheelbase && (
               <div>
-                <p className="text-sm text-gray-600">מרחק בין גלגלים</p>
+                <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>מרחק בין גלגלים</p>
                 <p className="text-lg font-semibold text-gray-900">
                   {bodyDimensions.wheelbase} mm
                 </p>
@@ -132,12 +132,13 @@ export function VehicleSpecifications({
                 {specs.map((spec) => (
                   <div
                     key={spec.id}
-                    className="flex items-start justify-between rounded-lg border border-gray-200 bg-white p-3 hover:bg-gray-50"
+                    className="flex items-start justify-between rounded-lg p-3"
+                    style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-border)' }}
                   >
                     <span className="text-sm font-medium text-gray-900">
                       {spec.spec_key}
                     </span>
-                    <span className="ml-2 text-sm text-gray-600">
+                    <span className="ml-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
                       {spec.spec_value}
                     </span>
                   </div>
@@ -149,18 +150,18 @@ export function VehicleSpecifications({
       )}
 
       {/* CTA Section */}
-      <div className="rounded-lg border-2 border-primary bg-primary/5 p-6 text-center">
+      <div className="rounded-lg border-2 border-primary p-6 text-center" style={{ background: 'rgba(26, 101, 224, 0.1)' }}>
         <h3 className="text-xl font-bold text-gray-900">
           מעניין אתכם הרכב הזה?
         </h3>
-        <p className="mt-2 text-gray-600">
+        <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
           {trimLevel.name} ב-₪{trimLevel.price.toLocaleString('he-IL')}
         </p>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button className="rounded-lg bg-primary px-6 py-2 font-semibold text-white transition-colors hover:bg-primary/90">
             קבל הצעת מחיר
           </button>
-          <button className="rounded-lg border border-primary bg-white px-6 py-2 font-semibold text-primary transition-colors hover:bg-primary/5">
+          <button className="rounded-lg border border-primary px-6 py-2 font-semibold text-primary transition-colors hover:bg-primary/10" style={{ background: 'transparent' }}>
             השווה דגמים
           </button>
         </div>

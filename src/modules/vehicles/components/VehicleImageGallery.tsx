@@ -38,8 +38,8 @@ export default function VehicleImageGallery({
     return (
       <div className="w-full">
         {/* Main Placeholder */}
-        <div className="w-full h-52 bg-gray-200 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
-          <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-full h-52 rounded-lg overflow-hidden mb-2 flex items-center justify-center" style={{ background: 'var(--color-gray-200)' }}>
+          <svg className="w-12 h-12" style={{ color: 'var(--color-silver-500)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </div>
@@ -49,7 +49,8 @@ export default function VehicleImageGallery({
           {[1, 2, 3].map((index) => (
             <div
               key={index}
-              className="w-14 h-14 bg-gray-200 rounded shrink-0"
+              className="w-14 h-14 rounded shrink-0"
+              style={{ background: 'var(--color-gray-200)' }}
             />
           ))}
         </div>
@@ -63,7 +64,7 @@ export default function VehicleImageGallery({
   return (
     <div className="w-full">
       {/* Main Image Display */}
-      <div className={`relative w-full ${imageHeight} bg-gray-100 rounded-lg overflow-hidden mb-2 sm:mb-3 p-2 sm:p-3`}>
+      <div className={`relative w-full ${imageHeight} rounded-lg overflow-hidden mb-2 sm:mb-3 p-2 sm:p-3`} style={{ background: 'var(--color-gray-200)' }}>
         <Image
           src={displayedImage.image_url}
           alt={displayedImage.alt_text || vehicleTitle}
@@ -100,7 +101,7 @@ export default function VehicleImageGallery({
               className={`relative w-14 h-14 rounded overflow-hidden shrink-0 transition-all duration-200 border-2 ${
                 selectedImageIndex === index
                   ? 'border-primary ring-2 ring-primary/50'
-                  : 'border-gray-300 hover:border-gray-400'
+                : 'border-gray-600 hover:border-gray-500'
               }`}
               aria-label={`View image ${index + 1}${image.alt_text ? ': ' + image.alt_text : ''}`}
             >

@@ -22,15 +22,15 @@ async function NewVehiclesPage() {
     const manufacturers = await getAllManufacturers();
 
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         {/* Header Section */}
-        <div className="border-b border-gray-200 bg-linear-to-r from-primary/5 to-primary/10 py-12">
+        <div className="py-12" style={{ background: 'var(--gradient-hero)', borderBottom: '1px solid var(--color-border)' }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gray-900 md:text-5xl">
                 רכבים חדשים
               </h1>
-              <p className="mt-4 text-lg text-gray-600">
+              <p className="mt-4 text-lg" style={{ color: 'var(--color-silver-300)' }}>
                 גלה את כל היצרנים וקבל את הרכב המושלם עבורך
               </p>
             </div>
@@ -44,7 +44,7 @@ async function NewVehiclesPage() {
             <h2 className="text-2xl font-bold text-gray-900">
               {manufacturers.length} יצרנים זמינים
             </h2>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
               בחר יצרן כדי לראות את כל הדגמים וגישות הרכייה
             </p>
           </div>
@@ -54,11 +54,11 @@ async function NewVehiclesPage() {
         </div>
 
         {/* Info Section */}
-        <div className="border-t border-gray-200 bg-gray-50 py-12">
+        <div className="py-12" style={{ borderTop: '1px solid var(--color-border)', background: 'var(--color-secondary-bg)' }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-8 md:grid-cols-3">
               <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: 'rgba(26, 101, 224, 0.15)' }}>
                   <span className="text-xl font-bold text-primary">
                     {manufacturers.length}
                   </span>
@@ -66,29 +66,29 @@ async function NewVehiclesPage() {
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">
                   יצרנים
                 </h3>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
                   מגוון רחב של יצרנים בעולם
                 </p>
               </div>
               <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: 'rgba(26, 101, 224, 0.15)' }}>
                   <span className="text-xl font-bold text-primary">+</span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">
                   דגמים מהנדסים
                 </h3>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
                   אלפי דגמים להבחירה
                 </p>
               </div>
               <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: 'rgba(26, 101, 224, 0.15)' }}>
                   <span className="text-xl font-bold text-primary">✓</span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">
                   בחירה קלה
                 </h3>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
                   השוואה וחיפוש בקל
                 </p>
               </div>
@@ -101,10 +101,10 @@ async function NewVehiclesPage() {
     console.error('Error loading manufacturers:', error);
     
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 text-center">
           <h1 className="text-2xl font-bold text-gray-900">שגיאה בטעינת היצרנים</h1>
-          <p className="mt-4 text-gray-600">
+          <p className="mt-4" style={{ color: 'var(--color-silver-400)' }}>
             אנא נסה שוב מאוחר יותר
           </p>
         </div>

@@ -67,13 +67,13 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
         <Header />
         <main className="flex-1 py-12">
           <Container>
             <div className="text-center">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-              <p className="mt-4 text-gray-600">טוען פרטי רכב...</p>
+              <p className="mt-4" style={{ color: 'var(--color-silver-300)' }}>טוען פרטי רכב...</p>
             </div>
           </Container>
         </main>
@@ -84,7 +84,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
   if (error || !vehicle) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
         <Header />
         <main className="flex-1 py-12">
           <Container>
@@ -107,19 +107,19 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
       <Header />
 
       <main className="flex-1">
         {/* Breadcrumb */}
-        <div className="bg-white border-b border-gray-200">
+        <div style={{ background: 'var(--color-card-bg)', borderBottom: '1px solid var(--color-border)' }}>
           <Container>
             <div className="flex items-center gap-2 py-4 text-sm">
               <Link href="/vehicles" className="text-primary hover:underline">
                 רכבים
               </Link>
-              <span className="text-gray-400">/</span>
-              <span className="text-gray-600">{vehicle.title}</span>
+              <span style={{ color: 'var(--color-silver-500)' }}>/</span>
+              <span style={{ color: 'var(--color-silver-300)' }}>{vehicle.title}</span>
             </div>
           </Container>
         </div>
@@ -143,7 +143,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
               {/* Left Column - Images */}
               <div className="lg:col-span-2">
-                <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                <div className="rounded-xl overflow-hidden" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
                   <div className="p-4 sm:p-6">
                     <VehicleImageGallery 
                       images={vehicle.images} 
@@ -163,7 +163,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                   <h1 className="text-3xl font-bold text-gray-900 mb-2">
                     {vehicle.title}
                   </h1>
-                  <p className="text-lg text-gray-600">
+                  <p className="text-lg" style={{ color: 'var(--color-silver-300)' }}>
                     {vehicle.brand} {vehicle.model} • {vehicle.year}
                   </p>
                   {vehicle.km !== null && vehicle.km === 0 && (
@@ -174,22 +174,22 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                 </div>
 
                 {/* Price */}
-                <div className="bg-linear-to-br from-success/10 to-primary/10 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 border border-success/20">
-                  <p className="text-gray-600 text-xs sm:text-sm mb-2">מחיר</p>
+                <div className="rounded-lg p-4 sm:p-6 mb-4 sm:mb-6" style={{ background: 'rgba(26, 101, 224, 0.1)', border: '1px solid rgba(26, 101, 224, 0.2)' }}>
+                  <p className="text-xs sm:text-sm mb-2" style={{ color: 'var(--color-silver-400)' }}>מחיר</p>
                   <p className="text-3xl sm:text-4xl font-bold text-success">
                     {formatPrice(vehicle.price)}
                   </p>
                 </div>
 
                 {/* Specs Grid */}
-                <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+                <div className="rounded-lg p-4 sm:p-6 mb-4 sm:mb-6" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
                   <h2 className="font-bold text-gray-900 mb-4">מפרט טכני</h2>
                   
                   <div className="space-y-4">
                     {/* Kilometers */}
                     {vehicle.km !== null && (
-                      <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-                        <span className="text-gray-600 flex items-center gap-2">
+                      <div className="flex items-center justify-between pb-4" style={{ borderBottom: '1px solid var(--color-border)' }}>
+                        <span className="flex items-center gap-2" style={{ color: 'var(--color-silver-400)' }}>
                           <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                           </svg>
@@ -203,8 +203,8 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
                     {/* Transmission */}
                     {vehicle.gear_type && (
-                      <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-                        <span className="text-gray-600 flex items-center gap-2">
+                      <div className="flex items-center justify-between pb-4" style={{ borderBottom: '1px solid var(--color-border)' }}>
+                        <span className="flex items-center gap-2" style={{ color: 'var(--color-silver-400)' }}>
                           <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                           </svg>
@@ -218,8 +218,8 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
                     {/* Fuel Type */}
                     {vehicle.fuel_type && (
-                      <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-                        <span className="text-gray-600 flex items-center gap-2">
+                      <div className="flex items-center justify-between pb-4" style={{ borderBottom: '1px solid var(--color-border)' }}>
+                        <span className="flex items-center gap-2" style={{ color: 'var(--color-silver-400)' }}>
                           <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
                           </svg>
@@ -233,7 +233,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
                     {/* Year */}
                     <div className="flex items-center justify-between pt-2">
-                      <span className="text-gray-600 flex items-center gap-2">
+                      <span className="flex items-center gap-2" style={{ color: 'var(--color-silver-400)' }}>
                         <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
@@ -248,9 +248,9 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
                 {/* Description */}
                 {vehicle.short_description && (
-                  <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+                  <div className="rounded-lg p-4 sm:p-6 mb-4 sm:mb-6" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
                     <h2 className="font-bold text-gray-900 mb-3">תיאור</h2>
-                    <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                    <p className="leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--color-silver-300)' }}>
                       {vehicle.short_description}
                     </p>
                   </div>
@@ -274,8 +274,8 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                       </button>
                     </>
                   ) : (
-                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-                      <p className="text-yellow-800 font-semibold text-sm">
+                    <div className="bg-yellow-900/30 border-l-4 border-yellow-500 p-4 rounded">
+                      <p className="text-yellow-400 font-semibold text-sm">
                         ⚠️ רכב זה כבר נמכר
                       </p>
                     </div>

@@ -36,14 +36,14 @@ export default function ModelPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="space-y-8">
-            <div className="h-12 w-1/3 animate-pulse rounded-lg bg-gray-200" />
-            <div className="h-96 w-full animate-pulse rounded-lg bg-gray-200" />
+            <div className="h-12 w-1/3 animate-pulse rounded-lg" style={{ background: 'var(--color-gray-200)' }} />
+            <div className="h-96 w-full animate-pulse rounded-lg" style={{ background: 'var(--color-gray-200)' }} />
             <div className="space-y-4">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-4 w-full animate-pulse rounded bg-gray-200" />
+                <div key={i} className="h-4 w-full animate-pulse rounded" style={{ background: 'var(--color-gray-200)' }} />
               ))}
             </div>
           </div>
@@ -54,12 +54,12 @@ export default function ModelPage() {
 
   if (error || !modelData) {
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 text-center">
           <h1 className="text-2xl font-bold text-gray-900">
             שגיאה בטעינת הדגם
           </h1>
-          <p className="mt-4 text-gray-600">{error}</p>
+          <p className="mt-4" style={{ color: 'var(--color-silver-400)' }}>{error}</p>
           <Link href="/new-vehicles" className="mt-6 inline-block text-primary hover:underline">
             חזור לדף הרכבים
           </Link>
@@ -70,21 +70,21 @@ export default function ModelPage() {
 
   if (!selectedTrim) {
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <p className="text-gray-600">בחר רמת גימור</p>
+          <p style={{ color: 'var(--color-silver-400)' }}>בחר רמת גימור</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
       {/* Header Section */}
-      <div className="border-b border-gray-200 bg-linear-to-r from-primary/5 to-primary/10">
+      <div style={{ background: 'var(--gradient-hero)', borderBottom: '1px solid var(--color-border)' }}>
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <nav className="mb-8 flex items-center gap-2 text-sm text-gray-600">
+          <nav className="mb-8 flex items-center gap-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
             <Link
               href="/new-vehicles"
               className="hover:text-primary hover:underline"
@@ -132,7 +132,7 @@ export default function ModelPage() {
                   />
                 )}
                 <div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>
                     {modelData.manufacturer_name}
                   </p>
                   <h1 className="text-3xl font-bold text-gray-900 md:text-4xl">
@@ -142,13 +142,13 @@ export default function ModelPage() {
               </div>
 
               {modelData.body_type && (
-                <p className="mb-4 text-lg text-gray-600">
+                <p className="mb-4 text-lg" style={{ color: 'var(--color-silver-300)' }}>
                   {modelData.body_type}
                 </p>
               )}
 
               {modelData.description && (
-                <p className="text-gray-600">
+                <p style={{ color: 'var(--color-silver-400)' }}>
                   {modelData.description}
                 </p>
               )}
@@ -159,14 +159,14 @@ export default function ModelPage() {
                   <p className="text-3xl font-bold text-primary">
                     {modelData.trim_levels_count}
                   </p>
-                  <p className="text-sm text-gray-600">רמות גימור</p>
+                  <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>רמות גימור</p>
                 </div>
                 {modelData.min_price && (
                   <div>
                     <p className="text-3xl font-bold text-primary">
                       ₪{modelData.min_price.toLocaleString('he-IL')}
                     </p>
-                    <p className="text-sm text-gray-600">מחיר מתחיל</p>
+                    <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>מחיר מתחיל</p>
                   </div>
                 )}
               </div>
@@ -180,7 +180,7 @@ export default function ModelPage() {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Sidebar - Trim Selector */}
           <div className="lg:col-span-1">
-            <div className="sticky top-4 rounded-lg border border-gray-200 bg-white p-6">
+            <div className="sticky top-4 rounded-lg p-6" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
               <h2 className="mb-4 text-lg font-bold text-gray-900">
                 בחר רמת גימור
               </h2>

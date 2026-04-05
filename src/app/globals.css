@@ -1,64 +1,76 @@
 @import "tailwindcss";
 
 /**
- * Design System - CSS Custom Properties
- * All design tokens are defined here for consistency across the application
+ * Smart & Drive - Premium Dark Theme
+ * Dark charcoal background with metallic blue & silver accents
  */
 
 :root {
-  /* Primary Colors */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary: var(--color-primary-600);
+  /* Primary Colors - Metallic Blue */
+  --color-primary-50: #e8f0fe;
+  --color-primary-100: #c5d9fc;
+  --color-primary-200: #9ebffa;
+  --color-primary-300: #74a4f7;
+  --color-primary-400: #528ef5;
+  --color-primary-500: #3078f2;
+  --color-primary-600: #1a65e0;
+  --color-primary-700: #1453c4;
+  --color-primary-800: #0f42a8;
+  --color-primary-900: #0a2f7a;
+  --color-primary: #1a65e0;
+
+  /* Silver/Chrome Accent */
+  --color-silver-100: #f0f2f5;
+  --color-silver-200: #d8dce3;
+  --color-silver-300: #b8bfc9;
+  --color-silver-400: #98a3b0;
+  --color-silver-500: #7a8799;
 
   /* Success Colors */
-  --color-success-light: #d1fae5;
+  --color-success-light: #0d3d2e;
   --color-success: #10b981;
-  --color-success-dark: #047857;
+  --color-success-dark: #34d399;
 
   /* Warning Colors */
-  --color-warning-light: #fef3c7;
+  --color-warning-light: #3d2f0d;
   --color-warning: #f59e0b;
-  --color-warning-dark: #d97706;
+  --color-warning-dark: #fbbf24;
 
   /* Error Colors */
-  --color-error-light: #fee2e2;
+  --color-error-light: #3d1414;
   --color-error: #ef4444;
-  --color-error-dark: #dc2626;
+  --color-error-dark: #f87171;
 
-  /* Gray Scale */
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
+  /* Dark Gray Scale */
+  --color-gray-50: #0b0d10;
+  --color-gray-100: #0f1218;
+  --color-gray-200: #151922;
+  --color-gray-300: #1c212d;
+  --color-gray-400: #252b3a;
   --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
+  --color-gray-600: #9ca3af;
+  --color-gray-700: #c0c7d2;
+  --color-gray-800: #d8dce3;
+  --color-gray-900: #eef0f3;
 
-  /* Semantic Colors */
-  --color-background: #ffffff;
-  --color-background-secondary: #f9fafb;
-  --color-background-tertiary: #f3f4f6;
+  /* Semantic Colors - Dark Theme */
+  --color-background: #0d1017;
+  --color-background-secondary: #111520;
+  --color-background-tertiary: #161b28;
   
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
-  --color-text-tertiary: #9ca3af;
-  --color-text-inverse: #ffffff;
+  --color-text-primary: #eef0f3;
+  --color-text-secondary: #9ca3af;
+  --color-text-tertiary: #6b7280;
+  --color-text-inverse: #0d1017;
   
-  --color-border-light: #f3f4f6;
-  --color-border: #e5e7eb;
-  --color-border-dark: #d1d5db;
+  --color-border-light: #1c212d;
+  --color-border: #252b3a;
+  --color-border-dark: #2f3847;
+
+  /* Card Colors */
+  --color-card-bg: #111520;
+  --color-card-hover: #161b28;
+  --color-card-border: #1c212d;
 
   /* Spacing Scale */
   --spacing-1: 0.25rem;
@@ -84,12 +96,14 @@
   --radius-3xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* Shadows - Blue glow */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-blue: 0 4px 20px -2px rgba(26, 101, 224, 0.25);
+  --shadow-blue-lg: 0 8px 30px -4px rgba(26, 101, 224, 0.35);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -101,14 +115,17 @@
   --font-family-hebrew: "Heebo", "Rubik", -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  --gradient-secondary: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  --gradient-primary: linear-gradient(135deg, #1a65e0 0%, #0a2f7a 100%);
+  --gradient-secondary: linear-gradient(135deg, #1453c4 0%, #0f42a8 100%);
+  --gradient-hero: linear-gradient(135deg, #0a1628 0%, #0d1017 40%, #111520 100%);
+  --gradient-silver: linear-gradient(135deg, #b8bfc9 0%, #d8dce3 50%, #98a3b0 100%);
+  --gradient-card: linear-gradient(180deg, #111520 0%, #0f1218 100%);
   
   /* Footer Colors */
-  --color-footer-bg: #1f2937;
-  --color-footer-text: #d1d5db;
-  --color-footer-border: #374151;
-  --color-secondary-text: #7c3aed;
+  --color-footer-bg: #080a0f;
+  --color-footer-text: #9ca3af;
+  --color-footer-border: #1c212d;
+  --color-secondary-text: #74a4f7;
 }
 
 body {
@@ -134,9 +151,10 @@ body {
   }
   
   .bg-header {
-    background-color: var(--color-background);
+    background-color: rgba(13, 16, 23, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom-color: var(--color-border);
-    box-shadow: var(--shadow-sm);
   }
   
   .bg-footer {
@@ -152,7 +170,7 @@ body {
   }
   
   .text-footer-heading {
-    color: var(--color-background);
+    color: var(--color-silver-200);
   }
   
   .border-header {
@@ -172,15 +190,15 @@ body {
   }
   
   .text-success {
-    color: var(--color-success);
+    color: var(--color-success-dark);
   }
   
   .text-warning {
-    color: var(--color-warning);
+    color: var(--color-warning-dark);
   }
   
   .text-error {
-    color: var(--color-error);
+    color: var(--color-error-dark);
   }
   
   .border-error {
@@ -195,7 +213,7 @@ body {
     background-color: var(--color-success);
   }
   
-  /* Gray colors */
+  /* Gray colors - inverted for dark theme */
   .text-gray-50 { color: var(--color-gray-50); }
   .text-gray-100 { color: var(--color-gray-100); }
   .text-gray-200 { color: var(--color-gray-200); }

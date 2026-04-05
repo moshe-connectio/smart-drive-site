@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube, FaCarSide } from 'react-icons/fa6';
+import Image from 'next/image';
+import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
 import { Container } from './Container';
-import { APP_CONFIG, ROUTES } from '@core/lib/constants';
+import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 
 export function Header() {
@@ -31,41 +32,42 @@ export function Header() {
   return (
     <header className="bg-header border-header sticky top-0 z-50 border-b">
       <Container>
-        {/* Single Row - All Elements */}
-        <div className="flex items-center justify-between h-14 sm:h-16 px-2 sm:px-4">
+        <div className="flex items-center justify-between h-16 sm:h-20 px-2 sm:px-4">
           {/* Logo - Right */}
           <Link 
             href={ROUTES.home} 
-            className="flex items-center gap-1 sm:gap-2 shrink-0 group hover:opacity-90 transition-opacity duration-200"
+            className="flex items-center shrink-0 group hover:opacity-90 transition-opacity duration-200"
           >
-            <div className="flex items-center justify-center w-8 sm:w-10 h-8 sm:h-10 rounded-lg bg-linear-to-br from-primary to-blue-700 group-hover:shadow-md transition-shadow duration-200">
-              <FaCarSide className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
-            </div>
-            <span className="text-xs sm:text-sm font-bold text-header hidden sm:inline">
-              {APP_CONFIG.name}
-            </span>
+            <Image
+              src="/logo.png"
+              alt="Smart & Drive"
+              width={160}
+              height={50}
+              className="h-10 sm:h-12 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Navigation - Center */}
-          <nav className="flex items-center gap-4 sm:gap-8 flex-1 justify-center">
+          <nav className="flex items-center gap-6 sm:gap-10 flex-1 justify-center">
             <Link 
               href={ROUTES.vehicles} 
-              className="text-gray-700 hover:text-primary font-medium transition-all duration-200 text-xs sm:text-sm relative group"
+              className="text-gray-600 hover:text-primary font-medium transition-all duration-200 text-sm sm:text-base relative group"
             >
               רכבים
-              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 rounded-full"></span>
             </Link>
             <Link 
               href="/new-vehicles" 
-              className="text-gray-700 hover:text-primary font-medium transition-all duration-200 text-xs sm:text-sm relative group"
+              className="text-gray-600 hover:text-primary font-medium transition-all duration-200 text-sm sm:text-base relative group"
             >
               רכבים חדשים
-              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 rounded-full"></span>
             </Link>
           </nav>
 
           {/* Social Links - Left */}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
@@ -74,11 +76,11 @@ export function Header() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-primary transition-all duration-200 hover:scale-110 p-1 sm:p-1.5 rounded-md hover:bg-gray-100 hidden sm:block"
+                  className="text-gray-500 hover:text-primary transition-all duration-200 hover:scale-110 p-1.5 sm:p-2 rounded-lg hover:bg-gray-300 hidden sm:block"
                   title={social.name}
                   aria-label={social.name}
                 >
-                  <Icon className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+                  <Icon className="w-4 sm:w-[18px] h-4 sm:h-[18px]" />
                 </a>
               );
             })}
