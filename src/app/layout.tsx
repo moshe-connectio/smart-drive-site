@@ -4,6 +4,7 @@ import { Rubik } from "next/font/google";
 // @ts-ignore - CSS import
 import "./globals.css";
 import { dealershipConfig } from "@core/config/site.config";
+import AccessibilityWidget from "@shared/components/ui/AccessibilityWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${rubik.variable} antialiased`}
       >
         {children}
+        <AccessibilityWidget />
       </body>
     </html>
   );

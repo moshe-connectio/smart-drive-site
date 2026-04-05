@@ -43,9 +43,9 @@ export default async function HomePage() {
                 <Image
                   src="/logo.png"
                   alt="Smart & Drive"
-                  width={320}
-                  height={120}
-                  className="mx-auto h-24 sm:h-32 w-auto object-contain drop-shadow-2xl"
+                  width={800}
+                  height={400}
+                  className="mx-auto w-full max-w-3xl h-auto object-contain drop-shadow-2xl"
                   priority
                 />
               </div>
