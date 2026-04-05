@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { VehicleImage } from '@modules/vehicles/lib/repository';
 
@@ -67,7 +68,7 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
     touchStartY.current = null;
   }, [goNext, goPrev]);
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
       style={{ background: 'rgba(0, 0, 0, 0.92)' }}
@@ -166,6 +167,7 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
           </div>
         </div>
       )}
-    </div>
+    </div>,
+    document.body
   );
 }
