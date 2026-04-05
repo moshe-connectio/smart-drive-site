@@ -36,19 +36,20 @@ export default async function HomePage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(26,101,224,0.5) 0%, transparent 70%)' }} />
           <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(26,101,224,0.4) 0%, transparent 70%)' }} />
           
+          {/* Full-width Logo */}
+          <div className="relative z-10 w-full">
+            <Image
+              src="/logo.png"
+              alt="Smart & Drive"
+              width={1920}
+              height={600}
+              className="w-full h-auto object-cover drop-shadow-2xl"
+              priority
+            />
+          </div>
+
           <Container>
-            <div className="text-center py-20 sm:py-28 relative z-10">
-              {/* Logo Image */}
-              <div className="mb-8">
-                <Image
-                  src="/logo.png"
-                  alt="Smart & Drive"
-                  width={800}
-                  height={400}
-                  className="mx-auto w-full max-w-3xl h-auto object-contain drop-shadow-2xl"
-                  priority
-                />
-              </div>
+            <div className="text-center py-10 sm:py-16 relative z-10">
               
               <p className="text-xl sm:text-2xl mb-10 font-light text-white/80">
                 {dealershipConfig.business.tagline}

@@ -179,7 +179,7 @@ export default function AccessibilityWidget() {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 left-6 z-9999 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
+        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-9999 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
         style={{
           background: 'var(--color-primary)',
           color: '#fff',
@@ -188,7 +188,7 @@ export default function AccessibilityWidget() {
         aria-label="תפריט נגישות"
         title="נגישות"
       >
-        <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6l-1.41-1.41A2 2 0 0 0 12.17 7H11.8a2 2 0 0 0-1.42.59L9 9H3a1 1 0 0 0 0 2h5.09l-.72 4.18a1.5 1.5 0 0 0 .28 1.16l3.08 4.11a1 1 0 0 0 1.6 0l3.08-4.11a1.5 1.5 0 0 0 .28-1.16L14.91 11H21a1 1 0 0 0 0-2z" />
         </svg>
       </button>
@@ -204,7 +204,7 @@ export default function AccessibilityWidget() {
 
           {/* Panel */}
           <div
-            className="fixed bottom-24 left-6 z-9999 w-80 max-h-[80vh] overflow-y-auto rounded-2xl shadow-2xl"
+            className="fixed inset-x-2 bottom-20 sm:inset-x-auto sm:bottom-24 sm:left-6 z-9999 w-auto sm:w-80 max-h-[75vh] overflow-y-auto rounded-2xl shadow-2xl"
             style={{
               background: 'var(--color-gray-100)',
               border: '1px solid var(--color-gray-200)',
@@ -236,12 +236,12 @@ export default function AccessibilityWidget() {
             </div>
 
             {/* Buttons Grid */}
-            <div className="p-3 grid grid-cols-3 gap-2">
+            <div className="p-2 sm:p-3 grid grid-cols-3 gap-1.5 sm:gap-2">
               {buttons.map((btn) => (
                 <button
                   key={btn.key}
                   onClick={btn.onClick}
-                  className="flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-center transition-all duration-200"
+                  className="flex flex-col items-center justify-center gap-1 p-2 sm:p-3 rounded-xl text-center transition-all duration-200"
                   style={{
                     background: btn.isActive ? 'var(--color-primary)' : 'var(--color-gray-200)',
                     color: btn.isActive ? '#fff' : 'var(--color-gray-800)',

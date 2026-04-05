@@ -79,33 +79,53 @@ export default function CookieConsentBanner() {
     setVisible(false);
   };
 
-  if (!mounted || !visible) return null;
+  if (!mounted) return null;
+
+  // Small trigger button when banner is dismissed
+  if (!visible) {
+    return (
+      <button
+        onClick={() => setVisible(true)}
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-9997 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style={{
+          background: 'var(--color-gray-200)',
+          color: 'var(--color-gray-800)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+          border: '1px solid var(--color-gray-300)',
+        }}
+        aria-label="הגדרות פרטיות"
+        title="הגדרות פרטיות"
+      >
+        <span className="text-xl sm:text-2xl">🍪</span>
+      </button>
+    );
+  }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-9997 p-4 sm:p-6" dir="rtl">
+    <div className="fixed inset-x-0 bottom-0 z-9997 p-2 sm:p-4 md:p-6" dir="rtl">
       <div
-        className="mx-auto max-w-3xl rounded-2xl shadow-2xl overflow-hidden"
+        className="mx-auto max-w-3xl rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden"
         style={{
           background: 'var(--color-gray-100)',
           border: '1px solid var(--color-gray-200)',
         }}
       >
         {/* Header */}
-        <div className="p-5 pb-3">
-          <div className="flex items-start gap-3">
+        <div className="p-3 sm:p-5 pb-2 sm:pb-3">
+          <div className="flex items-start gap-2 sm:gap-3">
             <div
-              className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5"
               style={{ background: 'var(--color-primary)' }}
             >
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
             <div className="flex-1">
-              <h3 className="font-bold text-base mb-1" style={{ color: 'var(--color-gray-900)' }}>
+              <h3 className="font-bold text-sm sm:text-base mb-1" style={{ color: 'var(--color-gray-900)' }}>
                 הגנת פרטיות ושימוש בעוגיות 🍪
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-600)' }}>
+              <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--color-gray-600)' }}>
                 אתר זה משתמש בעוגיות (Cookies) ובטכנולוגיות דומות לצורך תפעול האתר, שיפור חוויית הגלישה, ניתוח תעבורה ושיווק.
                 בהתאם לחוק הגנת הפרטיות, התשמ&quot;א-1981 ותקנות הגנת הפרטיות (אבטחת מידע), באפשרותך לבחור אילו עוגיות לאשר.
               </p>
@@ -115,7 +135,7 @@ export default function CookieConsentBanner() {
 
         {/* Cookie Categories (expandable) */}
         {showDetails && (
-          <div className="px-5 pb-2 space-y-3">
+          <div className="px-3 sm:px-5 pb-2 space-y-2 sm:space-y-3">
             <div className="border rounded-xl p-3" style={{ borderColor: 'var(--color-gray-200)', background: 'var(--color-gray-50)' }}>
               {/* Essential */}
               <div className="flex items-center justify-between py-2">
@@ -221,17 +241,17 @@ export default function CookieConsentBanner() {
         )}
 
         {/* Action Buttons */}
-        <div className="p-5 pt-3 flex flex-col sm:flex-row gap-2">
+        <div className="p-3 sm:p-5 pt-2 sm:pt-3 flex flex-col sm:flex-row gap-2">
           <button
             onClick={handleAcceptAll}
-            className="flex-1 py-3 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:opacity-90"
+            className="flex-1 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm text-white transition-all duration-200 hover:opacity-90"
             style={{ background: 'var(--gradient-primary)', boxShadow: 'var(--shadow-blue)' }}
           >
             אישור כל העוגיות
           </button>
           <button
             onClick={handleRejectAll}
-            className="flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:opacity-80"
+            className="flex-1 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm transition-all duration-200 hover:opacity-80"
             style={{
               background: 'var(--color-gray-200)',
               color: 'var(--color-gray-800)',
@@ -242,7 +262,7 @@ export default function CookieConsentBanner() {
           </button>
           <button
             onClick={() => setShowDetails(!showDetails)}
-            className="flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-200 hover:opacity-80 underline underline-offset-2"
+            className="flex-1 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm transition-all duration-200 hover:opacity-80 underline underline-offset-2"
             style={{ color: 'var(--color-primary)' }}
           >
             {showDetails ? 'הסתר פרטים' : 'ניהול העדפות'}
@@ -250,7 +270,7 @@ export default function CookieConsentBanner() {
         </div>
 
         {/* Legal Footer */}
-        <div className="px-5 pb-4 text-center">
+        <div className="px-3 sm:px-5 pb-3 sm:pb-4 text-center">
           <p className="text-[10px] leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
             בהתאם לחוק הגנת הפרטיות, התשמ&quot;א-1981 | תקנות הגנת הפרטיות (אבטחת מידע), התשע&quot;ז-2017
           </p>
