@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from '@core/lib/supabase';
+import { extractIdFromSlug } from '@shared/utils/formatting';
 
 export type VehicleCondition = 'חדש' | '0 ק״מ' | 'משומש';
 
@@ -84,50 +85,8 @@ export async function getPublishedVehicles(): Promise<Vehicle[]> {
 }
 
 export async function getVehicleBySlug(slug: string): Promise<Vehicle | null> {
-  try {
-    const client = createServerSupabaseClient();
-
-    // Fetch both published and recently sold vehicles (is_published = false)
-    // This allows us to show sold items with a ribbon for up to 2 days
-    // Get first result in case multiple vehicles have the same slug
-    const response = await client
-      .from('vehicles')
-      .select(`
-        *,
-        images:vehicle_images(id, vehicle_id, image_url, position, alt_text, uploaded_at)
-      `)
-      .eq('slug', slug)
-      .order('created_at', { ascending: false })
-      .limit(1);
-
-    let data = response.data?.[0] ?? null;
-    let error = response.error;
-
-    // If the relationship doesn't exist yet, fall back to basic fetch
-    if (error && error.code === 'PGRST200') {
-      console.warn(
-        '⚠️ vehicle_images table not found or relationship not defined, falling back to basic fetch'
-      );
-      const fallbackResponse = await client
-        .from('vehicles')
-        .select('*')
-        .eq('slug', slug)
-        .order('created_at', { ascending: false })
-        .limit(1);
-      data = fallbackResponse.data?.[0] ?? null;
-      error = fallbackResponse.error;
-    }
-
-    if (error) {
-      console.error('Error fetching vehicle by slug:', error);
-      throw new Error(`Failed to fetch vehicle: ${error.message}`);
-    }
-
-    return data ?? null;
-  } catch (err) {
-    console.error('Unexpected error in getVehicleBySlug:', err);
-    throw err;
-  }
+  const id = extractIdFromSlug(slug);
+  return getVehicleById(id);
 }
 
 export async function getVehicleById(id: string): Promise<Vehicle | null> {

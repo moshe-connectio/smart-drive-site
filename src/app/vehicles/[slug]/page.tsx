@@ -4,6 +4,7 @@ import {
   getVehicleBySlug,
   getPublishedVehicles,
 } from '@modules/vehicles/lib/repository';
+import { generateVehicleSlug } from '@shared/utils/formatting';
 import { dealershipConfig } from '@core/config/site.config';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
@@ -22,8 +23,8 @@ export async function generateStaticParams() {
   try {
     const vehicles = await getPublishedVehicles();
     return vehicles
-      .filter((v) => v.slug)
-      .map((v) => ({ slug: v.slug }));
+      .filter((v) => v.id)
+      .map((v) => ({ slug: generateVehicleSlug(v.title, v.year, v.id) }));
   } catch {
     return [];
   }

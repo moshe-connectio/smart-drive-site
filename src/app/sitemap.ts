@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getPublishedVehicles } from '@modules/vehicles/lib/repository';
+import { generateVehicleSlug } from '@shared/utils/formatting';
 import { dealershipConfig } from '@core/config/site.config';
 
 export const revalidate = 3600; // Regenerate sitemap every hour
@@ -40,9 +41,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const vehicles = await getPublishedVehicles();
     vehicleRoutes = vehicles
-      .filter((v) => v.is_published && v.slug)
+      .filter((v) => v.is_published && v.id)
       .map((v) => ({
-        url: `${siteUrl}/vehicles/${v.slug}`,
+        url: `${siteUrl}/vehicles/${generateVehicleSlug(v.title, v.year, v.id)}`,
         lastModified: new Date(v.updated_at || v.created_at),
         changeFrequency: 'weekly' as const,
         priority: 0.8,

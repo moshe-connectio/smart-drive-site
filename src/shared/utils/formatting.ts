@@ -75,9 +75,7 @@ export function generateSlug(text: string): string {
  */
 export function generateVehicleSlug(title: string, year: number, id: string): string {
   const baseSlug = generateSlug(`${title} ${year}`);
-  // Get last 12 characters of ID (or full ID if shorter)
-  const idSuffix = id.slice(-12);
-  return `${baseSlug}-${idSuffix}`;
+  return `${baseSlug}--${id}`;
 }
 
 /**
@@ -86,24 +84,20 @@ export function generateVehicleSlug(title: string, year: number, id: string): st
  * @example extractIdFromSlug('8b234567-89ab-12cd-ef01-23456789abcd') // returns full UUID if already valid
  */
 export function extractIdFromSlug(slug: string): string {
-  // If slug looks like a UUID (contains at least one hyphen with proper format), return as-is
-  // UUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  // Slug format: "title-year--uuid"
+  // The double-hyphen separates the human-readable part from the UUID
+  const doubleDashIndex = slug.indexOf('--');
+  if (doubleDashIndex !== -1) {
+    return slug.slice(doubleDashIndex + 2);
+  }
+
+  // Fallback: if slug is already a UUID, return as-is
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   if (uuidRegex.test(slug)) {
     return slug;
   }
-  
-  // Otherwise, extract the last part which should be the ID suffix
-  const parts = slug.split('-');
-  const lastPart = parts[parts.length - 1];
-  
-  // If last part looks like a full UUID, return it
-  if (uuidRegex.test(lastPart)) {
-    return lastPart;
-  }
-  
-  // Return last 12 characters as ID suffix
-  return lastPart;
+
+  return slug;
 }
 
 /**
