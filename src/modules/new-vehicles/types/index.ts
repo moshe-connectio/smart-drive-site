@@ -33,7 +33,7 @@ export type Model = {
   id: string;
   manufacturer_id: string;
   name: string; // "3 Series", "E-Class"
-  name_he: string | null; // "סדרה 3", "E-Class"
+  name_he?: string | null; // "סדרה 3", "E-Class"
   slug: string; // "3-series", "e-class"
   description: string | null;
   image_url: string | null;
