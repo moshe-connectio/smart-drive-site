@@ -116,6 +116,97 @@ export async function POST(request: Request) {
 }
 
 /**
+ * DELETE /api/new-vehicles/manufacturers?name=Toyota
+ * Delete a manufacturer and all related data (models, specs, trims, images)
+ */
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const name = searchParams.get('name');
+
+    if (!name) {
+      return Response.json({ error: 'name query parameter is required' }, { status: 400 });
+    }
+
+    const client = createServerSupabaseClient();
+
+    // Find manufacturer
+    const { data: manufacturer } = await client
+      .from('new_vehicles_manufacturers')
+      .select('id, name')
+      .ilike('name', name)
+      .single();
+
+    if (!manufacturer) {
+      return Response.json({ error: `Manufacturer "${name}" not found` }, { status: 404 });
+    }
+
+    // Find all models for this manufacturer
+    const { data: models } = await client
+      .from('new_vehicles_models')
+      .select('id')
+      .eq('manufacturer_id', manufacturer.id);
+
+    const modelIds = (models || []).map((m: { id: string }) => m.id);
+
+    if (modelIds.length > 0) {
+      // Find all trim levels for these models
+      const { data: trims } = await client
+        .from('new_vehicles_trim_levels')
+        .select('id')
+        .in('model_id', modelIds);
+
+      const trimIds = (trims || []).map((t: { id: string }) => t.id);
+
+      // Delete specs for all trims
+      if (trimIds.length > 0) {
+        await client
+          .from('new_vehicles_specifications')
+          .delete()
+          .in('trim_level_id', trimIds);
+      }
+
+      // Delete trim levels
+      await client
+        .from('new_vehicles_trim_levels')
+        .delete()
+        .in('model_id', modelIds);
+
+      // Delete model images
+      await client
+        .from('new_vehicles_model_images')
+        .delete()
+        .in('model_id', modelIds);
+
+      // Delete models
+      await client
+        .from('new_vehicles_models')
+        .delete()
+        .eq('manufacturer_id', manufacturer.id);
+    }
+
+    // Delete manufacturer
+    const { error } = await client
+      .from('new_vehicles_manufacturers')
+      .delete()
+      .eq('id', manufacturer.id);
+
+    if (error) {
+      return Response.json({ error: error.message }, { status: 400 });
+    }
+
+    return Response.json({
+      success: true,
+      deleted: manufacturer.name,
+      models_deleted: modelIds.length,
+    });
+  } catch (error) {
+    console.error('API error:', error);
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+/**
  * GET /api/new-vehicles/manufacturers
  * Get all manufacturers
  */
