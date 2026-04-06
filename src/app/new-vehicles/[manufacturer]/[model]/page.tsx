@@ -3,79 +3,34 @@
  * עמוד דגם ספציפי עם בחירת רמת גימור וצפיית פרטים
  */
 
-'use client';
-
-import { useState } from 'react';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import type { ModelWithTrimLevels, TrimLevel, TrimLevelWithSpecifications } from '@modules/new-vehicles/types';
-import { TrimLevelSelector } from '@modules/new-vehicles/components/TrimLevelSelector';
-import { VehicleSpecifications } from '@modules/new-vehicles/components/VehicleSpecifications';
+import { getModelBySlug, getTrimLevelWithSpecs } from '@modules/new-vehicles/lib/repository';
+import { ModelPageClient } from '@modules/new-vehicles/components/ModelPageClient';
+
+export const revalidate = 60;
+export const dynamicParams = true;
 
 interface ModelPageProps {
   params: Promise<{
     manufacturer: string;
     model: string;
   }>;
-  searchParams: Promise<{
-    trim?: string;
-  }>;
 }
 
-// This is a client component that will be fetched
-export default function ModelPage() {
-  const [modelData, setModelData] = useState<ModelWithTrimLevels | null>(null);
-  const [selectedTrim, setSelectedTrim] = useState<TrimLevel | null>(null);
-  const [trimDetails, setTrimDetails] = useState<TrimLevelWithSpecifications | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default async function ModelPage({ params }: ModelPageProps) {
+  const { manufacturer, model } = await params;
+  const modelData = await getModelBySlug(manufacturer, model);
 
-  // Note: In a real app, you'd get params from the page component
-  // This is a simplified version. Let's create a proper server component instead.
-
-  if (loading) {
-    return (
-      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="space-y-8">
-            <div className="h-12 w-1/3 animate-pulse rounded-lg" style={{ background: 'var(--color-gray-200)' }} />
-            <div className="h-96 w-full animate-pulse rounded-lg" style={{ background: 'var(--color-gray-200)' }} />
-            <div className="space-y-4">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-4 w-full animate-pulse rounded" style={{ background: 'var(--color-gray-200)' }} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </main>
-    );
+  if (!modelData) {
+    notFound();
   }
 
-  if (error || !modelData) {
-    return (
-      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">
-            שגיאה בטעינת הדגם
-          </h1>
-          <p className="mt-4" style={{ color: 'var(--color-silver-400)' }}>{error}</p>
-          <Link href="/new-vehicles" className="mt-6 inline-block text-primary hover:underline">
-            חזור לדף הרכבים
-          </Link>
-        </div>
-      </main>
-    );
-  }
-
-  if (!selectedTrim) {
-    return (
-      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <p style={{ color: 'var(--color-silver-400)' }}>בחר רמת גימור</p>
-        </div>
-      </main>
-    );
+  // Pre-fetch specs for the first trim level if available
+  let firstTrimSpecs = null;
+  if (modelData.trim_levels.length > 0) {
+    firstTrimSpecs = await getTrimLevelWithSpecs(modelData.trim_levels[0].id);
   }
 
   return (
@@ -85,10 +40,7 @@ export default function ModelPage() {
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <nav className="mb-8 flex items-center gap-2 text-sm text-white/60">
-            <Link
-              href="/new-vehicles"
-              className="hover:text-white hover:underline"
-            >
+            <Link href="/new-vehicles" className="hover:text-white hover:underline">
               רכבים חדשים
             </Link>
             <span>/</span>
@@ -99,14 +51,12 @@ export default function ModelPage() {
               {modelData.manufacturer_name}
             </Link>
             <span>/</span>
-            <span className="font-semibold text-white">
-              {modelData.name}
-            </span>
+            <span className="font-semibold text-white">{modelData.name}</span>
           </nav>
 
           {/* Header Content */}
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
-            {/* Logo + Image */}
+            {/* Image */}
             <div className="shrink-0 sm:order-2">
               {modelData.image_url && (
                 <Image
@@ -132,33 +82,23 @@ export default function ModelPage() {
                   />
                 )}
                 <div>
-                  <p className="text-sm text-white/60">
-                    {modelData.manufacturer_name}
-                  </p>
-                  <h1 className="text-3xl font-bold text-white md:text-4xl">
-                    {modelData.name}
-                  </h1>
+                  <p className="text-sm text-white/60">{modelData.manufacturer_name}</p>
+                  <h1 className="text-3xl font-bold text-white md:text-4xl">{modelData.name}</h1>
                 </div>
               </div>
 
               {modelData.body_type && (
-                <p className="mb-4 text-lg text-white/70">
-                  {modelData.body_type}
-                </p>
+                <p className="mb-4 text-lg text-white/70">{modelData.body_type}</p>
               )}
 
               {modelData.description && (
-                <p className="text-white/60">
-                  {modelData.description}
-                </p>
+                <p className="text-white/70 leading-relaxed">{modelData.description}</p>
               )}
 
               {/* Stats */}
               <div className="mt-6 flex gap-8">
                 <div>
-                  <p className="text-3xl font-bold text-gold">
-                    {modelData.trim_levels_count}
-                  </p>
+                  <p className="text-3xl font-bold text-gold">{modelData.trim_levels.length}</p>
                   <p className="text-sm text-white/60">רמות גימור</p>
                 </div>
                 {modelData.min_price && (
@@ -177,28 +117,24 @@ export default function ModelPage() {
 
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-3">
-          {/* Sidebar - Trim Selector */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4 rounded-lg p-6" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
-              <h2 className="mb-4 text-lg font-bold text-gray-900">
-                בחר רמת גימור
-              </h2>
-              <TrimLevelSelector
-                trimLevels={modelData.trim_levels || []}
-                onSelect={setSelectedTrim}
-                selectedId={selectedTrim?.id}
-              />
-            </div>
+        {modelData.trim_levels.length > 0 ? (
+          <ModelPageClient
+            trimLevels={modelData.trim_levels}
+            initialTrimSpecs={firstTrimSpecs}
+          />
+        ) : (
+          <div className="rounded-lg p-8 text-center" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
+            <p className="text-lg font-medium" style={{ color: 'var(--color-gray-500)' }}>
+              רמות גימור יתווספו בקרוב
+            </p>
+            <Link
+              href={`/new-vehicles/${modelData.manufacturer_slug}`}
+              className="mt-4 inline-block text-primary hover:underline"
+            >
+              חזרה ל{modelData.manufacturer_name}
+            </Link>
           </div>
-
-          {/* Main - Specifications */}
-          <div className="lg:col-span-2">
-            {trimDetails && (
-              <VehicleSpecifications trimLevel={trimDetails} />
-            )}
-          </div>
-        </div>
+        )}
       </div>
     </main>
   );
