@@ -20,7 +20,7 @@ export function HomeManufacturersGrid({ manufacturers }: HomeManufacturersGridPr
   return (
     <>
       {/* Desktop: show all, bigger cards */}
-      <div className="hidden md:grid md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
+      <div className="hidden md:grid md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-5">
         {manufacturers.map((m) => (
           <ManufacturerItem key={m.id} manufacturer={m} />
         ))}
@@ -37,7 +37,7 @@ export function HomeManufacturersGrid({ manufacturers }: HomeManufacturersGridPr
         {hasMore && (
           <div className="text-center mt-6">
             <button
-              onClick={() => setVisibleCount((prev) => Math.min(prev + MOBILE_LOAD_MORE, manufacturers.length))}
+              onClick={() => setVisibleCount(manufacturers.length)}
               className="inline-flex items-center gap-2 font-semibold py-2.5 px-8 rounded-xl transition-all active:scale-95"
               style={{ background: 'var(--color-card-bg)', border: '2px solid var(--color-primary)', color: 'var(--color-primary)' }}
             >
@@ -81,10 +81,10 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
           alt={m.name}
           width={80}
           height={80}
-          className="h-14 w-14 md:h-16 md:w-16 object-contain transition-transform group-hover:scale-110"
+          className="h-14 w-14 md:h-20 md:w-20 object-contain transition-transform group-hover:scale-110"
         />
       ) : (
-        <div className="flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full text-xl md:text-2xl font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
+        <div className="flex h-14 w-14 md:h-20 md:w-20 items-center justify-center rounded-full text-xl md:text-2xl font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
           {m.name.charAt(0)}
         </div>
       )}
