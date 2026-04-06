@@ -25,6 +25,7 @@ export async function POST(request: Request) {
       manufacturer_id,
       manufacturer_name,
       name,
+      name_he,
       slug,
       active = true,
       description,
@@ -109,6 +110,7 @@ export async function POST(request: Request) {
     const modelFields = {
       manufacturer_id: resolvedManufacturerId,
       name,
+      name_he: name_he ?? null,
       slug: resolvedSlug,
       description: description ?? null,
       image_url: image_url ?? null,

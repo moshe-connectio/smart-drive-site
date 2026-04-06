@@ -74,7 +74,7 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
           <div className="p-4">
             {/* שם דגם */}
             <h3 className="text-lg font-semibold text-gray-900">
-              {model.name}
+              {model.name_he || model.name}
             </h3>
 
             {/* סוג גוף */}

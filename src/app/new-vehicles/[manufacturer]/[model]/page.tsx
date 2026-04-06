@@ -83,7 +83,12 @@ export default async function ModelPage({ params }: ModelPageProps) {
                 )}
                 <div>
                   <p className="text-sm text-white/60">{modelData.manufacturer_name}</p>
-                  <h1 className="text-3xl font-bold text-white md:text-4xl">{modelData.name}</h1>
+                  <h1 className="text-3xl font-bold text-white md:text-4xl">
+                    {modelData.name_he || modelData.name}
+                  </h1>
+                  {modelData.name_he && (
+                    <p className="text-sm text-white/50 mt-1">{modelData.name}</p>
+                  )}
                 </div>
               </div>
 
