@@ -215,53 +215,115 @@ export default function AboutPage() {
                 ציר הזמן שלנו
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
-                האבות ציון שלנו
+                אבני הדרך שלנו
               </h2>
               <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
             </div>
 
-            <div className="relative max-w-3xl mx-auto">
-              {/* Vertical line */}
+            <div className="relative max-w-4xl mx-auto">
+              {/* Vertical center line - desktop only */}
               <div
-                className="absolute right-1/2 top-0 bottom-0 w-0.5 translate-x-1/2 hidden sm:block"
+                className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 hidden md:block"
                 style={{ background: 'var(--color-border)' }}
               />
 
-              <div className="space-y-10">
-                {milestones.map((m, i) => (
-                  <div
-                    key={m.year}
-                    className={`relative flex flex-col sm:flex-row gap-6 items-start sm:items-center ${i % 2 === 0 ? 'sm:flex-row-reverse text-right' : 'text-right'}`}
-                  >
-                    {/* Year bubble */}
-                    <div className="relative z-10 sm:absolute sm:right-1/2 sm:translate-x-1/2 shrink-0">
-                      <div
-                        className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-sm text-white shadow-lg"
-                        style={{ background: 'var(--color-primary)' }}
-                      >
-                        {m.year}
+              {/* Mobile: vertical line on the right */}
+              <div
+                className="absolute right-7 top-0 bottom-0 w-0.5 md:hidden"
+                style={{ background: 'var(--color-border)' }}
+              />
+
+              <div className="space-y-12 md:space-y-16">
+                {milestones.map((m, i) => {
+                  const isRight = i % 2 === 0;
+                  return (
+                    <div key={m.year} className="relative">
+                      {/* Desktop layout */}
+                      <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 md:items-center">
+                        {/* Right side content (RTL: right = start) */}
+                        <div className={isRight ? '' : 'order-3'}>
+                          {isRight && (
+                            <div
+                              className="rounded-2xl p-6 text-right"
+                              style={{
+                                background: 'var(--color-card-bg)',
+                                boxShadow: 'var(--shadow-card)',
+                                border: '1px solid var(--color-card-border)',
+                              }}
+                            >
+                              <h3 className="font-bold text-lg mb-1" style={{ color: 'var(--color-gray-900)' }}>
+                                {m.event}
+                              </h3>
+                              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
+                                {m.desc}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Center bubble */}
+                        <div className="relative z-10 flex justify-center">
+                          <div
+                            className="w-16 h-16 rounded-full flex items-center justify-center font-bold text-sm text-white shadow-lg"
+                            style={{ background: 'var(--color-primary)' }}
+                          >
+                            {m.year}
+                          </div>
+                        </div>
+
+                        {/* Left side content */}
+                        <div className={isRight ? 'order-3' : ''}>
+                          {!isRight && (
+                            <div
+                              className="rounded-2xl p-6 text-right"
+                              style={{
+                                background: 'var(--color-card-bg)',
+                                boxShadow: 'var(--shadow-card)',
+                                border: '1px solid var(--color-card-border)',
+                              }}
+                            >
+                              <h3 className="font-bold text-lg mb-1" style={{ color: 'var(--color-gray-900)' }}>
+                                {m.event}
+                              </h3>
+                              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
+                                {m.desc}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Mobile layout */}
+                      <div className="flex gap-5 items-start md:hidden">
+                        <div className="flex-1 text-right">
+                          <div
+                            className="rounded-2xl p-5"
+                            style={{
+                              background: 'var(--color-card-bg)',
+                              boxShadow: 'var(--shadow-card)',
+                              border: '1px solid var(--color-card-border)',
+                            }}
+                          >
+                            <h3 className="font-bold text-base mb-1" style={{ color: 'var(--color-gray-900)' }}>
+                              {m.event}
+                            </h3>
+                            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
+                              {m.desc}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="relative z-10 shrink-0">
+                          <div
+                            className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-xs text-white shadow-lg"
+                            style={{ background: 'var(--color-primary)' }}
+                          >
+                            {m.year}
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    {/* Content */}
-                    <div
-                      className={`flex-1 rounded-2xl p-6 ${i % 2 === 0 ? 'sm:ml-auto sm:mr-16 sm:text-right' : 'sm:mr-auto sm:ml-16 sm:text-right'}`}
-                      style={{
-                        background: 'var(--color-card-bg)',
-                        boxShadow: 'var(--shadow-card)',
-                        border: '1px solid var(--color-card-border)',
-                        maxWidth: '420px',
-                      }}
-                    >
-                      <h3 className="font-bold text-lg mb-1" style={{ color: 'var(--color-gray-900)' }}>
-                        {m.event}
-                      </h3>
-                      <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
-                        {m.desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </Container>

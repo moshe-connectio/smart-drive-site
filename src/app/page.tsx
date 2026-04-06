@@ -355,6 +355,157 @@ export default async function HomePage() {
           </section>
         )}
 
+        {/* Buying Steps Timeline */}
+        <section className="py-16 sm:py-20" style={{ background: 'var(--color-background)' }}>
+          <Container>
+            <div className="text-center mb-12 sm:mb-16">
+              <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>
+                איך זה עובד
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
+                הדרך שלך לרכב הבא
+              </h2>
+              <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
+              <p className="text-base sm:text-lg mt-4 max-w-xl mx-auto" style={{ color: 'var(--color-gray-500)' }}>
+                תהליך פשוט ומקצועי ב-4 שלבים
+              </p>
+            </div>
+
+            {/* Desktop: horizontal timeline */}
+            <div className="hidden md:block">
+              <div className="relative">
+                {/* Connecting line */}
+                <div className="absolute top-12 right-[10%] left-[10%] h-0.5" style={{ background: 'var(--color-border)' }} />
+
+                <div className="grid grid-cols-4 gap-6">
+                  {[
+                    {
+                      step: '01',
+                      title: 'בחירה',
+                      desc: 'בחרו רכב מהמלאי שלנו או ספרו לנו מה אתם מחפשים',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      step: '02',
+                      title: 'ייעוץ',
+                      desc: 'קבלו ייעוץ אישי מצוות המומחים שלנו ללא עלות',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      step: '03',
+                      title: 'נסיעת מבחן',
+                      desc: 'בואו לסוכנות, ראו את הרכב מקרוב וצאו לנסיעת מבחן',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2-1h3m5 1h-5m5 0l2-1h3a1 1 0 001-1V8a1 1 0 00-1-1h-3" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      step: '04',
+                      title: 'סגירת עסקה',
+                      desc: 'תהליך מהיר ושקוף עם אחריות מלאה לאחר הרכישה',
+                      icon: (
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      ),
+                    },
+                  ].map((item) => (
+                    <div key={item.step} className="relative text-center">
+                      <div
+                        className="w-24 h-24 mx-auto rounded-2xl flex flex-col items-center justify-center relative z-10 transition-transform duration-300 hover:scale-105"
+                        style={{
+                          background: 'var(--color-card-bg)',
+                          boxShadow: 'var(--shadow-card)',
+                          border: '2px solid var(--color-card-border)',
+                        }}
+                      >
+                        <span className="text-xs font-bold mb-1" style={{ color: 'var(--color-gold)' }}>{item.step}</span>
+                        <span style={{ color: 'var(--color-primary)' }}>{item.icon}</span>
+                      </div>
+                      <h3 className="font-bold text-lg mt-5 mb-2" style={{ color: 'var(--color-gray-900)' }}>
+                        {item.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed max-w-[220px] mx-auto" style={{ color: 'var(--color-gray-500)' }}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile: vertical timeline */}
+            <div className="md:hidden relative">
+              {/* Vertical line */}
+              <div className="absolute right-[27px] top-0 bottom-0 w-0.5" style={{ background: 'var(--color-border)' }} />
+
+              <div className="space-y-8">
+                {[
+                  {
+                    step: '01',
+                    title: 'בחירה',
+                    desc: 'בחרו רכב מהמלאי שלנו או ספרו לנו מה אתם מחפשים',
+                  },
+                  {
+                    step: '02',
+                    title: 'ייעוץ',
+                    desc: 'קבלו ייעוץ אישי מצוות המומחים שלנו ללא עלות',
+                  },
+                  {
+                    step: '03',
+                    title: 'נסיעת מבחן',
+                    desc: 'בואו לסוכנות, ראו את הרכב מקרוב וצאו לנסיעת מבחן',
+                  },
+                  {
+                    step: '04',
+                    title: 'סגירת עסקה',
+                    desc: 'תהליך מהיר ושקוף עם אחריות מלאה לאחר הרכישה',
+                  },
+                ].map((item) => (
+                  <div key={item.step} className="flex gap-5 items-start">
+                    <div className="flex-1 text-right">
+                      <div
+                        className="rounded-2xl p-5"
+                        style={{
+                          background: 'var(--color-card-bg)',
+                          boxShadow: 'var(--shadow-card)',
+                          border: '1px solid var(--color-card-border)',
+                        }}
+                      >
+                        <h3 className="font-bold text-base mb-1" style={{ color: 'var(--color-gray-900)' }}>
+                          {item.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="relative z-10 shrink-0">
+                      <div
+                        className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-sm text-white shadow-lg"
+                        style={{ background: 'var(--color-primary)' }}
+                      >
+                        {item.step}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
+
         {/* Lead Form Section */}
         <section className="py-20" style={{ background: 'var(--color-background-secondary)' }}>
           <Container>
