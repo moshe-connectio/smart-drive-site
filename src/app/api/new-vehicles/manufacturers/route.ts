@@ -3,6 +3,7 @@
  * Add a new manufacturer
  */
 
+import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import type { Manufacturer } from '@modules/new-vehicles/types';
 
@@ -75,6 +76,8 @@ export async function POST(request: Request) {
         );
       }
 
+      revalidatePath('/');
+      revalidatePath('/new-vehicles');
       return Response.json({ ...updated, _action: 'updated' }, { status: 200 });
     }
 
@@ -105,6 +108,8 @@ export async function POST(request: Request) {
       );
     }
 
+    revalidatePath('/');
+    revalidatePath('/new-vehicles');
     return Response.json({ ...data, _action: 'created' }, { status: 201 });
   } catch (error) {
     console.error('API error:', error);
@@ -195,6 +200,8 @@ export async function DELETE(request: Request) {
       return Response.json({ error: error.message }, { status: 400 });
     }
 
+    revalidatePath('/');
+    revalidatePath('/new-vehicles');
     return Response.json({
       success: true,
       deleted: manufacturer.name,

@@ -6,6 +6,7 @@
  * active=false + exists → delete from DB
  */
 
+import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 
 function toSlug(text: string): string {
@@ -105,6 +106,8 @@ export async function POST(request: Request) {
         return Response.json({ error: delError.message }, { status: 400 });
       }
 
+      revalidatePath('/');
+      revalidatePath('/new-vehicles');
       return Response.json({ message: `Model "${name}" deleted`, _action: 'deleted' });
     }
 
@@ -151,6 +154,8 @@ export async function POST(request: Request) {
         return Response.json({ error: error.message }, { status: 400 });
       }
 
+      revalidatePath('/');
+      revalidatePath('/new-vehicles');
       return Response.json({ ...data, _action: 'updated' });
     }
 
@@ -166,6 +171,8 @@ export async function POST(request: Request) {
       return Response.json({ error: error.message || 'Failed to add model' }, { status: 400 });
     }
 
+    revalidatePath('/');
+    revalidatePath('/new-vehicles');
     return Response.json({ ...data, _action: 'created' }, { status: 201 });
   } catch (error) {
     console.error('API error:', error);
