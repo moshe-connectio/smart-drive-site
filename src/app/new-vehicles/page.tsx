@@ -44,13 +44,13 @@ async function NewVehiclesPage() {
     return (
       <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
         {/* Header Section */}
-        <div className="py-12" style={{ background: 'var(--color-primary-800)', borderBottom: '1px solid var(--color-border)' }}>
+        <div className="py-12" style={{ background: 'var(--color-primary-800)' }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-900 md:text-5xl">
+              <h1 className="text-4xl font-bold text-white md:text-5xl">
                 רכבים חדשים
               </h1>
-              <p className="mt-4 text-lg" style={{ color: 'var(--color-silver-300)' }}>
+              <p className="mt-4 text-lg text-white/70">
                 גלה את כל היצרנים וקבל את הרכב המושלם עבורך
               </p>
             </div>

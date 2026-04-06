@@ -90,15 +90,15 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
         <div style={{ background: 'var(--color-primary-800)', borderBottom: '1px solid var(--color-border)' }}>
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             {/* Breadcrumb */}
-            <nav className="mb-8 flex items-center gap-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
+            <nav className="mb-8 flex items-center gap-2 text-sm text-white/60">
               <Link
                 href="/new-vehicles"
-                className="hover:text-primary hover:underline"
+                className="hover:text-white hover:underline"
               >
                 רכבים חדשים
               </Link>
               <span>/</span>
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-white">
                 {manufacturerData.name}
               </span>
             </nav>
@@ -120,12 +120,12 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
 
               {/* Info */}
               <div className="flex-1">
-                <h1 className="text-4xl font-bold text-gray-900 md:text-5xl">
+                <h1 className="text-4xl font-bold text-white md:text-5xl">
                   {manufacturerData.name}
                 </h1>
                 
                 {manufacturerData.description && (
-                  <p className="mt-4 max-w-2xl text-lg" style={{ color: 'var(--color-silver-300)' }}>
+                  <p className="mt-4 max-w-2xl text-lg text-white/70">
                     {manufacturerData.description}
                   </p>
                 )}
@@ -133,16 +133,16 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
                 {/* Stats */}
                 <div className="mt-6 flex gap-8">
                   <div>
-                    <p className="text-3xl font-bold text-primary">
+                    <p className="text-3xl font-bold text-gold">
                       {manufacturerData.models_count}
                     </p>
-                    <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>דגמים</p>
+                    <p className="text-sm text-white/60">דגמים</p>
                   </div>
                   <div>
-                    <p className="text-3xl font-bold text-primary">
+                    <p className="text-3xl font-bold text-gold">
                       {manufacturerData.total_trim_levels}
                     </p>
-                    <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>רמות גימור</p>
+                    <p className="text-sm text-white/60">רמות גימור</p>
                   </div>
                 </div>
               </div>

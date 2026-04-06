@@ -84,22 +84,22 @@ export default function ModelPage() {
       <div style={{ background: 'var(--color-primary-800)', borderBottom: '1px solid var(--color-border)' }}>
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <nav className="mb-8 flex items-center gap-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
+          <nav className="mb-8 flex items-center gap-2 text-sm text-white/60">
             <Link
               href="/new-vehicles"
-              className="hover:text-primary hover:underline"
+              className="hover:text-white hover:underline"
             >
               רכבים חדשים
             </Link>
             <span>/</span>
             <Link
               href={`/new-vehicles/${modelData.manufacturer_slug}`}
-              className="hover:text-primary hover:underline"
+              className="hover:text-white hover:underline"
             >
               {modelData.manufacturer_name}
             </Link>
             <span>/</span>
-            <span className="font-semibold text-gray-900">
+            <span className="font-semibold text-white">
               {modelData.name}
             </span>
           </nav>
@@ -132,23 +132,23 @@ export default function ModelPage() {
                   />
                 )}
                 <div>
-                  <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>
+                  <p className="text-sm text-white/60">
                     {modelData.manufacturer_name}
                   </p>
-                  <h1 className="text-3xl font-bold text-gray-900 md:text-4xl">
+                  <h1 className="text-3xl font-bold text-white md:text-4xl">
                     {modelData.name}
                   </h1>
                 </div>
               </div>
 
               {modelData.body_type && (
-                <p className="mb-4 text-lg" style={{ color: 'var(--color-silver-300)' }}>
+                <p className="mb-4 text-lg text-white/70">
                   {modelData.body_type}
                 </p>
               )}
 
               {modelData.description && (
-                <p style={{ color: 'var(--color-silver-400)' }}>
+                <p className="text-white/60">
                   {modelData.description}
                 </p>
               )}
@@ -156,17 +156,17 @@ export default function ModelPage() {
               {/* Stats */}
               <div className="mt-6 flex gap-8">
                 <div>
-                  <p className="text-3xl font-bold text-primary">
+                  <p className="text-3xl font-bold text-gold">
                     {modelData.trim_levels_count}
                   </p>
-                  <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>רמות גימור</p>
+                  <p className="text-sm text-white/60">רמות גימור</p>
                 </div>
                 {modelData.min_price && (
                   <div>
-                    <p className="text-3xl font-bold text-primary">
+                    <p className="text-3xl font-bold text-gold">
                       ₪{modelData.min_price.toLocaleString('he-IL')}
                     </p>
-                    <p className="text-sm" style={{ color: 'var(--color-silver-400)' }}>מחיר מתחיל</p>
+                    <p className="text-sm text-white/60">מחיר מתחיל</p>
                   </div>
                 )}
               </div>
