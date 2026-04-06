@@ -21,7 +21,48 @@ export async function POST(request: Request) {
 
     const client = createServerSupabaseClient();
 
-    // Insert manufacturer
+    // Check if manufacturer already exists by name
+    const { data: existing } = await client
+      .from('new_vehicles_manufacturers')
+      .select('*')
+      .eq('name', name)
+      .single();
+
+    if (existing) {
+      // Build update payload only with changed fields
+      const updates: Record<string, unknown> = {};
+      if (slug && slug !== existing.slug) updates.slug = slug;
+      if (logo_url !== undefined && logo_url !== existing.logo_url) updates.logo_url = logo_url || null;
+      if (banner_url !== undefined && banner_url !== existing.banner_url) updates.banner_url = banner_url || null;
+      if (description !== undefined && description !== existing.description) updates.description = description || null;
+      if (country !== undefined && country !== existing.country) updates.country = country || null;
+      if (website_url !== undefined && website_url !== existing.website_url) updates.website_url = website_url || null;
+      if (display_order !== undefined && display_order !== existing.display_order) updates.display_order = display_order;
+
+      if (Object.keys(updates).length === 0) {
+        // No changes — return existing as-is
+        return Response.json({ ...existing, _action: 'no_change' }, { status: 200 });
+      }
+
+      const { data: updated, error: updateError } = await client
+        .from('new_vehicles_manufacturers')
+        .update(updates)
+        .eq('id', existing.id)
+        .select()
+        .single();
+
+      if (updateError) {
+        console.error('Error updating manufacturer:', updateError);
+        return Response.json(
+          { error: updateError.message || 'Failed to update manufacturer' },
+          { status: 400 }
+        );
+      }
+
+      return Response.json({ ...updated, _action: 'updated' }, { status: 200 });
+    }
+
+    // Insert new manufacturer
     const { data, error } = await client
       .from('new_vehicles_manufacturers')
       .insert([
@@ -48,7 +89,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return Response.json(data, { status: 201 });
+    return Response.json({ ...data, _action: 'created' }, { status: 201 });
   } catch (error) {
     console.error('API error:', error);
     return Response.json(
