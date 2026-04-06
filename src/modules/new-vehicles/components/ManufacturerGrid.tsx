@@ -43,44 +43,35 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
         <Link
           key={manufacturer.id}
           href={`/new-vehicles/${manufacturer.slug}`}
-          className="group relative overflow-hidden rounded-lg transition-all hover:shadow-md"
+          className="group relative flex flex-col overflow-hidden rounded-lg transition-all hover:shadow-lg"
           style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
         >
-          <div className="aspect-square flex flex-col items-center justify-center p-4" style={{ background: 'var(--color-gray-100)' }}>
-            {/* לוגו יצרן */}
+          {/* לוגו - תופס רוב הכרטיסיה */}
+          <div className="flex aspect-[4/3] items-center justify-center p-6" style={{ background: 'var(--color-gray-100)' }}>
             {manufacturer.logo_url ? (
               <Image
                 src={manufacturer.logo_url}
                 alt={manufacturer.name}
-                width={120}
-                height={120}
-                className="h-24 w-24 object-contain transition-transform group-hover:scale-110"
+                width={160}
+                height={160}
+                className="h-28 w-28 object-contain transition-transform group-hover:scale-110"
                 priority
               />
             ) : (
-              <div className="flex h-24 w-24 items-center justify-center rounded-lg" style={{ background: 'var(--color-gray-200)' }}>
-                <span className="text-xs font-semibold" style={{ color: 'var(--color-silver-500)' }}>
-                  {manufacturer.name.charAt(0)}
-                </span>
+              <div className="flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
+                {manufacturer.name.charAt(0)}
               </div>
             )}
+          </div>
 
-            {/* שם יצרן */}
-            <p className="mt-3 text-center text-sm font-semibold text-gray-900">
+          {/* שם + מידע - פס תחתון קומפקטי */}
+          <div className="px-3 py-2.5 text-center" style={{ borderTop: '1px solid var(--color-card-border)' }}>
+            <p className="text-sm font-semibold text-gray-900 truncate">
               {manufacturer.name}
             </p>
-
-            {/* ספירת דגמים */}
-            <p className="mt-1 text-xs" style={{ color: 'var(--color-silver-500)' }}>
+            <p className="mt-0.5 text-xs" style={{ color: 'var(--color-silver-500)' }}>
               {manufacturer.models_count} דגמים
             </p>
-
-            {/* Hover overlay */}
-            <div className="absolute inset-0 flex items-end justify-center bg-linear-to-t from-black/50 to-transparent p-4 opacity-0 transition-opacity group-hover:opacity-100">
-              <span className="text-sm font-medium text-white">
-                {manufacturer.models_count} דגמים
-              </span>
-            </div>
           </div>
         </Link>
       ))}
