@@ -5,11 +5,22 @@
 
 import { createServerSupabaseClient } from '@core/lib/supabase';
 
+function toSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\u0590-\u05ff-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const {
       manufacturer_id,
+      manufacturer_name,
       name,
       slug,
       description,
@@ -22,24 +33,51 @@ export async function POST(request: Request) {
       display_order,
     } = body;
 
-    // Validation
-    if (!manufacturer_id || !name || !slug) {
+    // Validation - accept manufacturer_name OR manufacturer_id
+    if (!name) {
       return Response.json(
-        { error: 'manufacturer_id, name, and slug are required' },
+        { error: 'name is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!manufacturer_id && !manufacturer_name) {
+      return Response.json(
+        { error: 'manufacturer_name or manufacturer_id is required' },
         { status: 400 }
       );
     }
 
     const client = createServerSupabaseClient();
 
+    // Resolve manufacturer_id from name if not provided
+    let resolvedManufacturerId = manufacturer_id;
+    if (!resolvedManufacturerId && manufacturer_name) {
+      const { data: mfr, error: mfrError } = await client
+        .from('new_vehicles_manufacturers')
+        .select('id')
+        .ilike('name', manufacturer_name)
+        .single();
+
+      if (mfrError || !mfr) {
+        return Response.json(
+          { error: `Manufacturer "${manufacturer_name}" not found` },
+          { status: 404 }
+        );
+      }
+      resolvedManufacturerId = mfr.id;
+    }
+
+    const resolvedSlug = slug ? toSlug(slug) : toSlug(name);
+
     // Insert model
     const { data, error } = await client
       .from('new_vehicles_models')
       .insert([
         {
-          manufacturer_id,
+          manufacturer_id: resolvedManufacturerId,
           name,
-          slug,
+          slug: resolvedSlug,
           description: description || null,
           image_url: image_url || null,
           body_type: body_type || null,
