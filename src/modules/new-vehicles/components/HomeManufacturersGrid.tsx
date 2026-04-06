@@ -19,8 +19,8 @@ export function HomeManufacturersGrid({ manufacturers }: HomeManufacturersGridPr
 
   return (
     <>
-      {/* Desktop: show all */}
-      <div className="hidden md:grid md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3">
+      {/* Desktop: show all, bigger cards */}
+      <div className="hidden md:grid md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
         {manufacturers.map((m) => (
           <ManufacturerItem key={m.id} manufacturer={m} />
         ))}
@@ -71,23 +71,29 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
   return (
     <Link
       href={`/new-vehicles/${m.slug}`}
-      className="group flex flex-col items-center gap-2 rounded-xl p-3 transition-all hover:shadow-md"
+      className="group relative flex items-center justify-center rounded-xl p-4 md:p-5 aspect-square transition-all hover:shadow-lg"
       style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
+      title={m.name}
     >
       {m.logo_url ? (
         <Image
           src={m.logo_url}
           alt={m.name}
-          width={48}
-          height={48}
-          className="h-12 w-12 object-contain transition-transform group-hover:scale-110"
+          width={80}
+          height={80}
+          className="h-14 w-14 md:h-16 md:w-16 object-contain transition-transform group-hover:scale-110"
         />
       ) : (
-        <div className="flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
+        <div className="flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full text-xl md:text-2xl font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
           {m.name.charAt(0)}
         </div>
       )}
-      <span className="text-xs font-medium text-center truncate w-full" style={{ color: 'var(--color-gray-700)' }}>
+
+      {/* Hover tooltip with name */}
+      <span
+        className="absolute -bottom-1 left-1/2 -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap text-xs font-semibold py-1 px-3 rounded-lg shadow-lg z-10"
+        style={{ background: 'var(--color-primary-800)', color: '#fff' }}
+      >
         {m.name}
       </span>
     </Link>

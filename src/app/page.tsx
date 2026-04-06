@@ -196,9 +196,12 @@ export default async function HomePage() {
               <div className="text-center mb-10">
                 <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>רכבים חדשים</span>
                 <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
-                  היצרנים שלנו
+                  רכבים חדשים
                 </h2>
                 <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
+                <p className="text-base sm:text-lg mt-4" style={{ color: 'var(--color-gray-500)' }}>
+                  בחרו יצרן וגלו את כל הדגמים, המפרטים והמחירים
+                </p>
               </div>
 
               <HomeManufacturersGrid manufacturers={manufacturers} />
