@@ -47,7 +47,7 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
           style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
         >
           {/* לוגו - תופס רוב הכרטיסיה */}
-          <div className="flex aspect-[4/3] items-center justify-center p-6" style={{ background: 'var(--color-gray-100)' }}>
+          <div className="flex aspect-4/3 items-center justify-center p-6" style={{ background: 'var(--color-gray-100)' }}>
             {manufacturer.logo_url ? (
               <Image
                 src={manufacturer.logo_url}
