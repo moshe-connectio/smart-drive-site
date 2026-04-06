@@ -5,6 +5,9 @@
 
 import { Metadata } from 'next';
 import { getAllManufacturers } from '@modules/new-vehicles/lib/repository';
+
+// ISR - revalidate every 60 seconds so new manufacturers appear
+export const revalidate = 60;
 import { ManufacturerGrid } from '@modules/new-vehicles/components/ManufacturerGrid';
 
 import { dealershipConfig } from '@core/config/site.config';

@@ -10,6 +10,11 @@ import { notFound } from 'next/navigation';
 import { getAllManufacturers, getManufacturerBySlug } from '@modules/new-vehicles/lib/repository';
 import { ModelGrid } from '@modules/new-vehicles/components/ModelGrid';
 
+// ISR - revalidate every 60 seconds
+export const revalidate = 60;
+// Allow new manufacturer slugs not pre-built at deploy time
+export const dynamicParams = true;
+
 interface ManufacturerPageProps {
   params: Promise<{ manufacturer: string }>;
 }
