@@ -6,18 +6,33 @@
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import type { Manufacturer } from '@modules/new-vehicles/types';
 
+/**
+ * Convert any string to a URL-safe slug
+ * "Alfa Romeo" -> "alfa-romeo"
+ */
+function toSlug(str: string): string {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\u0590-\u05ff]+/g, '-') // replace non-alphanumeric (keep Hebrew) with dash
+    .replace(/^-+|-+$/g, '');                   // trim leading/trailing dashes
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, slug, logo_url, banner_url, description, country, website_url, display_order } = body;
+    const { name, slug: rawSlug, logo_url, banner_url, description, country, website_url, display_order } = body;
 
     // Validation
-    if (!name || !slug) {
+    if (!name) {
       return Response.json(
-        { error: 'name and slug are required' },
+        { error: 'name is required' },
         { status: 400 }
       );
     }
+
+    // Auto-generate slug from name if not provided, always sanitize
+    const slug = toSlug(rawSlug || name);
 
     const client = createServerSupabaseClient();
 
@@ -31,7 +46,8 @@ export async function POST(request: Request) {
     if (existing) {
       // Build update payload only with changed fields
       const updates: Record<string, unknown> = {};
-      if (slug && slug !== existing.slug) updates.slug = slug;
+      const newSlug = toSlug(rawSlug || name);
+      if (newSlug !== existing.slug) updates.slug = newSlug;
       if (logo_url !== undefined && logo_url !== existing.logo_url) updates.logo_url = logo_url || null;
       if (banner_url !== undefined && banner_url !== existing.banner_url) updates.banner_url = banner_url || null;
       if (description !== undefined && description !== existing.description) updates.description = description || null;
