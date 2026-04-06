@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getPublishedVehicles, Vehicle } from '@modules/vehicles/lib/repository';
+import { getAllManufacturers } from '@modules/new-vehicles/lib/repository';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
@@ -39,6 +40,7 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   let vehicles: Vehicle[] = [];
   let error: string | null = null;
+  let manufacturers: Awaited<ReturnType<typeof getAllManufacturers>> = [];
 
   try {
     vehicles = await getPublishedVehicles();
@@ -47,6 +49,12 @@ export default async function HomePage() {
   } catch (err) {
     console.error('Failed to load vehicles:', err);
     error = 'שגיאה בטעינת הרכבים. אנא נסה שוב מאוחר יותר.';
+  }
+
+  try {
+    manufacturers = await getAllManufacturers();
+  } catch (err) {
+    console.error('Failed to load manufacturers:', err);
   }
 
   // Get featured vehicles (first 6)
@@ -179,6 +187,62 @@ export default async function HomePage() {
             </div>
           </Container>
         </section>
+
+        {/* Manufacturers Section */}
+        {manufacturers.length > 0 && (
+          <section style={{ background: 'var(--color-background-secondary)' }}>
+            <Container className="py-16">
+              <div className="text-center mb-10">
+                <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>רכבים חדשים</span>
+                <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
+                  היצרנים שלנו
+                </h2>
+                <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
+              </div>
+
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                {manufacturers.slice(0, 24).map((m) => (
+                  <Link
+                    key={m.id}
+                    href={`/new-vehicles/${m.slug}`}
+                    className="group flex flex-col items-center gap-2 rounded-xl p-3 transition-all hover:shadow-md"
+                    style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
+                  >
+                    {m.logo_url ? (
+                      <img
+                        src={m.logo_url}
+                        alt={m.name}
+                        className="h-12 w-12 object-contain transition-transform group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
+                        {m.name.charAt(0)}
+                      </div>
+                    )}
+                    <span className="text-xs font-medium text-center truncate w-full" style={{ color: 'var(--color-gray-700)' }}>
+                      {m.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+
+              {manufacturers.length > 24 && (
+                <div className="text-center mt-8">
+                  <Link
+                    href="/new-vehicles"
+                    className="inline-flex items-center gap-2 font-semibold py-2.5 px-8 rounded-xl transition-all hover:scale-105"
+                    style={{ background: 'var(--color-primary)', color: '#fff' }}
+                  >
+                    כל {manufacturers.length} היצרנים
+                    <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                </div>
+              )}
+            </Container>
+          </section>
+        )}
 
         {/* Featured Vehicles Section */}
         <section style={{ background: 'var(--color-background-secondary)' }}>
