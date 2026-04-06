@@ -93,6 +93,9 @@ export async function POST(request: Request) {
         await client.from('new_vehicles_trim_levels').delete().eq('model_id', existing.id);
       }
 
+      // Delete model images
+      await client.from('new_vehicles_model_images').delete().eq('model_id', existing.id);
+
       const { error: delError } = await client
         .from('new_vehicles_models')
         .delete()
