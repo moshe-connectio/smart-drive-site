@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { 
   upsertVehicleByCrmId,
@@ -412,6 +413,7 @@ export async function POST(request: NextRequest) {
         // Only update is_published, keep other fields unchanged
       });
 
+      revalidatePath('/sitemap.xml');
       return NextResponse.json(
         {
           success: true,
@@ -515,6 +517,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    revalidatePath('/sitemap.xml');
     return NextResponse.json(
       {
         success: true,
