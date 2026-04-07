@@ -12,7 +12,7 @@ const siteUrl = dealershipConfig.seo.siteUrl;
 
 export const metadata: Metadata = {
   title: `רכבים למכירה | ${dealershipConfig.business.name}`,
-  description: `גלה את מגוון הרכבים שלנו - ${dealershipConfig.seo.description}`,
+  description: `מבחר רכבים למכירה עם בדיקות מקיפות, שקיפות מלאה וליווי מקצועי בכל שלב הרכישה.`,
   keywords: `רכבים למכירה, ${dealershipConfig.seo.keywords}`,
   alternates: {
     canonical: `${siteUrl}/vehicles`,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: `${siteUrl}/vehicles`,
     title: `רכבים למכירה | ${dealershipConfig.business.name}`,
-    description: `גלה את מגוון הרכבים שלנו - ${dealershipConfig.seo.description}`,
+    description: 'מבחר רכבים למכירה עם בדיקות מקיפות, שקיפות מלאה וליווי מקצועי.',
     images: [
       {
         url: dealershipConfig.seo.ogImage,
@@ -70,7 +70,7 @@ export default async function VehiclesPage() {
                 רכבים למכירה
               </h1>
               <p className="text-base sm:text-lg text-white/90">
-                גלה את מגוון הרכבים שלנו - מחירים תחרותיים ושירות מעולה
+                מבחר רכבים בדוקים עם שקיפות מלאה, תנאי רכישה הוגנים וליווי מקצועי
               </p>
             </div>
           </Container>
@@ -88,13 +88,13 @@ export default async function VehiclesPage() {
               </div>
               <div className="w-px h-10 sm:h-12" style={{ background: 'var(--color-border)' }}></div>
               <div>
-                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-success)' }}>100%</div>
-                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>מאושרים</div>
+                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-success)' }}>150</div>
+                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>נקודות בדיקה לרכב</div>
               </div>
               <div className="w-px h-10 sm:h-12" style={{ background: 'var(--color-border)' }}></div>
               <div>
-                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>24/7</div>
-                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>שירות לקוחות</div>
+                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>1:1</div>
+                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>ליווי אישי בעסקה</div>
               </div>
             </div>
           </Container>

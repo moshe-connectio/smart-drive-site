@@ -77,7 +77,7 @@ export default async function HomePage() {
                 className="inline-block text-xs font-bold tracking-widest uppercase mb-5 px-4 py-1.5 rounded-full"
                 style={{ color: 'var(--color-gold-400)', background: 'rgba(212,160,23,0.1)', border: '1px solid rgba(212,160,23,0.25)' }}
               >
-                סוכנות רכב יוקרתית
+                מומחים לרכב חדש ומשומש
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                 {dealershipConfig.business.name}
@@ -138,7 +138,7 @@ export default async function HomePage() {
             <div className="text-center mb-14">
               <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>למה אנחנו?</span>
               <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
-                הדרך הנכונה לקנייה חכמה
+                הדרך המקצועית לרכב הבא שלכם
               </h2>
               <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
             </div>
@@ -151,7 +151,7 @@ export default async function HomePage() {
                   </svg>
                 </div>
                 <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>אמינות מלאה</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>כל רכב עובר בדיקה מקיפה של 150 נקודות לפני שהוא מוצע למכירה</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>כל רכב נבדק ב-150 נקודות ומלווה בדוח שקיפות לפני מסירה</p>
               </div>
 
               {/* Feature 2 */}
@@ -162,7 +162,7 @@ export default async function HomePage() {
                   </svg>
                 </div>
                 <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>מחירים שקופים</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>ללא עלויות נסתרות. המחיר שמופיע הוא המחיר הסופי - כולל העברת בעלות</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>הצעת מחיר ברורה מראש, ללא אותיות קטנות וללא עלויות נסתרות</p>
               </div>
 
               {/* Feature 3 */}
@@ -173,7 +173,7 @@ export default async function HomePage() {
                   </svg>
                 </div>
                 <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>טרייד אין</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>מחליפים רכב? אנחנו נקנה את הרכב הישן שלכם ונקזז מהמחיר</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>בודקים את הרכב הקיים במקום ומבצעים קיזוז הוגן כחלק מהעסקה</p>
               </div>
 
               {/* Feature 4 */}
@@ -185,7 +185,7 @@ export default async function HomePage() {
                   </svg>
                 </div>
                 <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>משלוח עד הבית</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>לא צריך לנסוע. אנחנו נביא את הרכב עד אליכם לנסיעת מבחן</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>באזורים נבחרים ניתן לתאם נסיעת מבחן ומסירה עד הבית</p>
               </div>
             </div>
           </Container>
@@ -198,11 +198,11 @@ export default async function HomePage() {
               <div className="text-center mb-10">
                 <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>רכבים חדשים</span>
                 <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
-                  רכבים חדשים
+                  בחרו יצרן לרכב החדש שלכם
                 </h2>
                 <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
                 <p className="text-base sm:text-lg mt-4" style={{ color: 'var(--color-gray-500)' }}>
-                  בחרו יצרן וגלו את כל הדגמים, המפרטים והמחירים
+                  כל הדגמים, המפרטים ורמות הגימור במקום אחד
                 </p>
               </div>
 
@@ -221,7 +221,7 @@ export default async function HomePage() {
               </h2>
               <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
               <p className="text-lg mt-4" style={{ color: 'var(--color-gray-500)' }}>
-                בחר מהרכבים המשובחים שלנו
+                רכבים נבחרים שעברו בדיקה ומוכנים למסירה
               </p>
             </div>
 
@@ -252,10 +252,10 @@ export default async function HomePage() {
                   Smart & Drive - הבחירה החכמה
                 </h2>
                 <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--color-gray-600)' }}>
-                  אנחנו מאמינים שקניית רכב צריכה להיות חוויה פשוטה, שקופה ובטוחה. עם ניסיון של {dealershipConfig.company.yearsExperience} שנים בתחום הרכב, אנחנו מציעים מגוון רחב של רכבים איכותיים - חדשים ומשומשים - במחירים הוגנים.
+                  אנחנו מאמינים שקניית רכב צריכה להיות תהליך ברור, בטוח ומדויק לצרכים שלכם. עם ניסיון של {dealershipConfig.company.yearsExperience} שנים בענף הרכב, אנחנו מציעים מגוון איכותי של רכבים חדשים ומשומשים במחירים הוגנים.
                 </p>
                 <p className="text-lg leading-relaxed mb-8" style={{ color: 'var(--color-gray-600)' }}>
-                  הצוות המקצועי שלנו ילווה אתכם לאורך כל התהליך - ממציאת הרכב המושלם, דרך מימון, ועד העברת הבעלות.
+                  הצוות המקצועי שלנו מלווה אתכם מההתאמה הראשונית של הרכב, דרך פתרונות מימון וטרייד אין, ועד השלמת העסקה והעברת בעלות.
                 </p>
                 
                 <div className="grid grid-cols-2 gap-6">
@@ -265,7 +265,7 @@ export default async function HomePage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>אחריות מלאה</span>
+                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>אחריות ובדיקות</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--color-success-light)' }}>
@@ -273,7 +273,7 @@ export default async function HomePage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>מימון נוח</span>
+                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>פתרונות מימון</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--color-success-light)' }}>
@@ -281,7 +281,7 @@ export default async function HomePage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>בדיקת 150 נקודות</span>
+                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>טרייד אין הוגן</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--color-success-light)' }}>
@@ -289,7 +289,7 @@ export default async function HomePage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>שירות לאחר מכירה</span>
+                    <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>ליווי אחרי המסירה</span>
                   </div>
                 </div>
               </div>
@@ -310,7 +310,7 @@ export default async function HomePage() {
                     <div className="text-5xl font-bold" style={{ color: 'var(--color-gold-400)' }}>1,500+</div>
                     <div>
                       <div className="text-white font-semibold text-lg">לקוחות מרוצים</div>
-                      <div className="text-white/80 text-sm">וממשיכים לספור</div>
+                      <div className="text-white/80 text-sm">ממליצים וחוזרים שוב</div>
                     </div>
                   </div>
                   <div className="h-px bg-white/10" />
@@ -340,9 +340,9 @@ export default async function HomePage() {
             <Container>
               <div className="text-center py-12 sm:py-20 relative z-10">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white">
-                  עוד {vehicles.length - 6} רכבים מחכים לך
+                  עוד {vehicles.length - 6} רכבים מחכים לכם במלאי
                 </h2>
-                <p className="mb-8 sm:mb-10 text-white/80 text-base sm:text-lg">גלה את כל המגוון שלנו</p>
+                <p className="mb-8 sm:mb-10 text-white/80 text-base sm:text-lg">כל הדגמים, המחירים והנתונים במקום אחד</p>
                 <a
                   href={ROUTES.vehicles}
                   className="inline-flex items-center gap-2 font-bold py-3 px-8 sm:py-4 sm:px-12 rounded-xl transition-all duration-300 hover:scale-105 text-base sm:text-lg"
@@ -382,7 +382,7 @@ export default async function HomePage() {
                     {
                       step: '01',
                       title: 'בחירה',
-                      desc: 'בחרו רכב מהמלאי שלנו או ספרו לנו מה אתם מחפשים',
+                      desc: 'בחרו רכב מהמלאי או הגדירו איתנו את הצורך המדויק',
                       icon: (
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -392,7 +392,7 @@ export default async function HomePage() {
                     {
                       step: '02',
                       title: 'ייעוץ',
-                      desc: 'קבלו ייעוץ אישי מצוות המומחים שלנו ללא עלות',
+                      desc: 'קבלו ייעוץ אישי על דגם, תקציב, מימון ועלות אחזקה',
                       icon: (
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -402,7 +402,7 @@ export default async function HomePage() {
                     {
                       step: '03',
                       title: 'נסיעת מבחן',
-                      desc: 'בואו לסוכנות, ראו את הרכב מקרוב וצאו לנסיעת מבחן',
+                      desc: 'מתאמים נסיעת מבחן ומתרשמים מהרכב בתנאי אמת',
                       icon: (
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -413,7 +413,7 @@ export default async function HomePage() {
                     {
                       step: '04',
                       title: 'סגירת עסקה',
-                      desc: 'תהליך מהיר ושקוף עם אחריות מלאה לאחר הרכישה',
+                      desc: 'סוגרים עסקה בשקיפות מלאה עם ליווי עד העברת בעלות',
                       icon: (
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -455,22 +455,22 @@ export default async function HomePage() {
                   {
                     step: '01',
                     title: 'בחירה',
-                    desc: 'בחרו רכב מהמלאי שלנו או ספרו לנו מה אתם מחפשים',
+                    desc: 'בחרו רכב מהמלאי או הגדירו איתנו את הצורך המדויק',
                   },
                   {
                     step: '02',
                     title: 'ייעוץ',
-                    desc: 'קבלו ייעוץ אישי מצוות המומחים שלנו ללא עלות',
+                    desc: 'קבלו ייעוץ אישי על דגם, תקציב, מימון ועלות אחזקה',
                   },
                   {
                     step: '03',
                     title: 'נסיעת מבחן',
-                    desc: 'בואו לסוכנות, ראו את הרכב מקרוב וצאו לנסיעת מבחן',
+                    desc: 'מתאמים נסיעת מבחן ומתרשמים מהרכב בתנאי אמת',
                   },
                   {
                     step: '04',
                     title: 'סגירת עסקה',
-                    desc: 'תהליך מהיר ושקוף עם אחריות מלאה לאחר הרכישה',
+                    desc: 'סוגרים עסקה בשקיפות מלאה עם ליווי עד העברת בעלות',
                   },
                 ].map((item) => (
                   <div key={item.step} className="flex gap-5 items-start">
@@ -517,14 +517,14 @@ export default async function HomePage() {
                   השאר פרטים ונחזור אליך
                 </h2>
                 <p className="text-lg leading-relaxed mb-8" style={{ color: 'var(--color-gray-500)' }}>
-                  מחפש רכב? רוצה לדעת יותר? הצוות שלנו ישמח לענות על כל שאלה ולעזור לכם למצוא את הרכב המושלם.
+                  מחפשים רכב חדש או משומש? הצוות שלנו ילווה אתכם משלב ההתלבטות ועד בחירה נכונה ומתאימה לתקציב.
                 </p>
 
                 <div className="space-y-4 mb-8">
                   {[
-                    { icon: '📞', text: 'חוזרים אליך תוך דקות' },
-                    { icon: '🚗', text: 'ייעוץ אישי ומקצועי ללא עלות' },
-                    { icon: '🔒', text: 'פרטיך שמורים ומאובטחים' },
+                    { icon: '📞', text: 'חזרה מהירה בשעות הפעילות' },
+                    { icon: '🚗', text: 'ייעוץ מקצועי ומותאם לתקציב' },
+                    { icon: '🔒', text: 'הפרטים נשמרים בדיסקרטיות מלאה' },
                   ].map((item) => (
                     <div key={item.text} className="flex items-center gap-3">
                       <span className="text-2xl">{item.icon}</span>
@@ -564,11 +564,11 @@ export default async function HomePage() {
               <div className="w-full max-w-md mx-auto lg:mx-0">
                 <LeadForm
                   formId="contact-page"
-                  title="מלאו פרטים ונחזור אליכם"
-                  subtitle="מענה מהיר תוך דקות בשעות הפעילות"
+                  title="השאירו פרטים ונחזור אליכם"
+                  subtitle="מענה אישי ומהיר בשעות הפעילות"
                   showEmail
                   showMessage
-                  submitLabel="שלח ונחזור אליך בהקדם ✓"
+                  submitLabel="שליחה וקבלת ייעוץ אישי"
                   variant="card"
                 />
               </div>

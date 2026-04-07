@@ -7,7 +7,7 @@ import { dealershipConfig } from '@core/config/site.config';
 
 export const metadata: Metadata = {
   title: `404 - הדף לא נמצא | ${dealershipConfig.business.name}`,
-  description: 'הדף שחיפשת לא נמצא. חזור לעמוד הבית או עיין ברכבים שלנו.',
+  description: 'העמוד שחיפשת אינו זמין. חזרו לעמוד הבית או עיינו במלאי הרכבים שלנו.',
   robots: {
     index: false,
     follow: true,
@@ -28,7 +28,7 @@ export default function NotFound() {
               הדף לא נמצא
             </h1>
             <p className="text-lg mb-8" style={{ color: 'var(--color-silver-300)' }}>
-              הדף שחיפשת לא קיים, הוסר או שהכתובת שגויה.
+              ייתכן שהעמוד הוסר, הועבר לכתובת חדשה או שהוזנה כתובת לא תקינה.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -43,7 +43,7 @@ export default function NotFound() {
                 className="inline-flex items-center justify-center gap-2 font-bold py-3 px-8 rounded-xl transition-all"
                 style={{ border: '2px solid var(--color-primary)', color: 'var(--color-primary)' }}
               >
-                צפה ברכבים
+                עיינו במלאי הרכבים
               </Link>
             </div>
           </div>

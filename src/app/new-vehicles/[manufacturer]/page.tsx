@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getAllManufacturers, getManufacturerBySlug } from '@modules/new-vehicles/lib/repository';
 import { ModelGrid } from '@modules/new-vehicles/components/ModelGrid';
+import { dealershipConfig } from '@core/config/site.config';
 
 // ISR - revalidate every 60 seconds
 export const revalidate = 60;
@@ -43,17 +44,17 @@ export async function generateMetadata(
     
     if (!manufacturerData) {
       return {
-        title: 'לא נמצא',
+        title: 'יצרן לא נמצא | רכבים חדשים',
       };
     }
 
     return {
-      title: `${manufacturerData.name} - רכבים חדשים | חנותנו`,
+      title: `${manufacturerData.name} | רכבים חדשים | ${dealershipConfig.business.name}`,
       description: manufacturerData.description || 
-        `גלה את כל דגמי ${manufacturerData.name} החדשים שנמכרים בישראל`,
+        `כל דגמי ${manufacturerData.name} החדשים בישראל, כולל רמות גימור ומידע עדכני להשוואה.`,
       openGraph: {
         title: `${manufacturerData.name} - רכבים חדשים`,
-        description: manufacturerData.description || `דגמים של ${manufacturerData.name}`,
+        description: manufacturerData.description || `כל דגמי ${manufacturerData.name} החדשים בישראל במקום אחד.`,
         images: manufacturerData.logo_url
           ? [
               {
@@ -69,7 +70,7 @@ export async function generateMetadata(
   } catch (error) {
     console.error('Error generating metadata:', error);
     return {
-      title: 'רכבים חדשים',
+      title: `רכבים חדשים | ${dealershipConfig.business.name}`,
     };
   }
 }
@@ -168,10 +169,10 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
           {/* Section Title */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900">
-              דגמים זמינים
+              דגמים זמינים בישראל
             </h2>
             <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-              בחר דגם כדי לראות את רמות הגימור והפרטים
+              בחרו דגם כדי לצפות ברמות גימור, מפרטים ומידע שימושי
             </p>
           </div>
 
@@ -184,7 +185,7 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
           ) : (
             <div className="flex min-h-96 items-center justify-center rounded-lg border-2 border-dashed" style={{ borderColor: 'var(--color-border)', background: 'var(--color-card-bg)' }}>
               <p className="text-center" style={{ color: 'var(--color-silver-500)' }}>
-                אין דגמים זמינים כעת ליצרן זה
+                אין כרגע דגמים פעילים עבור יצרן זה
               </p>
             </div>
           )}
@@ -207,7 +208,7 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
                       rel="noopener noreferrer"
                       className="text-primary hover:underline"
                     >
-                      בקר באתר הרשמי
+                      מעבר לאתר היצרן הרשמי
                     </a>
                   </p>
                 )}

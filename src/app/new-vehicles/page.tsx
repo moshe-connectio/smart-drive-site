@@ -16,7 +16,7 @@ const siteUrl = dealershipConfig.seo.siteUrl;
 
 export const metadata: Metadata = {
   title: `רכבים חדשים | ${dealershipConfig.business.name}`,
-  description: `גלה את כל הרכבים החדשים שנמכרים בישראל - יצרנים, דגמים ורמות גימור. ${dealershipConfig.seo.description}`,
+  description: `מאגר רכבים חדשים בישראל לפי יצרן, דגם ורמת גימור, עם מידע ברור ועדכני לקבלת החלטה חכמה.`,
   keywords: `רכבים חדשים, ${dealershipConfig.seo.keywords}`,
   alternates: {
     canonical: `${siteUrl}/new-vehicles`,
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: `${siteUrl}/new-vehicles`,
     title: `רכבים חדשים | ${dealershipConfig.business.name}`,
-    description: 'גלה את כל הרכבים החדשים שנמכרים בישראל - יצרנים, דגמים ורמות גימור',
+    description: 'מאגר רכבים חדשים בישראל לפי יצרנים, דגמים ורמות גימור.',
     images: [
       {
         url: dealershipConfig.seo.ogImage,
@@ -51,7 +51,7 @@ async function NewVehiclesPage() {
                 רכבים חדשים
               </h1>
               <p className="mt-4 text-lg text-white/70">
-                גלה את כל היצרנים וקבל את הרכב המושלם עבורך
+                כל היצרנים והדגמים החדשים בישראל במקום אחד
               </p>
             </div>
           </div>
@@ -62,10 +62,10 @@ async function NewVehiclesPage() {
           {/* Section Title */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900">
-              {manufacturers.length} יצרנים זמינים
+              {manufacturers.length} יצרנים זמינים במאגר
             </h2>
             <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-              בחר יצרן כדי לראות את כל הדגמים וגישות הרכייה
+              בחרו יצרן כדי לצפות בדגמים, רמות גימור ומפרטים מלאים
             </p>
           </div>
 
@@ -84,10 +84,10 @@ async function NewVehiclesPage() {
                   </span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                  יצרנים
+                  יצרנים מובילים
                 </h3>
                 <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-                  מגוון רחב של יצרנים בעולם
+                  גישה למותגים המובילים בשוק המקומי והבינלאומי
                 </p>
               </div>
               <div className="text-center">
@@ -95,10 +95,10 @@ async function NewVehiclesPage() {
                   <span className="text-xl font-bold text-primary">+</span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                  דגמים מהנדסים
+                  דגמים מעודכנים
                 </h3>
                 <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-                  אלפי דגמים להבחירה
+                  מידע מתעדכן על דגמים ורמות גימור לפי השוק הישראלי
                 </p>
               </div>
               <div className="text-center">
@@ -106,10 +106,10 @@ async function NewVehiclesPage() {
                   <span className="text-xl font-bold text-primary">✓</span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                  בחירה קלה
+                  בחירה חכמה
                 </h3>
                 <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-                  השוואה וחיפוש בקל
+                  השוואה נוחה בין דגמים, מחירים ומפרטים
                 </p>
               </div>
             </div>
@@ -125,7 +125,7 @@ async function NewVehiclesPage() {
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 text-center">
           <h1 className="text-2xl font-bold text-gray-900">שגיאה בטעינת היצרנים</h1>
           <p className="mt-4" style={{ color: 'var(--color-silver-400)' }}>
-            אנא נסה שוב מאוחר יותר
+            אנא נסו שוב מאוחר יותר.
           </p>
         </div>
       </main>

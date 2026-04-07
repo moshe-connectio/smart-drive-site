@@ -104,14 +104,14 @@ export default async function ModelPage({ params }: ModelPageProps) {
               <div className="mt-6 flex gap-8">
                 <div>
                   <p className="text-3xl font-bold text-gold">{modelData.trim_levels.length}</p>
-                  <p className="text-sm text-white/60">רמות גימור</p>
+                  <p className="text-sm text-white/60">רמות גימור זמינות</p>
                 </div>
                 {modelData.min_price && (
                   <div>
                     <p className="text-3xl font-bold text-gold">
                       ₪{modelData.min_price.toLocaleString('he-IL')}
                     </p>
-                    <p className="text-sm text-white/60">מחיר מתחיל</p>
+                    <p className="text-sm text-white/60">מחיר התחלתי</p>
                   </div>
                 )}
               </div>
@@ -130,13 +130,13 @@ export default async function ModelPage({ params }: ModelPageProps) {
         ) : (
           <div className="rounded-lg p-8 text-center" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
             <p className="text-lg font-medium" style={{ color: 'var(--color-gray-500)' }}>
-              רמות גימור יתווספו בקרוב
+              רמות הגימור לדגם זה יתעדכנו בקרוב
             </p>
             <Link
               href={`/new-vehicles/${modelData.manufacturer_slug}`}
               className="mt-4 inline-block text-primary hover:underline"
             >
-              חזרה ל{modelData.manufacturer_name}
+              חזרה לדגמי {modelData.manufacturer_name}
             </Link>
           </div>
         )}

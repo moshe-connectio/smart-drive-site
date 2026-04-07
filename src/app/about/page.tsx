@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `אודות | ${dealershipConfig.business.name}`,
-  description: `${dealershipConfig.business.name} - סוכנות רכב מובילה. מכירת רכבים חדשים ומשומשים עם שירות מקצועי, אמינות מלאה ומחירים תחרותיים. ${dealershipConfig.contact.address}.`,
+  description: `${dealershipConfig.business.name} - סוכנות רכב מקצועית לרכבים חדשים ומשומשים. ליווי אישי, שקיפות מלאה ושירות אמין בכל שלב, מהתאמה ועד מסירה.`,
   keywords: `אודות ${dealershipConfig.business.name}, סוכנות רכב, ${dealershipConfig.seo.keywords}`,
   alternates: {
     canonical: `${dealershipConfig.seo.siteUrl}/about`,
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: `${dealershipConfig.seo.siteUrl}/about`,
     title: `אודות | ${dealershipConfig.business.name}`,
-    description: `${dealershipConfig.business.name} - סוכנות רכב מובילה. מכירת רכבים חדשים ומשומשים עם שירות מקצועי, אמינות מלאה ומחירים תחרותיים.`,
+    description: `${dealershipConfig.business.name} - סוכנות רכב מקצועית עם ליווי אישי, שקיפות מלאה ושירות איכותי ברכישת רכב חדש או משומש.`,
     images: [
       {
         url: dealershipConfig.seo.ogImage,
@@ -37,7 +37,7 @@ export default function AboutPage() {
         </svg>
       ),
       title: 'אמינות מלאה',
-      desc: 'כל רכב עובר בדיקה מקיפה של 150 נקודות לפני שהוא מוצע למכירה.',
+      desc: 'כל רכב נבדק ב-150 נקודות ומלווה בדוח מצב ברור לפני המסירה.',
     },
     {
       icon: (
@@ -46,7 +46,7 @@ export default function AboutPage() {
         </svg>
       ),
       title: 'מחירים הוגנים',
-      desc: 'שקיפות מלאה במחירים ללא הפתעות. מה שרואים – זה מה שמשלמים.',
+      desc: 'הצעת מחיר ברורה מראש, ללא הפתעות וללא עלויות נסתרות.',
     },
     {
       icon: (
@@ -55,7 +55,7 @@ export default function AboutPage() {
         </svg>
       ),
       title: 'צוות מקצועי',
-      desc: 'צוות של מומחי רכב עם ניסיון של שנים, שיסייעו לך לקבל את ההחלטה הנכונה.',
+      desc: 'ליווי מקצועי המבוסס על ניסיון מעשי בשוק הרכב הישראלי.',
     },
     {
       icon: (
@@ -64,15 +64,15 @@ export default function AboutPage() {
         </svg>
       ),
       title: 'שירות לאחר המכירה',
-      desc: 'הקשר שלנו איתך לא מסתיים ברגע הרכישה. אנחנו כאן לכל שאלה ובקשה.',
+      desc: 'אנחנו זמינים גם אחרי המסירה לכל שאלה, התאמה וליווי נוסף.',
     },
   ];
 
   const milestones = [
-    { year: '2020', event: 'הקמת Smart & Drive', desc: 'פתחנו את דלתותינו עם חזון ברור – לשנות את חוויית קניית הרכב בישראל.' },
-    { year: '2021', event: 'הרחבת המלאי', desc: 'הגדלנו את מגוון הרכבים לעשרות דגמים מובילים מכל הקטגוריות.' },
-    { year: '2022', event: 'שירות רכבים חדשים', desc: 'הוספנו מחלקת רכבים חדשים ישירות מהיבואן עם מחירי מחירון שקופים.' },
-    { year: '2024', event: '95% שביעות רצון', desc: 'הגענו לציון גבוה במיוחד בסקרי שביעות הרצון של לקוחותינו.' },
+    { year: '2020', event: 'הקמת Smart & Drive', desc: 'יצאנו לדרך עם מטרה ברורה: להפוך את רכישת הרכב בישראל לפשוטה, שקופה ומקצועית.' },
+    { year: '2021', event: 'הרחבת המלאי', desc: 'הרחבנו את היצע הרכבים לעשרות דגמים מובילים, עם התאמה לקהלים ותקציבים שונים.' },
+    { year: '2022', event: 'השקת מחלקת רכבים חדשים', desc: 'פתחנו פעילות רכבים חדשים מהיבואן, עם מידע מלא ומחירים ברורים.' },
+    { year: '2024', event: '95% שביעות רצון', desc: 'הגענו לציון שביעות רצון גבוה בזכות שירות אישי וליווי מקצועי לאורך כל התהליך.' },
   ];
 
   return (
@@ -100,7 +100,7 @@ export default function AboutPage() {
                 Smart &amp; Drive
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-                הדרך הנכונה לקניה חכמה — סוכנות רכב שמציבה את הלקוח במרכז, מאז 2020.
+                הדרך המקצועית לרכב הבא שלכם - שקיפות, שירות וליווי אישי מאז 2020.
               </p>
             </div>
           </Container>
@@ -118,7 +118,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
               {[
                 { value: `${dealershipConfig.company.yearsExperience}+`, label: 'שנות ניסיון' },
-                { value: `${dealershipConfig.company.employees}+`, label: 'עובדים מקצועיים' },
+                { value: `${dealershipConfig.company.employees}+`, label: 'אנשי צוות מקצועיים' },
                 { value: dealershipConfig.company.satisfaction, label: 'שביעות רצון' },
                 { value: '150', label: 'נקודות בדיקה לכל רכב' },
               ].map((stat) => (
@@ -149,16 +149,16 @@ export default function AboutPage() {
               <div className="w-16 h-1 mx-auto mb-8 rounded-full" style={{ background: 'var(--color-gold)' }} />
               <div className="space-y-5 text-lg leading-relaxed" style={{ color: 'var(--color-gray-600)' }}>
                 <p>
-                  Smart & Drive נוסדה בשנת 2020 מתוך אמונה פשוטה: קניית רכב צריכה להיות חוויה נעימה, שקופה ובטוחה. 
-                  אנחנו כאן כדי לשנות את הדרך שבה ישראלים קונים רכב.
+                  Smart & Drive נוסדה בשנת 2020 מתוך אמונה פשוטה: קניית רכב צריכה להיות חוויה ברורה, נעימה ובטוחה.
+                  אנחנו כאן כדי לשנות את הדרך שבה ישראלים בוחרים ורוכשים רכב.
                 </p>
                 <p>
-                  אנחנו מציעים מגוון רחב של רכבים משומשים ברמות מצוינות לצד רכבים חדשים ישירות מהיבואן.
-                  כל רכב במלאי שלנו עובר בדיקה מקיפה של 150 נקודות על ידי מכונאים מוסמכים, כדי שתוכלו לנסוע בביטחון.
+                  אנחנו מציעים מגוון רחב של רכבים משומשים איכותיים לצד רכבים חדשים מהיבואן.
+                  כל רכב במלאי עובר בדיקה מקיפה של 150 נקודות על ידי אנשי מקצוע מוסמכים, כדי שתוכלו לקבל החלטה בביטחון.
                 </p>
                 <p>
-                  הצוות שלנו מורכב מאנשי מקצוע עם ניסיון רב שנים בתעשיית הרכב, שמחויבים לתת לכם את הייעוץ הטוב ביותר
-                  בלי לחץ ובלי הפתעות.
+                  הצוות שלנו מורכב מאנשי מקצוע עם ניסיון רב שנים בענף הרכב, שמתחייבים לליווי אישי,
+                  ייעוץ אמין ושירות בגובה העיניים - ללא לחץ וללא הפתעות.
                 </p>
               </div>
             </div>
@@ -338,10 +338,10 @@ export default function AboutPage() {
           <Container>
             <div className="text-center relative z-10">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-                מוכן להתחיל?
+                מוכנים לרכב הבא שלכם?
               </h2>
               <p className="text-white/90 text-base sm:text-lg mb-8 sm:mb-10 max-w-xl mx-auto">
-                בואו לבקר אותנו בסוכנות, דברו איתנו בוואטסאפ, או פשוט עיינו במלאי הרכבים שלנו.
+                נשמח לפגוש אתכם בסוכנות, לייעץ בוואטסאפ או בטלפון, ולעזור לכם לבחור נכון.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a
@@ -349,7 +349,7 @@ export default function AboutPage() {
                   className="inline-flex items-center gap-2 font-bold py-3 px-8 sm:py-4 sm:px-10 rounded-xl text-white transition-all duration-300 hover:scale-105 text-base"
                   style={{ background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212,160,23,0.4)' }}
                 >
-                  צפה בכל הרכבים
+                  צפו בכל הרכבים
                   <svg className="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -364,7 +364,7 @@ export default function AboutPage() {
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
                     <path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.304A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.5a8.5 8.5 0 110-17 8.5 8.5 0 010 17z" />
                   </svg>
-                  דברו איתנו
+                  דברו איתנו בוואטסאפ
                 </a>
               </div>
 
