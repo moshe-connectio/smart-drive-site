@@ -107,147 +107,87 @@ export default async function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden" style={{ background: 'var(--color-primary-900)' }}>
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-20 -right-16 w-72 h-72 sm:w-96 sm:h-96 rounded-full blur-3xl" style={{ background: 'var(--color-overlay-gold-soft)' }} />
-            <div className="absolute -bottom-16 -left-16 w-72 h-72 sm:w-96 sm:h-96 rounded-full blur-3xl" style={{ background: 'var(--color-overlay-primary-soft)' }} />
-            <div
-              className="absolute inset-0 opacity-[0.08]"
-              style={{
-                backgroundImage: 'var(--pattern-hero-grid)',
-                backgroundSize: '42px 42px',
-              }}
-            />
-          </div>
-
+        <section className="relative overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
+          {/* Gold top accent stripe */}
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
 
           <Container>
-            <div className="relative z-10 py-12 sm:py-16 lg:py-20">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                <div className="lg:col-span-7 text-center lg:text-right">
-                  <span
-                    className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-5 px-4 py-2 rounded-full"
-                    style={{ color: 'var(--color-gold-400)', background: 'var(--color-overlay-gold-tag-bg)', border: '1px solid var(--color-overlay-gold-tag-border)' }}
-                  >
-                    מומחים לרכב חדש ומשומש
-                  </span>
+            <div className="relative z-10 py-16 sm:py-22 lg:py-28 text-center">
 
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.08] mb-4">
-                    קונים רכב
-                    <span className="block" style={{ color: 'var(--color-gold-400)' }}>בביטחון מלא</span>
-                  </h1>
+              {/* Eyebrow badge */}
+              <span
+                className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-6 px-4 py-2 rounded-full"
+                style={{ color: 'var(--color-gold-400)', background: 'var(--color-overlay-gold-tag-bg)', border: '1px solid var(--color-overlay-gold-tag-border)' }}
+              >
+                מומחים לרכב חדש ומשומש
+              </span>
 
-                  <p className="text-base sm:text-lg lg:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-8">
-                    {dealershipConfig.business.name} - {dealershipConfig.business.tagline}
-                  </p>
+              {/* Main headline */}
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
+                הרכב הבא שלך
+                <span className="block" style={{ color: 'var(--color-gold-400)' }}>מחכה לך כאן</span>
+              </h1>
 
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
-                    <a
-                      href={ROUTES.vehicles}
-                      className="inline-flex items-center gap-2 font-bold py-3.5 px-9 rounded-2xl transition-all duration-300 hover:scale-[1.02] text-base"
-                      style={{ background: 'var(--color-gold)', color: 'var(--color-primary-900)', boxShadow: 'var(--shadow-gold-cta-strong)' }}
-                    >
-                      צפה בכל הרכבים
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z" />
-                        <circle cx="7.5" cy="14.5" r="1.5" />
-                        <circle cx="16.5" cy="14.5" r="1.5" />
-                      </svg>
-                    </a>
-                    <Link
-                      href="/new-vehicles"
-                      className="inline-flex items-center gap-2 font-semibold py-3.5 px-9 rounded-2xl transition-all duration-300 hover:scale-[1.02] text-white border-2 border-white/30 hover:border-white/60 hover:bg-white/10 text-base"
-                    >
-                      רכבים חדשים
-                    </Link>
-                  </div>
+              {/* Subtitle */}
+              <p className="text-lg sm:text-xl text-white/75 max-w-xl mx-auto mb-10 leading-relaxed">
+                {dealershipConfig.business.tagline}
+              </p>
 
-                  <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 max-w-md mx-auto lg:mx-0">
-                    <div className="rounded-2xl p-3.5 text-center" style={{ background: 'var(--color-glass-white-08)', border: '1px solid var(--color-glass-white-15)' }}>
-                      <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{vehicles.length}+</div>
-                      <div className="text-xs text-white/80 mt-1">רכבים במלאי</div>
-                    </div>
-                    <div className="rounded-2xl p-3.5 text-center" style={{ background: 'var(--color-glass-white-08)', border: '1px solid var(--color-glass-white-15)' }}>
-                      <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.yearsExperience}+</div>
-                      <div className="text-xs text-white/80 mt-1">שנות ניסיון</div>
-                    </div>
-                    <div className="rounded-2xl p-3.5 text-center" style={{ background: 'var(--color-glass-white-08)', border: '1px solid var(--color-glass-white-15)' }}>
-                      <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.satisfaction}</div>
-                      <div className="text-xs text-white/80 mt-1">שביעות רצון</div>
-                    </div>
-                  </div>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-14">
+                <a
+                  href={ROUTES.vehicles}
+                  className="inline-flex items-center gap-2 font-bold py-4 px-10 rounded-2xl transition-all duration-300 hover:scale-[1.03] text-base"
+                  style={{ background: 'var(--color-gold)', color: 'var(--color-primary-900)', boxShadow: 'var(--shadow-gold-cta-strong)' }}
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z" />
+                    <circle cx="7.5" cy="14.5" r="1.5" />
+                    <circle cx="16.5" cy="14.5" r="1.5" />
+                  </svg>
+                  צפה בכל הרכבים
+                </a>
+                <Link
+                  href="/new-vehicles"
+                  className="inline-flex items-center gap-2 font-semibold py-4 px-10 rounded-2xl transition-all duration-300 text-white border-2 border-white/25 hover:border-white/50 hover:bg-white/10 text-base"
+                >
+                  רכבים חדשים
+                </Link>
+              </div>
+
+              {/* Stats — clean minimal grid */}
+              <div className="grid grid-cols-3 gap-3 max-w-sm mx-auto">
+                <div className="rounded-2xl p-4 text-center" style={{ background: 'var(--color-glass-white-06)', border: '1px solid var(--color-glass-white-12)' }}>
+                  <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{vehicles.length}+</div>
+                  <div className="text-[11px] text-white/60 mt-1 leading-tight">רכבים<br />במלאי</div>
                 </div>
-
-                <div className="lg:col-span-5">
-                  <div
-                    className="rounded-3xl p-6 sm:p-7"
-                    style={{
-                      background: 'var(--color-glass-white-08)',
-                      border: '1px solid var(--color-glass-white-22)',
-                      boxShadow: 'var(--shadow-hero-panel)',
-                    }}
-                  >
-                    <div className="flex items-center justify-between mb-5">
-                      <h3 className="text-white font-bold text-xl">למה לקוחות בוחרים בנו?</h3>
-                      <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: 'var(--color-overlay-gold-20)', color: 'var(--color-gold-300)' }}>
-                        בזמן אמת
-                      </span>
-                    </div>
-
-                    <div className="space-y-3">
-                      {[
-                        'בדיקת 150 נקודות לכל רכב',
-                        'פתרונות מימון וטרייד אין במקום',
-                        'ליווי אישי עד העברת בעלות',
-                      ].map((item) => (
-                        <div key={item} className="flex items-center gap-3 text-white/90 text-sm">
-                          <span className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold" style={{ background: 'var(--color-overlay-gold-20)', color: 'var(--color-gold-300)' }}>
-                            ✓
-                          </span>
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-6 grid grid-cols-2 gap-3">
-                      <a
-                        href={ROUTES.vehicles}
-                        className="text-center py-2.5 rounded-xl text-sm font-semibold"
-                        style={{ background: 'var(--color-glass-white-12)', color: 'var(--color-text-inverse)', border: '1px solid var(--color-glass-white-20)' }}
-                      >
-                        מלאי זמין עכשיו
-                      </a>
-                      <Link
-                        href="/about"
-                        className="text-center py-2.5 rounded-xl text-sm font-semibold"
-                        style={{ background: 'var(--color-overlay-gold-20)', color: 'var(--color-gold-300)', border: '1px solid var(--color-overlay-gold-35)' }}
-                      >
-                        הכירו אותנו
-                      </Link>
-                    </div>
-                  </div>
+                <div className="rounded-2xl p-4 text-center" style={{ background: 'var(--color-glass-white-06)', border: '1px solid var(--color-glass-white-12)' }}>
+                  <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.yearsExperience}+</div>
+                  <div className="text-[11px] text-white/60 mt-1 leading-tight">שנות<br />ניסיון</div>
+                </div>
+                <div className="rounded-2xl p-4 text-center" style={{ background: 'var(--color-glass-white-06)', border: '1px solid var(--color-glass-white-12)' }}>
+                  <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.satisfaction}</div>
+                  <div className="text-[11px] text-white/60 mt-1 leading-tight">שביעות<br />רצון</div>
                 </div>
               </div>
 
-              <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  'שקיפות מלאה במחיר ובתהליך',
-                  'נסיעת מבחן בתיאום מהיר',
-                  'שירות מקצועי בגובה העיניים',
-                ].map((item) => (
-                  <div
+              {/* Trust chips */}
+              <div className="mt-6 flex flex-wrap justify-center gap-2">
+                {['בדיקת 150 נקודות', 'פתרונות מימון', 'ליווי עד מסירה'].map((item) => (
+                  <span
                     key={item}
-                    className="rounded-2xl px-4 py-3 text-center text-sm"
-                    style={{ background: 'var(--color-glass-white-06)', color: 'var(--color-glass-text-strong)', border: '1px solid var(--color-glass-white-12)' }}
+                    className="text-xs text-white/65 px-3 py-1.5 rounded-full"
+                    style={{ background: 'var(--color-glass-white-06)', border: '1px solid var(--color-glass-white-08)' }}
                   >
-                    {item}
-                  </div>
+                    ✓ {item}
+                  </span>
                 ))}
               </div>
+
             </div>
           </Container>
 
+          {/* Wave transition to white */}
           <div className="relative z-10">
             <svg viewBox="0 0 1440 70" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
               <path d="M0 70L80 61.7C160 53.3 320 36.7 480 30C640 23.3 800 26.7 960 35C1120 43.3 1280 56.7 1360 63.3L1440 70V0H1360C1280 0 1120 0 960 0C800 0 640 0 480 0C320 0 160 0 80 0H0V70Z" fill="white" />
@@ -266,26 +206,22 @@ export default async function HomePage() {
               <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6">
-              {advantages.map((item, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+              {advantages.map((item) => (
                 <div
                   key={item.title}
-                  className="group relative overflow-hidden rounded-3xl p-6 sm:p-7"
+                  className="group rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                   style={{
-                    background: 'var(--gradient-card-soft-blue)',
+                    background: 'var(--color-card-bg)',
                     border: '1px solid var(--color-card-border)',
                     boxShadow: 'var(--shadow-card)',
                   }}
                 >
-                  <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--gradient-primary-gold)' }} />
-
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)', color: 'var(--color-primary)' }}>
-                      {item.icon}
-                    </div>
-                    <span className="text-xs font-bold" style={{ color: 'var(--color-silver-400)' }}>
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: 'var(--color-primary-50)', color: 'var(--color-primary)' }}
+                  >
+                    {item.icon}
                   </div>
 
                   <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>
