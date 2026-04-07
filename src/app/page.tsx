@@ -61,73 +61,196 @@ export default async function HomePage() {
   // Get featured vehicles (first 6)
   const featuredVehicles = vehicles.slice(0, 6);
 
+  const advantages = [
+    {
+      title: 'אמינות מלאה',
+      desc: 'כל רכב נבדק ב-150 נקודות ומלווה בדוח שקיפות לפני מסירה',
+      icon: (
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      ),
+    },
+    {
+      title: 'מחירים שקופים',
+      desc: 'הצעת מחיר ברורה מראש, ללא אותיות קטנות וללא עלויות נסתרות',
+      icon: (
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+    },
+    {
+      title: 'טרייד אין',
+      desc: 'בודקים את הרכב הקיים במקום ומבצעים קיזוז הוגן כחלק מהעסקה',
+      icon: (
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+        </svg>
+      ),
+    },
+    {
+      title: 'משלוח עד הבית',
+      desc: 'באזורים נבחרים ניתן לתאם נסיעת מבחן ומסירה עד הבית',
+      icon: (
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      ),
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
 
       <main className="flex-1">
-        {/* Hero Section - Premium Navy */}
-        <section className="relative overflow-hidden" style={{ background: 'var(--color-primary-800)' }}>
-          {/* Gold accent line top */}
+        {/* Hero Section */}
+        <section className="relative overflow-hidden" style={{ background: 'var(--color-primary-900)' }}>
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-20 -right-16 w-72 h-72 sm:w-96 sm:h-96 rounded-full blur-3xl" style={{ background: 'var(--color-overlay-gold-soft)' }} />
+            <div className="absolute -bottom-16 -left-16 w-72 h-72 sm:w-96 sm:h-96 rounded-full blur-3xl" style={{ background: 'var(--color-overlay-primary-soft)' }} />
+            <div
+              className="absolute inset-0 opacity-[0.08]"
+              style={{
+                backgroundImage: 'var(--pattern-hero-grid)',
+                backgroundSize: '42px 42px',
+              }}
+            />
+          </div>
+
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
 
           <Container>
-            <div className="text-center py-12 sm:py-16 md:py-24 relative z-10">
-              <span
-                className="inline-block text-xs font-bold tracking-widest uppercase mb-5 px-4 py-1.5 rounded-full"
-                style={{ color: 'var(--color-gold-400)', background: 'rgba(212,160,23,0.1)', border: '1px solid rgba(212,160,23,0.25)' }}
-              >
-                מומחים לרכב חדש ומשומש
-              </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-                {dealershipConfig.business.name}
-              </h1>
-              <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 text-white/90 max-w-xl mx-auto">
-                {dealershipConfig.business.tagline}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a
-                  href={ROUTES.vehicles}
-                  className="inline-flex items-center gap-2 font-bold py-3 px-8 sm:py-4 sm:px-12 rounded-xl transition-all duration-300 hover:scale-105 text-base sm:text-lg"
-                  style={{ background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212, 160, 23, 0.4)' }}
-                >
-                  צפה בכל הרכבים
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z" />
-                    <circle cx="7.5" cy="14.5" r="1.5" />
-                    <circle cx="16.5" cy="14.5" r="1.5" />
-                  </svg>
-                </a>
-                <Link
-                  href="/new-vehicles"
-                  className="inline-flex items-center gap-2 font-semibold py-3 px-8 sm:py-4 sm:px-12 rounded-xl transition-all duration-300 hover:scale-105 text-white border-2 border-white/30 hover:border-white/60 hover:bg-white/10 text-base sm:text-lg"
-                >
-                  רכבים חדשים
-                </Link>
+            <div className="relative z-10 py-12 sm:py-16 lg:py-20">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <div className="lg:col-span-7 text-center lg:text-right">
+                  <span
+                    className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-5 px-4 py-2 rounded-full"
+                    style={{ color: 'var(--color-gold-400)', background: 'var(--color-overlay-gold-tag-bg)', border: '1px solid var(--color-overlay-gold-tag-border)' }}
+                  >
+                    מומחים לרכב חדש ומשומש
+                  </span>
+
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.08] mb-4">
+                    קונים רכב
+                    <span className="block" style={{ color: 'var(--color-gold-400)' }}>בביטחון מלא</span>
+                  </h1>
+
+                  <p className="text-base sm:text-lg lg:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-8">
+                    {dealershipConfig.business.name} - {dealershipConfig.business.tagline}
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
+                    <a
+                      href={ROUTES.vehicles}
+                      className="inline-flex items-center gap-2 font-bold py-3.5 px-9 rounded-2xl transition-all duration-300 hover:scale-[1.02] text-base"
+                      style={{ background: 'var(--color-gold)', color: 'var(--color-primary-900)', boxShadow: 'var(--shadow-gold-cta-strong)' }}
+                    >
+                      צפה בכל הרכבים
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z" />
+                        <circle cx="7.5" cy="14.5" r="1.5" />
+                        <circle cx="16.5" cy="14.5" r="1.5" />
+                      </svg>
+                    </a>
+                    <Link
+                      href="/new-vehicles"
+                      className="inline-flex items-center gap-2 font-semibold py-3.5 px-9 rounded-2xl transition-all duration-300 hover:scale-[1.02] text-white border-2 border-white/30 hover:border-white/60 hover:bg-white/10 text-base"
+                    >
+                      רכבים חדשים
+                    </Link>
+                  </div>
+
+                  <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 max-w-md mx-auto lg:mx-0">
+                    <div className="rounded-2xl p-3.5 text-center" style={{ background: 'var(--color-glass-white-08)', border: '1px solid var(--color-glass-white-15)' }}>
+                      <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{vehicles.length}+</div>
+                      <div className="text-xs text-white/80 mt-1">רכבים במלאי</div>
+                    </div>
+                    <div className="rounded-2xl p-3.5 text-center" style={{ background: 'var(--color-glass-white-08)', border: '1px solid var(--color-glass-white-15)' }}>
+                      <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.yearsExperience}+</div>
+                      <div className="text-xs text-white/80 mt-1">שנות ניסיון</div>
+                    </div>
+                    <div className="rounded-2xl p-3.5 text-center" style={{ background: 'var(--color-glass-white-08)', border: '1px solid var(--color-glass-white-15)' }}>
+                      <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.satisfaction}</div>
+                      <div className="text-xs text-white/80 mt-1">שביעות רצון</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-5">
+                  <div
+                    className="rounded-3xl p-6 sm:p-7"
+                    style={{
+                      background: 'var(--color-glass-white-08)',
+                      border: '1px solid var(--color-glass-white-22)',
+                      boxShadow: 'var(--shadow-hero-panel)',
+                    }}
+                  >
+                    <div className="flex items-center justify-between mb-5">
+                      <h3 className="text-white font-bold text-xl">למה לקוחות בוחרים בנו?</h3>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: 'var(--color-overlay-gold-20)', color: 'var(--color-gold-300)' }}>
+                        בזמן אמת
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {[
+                        'בדיקת 150 נקודות לכל רכב',
+                        'פתרונות מימון וטרייד אין במקום',
+                        'ליווי אישי עד העברת בעלות',
+                      ].map((item) => (
+                        <div key={item} className="flex items-center gap-3 text-white/90 text-sm">
+                          <span className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold" style={{ background: 'var(--color-overlay-gold-20)', color: 'var(--color-gold-300)' }}>
+                            ✓
+                          </span>
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                      <a
+                        href={ROUTES.vehicles}
+                        className="text-center py-2.5 rounded-xl text-sm font-semibold"
+                        style={{ background: 'var(--color-glass-white-12)', color: 'var(--color-text-inverse)', border: '1px solid var(--color-glass-white-20)' }}
+                      >
+                        מלאי זמין עכשיו
+                      </a>
+                      <Link
+                        href="/about"
+                        className="text-center py-2.5 rounded-xl text-sm font-semibold"
+                        style={{ background: 'var(--color-overlay-gold-20)', color: 'var(--color-gold-300)', border: '1px solid var(--color-overlay-gold-35)' }}
+                      >
+                        הכירו אותנו
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              {/* Stats */}
-              <div className="mt-10 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-lg mx-auto">
-                <div>
-                  <div className="text-2xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{vehicles.length}+</div>
-                  <div className="text-xs sm:text-sm mt-1 text-white/80">רכבים במלאי</div>
-                </div>
-                <div>
-                  <div className="text-2xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.yearsExperience}+</div>
-                  <div className="text-xs sm:text-sm mt-1 text-white/80">שנות ניסיון</div>
-                </div>
-                <div>
-                  <div className="text-2xl sm:text-4xl font-bold" style={{ color: 'var(--color-gold-400)' }}>{dealershipConfig.company.satisfaction}</div>
-                  <div className="text-xs sm:text-sm mt-1 text-white/80">שביעות רצון</div>
-                </div>
+
+              <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  'שקיפות מלאה במחיר ובתהליך',
+                  'נסיעת מבחן בתיאום מהיר',
+                  'שירות מקצועי בגובה העיניים',
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl px-4 py-3 text-center text-sm"
+                    style={{ background: 'var(--color-glass-white-06)', color: 'var(--color-glass-text-strong)', border: '1px solid var(--color-glass-white-12)' }}
+                  >
+                    {item}
+                  </div>
+                ))}
               </div>
             </div>
           </Container>
-          {/* Wave separator */}
+
           <div className="relative z-10">
-            <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 60L48 53.3C96 46.7 192 33.3 288 26.7C384 20 480 20 576 26.7C672 33.3 768 46.7 864 50C960 53.3 1056 46.7 1152 40C1248 33.3 1344 26.7 1392 23.3L1440 20V60H0Z" fill="white"/>
+            <svg viewBox="0 0 1440 70" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+              <path d="M0 70L80 61.7C160 53.3 320 36.7 480 30C640 23.3 800 26.7 960 35C1120 43.3 1280 56.7 1360 63.3L1440 70V0H1360C1280 0 1120 0 960 0C800 0 640 0 480 0C320 0 160 0 80 0H0V70Z" fill="white" />
             </svg>
           </div>
         </section>
@@ -135,7 +258,7 @@ export default async function HomePage() {
         {/* Why Choose Us */}
         <section className="py-20 bg-white">
           <Container>
-            <div className="text-center mb-14">
+            <div className="text-center mb-12">
               <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>למה אנחנו?</span>
               <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
                 הדרך המקצועית לרכב הבא שלכם
@@ -143,50 +266,37 @@ export default async function HomePage() {
               <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
-                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>אמינות מלאה</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>כל רכב נבדק ב-150 נקודות ומלווה בדוח שקיפות לפני מסירה</p>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6">
+              {advantages.map((item, index) => (
+                <div
+                  key={item.title}
+                  className="group relative overflow-hidden rounded-3xl p-6 sm:p-7"
+                  style={{
+                    background: 'var(--gradient-card-soft-blue)',
+                    border: '1px solid var(--color-card-border)',
+                    boxShadow: 'var(--shadow-card)',
+                  }}
+                >
+                  <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--gradient-primary-gold)' }} />
 
-              {/* Feature 2 */}
-              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
-                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>מחירים שקופים</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>הצעת מחיר ברורה מראש, ללא אותיות קטנות וללא עלויות נסתרות</p>
-              </div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)', color: 'var(--color-primary)' }}>
+                      {item.icon}
+                    </div>
+                    <span className="text-xs font-bold" style={{ color: 'var(--color-silver-400)' }}>
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
 
-              {/* Feature 3 */}
-              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
-                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                  </svg>
-                </div>
-                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>טרייד אין</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>בודקים את הרכב הקיים במקום ומבצעים קיזוז הוגן כחלק מהעסקה</p>
-              </div>
+                  <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>
+                    {item.title}
+                  </h3>
 
-              {/* Feature 4 */}
-              <div className="text-center group p-8 rounded-2xl transition-shadow duration-300 hover:shadow-md" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
-                <div className="w-14 h-14 mx-auto mb-5 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--color-primary-50)' }}>
-                  <svg className="w-7 h-7" style={{ color: 'var(--color-primary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
+                    {item.desc}
+                  </p>
                 </div>
-                <h3 className="font-bold text-base mb-1.5" style={{ color: 'var(--color-gray-900)' }}>משלוח עד הבית</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>באזורים נבחרים ניתן לתאם נסיעת מבחן ומסירה עד הבית</p>
-              </div>
+              ))}
             </div>
           </Container>
         </section>
@@ -346,7 +456,7 @@ export default async function HomePage() {
                 <a
                   href={ROUTES.vehicles}
                   className="inline-flex items-center gap-2 font-bold py-3 px-8 sm:py-4 sm:px-12 rounded-xl transition-all duration-300 hover:scale-105 text-base sm:text-lg"
-                  style={{ background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212, 160, 23, 0.4)' }}
+                  style={{ background: 'var(--color-gold)', color: 'var(--color-primary-900)', boxShadow: 'var(--shadow-gold-cta-base)' }}
                 >
                   עיין בקטלוג המלא
                 </a>
@@ -540,7 +650,7 @@ export default async function HomePage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 font-bold py-3 px-6 rounded-xl text-white transition-all duration-200 hover:scale-105 text-sm"
-                    style={{ background: '#25D366' }}
+                    style={{ background: 'var(--color-whatsapp)' }}
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -550,7 +660,7 @@ export default async function HomePage() {
                   <a
                     href={`tel:${dealershipConfig.contact.phone}`}
                     className="inline-flex items-center justify-center gap-2 font-bold py-3 px-6 rounded-xl transition-all duration-200 hover:scale-105 text-sm"
-                    style={{ background: 'var(--color-primary)', color: '#fff' }}
+                    style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />

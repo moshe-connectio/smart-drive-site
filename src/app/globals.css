@@ -131,6 +131,32 @@
   --gradient-navy-soft: linear-gradient(180deg, #0f2254 0%, #1a3fa8 100%);
   --gradient-silver: linear-gradient(135deg, #b8bfc9 0%, #d8dce3 50%, #98a3b0 100%);
   --gradient-card: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+
+  /* Home Page Surface Tokens */
+  --gradient-card-soft-blue: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  --gradient-primary-gold: linear-gradient(90deg, var(--color-primary) 0%, var(--color-gold) 100%);
+  --pattern-hero-grid: linear-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+
+  --color-overlay-gold-soft: rgba(212, 160, 23, 0.18);
+  --color-overlay-primary-soft: rgba(37, 83, 212, 0.22);
+  --color-overlay-gold-tag-bg: rgba(212, 160, 23, 0.1);
+  --color-overlay-gold-tag-border: rgba(212, 160, 23, 0.3);
+  --color-overlay-gold-20: rgba(212, 160, 23, 0.2);
+  --color-overlay-gold-35: rgba(212, 160, 23, 0.35);
+
+  --color-glass-white-06: rgba(255, 255, 255, 0.06);
+  --color-glass-white-08: rgba(255, 255, 255, 0.08);
+  --color-glass-white-12: rgba(255, 255, 255, 0.12);
+  --color-glass-white-15: rgba(255, 255, 255, 0.15);
+  --color-glass-white-20: rgba(255, 255, 255, 0.2);
+  --color-glass-white-22: rgba(255, 255, 255, 0.22);
+  --color-glass-text-strong: rgba(255, 255, 255, 0.9);
+
+  --shadow-gold-cta-base: 0 4px 20px rgba(212, 160, 23, 0.4);
+  --shadow-gold-cta-strong: 0 8px 28px rgba(212, 160, 23, 0.38);
+  --shadow-hero-panel: 0 20px 60px rgba(10, 22, 54, 0.45);
+
+  --color-whatsapp: #25d366;
   
   /* Footer Colors */
   --color-footer-bg: #0a1636;
@@ -362,6 +388,32 @@ html.a11y-high-contrast {
   --shadow-base: 0 1px 3px 0 rgb(255 255 255 / 0.07);
   --shadow-card: 0 0 0 1px #666;
   --shadow-card-hover: 0 0 0 2px #5b9aff;
+
+  /* Home Page Surface Tokens in high contrast */
+  --gradient-card-soft-blue: linear-gradient(180deg, #111 0%, #1a1a1a 100%);
+  --gradient-primary-gold: linear-gradient(90deg, #5b9aff 0%, #ffd54f 100%);
+  --pattern-hero-grid: linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+
+  --color-overlay-gold-soft: rgba(255, 213, 79, 0.18);
+  --color-overlay-primary-soft: rgba(91, 154, 255, 0.22);
+  --color-overlay-gold-tag-bg: rgba(255, 213, 79, 0.16);
+  --color-overlay-gold-tag-border: rgba(255, 213, 79, 0.48);
+  --color-overlay-gold-20: rgba(255, 213, 79, 0.2);
+  --color-overlay-gold-35: rgba(255, 213, 79, 0.35);
+
+  --color-glass-white-06: rgba(255, 255, 255, 0.06);
+  --color-glass-white-08: rgba(255, 255, 255, 0.08);
+  --color-glass-white-12: rgba(255, 255, 255, 0.12);
+  --color-glass-white-15: rgba(255, 255, 255, 0.15);
+  --color-glass-white-20: rgba(255, 255, 255, 0.2);
+  --color-glass-white-22: rgba(255, 255, 255, 0.22);
+  --color-glass-text-strong: rgba(255, 255, 255, 0.92);
+
+  --shadow-gold-cta-base: 0 0 0 2px rgba(255, 213, 79, 0.45);
+  --shadow-gold-cta-strong: 0 0 0 2px rgba(255, 213, 79, 0.55);
+  --shadow-hero-panel: 0 0 0 1px #666;
+
+  --color-whatsapp: #25d366;
 }
 
 /* Force override hardcoded bg-white / bg-[#f5f7fa] in high contrast */
