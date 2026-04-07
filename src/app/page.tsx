@@ -107,19 +107,12 @@ export default async function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative" style={{ background: 'var(--gradient-hero)' }}>
+        <section className="relative overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
           {/* Gold top accent stripe */}
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
 
-          {/* Wave — absolutely anchored to section bottom, no gap */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 leading-[0]">
-            <svg viewBox="0 0 1440 70" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-              <path d="M0 70L80 61.7C160 53.3 320 36.7 480 30C640 23.3 800 26.7 960 35C1120 43.3 1280 56.7 1360 63.3L1440 70V0H1360C1280 0 1120 0 960 0C800 0 640 0 480 0C320 0 160 0 80 0H0V70Z" fill="white" />
-            </svg>
-          </div>
-
           <Container>
-            <div className="relative z-20 pt-16 pb-28 sm:pt-20 sm:pb-32 lg:pt-28 lg:pb-36 text-center">
+            <div className="relative z-10 pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-28 lg:pb-24 text-center">
 
               {/* Eyebrow badge */}
               <span
@@ -239,7 +232,7 @@ export default async function HomePage() {
 
         {/* Manufacturers Section */}
         {manufacturers.length > 0 && (
-          <section style={{ background: 'var(--color-background-secondary)' }}>
+          <section className="bg-white">
             <Container className="py-16">
               <div className="text-center mb-10">
                 <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>רכבים חדשים</span>
@@ -258,7 +251,7 @@ export default async function HomePage() {
         )}
 
         {/* Featured Vehicles Section */}
-        <section style={{ background: 'var(--color-background-secondary)' }}>
+        <section className="border-t" style={{ background: 'var(--color-background-secondary)', borderColor: 'var(--color-border-light)' }}>
           <Container className="py-20">
             <div className="text-center mb-14">
               <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>המלאי שלנו</span>
@@ -288,7 +281,7 @@ export default async function HomePage() {
         </section>
 
         {/* About / Trust Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20" style={{ background: 'var(--color-background)' }}>
           <Container>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               {/* Left - Content */}
@@ -382,7 +375,6 @@ export default async function HomePage() {
         {/* CTA Section */}
         {vehicles.length > 6 && (
           <section className="relative overflow-hidden" style={{ background: 'var(--color-primary-800)' }}>
-            <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
             <Container>
               <div className="text-center py-12 sm:py-20 relative z-10">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white">
@@ -568,12 +560,35 @@ export default async function HomePage() {
 
                 <div className="space-y-4 mb-8">
                   {[
-                    { icon: '📞', text: 'חזרה מהירה בשעות הפעילות' },
-                    { icon: '🚗', text: 'ייעוץ מקצועי ומותאם לתקציב' },
-                    { icon: '🔒', text: 'הפרטים נשמרים בדיסקרטיות מלאה' },
+                    {
+                      text: 'חזרה מהירה בשעות הפעילות',
+                      icon: (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      text: 'ייעוץ מקצועי ומותאם לתקציב',
+                      icon: (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      text: 'הפרטים נשמרים בדיסקרטיות מלאה',
+                      icon: (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      ),
+                    },
                   ].map((item) => (
                     <div key={item.text} className="flex items-center gap-3">
-                      <span className="text-2xl">{item.icon}</span>
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'var(--color-primary-50)', color: 'var(--color-primary)' }}>
+                        {item.icon}
+                      </div>
                       <span className="font-medium" style={{ color: 'var(--color-gray-700)' }}>{item.text}</span>
                     </div>
                   ))}
