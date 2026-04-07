@@ -220,91 +220,36 @@ export default function AboutPage() {
               <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
             </div>
 
-            <div className="relative max-w-4xl mx-auto">
-              {/* Vertical center line - desktop only */}
+            <div className="relative max-w-5xl mx-auto">
+              {/* Desktop center line */}
               <div
-                className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 hidden md:block"
+                className="absolute left-1/2 top-2 bottom-2 w-0.5 -translate-x-1/2 hidden md:block"
                 style={{ background: 'var(--color-border)' }}
               />
 
-              {/* Mobile: vertical line on the right */}
+              {/* Mobile side line */}
               <div
-                className="absolute right-7 top-0 bottom-0 w-0.5 md:hidden"
+                className="absolute right-6 top-2 bottom-2 w-0.5 md:hidden"
                 style={{ background: 'var(--color-border)' }}
               />
 
-              <div className="space-y-12 md:space-y-16">
+              <div className="space-y-8 md:space-y-10">
                 {milestones.map((m, i) => {
-                  const isRight = i % 2 === 0;
+                  const isLeftOnDesktop = i % 2 === 0;
+
                   return (
-                    <div key={m.year} className="relative">
-                      {/* Desktop layout */}
-                      <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 md:items-center">
-                        {/* Right side content (RTL: right = start) */}
-                        <div className={isRight ? '' : 'order-3'}>
-                          {isRight && (
-                            <div
-                              className="rounded-2xl p-6 text-right"
-                              style={{
-                                background: 'var(--color-card-bg)',
-                                boxShadow: 'var(--shadow-card)',
-                                border: '1px solid var(--color-card-border)',
-                              }}
-                            >
-                              <h3 className="font-bold text-lg mb-1" style={{ color: 'var(--color-gray-900)' }}>
-                                {m.event}
-                              </h3>
-                              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
-                                {m.desc}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Center bubble */}
-                        <div className="relative z-10 flex justify-center">
+                    <div key={m.year} className="relative pr-16 md:pr-0">
+                      <div className="md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                        <div className={isLeftOnDesktop ? 'md:col-start-1' : 'md:col-start-2'}>
                           <div
-                            className="w-16 h-16 rounded-full flex items-center justify-center font-bold text-sm text-white shadow-lg"
-                            style={{ background: 'var(--color-primary)' }}
-                          >
-                            {m.year}
-                          </div>
-                        </div>
-
-                        {/* Left side content */}
-                        <div className={isRight ? 'order-3' : ''}>
-                          {!isRight && (
-                            <div
-                              className="rounded-2xl p-6 text-right"
-                              style={{
-                                background: 'var(--color-card-bg)',
-                                boxShadow: 'var(--shadow-card)',
-                                border: '1px solid var(--color-card-border)',
-                              }}
-                            >
-                              <h3 className="font-bold text-lg mb-1" style={{ color: 'var(--color-gray-900)' }}>
-                                {m.event}
-                              </h3>
-                              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
-                                {m.desc}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Mobile layout */}
-                      <div className="flex gap-5 items-start md:hidden">
-                        <div className="flex-1 text-right">
-                          <div
-                            className="rounded-2xl p-5"
+                            className="rounded-2xl p-5 md:p-6 text-right"
                             style={{
                               background: 'var(--color-card-bg)',
                               boxShadow: 'var(--shadow-card)',
                               border: '1px solid var(--color-card-border)',
                             }}
                           >
-                            <h3 className="font-bold text-base mb-1" style={{ color: 'var(--color-gray-900)' }}>
+                            <h3 className="font-bold text-base md:text-lg mb-1" style={{ color: 'var(--color-gray-900)' }}>
                               {m.event}
                             </h3>
                             <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
@@ -312,13 +257,15 @@ export default function AboutPage() {
                             </p>
                           </div>
                         </div>
-                        <div className="relative z-10 shrink-0">
-                          <div
-                            className="w-14 h-14 rounded-full flex items-center justify-center font-bold text-xs text-white shadow-lg"
-                            style={{ background: 'var(--color-primary)' }}
-                          >
-                            {m.year}
-                          </div>
+                      </div>
+
+                      {/* Year bubble */}
+                      <div className="absolute top-4 right-0 md:top-1/2 md:right-1/2 md:translate-x-1/2 md:-translate-y-1/2 z-10">
+                        <div
+                          className="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center font-bold text-xs md:text-sm text-white shadow-lg"
+                          style={{ background: 'var(--color-primary)' }}
+                        >
+                          {m.year}
                         </div>
                       </div>
                     </div>
