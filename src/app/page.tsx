@@ -107,12 +107,19 @@ export default async function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden" style={{ background: 'var(--gradient-hero)' }}>
+        <section className="relative" style={{ background: 'var(--gradient-hero)' }}>
           {/* Gold top accent stripe */}
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
 
+          {/* Wave — absolutely anchored to section bottom, no gap */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 leading-[0]">
+            <svg viewBox="0 0 1440 70" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+              <path d="M0 70L80 61.7C160 53.3 320 36.7 480 30C640 23.3 800 26.7 960 35C1120 43.3 1280 56.7 1360 63.3L1440 70V0H1360C1280 0 1120 0 960 0C800 0 640 0 480 0C320 0 160 0 80 0H0V70Z" fill="white" />
+            </svg>
+          </div>
+
           <Container>
-            <div className="relative z-10 py-16 sm:py-22 lg:py-28 text-center">
+            <div className="relative z-20 pt-16 pb-28 sm:pt-20 sm:pb-32 lg:pt-28 lg:pb-36 text-center">
 
               {/* Eyebrow badge */}
               <span
@@ -186,13 +193,6 @@ export default async function HomePage() {
 
             </div>
           </Container>
-
-          {/* Wave transition to white */}
-          <div className="relative z-10">
-            <svg viewBox="0 0 1440 70" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 70L80 61.7C160 53.3 320 36.7 480 30C640 23.3 800 26.7 960 35C1120 43.3 1280 56.7 1360 63.3L1440 70V0H1360C1280 0 1120 0 960 0C800 0 640 0 480 0C320 0 160 0 80 0H0V70Z" fill="white" />
-            </svg>
-          </div>
         </section>
 
         {/* Why Choose Us */}
