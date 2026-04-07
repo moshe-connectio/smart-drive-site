@@ -8,7 +8,11 @@ import {
   AddImageInput,
   VehicleImage,
 } from '@modules/vehicles/lib/repository';
-import { generateVehicleSlug, extractIdFromSlug } from '@shared/utils/formatting';
+
+type IncomingVehicleData = Omit<Partial<CreateVehicleInput>, 'hand' | 'condition'> & {
+  hand?: number | string | null;
+  condition?: string;
+};
 
 /**
  * Webhook endpoint for creating/updating vehicles and their images
@@ -54,7 +58,7 @@ import { generateVehicleSlug, extractIdFromSlug } from '@shared/utils/formatting
 
 type WebhookPayload = {
   crmid: string; // Required - unique identifier for upsert
-  data: CreateVehicleInput;
+  data: IncomingVehicleData;
   images?: Omit<AddImageInput, 'vehicle_id'>[];
 };
 
@@ -237,7 +241,7 @@ async function uploadImageToSupabase(
               ? 'image/gif'
               : 'image/jpeg');
 
-    const { data, error } = await client.storage
+    const { error } = await client.storage
       .from('vehicle-images')
       .upload(filePath, imageBuffer, {
         contentType: ct,
@@ -303,8 +307,7 @@ async function processAndUploadImages(
         position: img.position,
         alt_text: img.alt_text || null,
       } as AddImageInput;
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
+    } catch {
       console.error(`❌ Failed to process image at position ${img.position}`);
       // Return null for failed images
       return null;
@@ -324,10 +327,10 @@ async function processAndUploadImages(
 export async function POST(request: NextRequest) {
   try {
     // Parse request body
-    let body: any;
+    let body: unknown;
     try {
       body = await request.json();
-    } catch (parseError) {
+    } catch {
       console.error('❌ Invalid JSON');
       return NextResponse.json(
         { error: 'Invalid JSON payload' },
@@ -344,7 +347,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!body.data) {
+    const bodyRecord = body as Record<string, unknown>;
+
+    if (!bodyRecord.data) {
       console.error('❌ Missing required field: data');
       return NextResponse.json(
         { error: 'Missing required field: data' },
@@ -352,7 +357,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!body.crmid) {
+    if (!bodyRecord.crmid || typeof bodyRecord.crmid !== 'string') {
       console.error('❌ Missing required field: crmid');
       return NextResponse.json(
         { error: 'Missing required field: crmid' },
@@ -360,14 +365,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const payload = body as WebhookPayload;
-    let createData = payload.data as CreateVehicleInput;
+    const payload = bodyRecord as WebhookPayload;
+    let createData: IncomingVehicleData = payload.data || {};
 
     // Normalize condition field - convert variations to standard format
-    if (createData.condition) {
+    if (typeof createData.condition === 'string') {
       const normalizedCondition = createData.condition.trim();
       if (normalizedCondition === 'אפס ק״מ' || normalizedCondition === 'אפס קמ') {
-        createData = { ...createData, condition: '0 ק״מ' as any };
+        createData = { ...createData, condition: '0 ק״מ' };
       }
     }
 
@@ -375,8 +380,8 @@ export async function POST(request: NextRequest) {
     if (createData.hand !== undefined && createData.hand !== null) {
       let handValue: number;
       
-      if (typeof (createData.hand as any) === 'string') {
-        const handStr = (createData.hand as any).trim();
+      if (typeof createData.hand === 'string') {
+        const handStr = createData.hand.trim();
         const hebrewHandMap: Record<string, number> = {
           'ראשונה': 1,
           'שנייה': 2,
@@ -392,17 +397,17 @@ export async function POST(request: NextRequest) {
         
         handValue = hebrewHandMap[handStr] || parseInt(handStr, 10);
       } else {
-        handValue = createData.hand as number;
+        handValue = createData.hand;
       }
       
-      createData = { ...createData, hand: handValue as any };
+      createData = { ...createData, hand: Number.isNaN(handValue) ? null : handValue };
     }
 
     // Special handling for marking as sold (is_published = false)
     // If is_published is false, only update that field without requiring other data
     if (createData.is_published === false) {
       const result = await upsertVehicleByCrmId(payload.crmid, {
-        ...createData,
+        ...(createData as CreateVehicleInput),
         crmid: payload.crmid,
         // Only update is_published, keep other fields unchanged
       });
@@ -437,7 +442,7 @@ export async function POST(request: NextRequest) {
     // If the vehicle exists (same crmid), it will be updated
     // If it doesn't exist, a new one will be created
     const result = await upsertVehicleByCrmId(payload.crmid, {
-      ...createData,
+      ...(createData as CreateVehicleInput),
       crmid: payload.crmid,
     });
 
@@ -481,10 +486,15 @@ export async function POST(request: NextRequest) {
         });
 
         if (validImages.length > 0) {
+          const vehicleSlug =
+            typeof createData.slug === 'string' && createData.slug.length > 0
+              ? createData.slug
+              : result.vehicle.slug;
+
           // Process and upload all images first
           const uploadedImages = await processAndUploadImages(
             result.vehicle.id,
-            createData.slug,
+            vehicleSlug,
             validImages
           );
 

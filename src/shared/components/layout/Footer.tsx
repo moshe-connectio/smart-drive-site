@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Container } from './Container';
 import { APP_CONFIG, ROUTES, CONTACT_INFO } from '@core/lib/constants';
 
@@ -32,22 +33,22 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-5 text-white">קישורים מהירים</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href={ROUTES.home} className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
+                <Link href={ROUTES.home} className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-gold)' }}></span>
                   דף הבית
-                </a>
+                </Link>
               </li>
               <li>
-                <a href={ROUTES.vehicles} className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
+                <Link href={ROUTES.vehicles} className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-gold)' }}></span>
                   רכבים למכירה
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/new-vehicles" className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
+                <Link href="/new-vehicles" className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-gold)' }}></span>
                   רכבים חדשים
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -5,16 +5,12 @@
 
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import type {
-  Manufacturer,
   ManufacturerWithCounts,
   ManufacturerWithModels,
-  Model,
   ModelWithManufacturer,
   ModelWithTrimLevels,
   TrimLevel,
   TrimLevelWithSpecifications,
-  TrimLevelFullInfo,
-  Specification,
   SearchFilters,
   SearchResult,
 } from '../types';
@@ -293,8 +289,8 @@ export async function searchVehicles(
     }
 
     const [
-      { data: manufacturers, error: mError, count: mCount },
-      { data: models, error: moError, count: moCount },
+      { data: manufacturers, error: mError },
+      { data: models, error: moError },
       { data: trims, error: tError, count: tCount },
     ] = await Promise.all([
       manufacturersQuery.order('display_order', { ascending: true }),

@@ -45,15 +45,7 @@ function saveSettings(state: AccessibilityState) {
 
 export default function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [settings, setSettings] = useState<AccessibilityState>(defaultState);
-  const [mounted, setMounted] = useState(false);
-
-  // Load saved settings on mount
-  useEffect(() => {
-    const saved = loadSettings();
-    setSettings(saved);
-    setMounted(true);
-  }, []);
+  const [settings, setSettings] = useState<AccessibilityState>(() => loadSettings());
 
   // Apply classes to <html> whenever settings change
   const applySettings = useCallback((s: AccessibilityState) => {
@@ -90,11 +82,9 @@ export default function AccessibilityWidget() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
-      applySettings(settings);
-      saveSettings(settings);
-    }
-  }, [settings, mounted, applySettings]);
+    applySettings(settings);
+    saveSettings(settings);
+  }, [settings, applySettings]);
 
   const updateSetting = <K extends keyof AccessibilityState>(key: K, value: AccessibilityState[K]) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
@@ -171,8 +161,6 @@ export default function AccessibilityWidget() {
       onClick: () => updateSetting('grayscale', !settings.grayscale),
     },
   ];
-
-  if (!mounted) return null;
 
   return (
     <>

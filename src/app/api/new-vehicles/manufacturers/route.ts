@@ -5,7 +5,6 @@
 
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
-import type { Manufacturer } from '@modules/new-vehicles/types';
 
 /**
  * Convert any string to a URL-safe slug
@@ -217,7 +216,7 @@ export async function DELETE(request: Request) {
  * GET /api/new-vehicles/manufacturers
  * Get all manufacturers
  */
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const client = createServerSupabaseClient();
 

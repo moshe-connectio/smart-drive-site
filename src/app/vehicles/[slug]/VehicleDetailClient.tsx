@@ -96,7 +96,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                   </p>
                   {vehicle.km !== null && vehicle.km === 0 && (
                     <div className="mt-3 inline-block bg-success text-white text-xs font-semibold px-3 py-1 rounded-full">
-                      ✨ 0 ק"מ - חדש
+                      ✨ 0 ק״מ - חדש
                     </div>
                   )}
                 </div>

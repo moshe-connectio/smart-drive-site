@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface CookieConsent {
   essential: true; // always required
@@ -28,20 +28,13 @@ function saveConsent(consent: CookieConsent) {
 }
 
 export default function CookieConsentBanner() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(
+    () => (typeof window !== 'undefined' ? getConsent() === null : false)
+  );
   const [showDetails, setShowDetails] = useState(false);
   const [functional, setFunctional] = useState(true);
   const [analytics, setAnalytics] = useState(true);
   const [marketing, setMarketing] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const existing = getConsent();
-    if (!existing) {
-      setVisible(true);
-    }
-  }, []);
 
   const handleAcceptAll = () => {
     const consent: CookieConsent = {
@@ -78,8 +71,6 @@ export default function CookieConsentBanner() {
     saveConsent(consent);
     setVisible(false);
   };
-
-  if (!mounted) return null;
 
   // Small trigger button when banner is dismissed
   if (!visible) {

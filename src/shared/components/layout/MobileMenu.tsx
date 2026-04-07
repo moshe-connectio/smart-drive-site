@@ -18,11 +18,6 @@ export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close menu on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -101,6 +96,7 @@ export default function MobileMenu() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => setIsOpen(false)}
                 className="block py-3 px-4 rounded-xl font-medium text-base transition-colors"
                 style={{
                   color: isActive ? '#fff' : 'var(--color-gray-700)',

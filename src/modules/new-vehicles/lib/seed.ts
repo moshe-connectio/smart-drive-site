@@ -12,7 +12,6 @@ import type {
   Manufacturer,
   Model,
   TrimLevel,
-  Specification,
 } from '../types';
 
 const client = createServerSupabaseClient();
@@ -132,7 +131,7 @@ const SAMPLE_MODELS_BY_MANUFACTURER: Record<string, Omit<Model, 'id' | 'manufact
 /**
  * דוגמה של רמות גימור
  */
-const SAMPLE_TRIM_LEVELS: Omit<TrimLevel, 'id' | 'model_id' | 'created_at' | 'updated_at'>[] = [
+export const SAMPLE_TRIM_LEVELS: Omit<TrimLevel, 'id' | 'model_id' | 'created_at' | 'updated_at'>[] = [
   {
     name: 'Sport',
     slug: 'sport',
@@ -196,7 +195,7 @@ export async function seedManufacturers() {
   console.log('🌱 Adding manufacturers...');
 
   for (const manufacturer of SAMPLE_MANUFACTURERS) {
-    const { data, error } = await client
+    const { error } = await client
       .from('new_vehicles_manufacturers')
       .upsert([manufacturer], { onConflict: 'slug' })
       .select();
@@ -228,7 +227,7 @@ export async function seedModels() {
     }
 
     for (const model of models) {
-      const { data, error } = await client
+      const { error } = await client
         .from('new_vehicles_models')
         .upsert(
           [{ ...model, manufacturer_id: manufacturerData.id }],

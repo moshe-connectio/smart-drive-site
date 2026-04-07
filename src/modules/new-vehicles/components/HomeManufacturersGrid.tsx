@@ -37,7 +37,11 @@ export function HomeManufacturersGrid({ manufacturers }: HomeManufacturersGridPr
         {hasMore && (
           <div className="text-center mt-6">
             <button
-              onClick={() => setVisibleCount(manufacturers.length)}
+              onClick={() =>
+                setVisibleCount((prev) =>
+                  Math.min(prev + MOBILE_LOAD_MORE, manufacturers.length)
+                )
+              }
               className="inline-flex items-center gap-2 font-semibold py-2.5 px-8 rounded-xl transition-all active:scale-95"
               style={{ background: 'var(--color-card-bg)', border: '2px solid var(--color-primary)', color: 'var(--color-primary)' }}
             >

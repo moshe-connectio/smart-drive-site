@@ -572,7 +572,6 @@ export async function reorderVehicleImages(
 ): Promise<VehicleImage[]> {
   try {
     console.log(`🔍 Reordering ${imageOrder.length} images for vehicle ${vehicleId}`);
-    const client = createServerSupabaseClient();
 
     // Validate all positions
     for (const item of imageOrder) {
