@@ -53,7 +53,7 @@ export function ModelPageClient({ trimLevels, initialTrimSpecs }: ModelPageClien
       {/* Sidebar - Trim Selector */}
       <div className="lg:col-span-1">
         <div
-          className="sticky top-4 rounded-lg p-6"
+          className="sticky top-24 lg:top-28 rounded-lg p-6"
           style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
         >
           <h2 className="mb-4 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>

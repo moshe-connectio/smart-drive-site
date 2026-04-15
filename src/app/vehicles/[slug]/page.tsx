@@ -216,10 +216,11 @@ export function generateNotFound() {
       <main className="flex-1 py-12">
         <Container>
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">הרכב לא נמצא</h1>
+            <h1 className="text-3xl font-bold mb-4" style={{ color: 'var(--color-gray-900)' }}>הרכב לא נמצא</h1>
             <Link
               href="/vehicles"
-              className="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors"
+              className="inline-block px-6 py-3 rounded-lg hover:opacity-90 transition-colors"
+              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
             >
               חזור לרשימת הרכבים
             </Link>

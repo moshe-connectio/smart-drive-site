@@ -26,14 +26,18 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   };
   return (
     <div 
-      className="group flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-300 relative bg-white"
-      style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}
-      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-card)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+      className="group card-automotive accent-top-hover flex flex-col h-full rounded-2xl overflow-hidden relative"
+      style={{
+        border: '1px solid var(--color-border)',
+        background: 'var(--color-card-bg)',
+      }}
     >
       {/* Sold Ribbon - RTL adjusted */}
       {!vehicle.is_published && (
-        <div className="absolute top-4 -left-8 transform -rotate-45 text-white font-bold py-1.5 px-12 shadow-lg text-xs z-10" style={{ background: 'var(--color-primary)' }}>
+        <div
+          className="absolute top-4 -left-8 transform -rotate-45 font-bold py-1.5 px-12 shadow-lg text-xs z-10"
+          style={{ background: 'var(--gradient-primary)', color: 'var(--color-text-inverse)' }}
+        >
           נמכר
         </div>
       )}
@@ -65,7 +69,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
       <div className="p-5 flex flex-col flex-1 cursor-pointer" onClick={handleContentClick}>
         {/* New Status Badge */}
         {vehicle.km !== null && vehicle.km === 0 && (
-          <div className="mb-3 inline-block bg-success text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg w-fit">
+          <div className="mb-3 inline-block text-xs font-semibold px-3 py-1 rounded-full shadow-lg w-fit" style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}>
             חדש מהאפס
           </div>
         )}
@@ -114,12 +118,12 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         <div className="flex-1"></div>
 
         {/* Price - always at bottom */}
-        <div className="pt-4" style={{ borderTop: '1px solid var(--color-border)' }}>
+        <div className="pt-4 relative" style={{ borderTop: '1px solid var(--color-border)' }}>
           <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-success">
+            <span className="text-2xl font-bold" style={{ color: 'var(--color-primary)' }}>
               {formatPrice(vehicle.price)}
             </span>
-            <span className="text-primary group-hover:-translate-x-1 transition-transform inline-flex items-center gap-1 text-sm">
+            <span className="group-hover:-translate-x-1 transition-transform inline-flex items-center gap-1 text-sm font-medium" style={{ color: 'var(--color-primary)' }}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>

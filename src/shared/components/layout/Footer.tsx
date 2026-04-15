@@ -1,94 +1,151 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
+import { dealershipConfig } from '@core/config/site.config';
+import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
 import { Container } from './Container';
 import { APP_CONFIG, ROUTES, CONTACT_INFO } from '@core/lib/constants';
+
+const navigationLinks = [
+  { href: ROUTES.home, label: 'דף הבית' },
+  { href: ROUTES.vehicles, label: 'רכבים למכירה' },
+  { href: '/new-vehicles', label: 'רכבים חדשים' },
+  { href: ROUTES.about, label: 'אודות' },
+];
+
+const servicePoints = [
+  'מימון מותאם אישית',
+  'טרייד אין הוגן',
+  'בדיקות מקיפות לרכב',
+  'ליווי עד מסירה',
+];
+
+const socialLinks = [
+  { label: 'Facebook', href: dealershipConfig.social.facebook, icon: FaFacebook },
+  { label: 'Instagram', href: dealershipConfig.social.instagram, icon: FaInstagram },
+  { label: 'WhatsApp', href: dealershipConfig.social.whatsapp, icon: FaWhatsapp },
+  { label: 'YouTube', href: dealershipConfig.social.youtube, icon: FaYoutube },
+];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-0" style={{ background: 'var(--color-footer-bg)' }}>
-      {/* Gold accent line */}
-      <div className="h-1" style={{ background: 'var(--color-gold)' }} />
-      <Container className="py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* About */}
+    <footer className="footer-shell relative overflow-hidden">
+      <div className="footer-glow" />
+
+      <Container className="relative py-16 md:py-20">
+        <div className="footer-cta-panel rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
           <div>
-            <div className="mb-4">
-              <Image
-                src="/logo.png"
-                alt={APP_CONFIG.name}
-                width={140}
-                height={44}
-                className="h-11 w-auto object-contain opacity-90"
-              />
-            </div>
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-footer-text)' }}>
-              הדרך הנכונה לקניה חכמה! מגוון רכבים איכותיים חדשים ומשומשים עם שירות אמין ומקצועי.
+            <p className="text-xs font-semibold tracking-[0.16em] uppercase mb-2" style={{ color: 'var(--color-footer-text)' }}>
+              מוכנים לעסקה הבאה
             </p>
+            <h3 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--color-footer-text-strong)' }}>
+              רוצים ייעוץ מהיר לפני בחירת רכב?
+            </h3>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold text-lg mb-5 text-white">קישורים מהירים</h3>
-            <ul className="space-y-3 text-sm">
-              <li>
-                <Link href={ROUTES.home} className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-gold)' }}></span>
-                  דף הבית
-                </Link>
-              </li>
-              <li>
-                <Link href={ROUTES.vehicles} className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-gold)' }}></span>
-                  רכבים למכירה
-                </Link>
-              </li>
-              <li>
-                <Link href="/new-vehicles" className="transition-colors duration-200 flex items-center gap-2" style={{ color: 'var(--color-footer-text)' }}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--color-gold)' }}></span>
-                  רכבים חדשים
-                </Link>
-              </li>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href={dealershipConfig.social.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-action footer-action-primary"
+            >
+              דברו איתנו בוואטסאפ
+            </a>
+            <a
+              href={`tel:${CONTACT_INFO.phone}`}
+              className="footer-action footer-action-secondary"
+            >
+              {CONTACT_INFO.phone}
+            </a>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mt-12">
+          <div className="md:col-span-4">
+            <CarOnlyShape
+              className="w-[170px] mb-5 opacity-90"
+              maxWidth={170}
+              strokeColor="var(--color-footer-text-strong)"
+            />
+            <p className="text-sm leading-relaxed max-w-sm" style={{ color: 'var(--color-footer-text)', lineHeight: 1.85 }}>
+              {APP_CONFIG.description} מגוון רכבים איכותיים, שקיפות מלאה וליווי מקצועי מהשיחה הראשונה ועד המסירה.
+            </p>
+
+            <div className="flex items-center gap-2 mt-5">
+              {socialLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.label}
+                    className="footer-social-link"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="md:col-span-3">
+            <h3
+              className="text-xs font-semibold tracking-[0.15em] uppercase mb-5"
+              style={{ color: 'var(--color-footer-text-strong)' }}
+            >
+              ניווט
+            </h3>
+            <ul className="space-y-2.5 text-sm">
+              {navigationLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="footer-link">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="font-semibold text-lg mb-5 text-white">צור קשר</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-3" style={{ color: 'var(--color-footer-text)' }}>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(212, 160, 23, 0.15)' }}>
-                  <svg className="w-4 h-4" style={{ color: 'var(--color-gold)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <span>{CONTACT_INFO.phone}</span>
-              </li>
-              <li className="flex items-center gap-3" style={{ color: 'var(--color-footer-text)' }}>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(212, 160, 23, 0.15)' }}>
-                  <svg className="w-4 h-4" style={{ color: 'var(--color-gold)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <span>{CONTACT_INFO.email}</span>
-              </li>
-              <li className="flex items-center gap-3" style={{ color: 'var(--color-footer-text)' }}>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(212, 160, 23, 0.15)' }}>
-                  <svg className="w-4 h-4" style={{ color: 'var(--color-gold)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <span>{CONTACT_INFO.address}</span>
-              </li>
+          <div className="md:col-span-2">
+            <h3
+              className="text-xs font-semibold tracking-[0.15em] uppercase mb-5"
+              style={{ color: 'var(--color-footer-text-strong)' }}
+            >
+              שירותים
+            </h3>
+            <ul className="space-y-2.5 text-sm" style={{ color: 'var(--color-footer-text)' }}>
+              {servicePoints.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="md:col-span-3">
+            <h3
+              className="text-xs font-semibold tracking-[0.15em] uppercase mb-5"
+              style={{ color: 'var(--color-footer-text-strong)' }}
+            >
+              צור קשר
+            </h3>
+            <ul className="space-y-2.5 text-sm" style={{ color: 'var(--color-footer-text)' }}>
+              <li>{CONTACT_INFO.phone}</li>
+              <li>{CONTACT_INFO.email}</li>
+              <li>{CONTACT_INFO.address}</li>
+              <li>{dealershipConfig.contact.businessHours.weekdays}</li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-10 pt-8 text-sm text-center" style={{ borderTop: '1px solid var(--color-footer-border)', color: 'var(--color-footer-text)' }}>
+        <div
+          className="mt-12 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs"
+          style={{ borderTop: '1px solid var(--color-footer-border)', color: 'var(--color-footer-text)' }}
+        >
           <p>© {currentYear} {APP_CONFIG.name}. כל הזכויות שמורות.</p>
+          <p style={{ color: 'var(--color-footer-text)' }}>אתר מותאם לפרודקשיין: ביצועים, נגישות ו-SEO</p>
         </div>
       </Container>
     </footer>

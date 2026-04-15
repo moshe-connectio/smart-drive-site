@@ -1,18 +1,24 @@
 import type { Metadata } from 'next';
-import { getPublishedVehicles, deleteSoldVehicles, getUniqueBrands, getUniqueCategories, Vehicle } from '@modules/vehicles/lib/repository';
+import {
+  deleteSoldVehicles,
+  getPublishedVehicles,
+  getUniqueBrands,
+  getUniqueCategories,
+  Vehicle,
+} from '@modules/vehicles/lib/repository';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import { FilterableVehicleGrid } from '@modules/vehicles/components/FilterableVehicleGrid';
 import { dealershipConfig } from '@core/config/site.config';
 
-export const revalidate = 60; // ISR - 1 minute
+export const revalidate = 60;
 
 const siteUrl = dealershipConfig.seo.siteUrl;
 
 export const metadata: Metadata = {
   title: `רכבים למכירה | ${dealershipConfig.business.name}`,
-  description: `מבחר רכבים למכירה עם בדיקות מקיפות, שקיפות מלאה וליווי מקצועי בכל שלב הרכישה.`,
+  description: 'מבחר רכבים למכירה עם בדיקות מקיפות, שקיפות מלאה וליווי מקצועי בכל שלב הרכישה.',
   keywords: `רכבים למכירה, ${dealershipConfig.seo.keywords}`,
   alternates: {
     canonical: `${siteUrl}/vehicles`,
@@ -40,80 +46,94 @@ export default async function VehiclesPage() {
   let error: string | null = null;
 
   try {
-    // Clean up sold vehicles older than 2 days
     await deleteSoldVehicles();
-    
-    // Fetch published vehicles
-    vehicles = await getPublishedVehicles();
-    // Filter only published vehicles (not sold)
-    vehicles = vehicles.filter(v => v.is_published);
 
-    // Get unique brands and categories for filters
-    brands = await getUniqueBrands();
-    categories = await getUniqueCategories();
+    const [vehiclesResult, brandsResult, categoriesResult] = await Promise.allSettled([
+      getPublishedVehicles(),
+      getUniqueBrands(),
+      getUniqueCategories(),
+    ]);
+
+    if (vehiclesResult.status === 'fulfilled') {
+      vehicles = vehiclesResult.value.filter((vehicle) => vehicle.is_published);
+    } else {
+      console.error('Failed to load vehicles:', vehiclesResult.reason);
+      error = 'שגיאה בטעינת הרכבים. אנא נסו שוב בעוד מספר דקות.';
+    }
+
+    if (brandsResult.status === 'fulfilled') {
+      brands = brandsResult.value;
+    } else {
+      console.error('Failed to load brands:', brandsResult.reason);
+    }
+
+    if (categoriesResult.status === 'fulfilled') {
+      categories = categoriesResult.value;
+    } else {
+      console.error('Failed to load categories:', categoriesResult.reason);
+    }
   } catch (err) {
-    console.error('Failed to load vehicles:', err);
-    error = 'שגיאה בטעינת הרכבים. אנא נסה שוב מאוחר יותר.';
+    console.error('Failed to load vehicles page data:', err);
+    error = 'שגיאה בטעינת הרכבים. אנא נסו שוב בעוד מספר דקות.';
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
       <Header />
 
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden py-10 sm:py-14" style={{ background: 'var(--color-primary-800)' }}>
-          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
+      <main className="flex-1 pt-20 md:pt-24">
+        <section className="route-hero">
+          <div className="route-hero-atmo" />
+          <div className="route-hero-grid" />
+
           <Container>
-            <div className="relative z-10">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 text-white">
-                רכבים למכירה
-              </h1>
-              <p className="text-base sm:text-lg text-white/90">
-                מבחר רכבים בדוקים עם שקיפות מלאה, תנאי רכישה הוגנים וליווי מקצועי
+            <div className="route-hero-inner" style={{ paddingTop: '4.6rem' }}>
+              <p className="route-hero-kicker">המלאי שלנו</p>
+              <h1 className="route-hero-title">רכבים למכירה</h1>
+              <p className="route-hero-subtitle">
+                מבחר רכבים בדוקים עם שקיפות מלאה, תנאי רכישה הוגנים וליווי מקצועי עד המסירה.
               </p>
             </div>
           </Container>
         </section>
 
-        {/* Stats Bar */}
-        <div className="py-6" style={{ background: 'var(--color-background-secondary)', borderBottom: '1px solid var(--color-border)' }}>
+        <section className="home-soft-section py-8">
           <Container>
-            <div className="flex items-center justify-center gap-4 sm:gap-8 text-center">
-              <div>
-                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
-                  {vehicles.length}
-                </div>
-                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>רכבים זמינים</div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="route-stat-card text-center">
+                <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>{vehicles.length}</p>
+                <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>רכבים זמינים</p>
               </div>
-              <div className="w-px h-10 sm:h-12" style={{ background: 'var(--color-border)' }}></div>
-              <div>
-                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-success)' }}>150</div>
-                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>נקודות בדיקה לרכב</div>
+              <div className="route-stat-card text-center">
+                <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>150</p>
+                <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>נקודות בדיקה לרכב</p>
               </div>
-              <div className="w-px h-10 sm:h-12" style={{ background: 'var(--color-border)' }}></div>
-              <div>
-                <div className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>1:1</div>
-                <div className="text-xs sm:text-sm" style={{ color: 'var(--color-gray-500)' }}>ליווי אישי בעסקה</div>
+              <div className="route-stat-card text-center">
+                <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>1:1</p>
+                <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>ליווי אישי בעסקה</p>
               </div>
             </div>
           </Container>
-        </div>
+        </section>
 
-        {/* Vehicles Grid */}
-        <Container className="py-12">
-          {error && (
-            <div className="mb-8 p-4 bg-error/10 border border-error text-error rounded-lg">
-              {error}
-            </div>
-          )}
+        <section className="py-12" style={{ background: 'var(--color-background)' }}>
+          <Container>
+            {error && (
+              <div
+                className="mb-8 p-4 rounded-xl"
+                style={{
+                  background: 'var(--color-error-light)',
+                  border: '1px solid var(--color-error)',
+                  color: 'var(--color-error-dark)',
+                }}
+              >
+                {error}
+              </div>
+            )}
 
-          <FilterableVehicleGrid 
-            vehicles={vehicles}
-            brands={brands}
-            categories={categories}
-          />
-        </Container>
+            <FilterableVehicleGrid vehicles={vehicles} brands={brands} categories={categories} />
+          </Container>
+        </section>
       </main>
 
       <Footer />

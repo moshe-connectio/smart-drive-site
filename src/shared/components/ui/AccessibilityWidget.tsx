@@ -170,8 +170,8 @@ export default function AccessibilityWidget() {
         className="fixed bottom-[72px] left-4 sm:bottom-[88px] sm:left-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
         style={{
           background: 'var(--color-primary)',
-          color: '#fff',
-          boxShadow: '0 4px 20px rgba(26, 101, 224, 0.4)',
+          color: 'var(--color-text-inverse)',
+          boxShadow: 'var(--shadow-primary-focus)',
         }}
         aria-label="תפריט נגישות"
         title="נגישות"
@@ -187,7 +187,8 @@ export default function AccessibilityWidget() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-40 bg-black/40"
+            className="fixed inset-0 z-40"
+            style={{ background: 'var(--color-overlay-black-50)' }}
             onClick={() => setIsOpen(false)}
           />
 
@@ -204,7 +205,7 @@ export default function AccessibilityWidget() {
               className="sticky top-0 flex items-center justify-between p-4 rounded-t-2xl"
               style={{
                 background: 'var(--color-primary)',
-                color: '#fff',
+                color: 'var(--color-text-inverse)',
               }}
             >
               <div className="flex items-center gap-2">
@@ -215,7 +216,7 @@ export default function AccessibilityWidget() {
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-full overlay-action-btn"
                 aria-label="סגור תפריט נגישות"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -233,7 +234,7 @@ export default function AccessibilityWidget() {
                   className="flex flex-col items-center justify-center gap-1 p-2 sm:p-3 rounded-xl text-center transition-all duration-200"
                   style={{
                     background: btn.isActive ? 'var(--color-primary)' : 'var(--color-gray-200)',
-                    color: btn.isActive ? '#fff' : 'var(--color-gray-800)',
+                    color: btn.isActive ? 'var(--color-text-inverse)' : 'var(--color-gray-800)',
                     border: btn.isActive ? '2px solid var(--color-primary-400)' : '2px solid transparent',
                   }}
                   aria-pressed={btn.isActive}

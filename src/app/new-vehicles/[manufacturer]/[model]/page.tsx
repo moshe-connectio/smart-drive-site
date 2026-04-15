@@ -8,6 +8,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getModelBySlug, getTrimLevelWithSpecs } from '@modules/new-vehicles/lib/repository';
 import { ModelPageClient } from '@modules/new-vehicles/components/ModelPageClient';
+import { Container } from '@shared/components/layout/Container';
+import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -27,120 +29,202 @@ export default async function ModelPage({ params }: ModelPageProps) {
     notFound();
   }
 
-  // Pre-fetch specs for the first trim level if available
   let firstTrimSpecs = null;
   if (modelData.trim_levels.length > 0) {
     firstTrimSpecs = await getTrimLevelWithSpecs(modelData.trim_levels[0].id);
   }
 
+  const priceRangeLabel =
+    modelData.min_price && modelData.max_price
+      ? `₪${modelData.min_price.toLocaleString('he-IL')} - ₪${modelData.max_price.toLocaleString('he-IL')}`
+      : modelData.min_price
+      ? `החל מ-₪${modelData.min_price.toLocaleString('he-IL')}`
+      : 'בקרוב יתעדכן';
+
+  const modelYearLabel =
+    modelData.year_from && modelData.year_to
+      ? `${modelData.year_from} - ${modelData.year_to}`
+      : modelData.year_from
+      ? `משנת ${modelData.year_from}`
+      : 'לא צוין';
+
+  const featureChips = [modelData.body_type, modelData.segment, `שנות ייצור: ${modelYearLabel}`]
+    .filter((value): value is string => Boolean(value));
+
+  const firstTrim = modelData.trim_levels[0];
+  const drivetrainLabel =
+    [firstTrim?.engine_type, firstTrim?.transmission]
+      .filter((value): value is string => Boolean(value))
+      .join(' • ') || 'משתנה לפי רמת הגימור';
+
   return (
     <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
-      {/* Header Section */}
-      <div style={{ background: 'var(--color-primary-800)', borderBottom: '1px solid var(--color-border)' }}>
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          {/* Breadcrumb */}
-          <nav className="mb-8 flex items-center gap-2 text-sm text-white/60">
-            <Link href="/new-vehicles" className="hover:text-white hover:underline">
-              רכבים חדשים
-            </Link>
-            <span>/</span>
-            <Link
-              href={`/new-vehicles/${modelData.manufacturer_slug}`}
-              className="hover:text-white hover:underline"
-            >
-              {modelData.manufacturer_name}
-            </Link>
-            <span>/</span>
-            <span className="font-semibold text-white">{modelData.name}</span>
-          </nav>
+      <section className="route-hero">
+        <div className="route-hero-atmo" />
+        <div className="route-hero-grid" />
 
-          {/* Header Content */}
-          <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
-            {/* Image */}
-            <div className="shrink-0 sm:order-2">
-              {modelData.image_url && (
-                <Image
-                  src={modelData.image_url}
-                  alt={modelData.name}
-                  width={400}
-                  height={300}
-                  className="rounded-lg object-cover"
-                />
-              )}
-            </div>
+        <Container>
+          <div className="route-hero-inner">
+            <nav className="route-breadcrumb mb-8 justify-center sm:justify-start">
+              <Link href="/new-vehicles" className="route-breadcrumb-link">
+                רכבים חדשים
+              </Link>
+              <span>/</span>
+              <Link
+                href={`/new-vehicles/${modelData.manufacturer_slug}`}
+                className="route-breadcrumb-link"
+              >
+                {modelData.manufacturer_name}
+              </Link>
+              <span>/</span>
+              <span>{modelData.name_he || modelData.name}</span>
+            </nav>
 
-            {/* Info */}
-            <div className="flex-1 sm:order-1">
-              <div className="mb-4 flex items-center gap-3">
-                {modelData.manufacturer_logo && (
-                  <Image
-                    src={modelData.manufacturer_logo}
-                    alt={modelData.manufacturer_name}
-                    width={60}
-                    height={60}
-                    className="h-12 w-12 object-contain"
-                  />
+            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+              <div className="text-center lg:text-right">
+                <p className="route-hero-kicker">{modelData.manufacturer_name}</p>
+                <h1 className="route-hero-title">{modelData.name_he || modelData.name}</h1>
+                {modelData.name_he && (
+                  <p className="mt-2" style={{ color: 'var(--color-header-transparent-text-dim)' }}>
+                    {modelData.name}
+                  </p>
                 )}
-                <div>
-                  <p className="text-sm text-white/60">{modelData.manufacturer_name}</p>
-                  <h1 className="text-3xl font-bold text-white md:text-4xl">
-                    {modelData.name_he || modelData.name}
-                  </h1>
-                  {modelData.name_he && (
-                    <p className="text-sm text-white/50 mt-1">{modelData.name}</p>
+
+                <p className="route-hero-subtitle">
+                  {modelData.description || modelData.body_type || 'מפרט מלא ורמות גימור מעודכנות לדגם זה.'}
+                </p>
+
+                <CarOnlyShape
+                  className="w-44 sm:w-56 mx-auto lg:mx-0 mt-5 opacity-80"
+                  maxWidth={220}
+                  strokeColor="var(--color-glass-white-75)"
+                />
+
+                <div className="mt-5 flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {featureChips.map((chip) => (
+                    <span
+                      key={chip}
+                      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+                      style={{
+                        color: 'var(--color-text-inverse)',
+                        background: 'var(--color-glass-white-12)',
+                        border: '1px solid var(--color-glass-white-20)',
+                      }}
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-8 grid gap-4 sm:grid-cols-2 max-w-xl mx-auto lg:mx-0">
+                  <article className="route-stat-card text-center">
+                    <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
+                      {modelData.trim_levels.length}
+                    </p>
+                    <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>רמות גימור זמינות</p>
+                  </article>
+
+                  {modelData.min_price && (
+                    <article className="route-stat-card text-center">
+                      <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
+                        ₪{modelData.min_price.toLocaleString('he-IL')}
+                      </p>
+                      <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>מחיר התחלתי</p>
+                    </article>
                   )}
                 </div>
               </div>
 
-              {modelData.body_type && (
-                <p className="mb-4 text-lg text-white/70">{modelData.body_type}</p>
-              )}
-
-              {modelData.description && (
-                <p className="text-white/70 leading-relaxed">{modelData.description}</p>
-              )}
-
-              {/* Stats */}
-              <div className="mt-6 flex gap-8">
-                <div>
-                  <p className="text-3xl font-bold text-gold">{modelData.trim_levels.length}</p>
-                  <p className="text-sm text-white/60">רמות גימור זמינות</p>
-                </div>
-                {modelData.min_price && (
-                  <div>
-                    <p className="text-3xl font-bold text-gold">
-                      ₪{modelData.min_price.toLocaleString('he-IL')}
-                    </p>
-                    <p className="text-sm text-white/60">מחיר התחלתי</p>
+              <div className="route-surface-card p-3">
+                {modelData.image_url ? (
+                  <Image
+                    src={modelData.image_url}
+                    alt={modelData.name}
+                    width={700}
+                    height={460}
+                    className="rounded-xl object-cover w-full"
+                  />
+                ) : (
+                  <div
+                    className="aspect-7/4 rounded-xl flex items-center justify-center"
+                    style={{ background: 'var(--color-gray-100)' }}
+                  >
+                    <span style={{ color: 'var(--color-silver-500)' }}>אין תמונה זמינה</span>
                   </div>
                 )}
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </Container>
+      </section>
 
-      {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        {modelData.trim_levels.length > 0 ? (
-          <ModelPageClient
-            trimLevels={modelData.trim_levels}
-            initialTrimSpecs={firstTrimSpecs}
-          />
-        ) : (
-          <div className="rounded-lg p-8 text-center" style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}>
-            <p className="text-lg font-medium" style={{ color: 'var(--color-gray-500)' }}>
-              רמות הגימור לדגם זה יתעדכנו בקרוב
-            </p>
-            <Link
-              href={`/new-vehicles/${modelData.manufacturer_slug}`}
-              className="mt-4 inline-block text-primary hover:underline"
-            >
-              חזרה לדגמי {modelData.manufacturer_name}
-            </Link>
+      <section className="home-soft-section py-10">
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <article className="route-surface-card p-5">
+              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
+                טווח מחירים
+              </p>
+              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
+                {priceRangeLabel}
+              </p>
+              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
+                המחירים משתנים בהתאם לרמת הגימור, חבילות ותוספות.
+              </p>
+            </article>
+
+            <article className="route-surface-card p-5">
+              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
+                יחידת הנעה
+              </p>
+              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
+                {drivetrainLabel}
+              </p>
+              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
+                דגש על שילוב ביצועים, נוחות ועלות שימוש לאורך זמן.
+              </p>
+            </article>
+
+            <article className="route-surface-card p-5">
+              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
+                שנות ייצור
+              </p>
+              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
+                {modelYearLabel}
+              </p>
+              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
+                מתאים להשוואה מול דורות קודמים ותצורות נוספות בשוק.
+              </p>
+            </article>
           </div>
-        )}
-      </div>
+        </Container>
+      </section>
+
+      <section className="py-14" style={{ background: 'var(--color-background)' }}>
+        <Container>
+          {modelData.trim_levels.length > 0 ? (
+            <ModelPageClient
+              trimLevels={modelData.trim_levels}
+              initialTrimSpecs={firstTrimSpecs}
+            />
+          ) : (
+            <article className="route-surface-card p-8 text-center">
+              <h2 className="text-xl font-bold" style={{ color: 'var(--color-gray-900)' }}>
+                רמות הגימור לדגם זה יתעדכנו בקרוב
+              </h2>
+              <p className="mt-3" style={{ color: 'var(--color-gray-500)' }}>
+                ניתן לחזור לרשימת הדגמים של היצרן ולבחון אפשרויות נוספות.
+              </p>
+              <Link
+                href={`/new-vehicles/${modelData.manufacturer_slug}`}
+                className="mt-6 inline-flex items-center justify-center gap-2 home-primary-cta"
+              >
+                חזרה לדגמי {modelData.manufacturer_name}
+              </Link>
+            </article>
+          )}
+        </Container>
+      </section>
     </main>
   );
 }

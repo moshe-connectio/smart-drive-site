@@ -59,7 +59,7 @@ export function HomeManufacturersGrid({ manufacturers }: HomeManufacturersGridPr
         <Link
           href="/new-vehicles"
           className="inline-flex items-center gap-2 font-semibold py-2.5 px-8 rounded-xl transition-all hover:scale-105"
-          style={{ background: 'var(--color-primary)', color: '#fff' }}
+          style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
         >
           לכל היצרנים והדגמים
           <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,6 +78,7 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
       className="group relative flex items-center justify-center rounded-xl p-4 md:p-5 aspect-square transition-all hover:shadow-lg"
       style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
       title={m.name}
+      aria-label={`צפה ברכבי ${m.name}`}
     >
       {m.logo_url ? (
         <Image
@@ -85,6 +86,7 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
           alt={m.name}
           width={80}
           height={80}
+          loading="lazy"
           className="h-14 w-14 md:h-20 md:w-20 object-contain transition-transform group-hover:scale-110"
         />
       ) : (
@@ -96,7 +98,7 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
       {/* Hover tooltip with name */}
       <span
         className="absolute -bottom-1 left-1/2 -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap text-xs font-semibold py-1 px-3 rounded-lg shadow-lg z-10"
-        style={{ background: 'var(--color-primary-800)', color: '#fff' }}
+        style={{ background: 'var(--color-primary-800)', color: 'var(--color-text-inverse)' }}
       >
         {m.name}
       </span>

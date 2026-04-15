@@ -1,10 +1,14 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
-import { Container } from './Container';
 import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
+import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
+import { Container } from './Container';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
@@ -20,47 +24,66 @@ const socialLinks = [
   { name: 'YouTube', url: dealershipConfig.social.youtube, icon: FaYoutube },
 ];
 
-export function Header() {
-  return (
-    <header className="bg-header border-header sticky top-0 z-50 border-b shadow-sm">
-      <Container>
-        <div className="flex items-center h-14 md:h-[72px]">
+const HOME_SCROLL_THRESHOLD = 36;
 
-          {/* Logo — right side (RTL) */}
+function isLinkActive(pathname: string, href: string): boolean {
+  if (href === ROUTES.home) {
+    return pathname === ROUTES.home;
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > HOME_SCROLL_THRESHOLD);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [pathname]);
+
+  const transparentMode = !scrolled;
+  const headerStateClass = transparentMode ? 'header-transparent' : 'header-solid';
+  const navToneClass = transparentMode ? 'header-nav-link-light' : 'header-nav-link-dark';
+  const iconToneClass = transparentMode ? 'header-icon-light' : 'header-icon-dark';
+  const dividerColor = transparentMode ? 'var(--color-header-transparent-border)' : 'var(--color-border)';
+  const logoStrokeColor = transparentMode ? 'var(--color-header-transparent-text)' : 'var(--color-primary)';
+
+  return (
+    <header
+      className={`fixed top-0 inset-x-0 z-50 header-shell transition-all duration-500 ${headerStateClass}`}
+    >
+      <Container className="pt-3">
+        <div className="header-surface flex items-center h-16 md:h-[74px] px-3 md:px-5">
+
           <Link
             href={ROUTES.home}
-            className="shrink-0 group transition-opacity hover:opacity-85"
+            className="shrink-0 transition-opacity hover:opacity-90"
+            aria-label="חזרה לדף הבית"
           >
-            <Image
-              src="/logo.png"
-              alt={dealershipConfig.business.name}
-              width={160}
-              height={50}
-              className="h-8 md:h-11 w-auto object-contain"
-              priority
+            <CarOnlyShape
+              className="w-[138px] md:w-[170px]"
+              maxWidth={170}
+              strokeColor={logoStrokeColor}
             />
           </Link>
 
-          {/* Desktop Navigation — centered, spread wide */}
-          <nav className="hidden md:flex items-center justify-center flex-1 gap-10 lg:gap-14 xl:gap-16 mx-8">
+          <nav className="hidden md:flex items-center justify-center flex-1 gap-8 lg:gap-10 mx-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative py-1 font-semibold text-sm lg:text-[15px] transition-colors duration-200 group"
-                style={{ color: 'var(--color-gray-700)' }}
+                className={`header-nav-link ${navToneClass} ${isLinkActive(pathname, link.href) ? 'header-nav-link-active' : ''}`}
+                aria-current={isLinkActive(pathname, link.href) ? 'page' : undefined}
               >
                 {link.label}
-                <span
-                  className="absolute -bottom-0.5 right-0 h-0.5 w-0 group-hover:w-full rounded-full transition-all duration-300"
-                  style={{ background: 'var(--color-primary)' }}
-                />
               </Link>
             ))}
           </nav>
 
-          {/* Desktop — social icons + CTA (left side in RTL) */}
-          <div className="hidden md:flex items-center gap-1.5 lg:gap-2 shrink-0">
+          <div className="hidden md:flex items-center gap-2 shrink-0">
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
@@ -69,17 +92,16 @@ export function Header() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-110"
-                  style={{ color: 'var(--color-gray-400)' }}
+                  className={`header-icon-button ${iconToneClass}`}
                   title={social.name}
                   aria-label={social.name}
                 >
-                  <Icon className="w-[17px] h-[17px]" />
+                  <Icon className="w-4 h-4" />
                 </a>
               );
             })}
 
-            <div className="w-px h-6 mx-1.5" style={{ background: 'var(--color-border)' }} />
+            <div className="w-px h-5 mx-1.5" style={{ background: dividerColor }} />
 
             <LeadModalButton
               formId="general"
@@ -89,15 +111,14 @@ export function Header() {
             />
           </div>
 
-          {/* Mobile — icon-only CTA + hamburger */}
-          <div className="flex md:hidden items-center gap-1.5 mr-auto">
+          <div className="flex md:hidden items-center gap-2 mr-auto">
             <LeadModalButton
               formId="general"
               buttonLabel=""
               variant="primary"
-              className="w-9 h-9 p-0"
+              className="w-10 h-10 p-0"
             />
-            <MobileMenu />
+            <MobileMenu tone={transparentMode ? 'light' : 'dark'} />
           </div>
         </div>
       </Container>

@@ -33,8 +33,8 @@ export default function NotFound() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/"
-                className="inline-flex items-center justify-center gap-2 font-bold py-3 px-8 rounded-xl text-white transition-all hover:opacity-90"
-                style={{ background: 'var(--color-primary)' }}
+                className="inline-flex items-center justify-center gap-2 font-bold py-3 px-8 rounded-xl transition-all hover:opacity-90"
+                style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
               >
                 חזור לעמוד הבית
               </Link>

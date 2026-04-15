@@ -150,18 +150,34 @@ export function VehicleSpecifications({
       )}
 
       {/* CTA Section */}
-      <div className="rounded-lg border-2 border-primary p-6 text-center" style={{ background: 'rgba(26, 101, 224, 0.1)' }}>
-        <h3 className="text-xl font-bold text-gray-900">
+      <div
+        className="rounded-lg p-6 text-center"
+        style={{
+          background: 'var(--color-overlay-primary-15)',
+          border: '2px solid var(--color-primary)',
+        }}
+      >
+        <h3 className="text-xl font-bold" style={{ color: 'var(--color-gray-900)' }}>
           מעניין אתכם הרכב הזה?
         </h3>
         <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
           {trimLevel.name} ב-₪{trimLevel.price.toLocaleString('he-IL')}
         </p>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <button className="rounded-lg bg-primary px-6 py-2 font-semibold text-white transition-colors hover:bg-primary/90">
+          <button
+            className="rounded-lg px-6 py-2 font-semibold transition-opacity"
+            style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
+          >
             קבל הצעת מחיר
           </button>
-          <button className="rounded-lg border border-primary px-6 py-2 font-semibold text-primary transition-colors hover:bg-primary/10" style={{ background: 'transparent' }}>
+          <button
+            className="rounded-lg px-6 py-2 font-semibold transition-opacity"
+            style={{
+              border: '1px solid var(--color-primary)',
+              color: 'var(--color-primary)',
+              background: 'transparent',
+            }}
+          >
             השווה דגמים
           </button>
         </div>

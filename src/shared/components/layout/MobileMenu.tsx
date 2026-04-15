@@ -14,9 +14,26 @@ const socialLinks = [
   { name: 'YouTube', url: dealershipConfig.social.youtube, icon: FaYoutube },
 ];
 
-export default function MobileMenu() {
+interface MobileMenuProps {
+  tone?: 'light' | 'dark';
+}
+
+export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  const triggerStyle =
+    tone === 'light'
+      ? {
+          color: 'var(--color-header-transparent-text)',
+          borderColor: 'var(--color-header-transparent-border)',
+          background: 'var(--color-glass-white-04)',
+        }
+      : {
+          color: 'var(--color-gray-700)',
+          borderColor: 'var(--color-border)',
+          background: 'var(--color-background)',
+        };
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -35,8 +52,8 @@ export default function MobileMenu() {
       {/* Hamburger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
-        style={{ color: 'var(--color-gray-700)' }}
+        className="w-10 h-10 flex items-center justify-center rounded-xl border transition-colors"
+        style={triggerStyle}
         aria-label={isOpen ? 'סגור תפריט' : 'פתח תפריט'}
         aria-expanded={isOpen}
       >
@@ -54,7 +71,8 @@ export default function MobileMenu() {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/40"
+          className="fixed inset-0 z-40"
+          style={{ background: 'var(--color-overlay-black-50)' }}
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -99,7 +117,7 @@ export default function MobileMenu() {
                 onClick={() => setIsOpen(false)}
                 className="block py-3 px-4 rounded-xl font-medium text-base transition-colors"
                 style={{
-                  color: isActive ? '#fff' : 'var(--color-gray-700)',
+                  color: isActive ? 'var(--color-text-inverse)' : 'var(--color-gray-700)',
                   background: isActive ? 'var(--color-primary)' : 'transparent',
                 }}
               >

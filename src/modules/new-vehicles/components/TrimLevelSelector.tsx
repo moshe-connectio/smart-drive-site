@@ -41,17 +41,23 @@ export function TrimLevelSelector({
               onClick={() => handleSelect(trim)}
               className={`whitespace-nowrap rounded-lg border-2 px-4 py-2 font-medium transition-all ${
                 selected.id === trim.id
-                  ? 'border-primary bg-primary text-white'
+                  ? 'border-primary bg-primary'
                   : 'border-transparent bg-transparent text-gray-900 hover:border-primary hover:bg-primary/10'
               }`}
-              style={selected.id !== trim.id ? { border: '2px solid var(--color-border)' } : undefined}
+              style={
+                selected.id === trim.id
+                  ? { color: 'var(--color-text-inverse)' }
+                  : { border: '2px solid var(--color-border)' }
+              }
             >
               <div className="text-base">{trim.name}</div>
               <div
-                className={`mt-0.5 text-xs ${
-                  selected.id === trim.id ? 'text-white/80' : 'text-silver-400'
-                }`}
-                style={selected.id !== trim.id ? { color: 'var(--color-silver-400)' } : undefined}
+                className="mt-0.5 text-xs"
+                style={
+                  selected.id === trim.id
+                    ? { color: 'var(--color-header-transparent-text-dim)' }
+                    : { color: 'var(--color-silver-400)' }
+                }
               >
                 ₪{trim.price.toLocaleString('he-IL')}
               </div>

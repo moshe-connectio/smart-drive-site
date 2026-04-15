@@ -22,7 +22,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
       <Header />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-20 md:pt-24">
         {/* Breadcrumb */}
         <div style={{ background: 'var(--color-card-bg)', borderBottom: '1px solid var(--color-border)' }}>
           <Container>
@@ -58,10 +58,10 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
             {/* Sold Ribbon - Only show if NOT published */}
             {!vehicle.is_published && (
               <div className="relative mb-8">
-                <div className="absolute inset-0 bg-red-500 opacity-10 rounded-lg"></div>
-                <div className="relative p-4 border-l-4 border-red-500 bg-red-50 rounded">
-                  <p className="text-red-800 font-semibold">🔴 רכב זה כבר נמכר</p>
-                  <p className="text-red-700 text-sm mt-1">
+                <div className="absolute inset-0 rounded-lg" style={{ background: 'var(--color-error)', opacity: 0.1 }}></div>
+                <div className="relative p-4 rounded" style={{ borderLeft: '4px solid var(--color-error)', background: 'var(--color-error-light)' }}>
+                  <p className="font-semibold" style={{ color: 'var(--color-error-dark)' }}>🔴 רכב זה כבר נמכר</p>
+                  <p className="text-sm mt-1" style={{ color: 'var(--color-error)' }}>
                     הרכב אינו זמין כרגע. נשמח לעזור לכם למצוא חלופה מתאימה מהמלאי.
                   </p>
                 </div>
@@ -95,14 +95,17 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                     {vehicle.brand} {vehicle.model} • {vehicle.year}
                   </p>
                   {vehicle.km !== null && vehicle.km === 0 && (
-                    <div className="mt-3 inline-block bg-success text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    <div
+                      className="mt-3 inline-block text-xs font-semibold px-3 py-1 rounded-full"
+                      style={{ background: 'var(--color-success)', color: 'var(--color-text-inverse)' }}
+                    >
                       ✨ 0 ק״מ - חדש
                     </div>
                   )}
                 </div>
 
                 {/* Price */}
-                <div className="rounded-lg p-4 sm:p-6 mb-4 sm:mb-6" style={{ background: 'rgba(26, 63, 168, 0.06)', border: '1px solid rgba(26, 63, 168, 0.15)' }}>
+                <div className="rounded-lg p-4 sm:p-6 mb-4 sm:mb-6" style={{ background: 'var(--color-overlay-primary-soft)', border: '1px solid var(--color-overlay-primary-15)' }}>
                   <p className="text-xs sm:text-sm mb-2" style={{ color: 'var(--color-silver-400)' }}>מחיר מבוקש</p>
                   <p className="text-3xl sm:text-4xl font-bold text-success">
                     {formatPrice(vehicle.price)}
@@ -190,7 +193,8 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                     <>
                       <button
                         onClick={() => setIsLeadModalOpen(true)}
-                        className="w-full bg-primary text-white font-bold py-3 px-4 text-base rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                        className="w-full font-bold py-3 px-4 text-base rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                        style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -201,7 +205,8 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                         href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '972501234567'}?text=${encodeURIComponent(`שלום, אני מתעניין ברכב: ${vehicle.title}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full border-2 border-[#25D366] text-[#25D366] font-bold py-3 px-4 text-base rounded-lg hover:bg-[#25D366]/5 transition-all flex items-center justify-center gap-2"
+                        className="w-full border-2 font-bold py-3 px-4 text-base rounded-lg transition-all flex items-center justify-center gap-2 hover:opacity-80"
+                        style={{ borderColor: 'var(--color-whatsapp)', color: 'var(--color-whatsapp)' }}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -211,8 +216,8 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                       </a>
                     </>
                   ) : (
-                    <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
-                      <p className="text-yellow-700 font-semibold text-sm">
+                    <div className="p-4 rounded" style={{ background: 'var(--color-warning-light)', borderLeft: '4px solid var(--color-warning)' }}>
+                      <p className="font-semibold text-sm" style={{ color: 'var(--color-warning-dark)' }}>
                         ⚠️ רכב זה כבר נמכר. נשמח לסייע באיתור חלופה מתאימה.
                       </p>
                     </div>
@@ -244,7 +249,8 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
         >
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 backdrop-blur-sm"
+            style={{ background: 'var(--color-overlay-black-50)' }}
             onClick={() => setIsLeadModalOpen(false)}
           />
 
@@ -253,7 +259,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
             {/* Header bar */}
             <div
               className="flex items-center justify-between px-5 py-4"
-              style={{ background: 'var(--color-primary)', color: '#fff' }}
+              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
             >
               <div>
                 <p className="font-bold text-lg leading-tight">השאירו פרטים</p>
@@ -261,7 +267,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
               </div>
               <button
                 onClick={() => setIsLeadModalOpen(false)}
-                className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors"
+                className="w-9 h-9 flex items-center justify-center rounded-full overlay-action-btn"
                 aria-label="סגור טופס"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -271,7 +277,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
             </div>
 
             {/* Form body */}
-            <div style={{ background: 'var(--color-gray-100, #f9fafb)' }}>
+            <div style={{ background: 'var(--color-gray-100)' }}>
               <div className="p-5">
                 <LeadForm
                   formId="vehicle-inquiry"

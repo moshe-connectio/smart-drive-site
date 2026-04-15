@@ -79,7 +79,10 @@ export default function VehicleImageGallery({
           }}
         />
         {/* Image Counter */}
-        <div className="absolute top-2 left-2 bg-black/70 text-white text-xs font-semibold px-2 py-1 rounded">
+        <div
+          className="absolute top-2 left-2 text-xs font-semibold px-2 py-1 rounded"
+          style={{ background: 'var(--color-overlay-black-70)', color: 'var(--color-text-inverse)' }}
+        >
           {selectedImageIndex + 1} / {sortedImages.length}
         </div>
       </div>
@@ -101,7 +104,7 @@ export default function VehicleImageGallery({
               className={`relative w-14 h-14 rounded overflow-hidden shrink-0 transition-all duration-200 border-2 ${
                 selectedImageIndex === index
                   ? 'border-primary ring-2 ring-primary/50'
-                : 'border-gray-600 hover:border-gray-500'
+                  : 'border-gray-600 hover:border-gray-500'
               }`}
               aria-label={`View image ${index + 1}${image.alt_text ? ': ' + image.alt_text : ''}`}
             >
@@ -111,9 +114,13 @@ export default function VehicleImageGallery({
                 fill
                 className="object-cover"
                 unoptimized
+                loading="lazy"
                 sizes="56px"
               />
-              <span className="absolute bottom-0.5 right-0.5 bg-black/70 text-white text-xs rounded px-0.5">
+              <span
+                className="absolute bottom-0.5 right-0.5 text-xs rounded px-0.5"
+                style={{ background: 'var(--color-overlay-black-70)', color: 'var(--color-text-inverse)' }}
+              >
                 {index + 1}
               </span>
             </button>

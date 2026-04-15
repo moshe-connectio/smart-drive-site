@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface CookieConsent {
   essential: true; // always required
@@ -28,10 +28,18 @@ function saveConsent(consent: CookieConsent) {
 }
 
 export default function CookieConsentBanner() {
-  const [visible, setVisible] = useState<boolean>(
-    () => (typeof window !== 'undefined' ? getConsent() === null : false)
-  );
+  const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setMounted(true);
+      setVisible(getConsent() === null);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
   const [functional, setFunctional] = useState(true);
   const [analytics, setAnalytics] = useState(true);
   const [marketing, setMarketing] = useState(false);
@@ -72,6 +80,9 @@ export default function CookieConsentBanner() {
     setVisible(false);
   };
 
+  // Don't render anything until client-side hydration is complete
+  if (!mounted) return null;
+
   // Small trigger button when banner is dismissed
   if (!visible) {
     return (
@@ -81,7 +92,7 @@ export default function CookieConsentBanner() {
         style={{
           background: 'var(--color-gray-200)',
           color: 'var(--color-gray-800)',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+          boxShadow: 'var(--shadow-lg)',
           border: '1px solid var(--color-gray-300)',
         }}
         aria-label="הגדרות פרטיות"
@@ -108,7 +119,13 @@ export default function CookieConsentBanner() {
               className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5"
               style={{ background: 'var(--color-primary)' }}
             >
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5"
+                style={{ color: 'var(--color-text-inverse)' }}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
@@ -140,7 +157,10 @@ export default function CookieConsentBanner() {
                   className="w-11 h-6 rounded-full relative cursor-not-allowed opacity-70"
                   style={{ background: 'var(--color-primary)' }}
                 >
-                  <div className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform" />
+                  <div
+                    className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow transition-transform"
+                    style={{ background: 'var(--color-text-inverse)' }}
+                  />
                 </div>
               </div>
 
@@ -163,8 +183,11 @@ export default function CookieConsentBanner() {
                   aria-label="עוגיות פונקציונליות"
                 >
                   <div
-                    className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-200"
-                    style={{ left: functional ? '2px' : 'calc(100% - 22px)' }}
+                    className="absolute top-0.5 w-5 h-5 rounded-full shadow transition-all duration-200"
+                    style={{
+                      left: functional ? '2px' : 'calc(100% - 22px)',
+                      background: 'var(--color-text-inverse)',
+                    }}
                   />
                 </button>
               </div>
@@ -188,8 +211,11 @@ export default function CookieConsentBanner() {
                   aria-label="עוגיות אנליטיקה"
                 >
                   <div
-                    className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-200"
-                    style={{ left: analytics ? '2px' : 'calc(100% - 22px)' }}
+                    className="absolute top-0.5 w-5 h-5 rounded-full shadow transition-all duration-200"
+                    style={{
+                      left: analytics ? '2px' : 'calc(100% - 22px)',
+                      background: 'var(--color-text-inverse)',
+                    }}
                   />
                 </button>
               </div>
@@ -213,8 +239,11 @@ export default function CookieConsentBanner() {
                   aria-label="עוגיות שיווקיות"
                 >
                   <div
-                    className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-200"
-                    style={{ left: marketing ? '2px' : 'calc(100% - 22px)' }}
+                    className="absolute top-0.5 w-5 h-5 rounded-full shadow transition-all duration-200"
+                    style={{
+                      left: marketing ? '2px' : 'calc(100% - 22px)',
+                      background: 'var(--color-text-inverse)',
+                    }}
                   />
                 </button>
               </div>
@@ -223,8 +252,8 @@ export default function CookieConsentBanner() {
             {/* Save Preferences */}
             <button
               onClick={handleSavePreferences}
-              className="w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 text-white"
-              style={{ background: 'var(--color-primary)' }}
+              className="w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200"
+              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
             >
               שמור העדפות
             </button>
@@ -235,8 +264,12 @@ export default function CookieConsentBanner() {
         <div className="p-3 sm:p-5 pt-2 sm:pt-3 flex flex-col sm:flex-row gap-2">
           <button
             onClick={handleAcceptAll}
-            className="flex-1 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm text-white transition-all duration-200 hover:opacity-90"
-            style={{ background: 'var(--color-primary)', boxShadow: 'var(--shadow-blue)' }}
+            className="flex-1 py-2.5 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm transition-all duration-200 hover:opacity-90"
+            style={{
+              background: 'var(--color-primary)',
+              color: 'var(--color-text-inverse)',
+              boxShadow: 'var(--shadow-blue)',
+            }}
           >
             אישור כל העוגיות
           </button>

@@ -44,12 +44,12 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
       {models.map((model) => (
         <Link
           key={model.id}
           href={`/new-vehicles/${manufacturerSlug}/${model.slug}`}
-          className="group overflow-hidden rounded-lg transition-all hover:shadow-lg"
+          className="group card-automotive accent-top-hover overflow-hidden rounded-2xl transition-all"
           style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
         >
           {/* תמונה דגם */}
@@ -68,24 +68,55 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
                 </span>
               </div>
             )}
+
+            <div
+              className="absolute inset-x-0 bottom-0 p-4"
+              style={{
+                background: 'linear-gradient(180deg, transparent 0%, var(--color-overlay-black-70) 100%)',
+              }}
+            >
+              <p className="text-sm font-semibold" style={{ color: 'var(--color-text-inverse)' }}>
+                {model.manufacturer_name}
+              </p>
+            </div>
           </div>
 
           {/* מידע דגם */}
-          <div className="p-4">
+          <div className="p-5">
             {/* שם דגם */}
             <h3 className="text-lg font-semibold text-gray-900">
               {model.name_he || model.name}
             </h3>
 
-            {/* סוג גוף */}
-            {model.body_type && (
-              <p className="mt-1 text-sm" style={{ color: 'var(--color-silver-400)' }}>
-                {model.body_type}
-              </p>
-            )}
+            <div className="mt-2 flex flex-wrap gap-2">
+              {model.body_type && (
+                <span
+                  className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                  style={{
+                    background: 'var(--color-primary-50)',
+                    color: 'var(--color-primary)',
+                    border: '1px solid var(--color-primary-100)',
+                  }}
+                >
+                  {model.body_type}
+                </span>
+              )}
+              {model.segment && (
+                <span
+                  className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                  style={{
+                    background: 'var(--color-gray-100)',
+                    color: 'var(--color-gray-700)',
+                    border: '1px solid var(--color-border)',
+                  }}
+                >
+                  {model.segment}
+                </span>
+              )}
+            </div>
 
             {/* טווח מחיר */}
-            <div className="mt-3 flex items-baseline gap-2 text-sm">
+            <div className="mt-4 flex items-baseline gap-2 text-sm">
               <span className="text-xs" style={{ color: 'var(--color-silver-500)' }}>מחיר:</span>
               <span className="font-semibold text-gray-900">
                 {model.min_price && model.max_price ? (
@@ -103,11 +134,17 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
             </div>
 
             {/* ספירת רמות גימור */}
-            <div className="mt-3 flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
+            <div className="mt-4 flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
               <span className="text-xs" style={{ color: 'var(--color-silver-500)' }}>
                 {model.trim_levels_count} רמות גימור
               </span>
-              <span className="inline-flex items-center justify-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+              <span
+                className="inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                style={{
+                  background: 'var(--color-primary-50)',
+                  color: 'var(--color-primary)',
+                }}
+              >
                 בחר
               </span>
             </div>

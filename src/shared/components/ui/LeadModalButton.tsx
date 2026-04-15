@@ -22,10 +22,10 @@ export function LeadModalButton({
 
   const buttonStyle =
     variant === 'gold'
-      ? { background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 16px rgba(212,160,23,0.35)' }
+      ? { background: 'var(--color-primary)', color: 'var(--color-text-inverse)', boxShadow: 'var(--shadow-primary-cta)' }
       : variant === 'outline'
       ? { border: '2px solid var(--color-primary)', color: 'var(--color-primary)', background: 'transparent' }
-      : { background: 'var(--color-primary)', color: '#fff', boxShadow: '0 4px 16px rgba(26,101,224,0.3)' };
+      : { background: 'var(--color-primary)', color: 'var(--color-text-inverse)', boxShadow: 'var(--shadow-primary-soft)' };
 
   return (
     <>
@@ -49,7 +49,8 @@ export function LeadModalButton({
         >
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 backdrop-blur-sm"
+            style={{ background: 'var(--color-overlay-black-50)' }}
             onClick={() => setIsOpen(false)}
           />
 
@@ -58,7 +59,7 @@ export function LeadModalButton({
             {/* Header */}
             <div
               className="flex items-center justify-between px-5 py-4"
-              style={{ background: 'var(--color-primary)', color: '#fff' }}
+              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
             >
               <div>
                 <p className="font-bold text-lg leading-tight">השאר פרטים</p>
@@ -66,7 +67,7 @@ export function LeadModalButton({
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors"
+                className="w-9 h-9 flex items-center justify-center rounded-full overlay-action-btn"
                 aria-label="סגור טופס"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +77,7 @@ export function LeadModalButton({
             </div>
 
             {/* Form */}
-            <div style={{ background: 'var(--color-gray-100, #f9fafb)' }}>
+            <div style={{ background: 'var(--color-gray-100)' }}>
               <div className="p-5">
                 <LeadForm
                   formId={formId}

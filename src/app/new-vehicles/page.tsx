@@ -5,18 +5,17 @@
 
 import { Metadata } from 'next';
 import { getAllManufacturers } from '@modules/new-vehicles/lib/repository';
-
-// ISR - revalidate every 60 seconds so new manufacturers appear
-export const revalidate = 60;
 import { ManufacturerGrid } from '@modules/new-vehicles/components/ManufacturerGrid';
-
 import { dealershipConfig } from '@core/config/site.config';
+import { Container } from '@shared/components/layout/Container';
+
+export const revalidate = 60;
 
 const siteUrl = dealershipConfig.seo.siteUrl;
 
 export const metadata: Metadata = {
   title: `רכבים חדשים | ${dealershipConfig.business.name}`,
-  description: `מאגר רכבים חדשים בישראל לפי יצרן, דגם ורמת גימור, עם מידע ברור ועדכני לקבלת החלטה חכמה.`,
+  description: 'מאגר רכבים חדשים בישראל לפי יצרן, דגם ורמת גימור, עם מידע ברור ועדכני לקבלת החלטה חכמה.',
   keywords: `רכבים חדשים, ${dealershipConfig.seo.keywords}`,
   alternates: {
     canonical: `${siteUrl}/new-vehicles`,
@@ -45,98 +44,86 @@ async function NewVehiclesPage() {
     manufacturers = await getAllManufacturers();
   } catch (error) {
     console.error('Error loading manufacturers:', error);
-
     hasLoadError = true;
   }
 
   if (hasLoadError) {
     return (
-      <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">שגיאה בטעינת היצרנים</h1>
-          <p className="mt-4" style={{ color: 'var(--color-silver-400)' }}>
-            אנא נסו שוב מאוחר יותר.
-          </p>
-        </div>
-      </main>
+      <div className="min-h-screen" style={{ background: 'var(--color-background)' }}>
+        <section className="route-hero">
+          <div className="route-hero-atmo" />
+          <Container>
+            <div className="route-hero-inner text-center">
+              <p className="route-hero-kicker">רכבים חדשים</p>
+              <h1 className="route-hero-title">שגיאה בטעינת היצרנים</h1>
+              <p className="route-hero-subtitle mx-auto">אנא נסו שוב בעוד מספר דקות.</p>
+            </div>
+          </Container>
+        </section>
+      </div>
     );
   }
 
   return (
-    <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
-      {/* Header Section */}
-      <div className="py-12" style={{ background: 'var(--color-primary-800)' }}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-white md:text-5xl">
-              רכבים חדשים
-            </h1>
-            <p className="mt-4 text-lg text-white/70">
-              כל היצרנים והדגמים החדשים בישראל במקום אחד
+    <div className="min-h-screen" style={{ background: 'var(--color-background)' }}>
+      <section className="route-hero">
+        <div className="route-hero-atmo" />
+        <div className="route-hero-grid" />
+        <Container>
+          <div className="route-hero-inner text-center">
+            <p className="route-hero-kicker">רכבים חדשים</p>
+            <h1 className="route-hero-title">כל היצרנים והדגמים במקום אחד</h1>
+            <p className="route-hero-subtitle mx-auto">
+              בחרו יצרן כדי לצפות בדגמים, ברמות גימור ובמפרטים טכניים מעודכנים.
             </p>
           </div>
-        </div>
-      </div>
+        </Container>
+      </section>
 
-      {/* Content Section */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Section Title */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {manufacturers.length} יצרנים זמינים במאגר
-          </h2>
-          <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-            בחרו יצרן כדי לצפות בדגמים, רמות גימור ומפרטים מלאים
-          </p>
-        </div>
-
-        {/* Manufacturers Grid */}
-        <ManufacturerGrid manufacturers={manufacturers} />
-      </div>
-
-      {/* Info Section */}
-      <div className="py-12" style={{ borderTop: '1px solid var(--color-border)', background: 'var(--color-secondary-bg)' }}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 md:grid-cols-3">
-            <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: 'rgba(26, 101, 224, 0.15)' }}>
-                <span className="text-xl font-bold text-primary">
-                  {manufacturers.length}
-                </span>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                יצרנים מובילים
-              </h3>
-              <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-                גישה למותגים המובילים בשוק המקומי והבינלאומי
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: 'rgba(26, 101, 224, 0.15)' }}>
-                <span className="text-xl font-bold text-primary">+</span>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                דגמים מעודכנים
-              </h3>
-              <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-                מידע מתעדכן על דגמים ורמות גימור לפי השוק הישראלי
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg" style={{ background: 'rgba(26, 101, 224, 0.15)' }}>
-                <span className="text-xl font-bold text-primary">✓</span>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                בחירה חכמה
-              </h3>
-              <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
-                השוואה נוחה בין דגמים, מחירים ומפרטים
-              </p>
-            </div>
+      <section className="py-14" style={{ background: 'var(--color-background)' }}>
+        <Container>
+          <div className="mb-10">
+            <p className="home-section-kicker">יצרנים זמינים</p>
+            <h2 className="home-section-title">{manufacturers.length} יצרנים במאגר</h2>
+            <p className="home-section-subtitle" style={{ marginRight: 0, marginLeft: 0 }}>
+              בחרו יצרן כדי לצפות בדגמים, רמות גימור ומפרטים מלאים.
+            </p>
           </div>
-        </div>
-      </div>
-    </main>
+
+          <ManufacturerGrid manufacturers={manufacturers} />
+        </Container>
+      </section>
+
+      <section className="home-soft-section py-12">
+        <Container>
+          <div className="grid gap-6 md:grid-cols-3">
+            <article className="route-stat-card text-center">
+              <p className="text-2xl font-bold" style={{ color: 'var(--color-primary)' }}>{manufacturers.length}</p>
+              <h3 className="mt-3 text-lg font-semibold" style={{ color: 'var(--color-gray-900)' }}>יצרנים מובילים</h3>
+              <p className="mt-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
+                גישה למותגים המובילים בשוק המקומי והבינלאומי.
+              </p>
+            </article>
+
+            <article className="route-stat-card text-center">
+              <p className="text-2xl font-bold" style={{ color: 'var(--color-primary)' }}>+</p>
+              <h3 className="mt-3 text-lg font-semibold" style={{ color: 'var(--color-gray-900)' }}>דגמים מעודכנים</h3>
+              <p className="mt-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
+                מידע עדכני על דגמים ורמות גימור לפי השוק הישראלי.
+              </p>
+            </article>
+
+            <article className="route-stat-card text-center">
+              <p className="text-2xl font-bold" style={{ color: 'var(--color-primary)' }}>✓</p>
+              <h3 className="mt-3 text-lg font-semibold" style={{ color: 'var(--color-gray-900)' }}>בחירה חכמה</h3>
+              <p className="mt-2 text-sm" style={{ color: 'var(--color-silver-400)' }}>
+                השוואה נוחה בין דגמים, מחירים ומפרטים.
+              </p>
+            </article>
+          </div>
+        </Container>
+      </section>
+    </div>
   );
 }
 

@@ -71,13 +71,14 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
-      style={{ background: 'rgba(0, 0, 0, 0.92)' }}
+      style={{ background: 'var(--color-overlay-black-92)' }}
       onClick={onClose}
     >
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+        className="absolute top-4 left-4 z-10 w-10 h-10 flex items-center justify-center rounded-full transition-colors"
+        style={{ background: 'var(--color-glass-white-10)', color: 'var(--color-text-inverse)' }}
         aria-label="סגור"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +87,7 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
       </button>
 
       {/* Counter */}
-      <div className="absolute top-4 right-4 text-white/70 text-sm font-medium">
+      <div className="absolute top-4 right-4 text-sm font-medium" style={{ color: 'var(--color-glass-white-65)' }}>
         {currentIndex + 1} / {sortedImages.length}
       </div>
 
@@ -101,7 +102,8 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
         {sortedImages.length > 1 && (
           <button
             onClick={goPrev}
-            className="absolute right-2 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            className="absolute right-2 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full transition-colors"
+            style={{ background: 'var(--color-glass-white-10)', color: 'var(--color-text-inverse)' }}
             aria-label="תמונה קודמת"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,7 +129,8 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
         {sortedImages.length > 1 && (
           <button
             onClick={goNext}
-            className="absolute left-2 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            className="absolute left-2 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full transition-colors"
+            style={{ background: 'var(--color-glass-white-10)', color: 'var(--color-text-inverse)' }}
             aria-label="תמונה הבאה"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,8 +154,9 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
                 className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden shrink-0 transition-all duration-200 border-2 ${
                   currentIndex === index
                     ? 'border-primary ring-2 ring-primary/50 opacity-100'
-                    : 'border-white/20 opacity-60 hover:opacity-100'
+                    : 'opacity-60 hover:opacity-100'
                 }`}
+                style={currentIndex === index ? undefined : { borderColor: 'var(--color-glass-white-20)' }}
               >
                 <Image
                   src={image.image_url}

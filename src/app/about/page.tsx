@@ -4,6 +4,7 @@ import { Container } from '@shared/components/layout/Container';
 import { dealershipConfig } from '@core/config/site.config';
 import { ROUTES } from '@core/lib/constants';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: `אודות | ${dealershipConfig.business.name}`,
@@ -29,6 +30,13 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const stats = [
+    { value: `${dealershipConfig.company.yearsExperience}+`, label: 'שנות ניסיון' },
+    { value: `${dealershipConfig.company.employees}+`, label: 'אנשי צוות מקצועיים' },
+    { value: dealershipConfig.company.satisfaction, label: 'שביעות רצון' },
+    { value: '150', label: 'נקודות בדיקה לכל רכב' },
+  ];
+
   const values = [
     {
       icon: (
@@ -80,73 +88,49 @@ export default function AboutPage() {
       <Header />
 
       <main className="flex-1">
-        {/* Hero */}
-        <section className="relative overflow-hidden" style={{ background: 'var(--color-primary-800)' }}>
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-white/10 -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-white/5 translate-x-1/3 translate-y-1/3" />
-          </div>
-          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
+        <section className="route-hero">
+          <div className="route-hero-atmo" />
+          <div className="route-hero-grid" />
 
           <Container>
-            <div className="text-center py-12 sm:py-16 md:py-24 relative z-10">
-              <span
-                className="inline-block text-xs font-bold tracking-widest uppercase mb-4 px-4 py-1.5 rounded-full border"
-                style={{ color: 'var(--color-gold-400)', borderColor: 'var(--color-gold-400)', background: 'rgba(212,160,23,0.08)' }}
-              >
-                אודותינו
-              </span>
-              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Smart &amp; Drive
-              </h1>
-              <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-                הדרך המקצועית לרכב הבא שלכם - שקיפות, שירות וליווי אישי מאז 2020.
+            <div className="route-hero-inner text-center">
+              <p className="route-hero-kicker">אודותינו</p>
+              <h1 className="route-hero-title">Smart &amp; Drive</h1>
+              <p className="route-hero-subtitle mx-auto">
+                הדרך המקצועית לרכב הבא שלכם, בשילוב שקיפות מלאה, שירות אישי וליווי אמיתי לאורך כל הדרך.
               </p>
             </div>
           </Container>
-
-          <div className="relative z-10">
-            <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 60L48 53.3C96 46.7 192 33.3 288 26.7C384 20 480 20 576 26.7C672 33.3 768 46.7 864 50C960 53.3 1056 46.7 1152 40C1248 33.3 1344 26.7 1392 23.3L1440 20V60H0Z" fill="white" />
-            </svg>
-          </div>
         </section>
 
-        {/* Stats */}
-        <section className="py-12 bg-white border-b" style={{ borderColor: 'var(--color-border)' }}>
+        <section className="py-12" style={{ background: 'var(--color-background)' }}>
           <Container>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-              {[
-                { value: `${dealershipConfig.company.yearsExperience}+`, label: 'שנות ניסיון' },
-                { value: `${dealershipConfig.company.employees}+`, label: 'אנשי צוות מקצועיים' },
-                { value: dealershipConfig.company.satisfaction, label: 'שביעות רצון' },
-                { value: '150', label: 'נקודות בדיקה לכל רכב' },
-              ].map((stat) => (
-                <div key={stat.label}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+              {stats.map((stat) => (
+                <article key={stat.label} className="route-stat-card transition-all duration-300 hover:scale-[1.02]">
                   <div
-                    className="text-3xl sm:text-5xl font-bold mb-1"
-                    style={{ color: 'var(--color-primary)' }}
+                    className="text-3xl sm:text-4xl font-bold mb-1"
+                    style={{
+                      background: 'var(--gradient-primary)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
                   >
                     {stat.value}
                   </div>
                   <div className="text-sm" style={{ color: 'var(--color-gray-500)' }}>{stat.label}</div>
-                </div>
+                </article>
               ))}
             </div>
           </Container>
         </section>
 
-        {/* Our Story */}
-        <section className="py-20 bg-white">
+        <section className="py-20" style={{ background: 'var(--color-background)' }}>
           <Container>
             <div className="max-w-3xl mx-auto text-center">
-              <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>
-                הסיפור שלנו
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold mt-2 mb-6" style={{ color: 'var(--color-gray-900)' }}>
-                מי אנחנו?
-              </h2>
-              <div className="w-16 h-1 mx-auto mb-8 rounded-full" style={{ background: 'var(--color-gold)' }} />
+              <p className="home-section-kicker">הסיפור שלנו</p>
+              <h2 className="home-section-title mb-8">מי אנחנו?</h2>
               <div className="space-y-5 text-lg leading-relaxed" style={{ color: 'var(--color-gray-600)' }}>
                 <p>
                   Smart & Drive נוסדה בשנת 2020 מתוך אמונה פשוטה: קניית רכב צריכה להיות חוויה ברורה, נעימה ובטוחה.
@@ -165,147 +149,81 @@ export default function AboutPage() {
           </Container>
         </section>
 
-        {/* Values */}
-        <section className="py-20" style={{ background: 'var(--color-background-secondary)' }}>
+        <section className="home-soft-section py-20">
           <Container>
             <div className="text-center mb-14">
-              <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>
-                הערכים שלנו
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
-                מה מנחה אותנו
-              </h2>
-              <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
+              <p className="home-section-kicker">הערכים שלנו</p>
+              <h2 className="home-section-title">מה מנחה אותנו</h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {values.map((v) => (
-                <div
-                  key={v.title}
-                  className="rounded-2xl p-7 text-center group transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    background: 'var(--color-card-bg)',
-                    boxShadow: 'var(--shadow-card)',
-                    border: '1px solid var(--color-card-border)',
-                  }}
-                >
-                  <div
-                    className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                    style={{ background: 'var(--color-primary-50)', color: 'var(--color-primary)' }}
-                  >
-                    {v.icon}
-                  </div>
+              {values.map((item) => (
+                <article key={item.title} className="home-advantage-card text-center">
+                  <div className="home-advantage-icon mx-auto">{item.icon}</div>
                   <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>
-                    {v.title}
+                    {item.title}
                   </h3>
                   <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
-                    {v.desc}
+                    {item.desc}
                   </p>
-                </div>
+                </article>
               ))}
             </div>
           </Container>
         </section>
 
-        {/* Timeline */}
-        <section className="py-20 bg-white">
+        <section className="py-20" style={{ background: 'var(--color-background)' }}>
           <Container>
             <div className="text-center mb-14">
-              <span className="text-sm font-bold tracking-wider uppercase" style={{ color: 'var(--color-gold)' }}>
-                ציר הזמן שלנו
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold mt-2" style={{ color: 'var(--color-gray-900)' }}>
-                אבני הדרך שלנו
-              </h2>
-              <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: 'var(--color-gold)' }} />
+              <p className="home-section-kicker">ציר הזמן שלנו</p>
+              <h2 className="home-section-title">אבני הדרך שלנו</h2>
             </div>
 
-            <div className="relative max-w-5xl mx-auto">
-              {/* Desktop center line */}
-              <div
-                className="absolute left-1/2 top-2 bottom-2 w-0.5 -translate-x-1/2 hidden md:block"
-                style={{ background: 'var(--color-border)' }}
-              />
-
-              {/* Mobile side line */}
-              <div
-                className="absolute right-6 top-2 bottom-2 w-0.5 md:hidden"
-                style={{ background: 'var(--color-border)' }}
-              />
-
-              <div className="space-y-8 md:space-y-10">
-                {milestones.map((m, i) => {
-                  const isLeftOnDesktop = i % 2 === 0;
-
-                  return (
-                    <div key={m.year} className="relative pr-16 md:pr-0">
-                      <div className="md:grid md:grid-cols-2 md:gap-12 md:items-center">
-                        <div className={isLeftOnDesktop ? 'md:col-start-1' : 'md:col-start-2'}>
-                          <div
-                            className="rounded-2xl p-5 md:p-6 text-right"
-                            style={{
-                              background: 'var(--color-card-bg)',
-                              boxShadow: 'var(--shadow-card)',
-                              border: '1px solid var(--color-card-border)',
-                            }}
-                          >
-                            <h3 className="font-bold text-base md:text-lg mb-1" style={{ color: 'var(--color-gray-900)' }}>
-                              {m.event}
-                            </h3>
-                            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
-                              {m.desc}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Year bubble */}
-                      <div className="absolute top-4 right-0 md:top-1/2 md:right-1/2 md:translate-x-1/2 md:-translate-y-1/2 z-10">
-                        <div
-                          className="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center font-bold text-xs md:text-sm text-white shadow-lg"
-                          style={{ background: 'var(--color-primary)' }}
-                        >
-                          {m.year}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {milestones.map((item) => (
+                <article key={item.year} className="route-surface-card p-6 h-full">
+                  <div
+                    className="inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-bold mb-4"
+                    style={{ background: 'var(--color-primary-50)', color: 'var(--color-primary)' }}
+                  >
+                    {item.year}
+                  </div>
+                  <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-gray-900)' }}>
+                    {item.event}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gray-500)' }}>
+                    {item.desc}
+                  </p>
+                </article>
+              ))}
             </div>
           </Container>
         </section>
 
-        {/* Contact CTA */}
-        <section
-          className="py-12 sm:py-20 relative overflow-hidden"
-          style={{ background: 'var(--color-primary-800)' }}
-        >
-          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--color-gold)' }} />
+        <section className="route-callout">
+          <div className="route-hero-atmo" />
+
           <Container>
-            <div className="text-center relative z-10">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+            <div className="route-callout-inner">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4" style={{ color: 'var(--color-text-inverse)' }}>
                 מוכנים לרכב הבא שלכם?
               </h2>
-              <p className="text-white/90 text-base sm:text-lg mb-8 sm:mb-10 max-w-xl mx-auto">
+              <p className="text-base sm:text-lg mb-8 sm:mb-10 max-w-xl mx-auto" style={{ color: 'var(--color-header-transparent-text-dim)' }}>
                 נשמח לפגוש אתכם בסוכנות, לייעץ בוואטסאפ או בטלפון, ולעזור לכם לבחור נכון.
               </p>
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a
-                  href={ROUTES.vehicles}
-                  className="inline-flex items-center gap-2 font-bold py-3 px-8 sm:py-4 sm:px-10 rounded-xl text-white transition-all duration-300 hover:scale-105 text-base"
-                  style={{ background: 'var(--color-gold)', color: '#0a1636', boxShadow: '0 4px 20px rgba(212,160,23,0.4)' }}
-                >
+                <Link href={ROUTES.vehicles} className="home-primary-cta">
                   צפו בכל הרכבים
                   <svg className="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </a>
+                </Link>
                 <a
                   href={`https://wa.me/${dealershipConfig.contact.whatsapp.replace(/\D/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-semibold py-3 px-8 sm:py-4 sm:px-10 rounded-xl transition-all duration-300 hover:scale-105 text-white border-2 border-white/30 hover:border-white/60 hover:bg-white/10 text-base"
+                  className="home-outline-cta"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -313,28 +231,6 @@ export default function AboutPage() {
                   </svg>
                   דברו איתנו בוואטסאפ
                 </a>
-              </div>
-
-              <div className="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-2xl mx-auto text-sm">
-                <div className="flex items-center justify-center gap-2 text-white/90">
-                  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  {dealershipConfig.contact.phone}
-                </div>
-                <div className="flex items-center justify-center gap-2 text-white/90">
-                  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  {dealershipConfig.contact.address}
-                </div>
-                <div className="flex items-center justify-center gap-2 text-white/90">
-                  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  א׳-ה׳ {dealershipConfig.contact.businessHours.weekdays}
-                </div>
               </div>
             </div>
           </Container>
