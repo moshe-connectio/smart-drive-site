@@ -105,8 +105,8 @@ export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
         <nav className="p-4 space-y-1">
           {[
             { href: ROUTES.home, label: 'דף הבית' },
-            { href: ROUTES.vehicles, label: 'רכבים' },
             { href: '/new-vehicles', label: 'רכבים חדשים' },
+            { href: ROUTES.vehicles, label: 'רכבים' },
             { href: ROUTES.about, label: 'אודות' },
           ].map((link) => {
             const isActive = pathname === link.href;

@@ -7,8 +7,8 @@ import type { LeadFormId } from '@modules/leads';
 interface LeadModalButtonProps {
   formId?: LeadFormId;
   buttonLabel?: string;
-  /** 'primary' = filled blue, 'gold' = gold gradient, 'outline' = bordered */
-  variant?: 'primary' | 'gold' | 'outline';
+  /** 'primary' = blue, 'cta' = orange call-to-action, 'gold' = accent, 'outline' = bordered */
+  variant?: 'primary' | 'cta' | 'gold' | 'outline';
   className?: string;
 }
 
@@ -21,7 +21,9 @@ export function LeadModalButton({
   const [isOpen, setIsOpen] = useState(false);
 
   const buttonStyle =
-    variant === 'gold'
+    variant === 'cta'
+      ? { background: 'var(--color-warning)', color: 'var(--color-text-inverse)', boxShadow: 'var(--shadow-gold-cta-base)' }
+      : variant === 'gold'
       ? { background: 'var(--color-primary)', color: 'var(--color-text-inverse)', boxShadow: 'var(--shadow-primary-cta)' }
       : variant === 'outline'
       ? { border: '2px solid var(--color-primary)', color: 'var(--color-primary)', background: 'transparent' }

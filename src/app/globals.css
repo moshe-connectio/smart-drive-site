@@ -208,6 +208,11 @@
   --color-glass-white-75: rgba(255, 255, 255, 0.75);
   --color-glass-white-80: rgba(255, 255, 255, 0.8);
 
+  --color-social-facebook: #1877f2;
+  --color-social-instagram-start: #f58529;
+  --color-social-instagram-mid: #dd2a7b;
+  --color-social-instagram-end: #515bd4;
+  --color-social-youtube: #ff0000;
   --color-whatsapp: #25d366;
   
   /* Footer Colors */
@@ -421,13 +426,19 @@ body {
 }
 
 .header-icon-button {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.1rem;
+  height: 2.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  border-radius: 0.68rem;
   border: 1px solid transparent;
+}
+
+.header-icon-button-compact {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.58rem;
 }
 
 .header-icon-light {
@@ -450,6 +461,46 @@ body {
   color: var(--color-primary);
   background: var(--color-header-solid-icon-hover);
   border-color: var(--color-primary-200);
+}
+
+.header-icon-button[data-social],
+.footer-social-link[data-social] {
+  color: var(--color-text-inverse);
+  border-color: transparent;
+  transition: transform var(--transition-base), filter var(--transition-base), opacity var(--transition-base);
+}
+
+.header-icon-button[data-social="facebook"],
+.footer-social-link[data-social="facebook"] {
+  background: var(--color-social-facebook);
+}
+
+.header-icon-button[data-social="instagram"],
+.footer-social-link[data-social="instagram"] {
+  background: linear-gradient(
+    135deg,
+    var(--color-social-instagram-start) 0%,
+    var(--color-social-instagram-mid) 55%,
+    var(--color-social-instagram-end) 100%
+  );
+}
+
+.header-icon-button[data-social="whatsapp"],
+.footer-social-link[data-social="whatsapp"] {
+  background: var(--color-whatsapp);
+}
+
+.header-icon-button[data-social="youtube"],
+.footer-social-link[data-social="youtube"] {
+  background: var(--color-social-youtube);
+}
+
+.header-icon-button[data-social]:hover,
+.footer-social-link[data-social]:hover {
+  color: var(--color-text-inverse);
+  border-color: transparent;
+  transform: translateY(-1px);
+  filter: saturate(1.1) brightness(1.05);
 }
 
 .home-hero {
@@ -931,8 +982,8 @@ body {
 }
 
 .footer-social-link {
-  width: 2rem;
-  height: 2rem;
+  width: 1.85rem;
+  height: 1.85rem;
   border-radius: 999px;
   display: flex;
   align-items: center;
@@ -1196,6 +1247,38 @@ html.a11y-grayscale {
 }
 .scroll-hint-bounce {
   animation: scroll-hint 2s ease-in-out infinite;
+}
+
+@keyframes car-only-shape-top-wave {
+  0%,
+  100% {
+    transform: translateY(0) skewX(0deg);
+  }
+  22% {
+    transform: translateY(-0.9px) skewX(-0.14deg);
+  }
+  48% {
+    transform: translateY(0.35px) skewX(0.1deg);
+  }
+  74% {
+    transform: translateY(-0.6px) skewX(-0.08deg);
+  }
+}
+
+.car-only-shape-top-wave {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-name: car-only-shape-top-wave;
+  animation-duration: 6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car-only-shape-top-wave {
+    animation: none;
+  }
 }
 
 /* Thin top accent line on hover */

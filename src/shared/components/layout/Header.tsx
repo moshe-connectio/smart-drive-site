@@ -12,8 +12,8 @@ import { Container } from './Container';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
-  { href: ROUTES.vehicles, label: 'רכבים' },
   { href: '/new-vehicles', label: 'רכבים חדשים' },
+  { href: ROUTES.vehicles, label: 'רכבים' },
   { href: ROUTES.about, label: 'אודות' },
 ];
 
@@ -56,21 +56,23 @@ export function Header() {
       className={`fixed top-0 inset-x-0 z-50 header-shell transition-all duration-500 ${headerStateClass}`}
     >
       <Container className="pt-3">
-        <div className="header-surface flex items-center h-16 md:h-[74px] px-3 md:px-5">
+        <div className="header-surface relative flex items-center h-16 md:h-[74px] px-3 md:px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
 
           <Link
             href={ROUTES.home}
-            className="shrink-0 transition-opacity hover:opacity-90"
+            className="shrink-0 transition-opacity hover:opacity-90 md:justify-self-start"
             aria-label="חזרה לדף הבית"
           >
             <CarOnlyShape
               className="w-[138px] md:w-[170px]"
               maxWidth={170}
               strokeColor={logoStrokeColor}
+              animateTopWave
+              waveDurationSeconds={4.8}
             />
           </Link>
 
-          <nav className="hidden md:flex items-center justify-center flex-1 gap-8 lg:gap-10 mx-6">
+          <nav className="hidden md:flex items-center justify-center gap-8 lg:gap-10 md:justify-self-center">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -83,7 +85,7 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-2 shrink-0">
+          <div className="hidden md:flex items-center gap-2 shrink-0 md:justify-self-end">
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
@@ -92,11 +94,12 @@ export function Header() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`header-icon-button ${iconToneClass}`}
+                  className={`header-icon-button header-icon-button-compact ${iconToneClass}`}
+                  data-social={social.name.toLowerCase()}
                   title={social.name}
                   aria-label={social.name}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-[1.02rem] h-[1.02rem]" />
                 </a>
               );
             })}
@@ -105,9 +108,9 @@ export function Header() {
 
             <LeadModalButton
               formId="general"
-              buttonLabel="השאר פרטים"
-              variant="primary"
-              className="text-sm py-2 px-5"
+              buttonLabel="צרו קשר"
+              variant="cta"
+              className="text-sm py-1.5 px-4"
             />
           </div>
 
@@ -115,7 +118,7 @@ export function Header() {
             <LeadModalButton
               formId="general"
               buttonLabel=""
-              variant="primary"
+              variant="cta"
               className="w-10 h-10 p-0"
             />
             <MobileMenu tone={transparentMode ? 'light' : 'dark'} />

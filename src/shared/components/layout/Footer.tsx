@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
 import { dealershipConfig } from '@core/config/site.config';
 import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
+import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 import { Container } from './Container';
 import { APP_CONFIG, ROUTES, CONTACT_INFO } from '@core/lib/constants';
 
@@ -45,14 +46,12 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <a
-              href={dealershipConfig.social.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer-action footer-action-primary"
-            >
-              דברו איתנו בוואטסאפ
-            </a>
+            <LeadModalButton
+              formId="general"
+              buttonLabel="צרו קשר"
+              variant="cta"
+              className="footer-action"
+            />
             <a
               href={`tel:${CONTACT_INFO.phone}`}
               className="footer-action footer-action-secondary"
@@ -68,6 +67,8 @@ export function Footer() {
               className="w-[170px] mb-5 opacity-90"
               maxWidth={170}
               strokeColor="var(--color-footer-text-strong)"
+              animateTopWave
+              waveDurationSeconds={5.1}
             />
             <p className="text-sm leading-relaxed max-w-sm" style={{ color: 'var(--color-footer-text)', lineHeight: 1.85 }}>
               {APP_CONFIG.description} מגוון רכבים איכותיים, שקיפות מלאה וליווי מקצועי מהשיחה הראשונה ועד המסירה.
@@ -84,8 +85,9 @@ export function Footer() {
                     rel="noopener noreferrer"
                     aria-label={item.label}
                     className="footer-social-link"
+                    data-social={item.label.toLowerCase()}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-[1.12rem] h-[1.12rem]" />
                   </a>
                 );
               })}
