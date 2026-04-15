@@ -82,7 +82,7 @@ export default async function VehiclesPage() {
       <Header />
 
       <main className="flex-1 pt-20 md:pt-24">
-        <section className="route-hero">
+        <section className="route-hero -mt-20 md:-mt-24 pt-20 md:pt-24">
           <div className="route-hero-atmo" />
           <div className="route-hero-grid" />
 
