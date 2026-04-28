@@ -1,6 +1,9 @@
 /**
  * ModelGrid Component
- * רשת דגמים עם תמונה ושם דגם
+ * Manufacturer page — model cards with consistent internal alignment
+ * across the whole grid (equal heights, reserved badge area, pinned footer).
+ *
+ * Visual rules live in `src/app/styles/new-vehicles.css` (.nv-model-card-*).
  */
 
 'use client';
@@ -14,19 +17,42 @@ interface ModelGridProps {
   isLoading?: boolean;
 }
 
+function formatPrice(value: number): string {
+  return `₪${value.toLocaleString('he-IL')}`;
+}
+
+function getPriceLine(model: ModelWithManufacturer): {
+  label: string;
+  value: string;
+  muted?: boolean;
+} {
+  const { min_price, max_price } = model;
+  if (min_price !== null && max_price !== null && min_price !== max_price) {
+    return {
+      label: 'טווח מחירים',
+      value: `${formatPrice(min_price)} – ${formatPrice(max_price)}`,
+    };
+  }
+  if (min_price !== null) {
+    return { label: 'מחיר התחלתי', value: formatPrice(min_price) };
+  }
+  if (max_price !== null) {
+    return { label: 'מחיר', value: formatPrice(max_price) };
+  }
+  return { label: 'מחיר', value: 'יתעדכן בקרוב', muted: true };
+}
+
 export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProps) {
   if (isLoading) {
     return (
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="animate-pulse overflow-hidden rounded-lg" style={{ border: '1px solid var(--color-border)' }}
-          >
-            <div className="aspect-video" style={{ background: 'var(--color-gray-200)' }} />
-            <div className="space-y-2 p-4">
-              <div className="h-4 w-3/4 rounded" style={{ background: 'var(--color-gray-200)' }} />
-              <div className="h-3 w-1/2 rounded" style={{ background: 'var(--color-gray-100)' }} />
+      <div className="nv-model-grid">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="nv-model-card-skeleton animate-pulse">
+            <div className="nv-model-card-skeleton-media" />
+            <div className="nv-model-card-skeleton-body">
+              <div className="nv-model-card-skeleton-bar nv-model-card-skeleton-bar--wide" />
+              <div className="nv-model-card-skeleton-bar nv-model-card-skeleton-bar--narrow" />
+              <div className="nv-model-card-skeleton-bar" />
             </div>
           </div>
         ))}
@@ -36,121 +62,92 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
 
   if (models.length === 0) {
     return (
-      <div className="flex min-h-96 items-center justify-center rounded-lg border-2 border-dashed" style={{ borderColor: 'var(--color-border)', background: 'var(--color-card-bg)' }}>
-        <p className="text-center" style={{ color: 'var(--color-silver-500)' }}>אין דגמים זמינים</p>
+      <div
+        className="flex min-h-72 items-center justify-center rounded-2xl border-2 border-dashed"
+        style={{ borderColor: 'var(--color-border)', background: 'var(--color-card-bg)' }}
+      >
+        <p className="text-center" style={{ color: 'var(--color-silver-500)' }}>
+          אין דגמים זמינים
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-      {models.map((model) => (
-        <Link
-          key={model.id}
-          href={`/new-vehicles/${manufacturerSlug}/${model.slug}`}
-          className="group card-automotive accent-top-hover overflow-hidden rounded-2xl transition-all"
-          style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
-        >
-          {/* תמונה דגם */}
-          <div className="relative aspect-video overflow-hidden" style={{ background: 'var(--color-gray-200)' }}>
-            {model.image_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={model.image_url}
-                alt={model.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                loading="lazy"
-              />
-            ) : (
-              <div className="flex items-center justify-center h-full" style={{ background: 'var(--color-gray-200)' }}>
-                <span className="text-sm font-medium" style={{ color: 'var(--color-silver-500)' }}>
-                  אין תמונה
+    <div className="nv-model-grid">
+      {models.map((model) => {
+        const price = getPriceLine(model);
+        const displayName = model.name_he || model.name;
+
+        return (
+          <Link
+            key={model.id}
+            href={`/new-vehicles/${manufacturerSlug}/${model.slug}`}
+            className="nv-model-card"
+            aria-label={`${displayName} — צפייה ברמות גימור ומפרטים`}
+          >
+            <div className="nv-model-card-media">
+              {model.image_url ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={model.image_url}
+                  alt={displayName}
+                  className="nv-model-card-img"
+                  loading="lazy"
+                />
+              ) : (
+                <span className="nv-model-card-img-placeholder">אין תמונה</span>
+              )}
+
+              {model.manufacturer_name && (
+                <span className="nv-model-card-mfr">{model.manufacturer_name}</span>
+              )}
+            </div>
+
+            <div className="nv-model-card-body">
+              <h3 className="nv-model-card-title">{displayName}</h3>
+
+              <div className="nv-model-card-tags" aria-hidden={!model.body_type && !model.segment}>
+                {model.body_type && (
+                  <span className="nv-model-card-tag nv-model-card-tag-primary">
+                    {model.body_type}
+                  </span>
+                )}
+                {model.segment && (
+                  <span className="nv-model-card-tag nv-model-card-tag-neutral">
+                    {model.segment}
+                  </span>
+                )}
+              </div>
+
+              <div className="nv-model-card-price">
+                <span className="nv-model-card-price-label">{price.label}</span>
+                <span
+                  className={
+                    price.muted
+                      ? 'nv-model-card-price-value nv-model-card-price-value--muted'
+                      : 'nv-model-card-price-value'
+                  }
+                >
+                  {price.value}
                 </span>
               </div>
-            )}
 
-            <div
-              className="absolute inset-x-0 bottom-0 p-4"
-              style={{
-                background: 'linear-gradient(180deg, transparent 0%, var(--color-overlay-black-70) 100%)',
-              }}
-            >
-              <p className="text-sm font-semibold" style={{ color: 'var(--color-text-inverse)' }}>
-                {model.manufacturer_name}
-              </p>
-            </div>
-          </div>
-
-          {/* מידע דגם */}
-          <div className="p-5">
-            {/* שם דגם */}
-            <h3 className="text-lg font-semibold text-gray-900">
-              {model.name_he || model.name}
-            </h3>
-
-            <div className="mt-2 flex flex-wrap gap-2">
-              {model.body_type && (
-                <span
-                  className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                  style={{
-                    background: 'var(--color-primary-50)',
-                    color: 'var(--color-primary)',
-                    border: '1px solid var(--color-primary-100)',
-                  }}
-                >
-                  {model.body_type}
+              <div className="nv-model-card-footer">
+                <span className="nv-model-card-meta">
+                  {model.trim_levels_count} רמות גימור
                 </span>
-              )}
-              {model.segment && (
-                <span
-                  className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                  style={{
-                    background: 'var(--color-gray-100)',
-                    color: 'var(--color-gray-700)',
-                    border: '1px solid var(--color-border)',
-                  }}
-                >
-                  {model.segment}
+                <span className="nv-model-card-cta" aria-hidden="true">
+                  בחירה
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m0 0l6-6m-6 6l6 6" />
+                  </svg>
                 </span>
-              )}
+              </div>
             </div>
-
-            {/* טווח מחיר */}
-            <div className="mt-4 flex items-baseline gap-2 text-sm">
-              <span className="text-xs" style={{ color: 'var(--color-silver-500)' }}>מחיר:</span>
-              <span className="font-semibold text-gray-900">
-                {model.min_price && model.max_price ? (
-                  <>
-                    ₪{model.min_price.toLocaleString('he-IL')} -
-                    <br />
-                    ₪{model.max_price.toLocaleString('he-IL')}
-                  </>
-                ) : model.min_price ? (
-                  `₪${model.min_price.toLocaleString('he-IL')}`
-                ) : (
-                  'לא מוגדר'
-                )}
-              </span>
-            </div>
-
-            {/* ספירת רמות גימור */}
-            <div className="mt-4 flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
-              <span className="text-xs" style={{ color: 'var(--color-silver-500)' }}>
-                {model.trim_levels_count} רמות גימור
-              </span>
-              <span
-                className="inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                style={{
-                  background: 'var(--color-primary-50)',
-                  color: 'var(--color-primary)',
-                }}
-              >
-                בחר
-              </span>
-            </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        );
+      })}
     </div>
   );
 }

@@ -17,6 +17,7 @@
  *   styles/footer.css      .footer-*
  *   styles/home.css        .home-*  (only `/`)
  *   styles/routes.css      .route-* (vehicles, about, ...)
+ *   styles/new-vehicles.css .nv-*  (manufacturer/model grid)
  *   styles/a11y.css        html.a11y-* overrides (token swaps + selectors)
  */
 
@@ -28,4 +29,5 @@
 @import "./styles/footer.css";
 @import "./styles/home.css";
 @import "./styles/routes.css";
+@import "./styles/new-vehicles.css";
 @import "./styles/a11y.css";
