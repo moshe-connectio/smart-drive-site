@@ -15,15 +15,28 @@ const STORAGE_KEY = 'cookie-consent';
 function getConsent(): CookieConsent | null {
   if (typeof window === 'undefined') return null;
   try {
-    const saved = sessionStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) return JSON.parse(saved);
+
+    // Backward compatibility: migrate old session consent to persistent storage.
+    const legacySessionConsent = sessionStorage.getItem(STORAGE_KEY);
+    if (legacySessionConsent) {
+      const parsed = JSON.parse(legacySessionConsent) as CookieConsent;
+      localStorage.setItem(STORAGE_KEY, legacySessionConsent);
+      sessionStorage.removeItem(STORAGE_KEY);
+      return parsed;
+    }
   } catch {}
   return null;
 }
 
 function saveConsent(consent: CookieConsent) {
   try {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
+    const serialized = JSON.stringify(consent);
+    localStorage.setItem(STORAGE_KEY, serialized);
+
+    // Cookie fallback for environments where localStorage may be restricted.
+    document.cookie = `cookie_consent=true; path=/; max-age=${60 * 60 * 24 * 365}`;
   } catch {}
 }
 
@@ -34,8 +47,9 @@ export default function CookieConsentBanner() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      const existingConsent = getConsent();
       setMounted(true);
-      setVisible(getConsent() === null);
+      setVisible(existingConsent === null);
     }, 0);
 
     return () => window.clearTimeout(timer);
@@ -98,7 +112,23 @@ export default function CookieConsentBanner() {
         aria-label="הגדרות פרטיות"
         title="הגדרות פרטיות"
       >
-        <span className="text-xl sm:text-2xl">🍪</span>
+        <svg
+          className="w-6 h-6 sm:w-7 sm:h-7"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M21 13.5A8.5 8.5 0 1 1 10.5 3 4.5 4.5 0 0 0 15 7.5h.2A3.8 3.8 0 0 0 19 11.3h.2A2.8 2.8 0 0 0 21 13.5Z"
+            fill="currentColor"
+            opacity="0.95"
+          />
+          <circle cx="9.3" cy="10.4" r="1.15" fill="var(--color-gray-100)" />
+          <circle cx="12.7" cy="14.1" r="1.05" fill="var(--color-gray-100)" />
+          <circle cx="8.2" cy="15.2" r="0.9" fill="var(--color-gray-100)" />
+          <circle cx="14.7" cy="10" r="0.85" fill="var(--color-gray-100)" />
+        </svg>
       </button>
     );
   }
