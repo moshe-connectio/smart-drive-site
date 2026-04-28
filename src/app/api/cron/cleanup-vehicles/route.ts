@@ -25,14 +25,12 @@ import { deleteSoldVehicles } from '@modules/vehicles/lib/repository';
  */
 export async function GET() {
   try {
-    console.log('🧹 Running automatic vehicle cleanup...');
     const startTime = Date.now();
-    
+
     const deletedCount = await deleteSoldVehicles();
-    
+
     const duration = Date.now() - startTime;
-    console.log(`✅ Cleanup completed in ${duration}ms`);
-    
+
     return NextResponse.json({
       success: true,
       message: `Deleted ${deletedCount} sold vehicles`,
@@ -41,7 +39,7 @@ export async function GET() {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('❌ Error in cleanup cron job:', error);
+    console.error('Error in cleanup cron job:', error);
     return NextResponse.json(
       {
         success: false,

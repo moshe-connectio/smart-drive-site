@@ -4,12 +4,10 @@
  */
 
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { getModelBySlug, getTrimLevelWithSpecs } from '@modules/new-vehicles/lib/repository';
 import { ModelPageClient } from '@modules/new-vehicles/components/ModelPageClient';
 import { Container } from '@shared/components/layout/Container';
-import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -94,12 +92,6 @@ export default async function ModelPage({ params }: ModelPageProps) {
                   {modelData.description || modelData.body_type || 'מפרט מלא ורמות גימור מעודכנות לדגם זה.'}
                 </p>
 
-                <CarOnlyShape
-                  className="w-44 sm:w-56 mx-auto lg:mx-0 mt-5 opacity-80"
-                  maxWidth={220}
-                  strokeColor="var(--color-glass-white-75)"
-                />
-
                 <div className="mt-5 flex flex-wrap gap-2 justify-center lg:justify-start">
                   {featureChips.map((chip) => (
                     <span
@@ -137,12 +129,14 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
               <div className="route-surface-card p-3">
                 {modelData.image_url ? (
-                  <Image
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
                     src={modelData.image_url}
                     alt={modelData.name}
                     width={700}
                     height={460}
                     className="rounded-xl object-cover w-full"
+                    loading="lazy"
                   />
                 ) : (
                   <div

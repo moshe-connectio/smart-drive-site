@@ -74,8 +74,6 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
     await writeFile(filepath, buffer);
 
-    console.log(`✅ Image saved successfully: ${relativePath}`);
-
     return NextResponse.json(
       {
         success: true,

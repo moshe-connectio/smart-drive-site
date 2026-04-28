@@ -1,7 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
 import { dealershipConfig } from '@core/config/site.config';
-import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 import { Container } from './Container';
 import { APP_CONFIG, ROUTES, CONTACT_INFO } from '@core/lib/constants';
@@ -63,12 +63,12 @@ export function Footer() {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mt-12">
           <div className="md:col-span-4">
-            <CarOnlyShape
-              className="w-[170px] mb-5 opacity-90"
-              maxWidth={170}
-              strokeColor="var(--color-footer-text-strong)"
-              animateTopWave
-              waveDurationSeconds={5.1}
+            <Image
+              src={dealershipConfig.business.logo}
+              alt={dealershipConfig.business.name}
+              width={170}
+              height={50}
+              className="h-11 w-auto object-contain mb-5 opacity-90"
             />
             <p className="text-sm leading-relaxed max-w-sm" style={{ color: 'var(--color-footer-text)', lineHeight: 1.85 }}>
               {APP_CONFIG.description} מגוון רכבים איכותיים, שקיפות מלאה וליווי מקצועי מהשיחה הראשונה ועד המסירה.

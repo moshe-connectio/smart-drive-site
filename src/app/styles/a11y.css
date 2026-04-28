@@ -1,0 +1,348 @@
+/* ============================================================================
+ * Accessibility overrides — driven by classes on <html> applied by the
+ * AccessibilityWidget component (`a11y-font-lg`, `a11y-high-contrast`, ...).
+ *
+ * Two layers:
+ *   1. Token overrides under `html.a11y-high-contrast` swap the design
+ *      palette globally, so any class that consumes a token gets safe colors.
+ *   2. Selector overrides target specific components that use raw colors,
+ *      gradients or backdrop-filters that cannot inherit from tokens.
+ * ============================================================================ */
+
+/* ─── Font Size ──────────────────────────────────────────────────────────── */
+html.a11y-font-lg {
+  font-size: 118% !important;
+}
+html.a11y-font-xl {
+  font-size: 136% !important;
+}
+
+/* ─── High Contrast — token swaps (applies to every token consumer) ──────── */
+html.a11y-high-contrast {
+  /* Backgrounds */
+  --color-background: #000;
+  --color-background-secondary: #111;
+  --color-background-tertiary: #1a1a1a;
+
+  /* Text */
+  --color-text-primary: #fff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-tertiary: #ccc;
+  --color-text-inverse: #000;
+
+  /* Borders */
+  --color-border: #666;
+  --color-border-light: #444;
+  --color-border-dark: #888;
+
+  /* Card */
+  --color-card-bg: #111;
+  --color-card-hover: #1a1a1a;
+  --color-card-border: #666;
+
+  /* Primary — bright blue for visibility on black */
+  --color-primary: #5b9aff;
+  --color-primary-50: #1a2a4a;
+  --color-primary-100: #1e3460;
+  --color-primary-200: #2a4a80;
+  --color-primary-300: #4a7acc;
+  --color-primary-400: #5b9aff;
+  --color-primary-500: #5b9aff;
+  --color-primary-600: #5b9aff;
+  --color-primary-700: #8ab8ff;
+  --color-primary-800: #111;
+  --color-primary-900: #000;
+  --color-secondary-text: #5b9aff;
+
+  /* Gold — bright yellow for visibility */
+  --color-gold: #ffd54f;
+  --color-gold-50: #332b00;
+  --color-gold-100: #4d4000;
+  --color-gold-200: #665500;
+  --color-gold-300: #ccaa00;
+  --color-gold-400: #ffe082;
+  --color-gold-500: #ffd54f;
+
+  /* Status colors — high contrast versions */
+  --color-success: #66ff99;
+  --color-success-dark: #33cc66;
+  --color-success-light: #0a2a10;
+  --color-warning: #ffcc00;
+  --color-warning-dark: #ffaa00;
+  --color-warning-light: #2a2200;
+  --color-error: #ff6666;
+  --color-error-dark: #ff4444;
+  --color-error-light: #2a0a0a;
+
+  /* Gray scale — inverted for dark bg */
+  --color-gray-50: #111;
+  --color-gray-100: #1a1a1a;
+  --color-gray-200: #333;
+  --color-gray-300: #666;
+  --color-gray-400: #999;
+  --color-gray-500: #ccc;
+  --color-gray-600: #ddd;
+  --color-gray-700: #eee;
+  --color-gray-800: #f0f0f0;
+  --color-gray-900: #fff;
+
+  /* Silver — light for dark bg */
+  --color-silver-100: #1a1a1a;
+  --color-silver-200: #333;
+  --color-silver-300: #ccc;
+  --color-silver-400: #bbb;
+  --color-silver-500: #aaa;
+
+  /* Footer */
+  --color-footer-bg: #000;
+  --color-footer-text: #ddd;
+  --color-footer-border: #444;
+
+  /* Shadows — visible on dark bg */
+  --shadow-sm: 0 1px 2px 0 rgb(255 255 255 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(255 255 255 / 0.07);
+  --shadow-card: 0 0 0 1px #666;
+  --shadow-card-hover: 0 0 0 2px #5b9aff;
+
+  /* Surface tokens in high contrast */
+  --gradient-card-soft-blue: linear-gradient(180deg, #111 0%, #1a1a1a 100%);
+  --gradient-primary-gold: linear-gradient(90deg, #5b9aff 0%, #ffd54f 100%);
+  --pattern-hero-grid: linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+
+  --color-overlay-gold-soft: rgba(255, 213, 79, 0.18);
+  --color-overlay-primary-soft: rgba(91, 154, 255, 0.22);
+  --color-overlay-gold-tag-bg: rgba(255, 213, 79, 0.16);
+  --color-overlay-gold-tag-border: rgba(255, 213, 79, 0.48);
+  --color-overlay-gold-20: rgba(255, 213, 79, 0.2);
+  --color-overlay-gold-35: rgba(255, 213, 79, 0.35);
+
+  --color-glass-white-06: rgba(255, 255, 255, 0.06);
+  --color-glass-white-08: rgba(255, 255, 255, 0.08);
+  --color-glass-white-12: rgba(255, 255, 255, 0.12);
+  --color-glass-white-15: rgba(255, 255, 255, 0.15);
+  --color-glass-white-20: rgba(255, 255, 255, 0.2);
+  --color-glass-white-22: rgba(255, 255, 255, 0.22);
+  --color-glass-text-strong: rgba(255, 255, 255, 0.92);
+
+  --shadow-gold-cta-base: 0 0 0 2px rgba(255, 213, 79, 0.45);
+  --shadow-gold-cta-strong: 0 0 0 2px rgba(255, 213, 79, 0.55);
+  --shadow-hero-panel: 0 0 0 1px #666;
+
+  --color-whatsapp: #25d366;
+}
+
+/* ─── High Contrast — selector overrides for non-token surfaces ──────────── */
+/* Force-override hardcoded bg-white / inline #f5f7fa colors */
+html.a11y-high-contrast body {
+  background: #000 !important;
+  color: #fff !important;
+}
+html.a11y-high-contrast .bg-white {
+  background-color: #000 !important;
+}
+html.a11y-high-contrast .bg-header {
+  background-color: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+html.a11y-high-contrast [style*="background: #f5f7fa"],
+html.a11y-high-contrast [style*="background: '#f5f7fa'"],
+html.a11y-high-contrast [style*="background:#f5f7fa"] {
+  background: #111 !important;
+}
+html.a11y-high-contrast [style*="color: '#0a1636'"],
+html.a11y-high-contrast [style*="color: #0a1636"],
+html.a11y-high-contrast [style*="color:#0a1636"] {
+  color: #000 !important;
+}
+html.a11y-high-contrast .text-white {
+  color: #fff !important;
+}
+html.a11y-high-contrast .text-gray-900 {
+  color: #fff !important;
+}
+
+/* Hero (home page) — replace translucent glass + gradient text with WCAG AAA solids */
+html.a11y-high-contrast .home-hero {
+  background: #000 !important;
+}
+html.a11y-high-contrast .home-hero-atmo,
+html.a11y-high-contrast .home-hero-grid,
+html.a11y-high-contrast .home-hero-orb,
+html.a11y-high-contrast .home-hero-scanline {
+  display: none !important;
+}
+html.a11y-high-contrast .home-hero-title,
+html.a11y-high-contrast .home-hero-title-line,
+html.a11y-high-contrast .home-hero-title-highlight {
+  color: #fff !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  animation: none !important;
+}
+html.a11y-high-contrast .home-hero-subtitle {
+  color: #fff !important;
+}
+html.a11y-high-contrast .home-hero-status {
+  background: #000 !important;
+  border-color: #fff !important;
+  color: #fff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.a11y-high-contrast .home-hero-status-dot,
+html.a11y-high-contrast .home-hero-panel-pulse {
+  background: #66ff99 !important;
+  box-shadow: 0 0 0 2px #fff !important;
+  animation: none !important;
+}
+html.a11y-high-contrast .home-primary-cta {
+  background: #ffd54f !important;
+  color: #000 !important;
+  border: 2px solid #ffd54f !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+html.a11y-high-contrast .home-primary-cta:hover,
+html.a11y-high-contrast .home-primary-cta:focus-visible {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #000 !important;
+}
+html.a11y-high-contrast .home-outline-cta {
+  background: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.a11y-high-contrast .home-outline-cta:hover,
+html.a11y-high-contrast .home-outline-cta:focus-visible {
+  background: #fff !important;
+  color: #000 !important;
+}
+html.a11y-high-contrast .home-hero-feature {
+  background: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.a11y-high-contrast .home-hero-feature-icon {
+  background: #ffd54f !important;
+  color: #000 !important;
+}
+html.a11y-high-contrast .home-hero-panel {
+  background: #111 !important;
+  border: 2px solid #fff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+html.a11y-high-contrast .home-hero-panel::before {
+  display: none !important;
+}
+html.a11y-high-contrast .home-hero-panel-eyebrow {
+  color: #ffd54f !important;
+}
+html.a11y-high-contrast .home-hero-panel-title {
+  color: #fff !important;
+}
+html.a11y-high-contrast .home-hero-stat {
+  background: #000 !important;
+  border: 1px solid #fff !important;
+}
+html.a11y-high-contrast .home-hero-stat-value {
+  color: #fff !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html.a11y-high-contrast .home-hero-stat-label,
+html.a11y-high-contrast .home-hero-panel-item,
+html.a11y-high-contrast .home-hero-panel-foot {
+  color: #fff !important;
+}
+html.a11y-high-contrast .home-hero-panel-divider {
+  background: #fff !important;
+}
+html.a11y-high-contrast .home-hero-panel-foot {
+  border-top-color: #fff !important;
+}
+html.a11y-high-contrast .home-hero-panel-foot strong {
+  color: #ffd54f !important;
+}
+html.a11y-high-contrast .home-hero-panel-check {
+  background: #66ff99 !important;
+  color: #000 !important;
+}
+
+/* Advantage cards (home) */
+html.a11y-high-contrast .home-advantage-card {
+  background: #111 !important;
+  border: 2px solid #fff !important;
+  box-shadow: none !important;
+}
+html.a11y-high-contrast .home-advantage-card::before {
+  background: #ffd54f !important;
+  height: 3px !important;
+  transform: scaleX(1) !important;
+}
+html.a11y-high-contrast .home-advantage-card::after {
+  display: none !important;
+}
+html.a11y-high-contrast .home-advantage-icon {
+  background: #000 !important;
+  border: 2px solid #ffd54f !important;
+  color: #ffd54f !important;
+}
+
+/* ─── Highlight Links ────────────────────────────────────────────────────── */
+html.a11y-highlight-links a {
+  outline: 2px solid #ffff00 !important;
+  outline-offset: 2px;
+  text-decoration: underline !important;
+  color: #ffff00 !important;
+}
+html.a11y-highlight-links button {
+  outline: 2px solid #00ff88 !important;
+  outline-offset: 2px;
+}
+
+/* ─── Big Cursor ─────────────────────────────────────────────────────────── */
+html.a11y-big-cursor,
+html.a11y-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' stroke='%23fff' stroke-width='1' d='M5.5 3.21V20.8l4.86-4.86h6.78L5.5 3.21z'/%3E%3C/svg%3E") 4 4, auto !important;
+}
+
+/* ─── Readable Font ──────────────────────────────────────────────────────── */
+html.a11y-readable-font,
+html.a11y-readable-font * {
+  font-family: Arial, Helvetica, sans-serif !important;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Line Height & Text Spacing ─────────────────────────────────────────── */
+html.a11y-line-height * {
+  line-height: 2 !important;
+}
+
+html.a11y-text-spacing * {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.2em !important;
+}
+
+/* ─── Disable Animations ─────────────────────────────────────────────────── */
+html.a11y-no-animations *,
+html.a11y-no-animations *::before,
+html.a11y-no-animations *::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+/* ─── Grayscale ──────────────────────────────────────────────────────────── */
+html.a11y-grayscale {
+  filter: grayscale(1) !important;
+}

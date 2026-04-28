@@ -1,0 +1,126 @@
+/* ============================================================================
+ * Routes — shared route hero / breadcrumb / surface card / callout.
+ * Used by `/vehicles`, `/about` and other inner routes.
+ * ============================================================================ */
+
+.route-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-hero-premium);
+}
+
+.route-hero-atmo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 85% 5%, rgba(37, 83, 212, 0.24) 0%, transparent 68%),
+    radial-gradient(36% 40% at 15% 35%, rgba(212, 160, 23, 0.14) 0%, transparent 68%);
+}
+
+.route-hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  background-image: var(--pattern-hero-grid);
+  background-size: 56px 56px;
+}
+
+.route-hero-inner {
+  position: relative;
+  z-index: 1;
+  padding-top: 8.8rem;
+  padding-bottom: 3.6rem;
+}
+
+.route-hero-kicker {
+  color: var(--color-header-transparent-text-dim);
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  margin-bottom: 0.8rem;
+}
+
+.route-hero-title {
+  color: var(--color-text-inverse);
+  font-size: clamp(2rem, 4.8vw, 3.7rem);
+  font-weight: 800;
+  letter-spacing: -0.018em;
+  line-height: 1.12;
+}
+
+.route-hero-subtitle {
+  margin-top: 0.9rem;
+  color: var(--color-header-transparent-text-dim);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 44rem;
+}
+
+.route-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  font-size: 0.84rem;
+  color: var(--color-header-transparent-text-dim);
+}
+
+.route-breadcrumb-link {
+  color: var(--color-header-transparent-text-dim);
+  transition: color var(--transition-base);
+}
+
+.route-breadcrumb-link:hover {
+  color: var(--color-text-inverse);
+}
+
+.route-stat-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 0.9rem;
+  padding: 1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.route-surface-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.route-callout {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-hero-premium);
+}
+
+.route-callout-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3.4rem 0;
+}
+
+/* Floating action button used on top of media — kept here because it pairs
+   with the dark route hero/callout surfaces. */
+.overlay-action-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-glass-white-12);
+  background: var(--color-glass-white-10);
+  color: var(--color-text-inverse);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
+}
+
+.overlay-action-btn:hover {
+  border-color: var(--color-glass-white-20);
+  background: var(--color-glass-white-20);
+}

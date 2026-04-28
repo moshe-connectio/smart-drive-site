@@ -5,7 +5,6 @@
 
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import type { ManufacturerWithCounts } from '../types';
 
@@ -49,13 +48,15 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
           {/* לוגו - תופס רוב הכרטיסיה */}
           <div className="flex aspect-4/3 items-center justify-center p-6" style={{ background: 'var(--color-gray-100)' }}>
             {manufacturer.logo_url ? (
-              <Image
+              // Logos come from arbitrary external manufacturer domains; <img> avoids per-host config.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={manufacturer.logo_url}
                 alt={manufacturer.name}
                 width={160}
                 height={160}
                 className="h-28 w-28 object-contain transition-transform group-hover:scale-110"
-                priority
+                loading="lazy"
               />
             ) : (
               <div className="flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>

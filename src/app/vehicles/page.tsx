@@ -11,6 +11,7 @@ import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import { FilterableVehicleGrid } from '@modules/vehicles/components/FilterableVehicleGrid';
 import { dealershipConfig } from '@core/config/site.config';
+import { generateVehicleSlug } from '@shared/utils/formatting';
 
 export const revalidate = 60;
 
@@ -77,8 +78,30 @@ export default async function VehiclesPage() {
     error = 'שגיאה בטעינת הרכבים. אנא נסו שוב בעוד מספר דקות.';
   }
 
+  // ─── JSON-LD: ItemList of vehicles for rich results ─────────────────────────
+  const itemListJsonLd = vehicles.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: `רכבים למכירה - ${dealershipConfig.business.name}`,
+        numberOfItems: vehicles.length,
+        itemListElement: vehicles.slice(0, 50).map((v, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          url: `${siteUrl}/vehicles/${generateVehicleSlug(v.title, v.year, v.id)}`,
+          name: v.title,
+        })),
+      }
+    : null;
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
       <Header />
 
       <main className="flex-1 pt-20 md:pt-24">

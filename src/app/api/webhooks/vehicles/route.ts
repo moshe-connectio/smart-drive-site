@@ -193,7 +193,6 @@ async function downloadImage(imageUrl: string): Promise<{ buffer: Buffer; filena
       if (isZohoWorkdrive && !triedExtract) {
         triedExtract = true;
         const extractedUrl = await extractZohoDownloadUrl(imageUrl);
-        console.log(`🔄 Retrying with extracted Zoho URL: ${extractedUrl}`);
         return await fetchImage(extractedUrl);
       }
       throw directErr;
@@ -320,8 +319,7 @@ async function processAndUploadImages(
   
   // Filter out failed images (null values)
   const uploadedImages = results.filter((img): img is AddImageInput => img !== null);
-  
-  console.log(`✅ Successfully processed ${uploadedImages.length}/${images.length} images`);
+
   return uploadedImages;
 }
 

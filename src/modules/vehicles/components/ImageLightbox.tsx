@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import Image from 'next/image';
 import { VehicleImage } from '@modules/vehicles/lib/repository';
 
 interface ImageLightboxProps {
@@ -114,14 +113,12 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
 
         {/* Image */}
         <div className="relative w-full h-full max-h-[70vh]">
-          <Image
+          {/* Vehicle photos originate from arbitrary CRM/storage hosts. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={currentImage.image_url}
             alt={currentImage.alt_text || vehicleTitle}
-            fill
-            className="object-contain"
-            unoptimized
-            sizes="100vw"
-            priority
+            className="absolute inset-0 w-full h-full object-contain"
           />
         </div>
 
@@ -158,13 +155,12 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
                 }`}
                 style={currentIndex === index ? undefined : { borderColor: 'var(--color-glass-white-20)' }}
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={image.image_url}
                   alt={image.alt_text || `תמונה ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  unoptimized
-                  sizes="80px"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="lazy"
                 />
               </button>
             ))}

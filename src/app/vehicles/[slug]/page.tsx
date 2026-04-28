@@ -121,6 +121,14 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     `${siteUrl}${dealershipConfig.seo.ogImage}`;
 
   // ─── JSON-LD: Car (Product) ──────────────────────────────────────────────
+  // bodyType is the first vehicle category that looks like a body style; remaining
+  // categories are emitted as additionalProperty for Google's automotive rich results.
+  const bodyTypeCandidates = vehicle.categories ?? [];
+  const galleryImages = (vehicle.images ?? [])
+    .map((img) => img.image_url)
+    .filter(Boolean)
+    .slice(0, 8);
+
   const carJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Car',
@@ -128,7 +136,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     description:
       vehicle.short_description ||
       `${vehicle.brand} ${vehicle.model} ${vehicle.year} למכירה`,
-    image: imageUrl,
+    image: galleryImages.length > 0 ? galleryImages : imageUrl,
     url: pageUrl,
     brand: {
       '@type': 'Brand',
@@ -136,6 +144,8 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     },
     model: vehicle.model,
     vehicleModelDate: vehicle.year?.toString(),
+    productionDate: vehicle.year?.toString(),
+    bodyType: bodyTypeCandidates[0] ?? undefined,
     mileageFromOdometer: vehicle.km != null
       ? {
           '@type': 'QuantitativeValue',
@@ -145,9 +155,17 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
       : undefined,
     vehicleTransmission: vehicle.gear_type ?? undefined,
     fuelType: vehicle.fuel_type ?? undefined,
+    numberOfPreviousOwners:
+      vehicle.hand != null && vehicle.hand > 1 ? vehicle.hand - 1 : undefined,
+    vehicleConfiguration: vehicle.trim ?? undefined,
     vehicleCondition: vehicle.condition === 'חדש' || vehicle.condition === '0 ק״מ'
       ? 'https://schema.org/NewCondition'
       : 'https://schema.org/UsedCondition',
+    additionalProperty: bodyTypeCandidates.slice(1).map((category) => ({
+      '@type': 'PropertyValue',
+      name: 'קטגוריה',
+      value: category,
+    })),
     offers: {
       '@type': 'Offer',
       priceCurrency: dealershipConfig.locale.currency,

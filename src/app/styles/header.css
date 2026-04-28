@@ -1,0 +1,158 @@
+/* ============================================================================
+ * Header — `.header-*` rules + shared `[data-social]` selectors.
+ * Shared between header and footer for social icon styling.
+ * ============================================================================ */
+
+.header-shell {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.header-surface {
+  border: 1px solid transparent;
+  border-radius: 1.1rem;
+  transition: background-color var(--transition-slow), border-color var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.header-transparent {
+  background: transparent;
+}
+.header-transparent .header-surface {
+  background: linear-gradient(180deg, rgba(5, 13, 31, 0.48) 0%, rgba(5, 13, 31, 0.25) 100%);
+  border-color: var(--color-header-transparent-border);
+  box-shadow: none;
+}
+
+.header-solid {
+  background: transparent;
+}
+.header-solid .header-surface {
+  background: var(--color-header-solid-bg);
+  border-color: var(--color-header-solid-border);
+  box-shadow: var(--shadow-header-solid);
+}
+
+.header-nav-link {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  padding-bottom: 0.2rem;
+  transition: color var(--transition-base);
+}
+.header-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -0.2rem;
+  right: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-base), background-color var(--transition-base);
+}
+
+.header-nav-link-light {
+  color: var(--color-header-transparent-text);
+}
+.header-nav-link-light::after {
+  background: var(--color-text-inverse);
+}
+.header-nav-link-light:hover {
+  color: var(--color-text-inverse);
+}
+
+.header-nav-link-dark {
+  color: var(--color-gray-700);
+}
+.header-nav-link-dark::after {
+  background: var(--color-primary);
+}
+.header-nav-link-dark:hover {
+  color: var(--color-primary);
+}
+
+.header-nav-link:hover::after,
+.header-nav-link-active::after {
+  transform: scaleX(1);
+}
+
+.header-icon-button {
+  width: 2.1rem;
+  height: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.68rem;
+  border: 1px solid transparent;
+}
+
+.header-icon-button-compact {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.58rem;
+}
+
+.header-icon-light {
+  color: var(--color-header-transparent-icon);
+  border-color: var(--color-header-transparent-border);
+  transition: color var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
+}
+.header-icon-light:hover {
+  color: var(--color-text-inverse);
+  background: var(--color-header-transparent-icon-hover);
+  border-color: var(--color-glass-white-30);
+}
+
+.header-icon-dark {
+  color: var(--color-gray-400);
+  border-color: var(--color-border);
+  transition: color var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
+}
+.header-icon-dark:hover {
+  color: var(--color-primary);
+  background: var(--color-header-solid-icon-hover);
+  border-color: var(--color-primary-200);
+}
+
+/* Social icon variants — shared with footer-social-link in footer.css */
+.header-icon-button[data-social],
+.footer-social-link[data-social] {
+  color: var(--color-text-inverse);
+  border-color: transparent;
+  transition: transform var(--transition-base), filter var(--transition-base), opacity var(--transition-base);
+}
+
+.header-icon-button[data-social="facebook"],
+.footer-social-link[data-social="facebook"] {
+  background: var(--color-social-facebook);
+}
+
+.header-icon-button[data-social="instagram"],
+.footer-social-link[data-social="instagram"] {
+  background: linear-gradient(
+    135deg,
+    var(--color-social-instagram-start) 0%,
+    var(--color-social-instagram-mid) 55%,
+    var(--color-social-instagram-end) 100%
+  );
+}
+
+.header-icon-button[data-social="whatsapp"],
+.footer-social-link[data-social="whatsapp"] {
+  background: var(--color-whatsapp);
+}
+
+.header-icon-button[data-social="youtube"],
+.footer-social-link[data-social="youtube"] {
+  background: var(--color-social-youtube);
+}
+
+.header-icon-button[data-social]:hover,
+.footer-social-link[data-social]:hover {
+  color: var(--color-text-inverse);
+  border-color: transparent;
+  transform: translateY(-1px);
+  filter: saturate(1.1) brightness(1.05);
+}

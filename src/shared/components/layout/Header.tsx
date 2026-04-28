@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
 import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
-import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
 import { Container } from './Container';
 import MobileMenu from './MobileMenu';
 
@@ -49,7 +49,6 @@ export function Header() {
   const navToneClass = transparentMode ? 'header-nav-link-light' : 'header-nav-link-dark';
   const iconToneClass = transparentMode ? 'header-icon-light' : 'header-icon-dark';
   const dividerColor = transparentMode ? 'var(--color-header-transparent-border)' : 'var(--color-border)';
-  const logoStrokeColor = transparentMode ? 'var(--color-header-transparent-text)' : 'var(--color-primary)';
 
   return (
     <header
@@ -60,15 +59,16 @@ export function Header() {
 
           <Link
             href={ROUTES.home}
-            className="shrink-0 transition-opacity hover:opacity-90 md:justify-self-start"
+            className="shrink-0 transition-opacity hover:opacity-90 md:justify-self-start flex items-center"
             aria-label="חזרה לדף הבית"
           >
-            <CarOnlyShape
-              className="w-[138px] md:w-[170px]"
-              maxWidth={170}
-              strokeColor={logoStrokeColor}
-              animateTopWave
-              waveDurationSeconds={4.8}
+            <Image
+              src={dealershipConfig.business.logo}
+              alt={dealershipConfig.business.name}
+              width={170}
+              height={50}
+              priority
+              className="h-9 md:h-11 w-auto object-contain"
             />
           </Link>
 

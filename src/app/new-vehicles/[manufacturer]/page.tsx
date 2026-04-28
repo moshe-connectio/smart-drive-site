@@ -5,13 +5,11 @@
 
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getAllManufacturers, getManufacturerBySlug } from '@modules/new-vehicles/lib/repository';
 import { ModelGrid } from '@modules/new-vehicles/components/ModelGrid';
 import { dealershipConfig } from '@core/config/site.config';
 import { Container } from '@shared/components/layout/Container';
-import { CarOnlyShape } from '@shared/components/ui/CarOnlyShape';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -141,7 +139,8 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
               <div className="flex flex-col items-center gap-4">
                 {manufacturerData.logo_url && (
                   <div className="route-surface-card p-4 shrink-0">
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={manufacturerData.logo_url}
                       alt={manufacturerData.name}
                       width={140}
@@ -161,12 +160,6 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
                 {manufacturerData.description ||
                   `כל דגמי ${manufacturerData.name} החדשים בישראל במקום אחד.`}
               </p>
-
-              <CarOnlyShape
-                className="w-44 sm:w-56 mx-auto mt-5 opacity-80"
-                maxWidth={220}
-                strokeColor="var(--color-glass-white-75)"
-              />
 
               {heroHighlightTags.length > 0 && (
                 <div className="mt-6 flex flex-wrap gap-2 justify-center">

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { VehicleImage } from '@modules/vehicles/lib/repository';
 
 interface VehicleImageGalleryProps {
@@ -65,18 +64,15 @@ export default function VehicleImageGallery({
     <div className="w-full">
       {/* Main Image Display */}
       <div className={`relative w-full ${imageHeight} rounded-lg overflow-hidden mb-2 sm:mb-3 p-2 sm:p-3`} style={{ background: 'var(--color-gray-200)' }}>
-        <Image
+        {/* Vehicle photos originate from arbitrary CRM/storage hosts; <img> avoids per-host config. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={displayedImage.image_url}
           alt={displayedImage.alt_text || vehicleTitle}
-          fill
-          className="object-cover hover:scale-105 transition-transform duration-300"
-          priority
-          unoptimized
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
-          onError={() => {
-            // Fallback: if Next.js Image fails, show a regular img tag
-            console.warn(`Failed to load image: ${displayedImage.image_url}`);
-          }}
+          className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
         {/* Image Counter */}
         <div
@@ -108,14 +104,12 @@ export default function VehicleImageGallery({
               }`}
               aria-label={`View image ${index + 1}${image.alt_text ? ': ' + image.alt_text : ''}`}
             >
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={image.image_url}
                 alt={`Thumbnail ${image.alt_text || `image ${index + 1}`}`}
-                fill
-                className="object-cover"
-                unoptimized
+                className="absolute inset-0 w-full h-full object-cover"
                 loading="lazy"
-                sizes="56px"
               />
               <span
                 className="absolute bottom-0.5 right-0.5 text-xs rounded px-0.5"

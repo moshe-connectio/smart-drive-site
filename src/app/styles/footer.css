@@ -1,0 +1,79 @@
+/* ============================================================================
+ * Footer — `.footer-*` rules.
+ * Note: social icon palettes are shared with header.css via [data-social].
+ * ============================================================================ */
+
+.footer-shell {
+  background: var(--gradient-footer);
+}
+
+.footer-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 70% at 85% 0%, rgba(37, 83, 212, 0.26) 0%, transparent 70%);
+}
+
+.footer-cta-panel {
+  background: var(--color-footer-surface);
+  border: 1px solid var(--color-footer-surface-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.footer-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.65rem 1.1rem;
+  transition: transform var(--transition-base), opacity var(--transition-base), border-color var(--transition-base);
+}
+
+.footer-action-primary {
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+}
+
+.footer-action-secondary {
+  color: var(--color-footer-text-strong);
+  background: transparent;
+  border: 1px solid var(--color-footer-surface-border);
+}
+
+.footer-action:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.footer-link {
+  color: var(--color-footer-text);
+  transition: color var(--transition-base), transform var(--transition-base);
+}
+
+.footer-link:hover {
+  color: var(--color-footer-text-strong);
+  transform: translateX(-2px);
+}
+
+.footer-social-link {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-footer-text);
+  border: 1px solid var(--color-footer-surface-border);
+  background: var(--color-footer-surface);
+  transition: color var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+}
+
+.footer-social-link:hover {
+  color: var(--color-footer-text-strong);
+  border-color: var(--color-primary-300);
+  transform: translateY(-1px);
+}

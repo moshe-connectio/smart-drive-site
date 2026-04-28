@@ -5,7 +5,6 @@
 
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import type { ModelWithManufacturer } from '../types';
 
@@ -55,11 +54,12 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
           {/* תמונה דגם */}
           <div className="relative aspect-video overflow-hidden" style={{ background: 'var(--color-gray-200)' }}>
             {model.image_url ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={model.image_url}
                 alt={model.name}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                loading="lazy"
               />
             ) : (
               <div className="flex items-center justify-center h-full" style={{ background: 'var(--color-gray-200)' }}>

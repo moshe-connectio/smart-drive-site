@@ -19,13 +19,13 @@ export type Vehicle = {
   km: number | null;
   gear_type: string | null;
   fuel_type: string | null;
-  condition: VehicleCondition; // Vehicle condition: 'חדש' (new), '0 ק״מ' (zero km), or 'משומש' (used)
-  trim: string | null; // Trim level (e.g., "S", "SE", "Limited", "Signature", "Premium")
-  hand: number | null; // Hand number (1st hand, 2nd hand, 3rd hand, etc.)
-  categories: string[]; // Vehicle categories (e.g., ["SUV", "4x4", "יוקרה"], etc.)
+  condition: VehicleCondition;
+  trim: string | null;
+  hand: number | null;
+  categories: string[];
   main_image_url: string | null;
   short_description: string | null;
-  images: VehicleImage[] | null; // Array of up to 20 images
+  images: VehicleImage[] | null;
   raw_data: Record<string, unknown> | null;
 };
 
@@ -33,20 +33,20 @@ export type VehicleImage = {
   id: string;
   vehicle_id: string;
   image_url: string;
-  position: number; // 1-20, where 1 is primary image
+  position: number;
   alt_text: string | null;
   uploaded_at: string;
 };
 
+const VEHICLE_IMAGES_RELATION_MISSING = 'PGRST200';
+const NO_ROWS_FOUND = 'PGRST116';
+
 export async function getPublishedVehicles(): Promise<Vehicle[]> {
   try {
-    console.log('🔍 Creating Supabase client...');
     const client = createServerSupabaseClient();
-    console.log('✅ Client created');
 
-    console.log('🔍 Fetching vehicles (published and recently sold)...');
     // Fetch both published vehicles AND recently sold vehicles (is_published = false)
-    // This allows us to show sold items with a ribbon for up to 2 days
+    // so we can show sold items with a ribbon for up to 2 days.
     const response = await client
       .from('vehicles')
       .select(`
@@ -58,10 +58,9 @@ export async function getPublishedVehicles(): Promise<Vehicle[]> {
     let data = response.data;
     let error = response.error;
 
-    // If the relationship doesn't exist yet, fall back to basic fetch
-    if (error && error.code === 'PGRST200') {
+    if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
       console.warn(
-        '⚠️ vehicle_images table not found or relationship not defined, falling back to basic fetch'
+        '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
         .from('vehicles')
@@ -72,14 +71,13 @@ export async function getPublishedVehicles(): Promise<Vehicle[]> {
     }
 
     if (error) {
-      console.error('❌ Error fetching vehicles:', error);
+      console.error('Error fetching vehicles:', error);
       throw new Error(`Failed to fetch vehicles: ${error.message}`);
     }
 
-    console.log(`✅ Successfully fetched ${data?.length ?? 0} vehicles`);
     return data ?? [];
   } catch (err) {
-    console.error('❌ Unexpected error in getPublishedVehicles:', err);
+    console.error('Unexpected error in getPublishedVehicles:', err);
     throw err;
   }
 }
@@ -105,10 +103,9 @@ export async function getVehicleById(id: string): Promise<Vehicle | null> {
     let data = response.data;
     let error = response.error;
 
-    // If the relationship doesn't exist yet, fall back to basic fetch
-    if (error && error.code === 'PGRST200') {
+    if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
       console.warn(
-        '⚠️ vehicle_images table not found or relationship not defined, falling back to basic fetch'
+        '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
         .from('vehicles')
@@ -135,7 +132,6 @@ export async function getVehicleByIdSuffix(idSuffix: string): Promise<Vehicle | 
   try {
     const client = createServerSupabaseClient();
 
-    // Fetch all vehicles and find the one whose ID ends with the suffix
     const response = await client
       .from('vehicles')
       .select(`
@@ -146,10 +142,9 @@ export async function getVehicleByIdSuffix(idSuffix: string): Promise<Vehicle | 
     let data = response.data;
     let error = response.error;
 
-    // If the relationship doesn't exist yet, fall back to basic fetch
-    if (error && error.code === 'PGRST200') {
+    if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
       console.warn(
-        '⚠️ vehicle_images table not found or relationship not defined, falling back to basic fetch'
+        '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
         .from('vehicles')
@@ -163,7 +158,6 @@ export async function getVehicleByIdSuffix(idSuffix: string): Promise<Vehicle | 
       throw new Error(`Failed to fetch vehicles: ${error.message}`);
     }
 
-    // Find vehicle whose ID ends with the suffix
     const vehicle = data?.find((v: Vehicle) => v.id.endsWith(idSuffix));
     return vehicle ?? null;
   } catch (err) {
@@ -174,7 +168,6 @@ export async function getVehicleByIdSuffix(idSuffix: string): Promise<Vehicle | 
 
 export async function getVehicleByCrmId(crmid: string): Promise<Vehicle | null> {
   try {
-    console.log(`🔍 Fetching vehicle by CRM ID: ${crmid}`);
     const client = createServerSupabaseClient();
 
     const response = await client
@@ -189,10 +182,9 @@ export async function getVehicleByCrmId(crmid: string): Promise<Vehicle | null> 
     let data = response.data;
     let error = response.error;
 
-    // If the relationship doesn't exist yet, fall back to basic fetch
-    if (error && error.code === 'PGRST200') {
+    if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
       console.warn(
-        '⚠️ vehicle_images table not found or relationship not defined, falling back to basic fetch'
+        '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
         .from('vehicles')
@@ -203,15 +195,9 @@ export async function getVehicleByCrmId(crmid: string): Promise<Vehicle | null> 
       error = fallbackResponse.error;
     }
 
-    if (error && error.code !== 'PGRST116') {
+    if (error && error.code !== NO_ROWS_FOUND) {
       console.error('Error fetching vehicle by CRM ID:', error);
       throw new Error(`Failed to fetch vehicle: ${error.message}`);
-    }
-
-    if (data) {
-      console.log(`✅ Found vehicle with CRM ID: ${data.id}`);
-    } else {
-      console.log(`ℹ️ No vehicle found with CRM ID: ${crmid}`);
     }
 
     return data ?? null;
@@ -227,7 +213,6 @@ export async function createVehicle(
   vehicleData: CreateVehicleInput
 ): Promise<Vehicle> {
   try {
-    console.log('🔍 Creating new vehicle...');
     const client = createServerSupabaseClient();
 
     const { data, error } = await client
@@ -240,14 +225,13 @@ export async function createVehicle(
       .single();
 
     if (error) {
-      console.error('❌ Error creating vehicle:', error);
+      console.error('Error creating vehicle:', error);
       throw new Error(`Failed to create vehicle: ${error.message}`);
     }
 
-    console.log('✅ Vehicle created successfully:', data?.id);
     return data;
   } catch (err) {
-    console.error('❌ Unexpected error in createVehicle:', err);
+    console.error('Unexpected error in createVehicle:', err);
     throw err;
   }
 }
@@ -259,7 +243,6 @@ export async function updateVehicle(
   vehicleData: UpdateVehicleInput
 ): Promise<Vehicle> {
   try {
-    console.log(`🔍 Updating vehicle ${id}...`);
     const client = createServerSupabaseClient();
 
     const { data, error } = await client
@@ -273,14 +256,13 @@ export async function updateVehicle(
       .single();
 
     if (error) {
-      console.error('❌ Error updating vehicle:', error);
+      console.error('Error updating vehicle:', error);
       throw new Error(`Failed to update vehicle: ${error.message}`);
     }
 
-    console.log('✅ Vehicle updated successfully:', id);
     return data;
   } catch (err) {
-    console.error('❌ Unexpected error in updateVehicle:', err);
+    console.error('Unexpected error in updateVehicle:', err);
     throw err;
   }
 }
@@ -290,29 +272,22 @@ export async function upsertVehicleByCrmId(
   vehicleData: CreateVehicleInput
 ): Promise<{ vehicle: Vehicle; action: 'created' | 'updated' }> {
   try {
-    console.log(`🔄 Upserting vehicle with CRM ID: ${crmid}`);
-
-    // Check if vehicle exists
     const existingVehicle = await getVehicleByCrmId(crmid);
 
     if (existingVehicle) {
-      // Update existing vehicle
-      console.log(`✏️ Vehicle exists, updating it...`);
       const updatedVehicle = await updateVehicle(existingVehicle.id, vehicleData);
       return { vehicle: updatedVehicle, action: 'updated' };
-    } else {
-      // Create new vehicle
-      console.log(`📝 Vehicle does not exist, creating it...`);
-      const newVehicle = await createVehicle(vehicleData);
-      return { vehicle: newVehicle, action: 'created' };
     }
+
+    const newVehicle = await createVehicle(vehicleData);
+    return { vehicle: newVehicle, action: 'created' };
   } catch (err) {
-    console.error('❌ Unexpected error in upsertVehicleByCrmId:', err);
+    console.error('Unexpected error in upsertVehicleByCrmId:', err);
     throw err;
   }
 }
 
-// Image Management Functions
+// ---------- Image Management ----------
 
 export type AddImageInput = Omit<VehicleImage, 'id' | 'uploaded_at'>;
 
@@ -320,7 +295,6 @@ export async function getVehicleImages(
   vehicleId: string
 ): Promise<VehicleImage[]> {
   try {
-    console.log(`🔍 Fetching images for vehicle ${vehicleId}`);
     const client = createServerSupabaseClient();
 
     const { data, error } = await client
@@ -330,41 +304,36 @@ export async function getVehicleImages(
       .order('position', { ascending: true });
 
     if (error) {
-      console.error('❌ Error fetching vehicle images:', error);
+      console.error('Error fetching vehicle images:', error);
       throw new Error(`Failed to fetch vehicle images: ${error.message}`);
     }
 
-    console.log(`✅ Found ${data?.length || 0} images for vehicle ${vehicleId}`);
     return data ?? [];
   } catch (err) {
-    console.error('❌ Unexpected error in getVehicleImages:', err);
+    console.error('Unexpected error in getVehicleImages:', err);
     throw err;
   }
 }
 
 /**
- * Delete all images for a vehicle from the database only (fast operation)
- * Storage files are kept for efficiency - they don't interfere with functionality
+ * Delete all image records for a vehicle from the database.
+ * Storage files are kept for efficiency.
  */
 export async function deleteVehicleImages(vehicleId: string): Promise<void> {
   try {
-    console.log(`🗑️ Deleting image records for vehicle ${vehicleId}`);
     const client = createServerSupabaseClient();
 
-    // Delete only from database (fast operation)
     const { error } = await client
       .from('vehicle_images')
       .delete()
       .eq('vehicle_id', vehicleId);
 
     if (error) {
-      console.error('❌ Error deleting vehicle images:', error);
+      console.error('Error deleting vehicle images:', error);
       throw new Error(`Failed to delete images: ${error.message}`);
     }
-
-    console.log(`✅ Successfully deleted image records for vehicle ${vehicleId}`);
   } catch (err) {
-    console.error('❌ Unexpected error in deleteVehicleImages:', err);
+    console.error('Unexpected error in deleteVehicleImages:', err);
     throw err;
   }
 }
@@ -374,20 +343,20 @@ export async function addImagesToVehicle(
   images: AddImageInput[]
 ): Promise<VehicleImage[]> {
   try {
-    console.log(`🔍 Adding ${images.length} images to vehicle ${vehicleId}`);
     const client = createServerSupabaseClient();
 
     if (images.length === 0) {
-      console.log('ℹ️ No images to add');
       return [];
     }
 
-    // Validate positions are within 1-20 range
     for (const img of images) {
       if (img.position < 1 || img.position > 20) {
         throw new Error(`Image position must be between 1 and 20, got ${img.position}`);
       }
     }
+
+    // vehicleId is referenced via images[].vehicle_id; keep parameter for callsite clarity.
+    void vehicleId;
 
     const { data, error } = await client
       .from('vehicle_images')
@@ -395,14 +364,13 @@ export async function addImagesToVehicle(
       .select();
 
     if (error) {
-      console.error('❌ Error adding images to vehicle:', error);
+      console.error('Error adding images to vehicle:', error);
       throw new Error(`Failed to add images: ${error.message}`);
     }
 
-    console.log(`✅ Successfully added ${data?.length || 0} images to vehicle`);
     return data ?? [];
   } catch (err) {
-    console.error('❌ Unexpected error in addImagesToVehicle:', err);
+    console.error('Unexpected error in addImagesToVehicle:', err);
     throw err;
   }
 }
@@ -412,7 +380,6 @@ export async function updateVehicleImage(
   updates: Partial<Omit<VehicleImage, 'id' | 'vehicle_id' | 'uploaded_at'>>
 ): Promise<VehicleImage> {
   try {
-    console.log(`🔍 Updating image ${imageId}`);
     const client = createServerSupabaseClient();
 
     if (updates.position && (updates.position < 1 || updates.position > 20)) {
@@ -429,28 +396,23 @@ export async function updateVehicleImage(
       .single();
 
     if (error) {
-      console.error('❌ Error updating image:', error);
+      console.error('Error updating image:', error);
       throw new Error(`Failed to update image: ${error.message}`);
     }
 
-    console.log(`✅ Image updated successfully: ${imageId}`);
     return data;
   } catch (err) {
-    console.error('❌ Unexpected error in updateVehicleImage:', err);
+    console.error('Unexpected error in updateVehicleImage:', err);
     throw err;
   }
 }
 
 /**
- * Mark a vehicle as sold (soft delete) by setting is_published to false
- * The vehicle will be automatically deleted after 2 days by deleteSoldVehicles()
- * 
- * @param crmid - The CRM ID of the vehicle to mark as sold
- * @returns boolean - true if vehicle was found and marked, false if not found
+ * Mark a vehicle as sold (soft delete) by setting is_published to false.
+ * The vehicle will be automatically deleted after 2 days by deleteSoldVehicles().
  */
 export async function markVehicleAsSold(crmid: string): Promise<boolean> {
   try {
-    console.log(`🏷️ Marking vehicle as sold: ${crmid}`);
     const client = createServerSupabaseClient();
 
     const { data, error } = await client
@@ -460,34 +422,22 @@ export async function markVehicleAsSold(crmid: string): Promise<boolean> {
       .select();
 
     if (error) {
-      console.error('❌ Error marking vehicle as sold:', error);
+      console.error('Error marking vehicle as sold:', error);
       throw new Error(`Failed to mark vehicle as sold: ${error.message}`);
     }
 
-    const wasMarked = data && data.length > 0;
-    if (wasMarked) {
-      console.log(`✅ Vehicle marked as sold: ${crmid}`);
-    } else {
-      console.log(`ℹ️ No vehicle found with crmid: ${crmid}`);
-    }
-
-    return wasMarked;
+    return Boolean(data && data.length > 0);
   } catch (err) {
-    console.error('❌ Unexpected error in markVehicleAsSold:', err);
+    console.error('Unexpected error in markVehicleAsSold:', err);
     throw err;
   }
 }
 
 /**
- * Delete a single vehicle by its ID (hard delete)
- * This will also delete all related images from vehicle_images table (cascade delete)
- * 
- * @param vehicleId - The vehicle ID to delete
- * @returns void
+ * Hard-delete a vehicle by its ID. Cascades to vehicle_images via FK.
  */
 export async function deleteVehicleById(vehicleId: string): Promise<void> {
   try {
-    console.log(`🗑️ Deleting vehicle ${vehicleId}`);
     const client = createServerSupabaseClient();
 
     const { error } = await client
@@ -496,27 +446,20 @@ export async function deleteVehicleById(vehicleId: string): Promise<void> {
       .eq('id', vehicleId);
 
     if (error) {
-      console.error('❌ Error deleting vehicle:', error);
+      console.error('Error deleting vehicle:', error);
       throw new Error(`Failed to delete vehicle: ${error.message}`);
     }
-
-    console.log(`✅ Vehicle deleted successfully: ${vehicleId}`);
   } catch (err) {
-    console.error('❌ Unexpected error in deleteVehicleById:', err);
+    console.error('Unexpected error in deleteVehicleById:', err);
     throw err;
   }
 }
 
 /**
- * Delete a vehicle by its CRM ID (crmid)
- * This is useful when integrating with external systems like Zoho CRM
- * 
- * @param crmid - The CRM ID to delete
- * @returns boolean - true if vehicle was found and deleted, false if not found
+ * Hard-delete a vehicle by its CRM ID.
  */
 export async function deleteVehicleByCrmId(crmid: string): Promise<boolean> {
   try {
-    console.log(`🗑️ Deleting vehicle with crmid: ${crmid}`);
     const client = createServerSupabaseClient();
 
     const { data, error } = await client
@@ -526,27 +469,19 @@ export async function deleteVehicleByCrmId(crmid: string): Promise<boolean> {
       .select();
 
     if (error) {
-      console.error('❌ Error deleting vehicle:', error);
+      console.error('Error deleting vehicle:', error);
       throw new Error(`Failed to delete vehicle: ${error.message}`);
     }
 
-    const wasDeleted = data && data.length > 0;
-    if (wasDeleted) {
-      console.log(`✅ Vehicle deleted successfully: ${crmid}`);
-    } else {
-      console.log(`ℹ️ No vehicle found with crmid: ${crmid}`);
-    }
-
-    return wasDeleted;
+    return Boolean(data && data.length > 0);
   } catch (err) {
-    console.error('❌ Unexpected error in deleteVehicleByCrmId:', err);
+    console.error('Unexpected error in deleteVehicleByCrmId:', err);
     throw err;
   }
 }
 
 export async function deleteVehicleImage(imageId: string): Promise<void> {
   try {
-    console.log(`🔍 Deleting image ${imageId}`);
     const client = createServerSupabaseClient();
 
     const { error } = await client
@@ -555,13 +490,11 @@ export async function deleteVehicleImage(imageId: string): Promise<void> {
       .eq('id', imageId);
 
     if (error) {
-      console.error('❌ Error deleting image:', error);
+      console.error('Error deleting image:', error);
       throw new Error(`Failed to delete image: ${error.message}`);
     }
-
-    console.log(`✅ Image deleted successfully: ${imageId}`);
   } catch (err) {
-    console.error('❌ Unexpected error in deleteVehicleImage:', err);
+    console.error('Unexpected error in deleteVehicleImage:', err);
     throw err;
   }
 }
@@ -571,9 +504,6 @@ export async function reorderVehicleImages(
   imageOrder: { id: string; position: number }[]
 ): Promise<VehicleImage[]> {
   try {
-    console.log(`🔍 Reordering ${imageOrder.length} images for vehicle ${vehicleId}`);
-
-    // Validate all positions
     for (const item of imageOrder) {
       if (item.position < 1 || item.position > 10) {
         throw new Error(
@@ -582,37 +512,31 @@ export async function reorderVehicleImages(
       }
     }
 
-    // Update all images in parallel
+    void vehicleId;
+
     const updates = imageOrder.map((item) =>
       updateVehicleImage(item.id, { position: item.position })
     );
 
-    const results = await Promise.all(updates);
-    console.log(`✅ Successfully reordered ${results.length} images`);
-    return results;
+    return await Promise.all(updates);
   } catch (err) {
-    console.error('❌ Unexpected error in reorderVehicleImages:', err);
+    console.error('Unexpected error in reorderVehicleImages:', err);
     throw err;
   }
 }
 
 /**
  * Delete vehicles that have been marked as sold (is_published = false)
- * and were updated more than 2 days ago
+ * and were updated more than 2 days ago.
  */
 export async function deleteSoldVehicles(): Promise<number> {
   try {
-    console.log('🗑️ Cleaning up sold vehicles older than 2 days...');
     const client = createServerSupabaseClient();
 
-    // Calculate the date from 2 days ago
     const twoDaysAgo = new Date();
     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
     const twoDaysAgoISO = twoDaysAgo.toISOString();
 
-    console.log(`🔍 Looking for vehicles marked as sold before ${twoDaysAgoISO}`);
-
-    // Delete vehicles that are not published and were updated more than 2 days ago
     const response = await client
       .from('vehicles')
       .delete()
@@ -620,22 +544,17 @@ export async function deleteSoldVehicles(): Promise<number> {
       .lt('updated_at', twoDaysAgoISO);
 
     if (response.error) {
-      console.error('❌ Error deleting sold vehicles:', response.error);
+      console.error('Error deleting sold vehicles:', response.error);
       throw new Error(`Failed to delete sold vehicles: ${response.error.message}`);
     }
 
-    const deletedCount = response.count ?? 0;
-    console.log(`✅ Successfully deleted ${deletedCount} sold vehicles`);
-    return deletedCount;
+    return response.count ?? 0;
   } catch (err) {
-    console.error('❌ Unexpected error in deleteSoldVehicles:', err);
+    console.error('Unexpected error in deleteSoldVehicles:', err);
     throw err;
   }
 }
 
-/**
- * Get unique list of vehicle brands
- */
 export async function getUniqueBrands(): Promise<string[]> {
   try {
     const vehicles = await getPublishedVehicles();
@@ -647,13 +566,10 @@ export async function getUniqueBrands(): Promise<string[]> {
   }
 }
 
-/**
- * Get unique list of vehicle models for a specific brand
- */
 export async function getUniqueModels(brand?: string): Promise<string[]> {
   try {
     const vehicles = await getPublishedVehicles();
-    const filteredVehicles = brand 
+    const filteredVehicles = brand
       ? vehicles.filter(v => v.brand === brand)
       : vehicles;
     const models = [...new Set(filteredVehicles.map(v => v.model).filter((m): m is string => Boolean(m)))];
@@ -664,13 +580,9 @@ export async function getUniqueModels(brand?: string): Promise<string[]> {
   }
 }
 
-/**
- * Get unique list of vehicle categories
- */
 export async function getUniqueCategories(): Promise<string[]> {
   try {
     const vehicles = await getPublishedVehicles();
-    // Flatten all categories from all vehicles and get unique ones
     const allCategories = vehicles.flatMap(v => v.categories || []);
     const uniqueCategories = [...new Set(allCategories)];
     return uniqueCategories.sort();

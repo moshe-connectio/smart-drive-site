@@ -1,0 +1,21 @@
+/* ============================================================================
+ * Base styles — body, box-model reset, RTL.
+ * Anything that targets html/body or pure resets goes here.
+ * ============================================================================ */
+
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hebrew RTL support */
+[dir="rtl"] {
+  direction: rtl;
+}
