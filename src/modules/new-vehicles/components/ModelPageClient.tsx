@@ -1,94 +1,102 @@
 /**
  * ModelPageClient Component
- * חלק אינטראקטיבי של דף הדגם - בחירת רמת גימור וטעינת מפרט
+ * Comparison table → full technical specs that swap on trim selection
  */
 
 'use client';
 
 import { useState, useCallback } from 'react';
 import type { TrimLevel, TrimLevelWithSpecifications } from '../types';
-import { TrimLevelSelector } from './TrimLevelSelector';
+import { TrimComparisonTable } from './TrimComparisonTable';
 import { VehicleSpecifications } from './VehicleSpecifications';
 
 interface ModelPageClientProps {
   trimLevels: TrimLevel[];
   initialTrimSpecs: TrimLevelWithSpecifications | null;
+  modelName: string;
+  manufacturerName: string;
 }
 
-export function ModelPageClient({ trimLevels, initialTrimSpecs }: ModelPageClientProps) {
+export function ModelPageClient({
+  trimLevels,
+  initialTrimSpecs,
+  modelName,
+  manufacturerName,
+}: ModelPageClientProps) {
   const [trimDetails, setTrimDetails] = useState<TrimLevelWithSpecifications | null>(initialTrimSpecs);
   const [loadingSpecs, setLoadingSpecs] = useState(false);
 
-  const handleTrimSelect = useCallback(async (trim: TrimLevel) => {
-    // If we already have this trim's specs loaded, skip
-    if (trimDetails?.id === trim.id) return;
+  const handleTrimSelect = useCallback(
+    async (trim: TrimLevel) => {
+      if (trimDetails?.id === trim.id) return;
 
-    setLoadingSpecs(true);
-    try {
-      const res = await fetch(`/api/new-vehicles/trim-levels?model_id=${trim.model_id}`);
-      const trimLevelsData = await res.json();
-      
-      // Get full specs for selected trim
-      const specsRes = await fetch(`/api/new-vehicles/specifications?trim_id=${trim.id}`);
-      const specs = await specsRes.json();
+      setLoadingSpecs(true);
+      try {
+        const res = await fetch(`/api/new-vehicles/trim-levels?model_id=${trim.model_id}`);
+        const trimLevelsData = await res.json();
 
-      // Find full trim info from the trim levels data
-      const fullTrim = trimLevelsData.find((t: TrimLevelWithSpecifications) => t.id === trim.id);
-      
-      if (fullTrim) {
-        setTrimDetails({
-          ...fullTrim,
-          specifications: specs || [],
-        });
+        const specsRes = await fetch(`/api/new-vehicles/specifications?trim_id=${trim.id}`);
+        const specs = await specsRes.json();
+
+        const fullTrim = trimLevelsData.find((t: TrimLevelWithSpecifications) => t.id === trim.id);
+        if (fullTrim) {
+          setTrimDetails({ ...fullTrim, specifications: specs || [] });
+        }
+      } catch (err) {
+        console.error('Error fetching trim specs:', err);
+      } finally {
+        setLoadingSpecs(false);
       }
-    } catch (err) {
-      console.error('Error fetching trim specs:', err);
-    } finally {
-      setLoadingSpecs(false);
-    }
-  }, [trimDetails?.id]);
+    },
+    [trimDetails?.id]
+  );
+
+  const selectedTrim: TrimLevel | null = trimDetails ?? trimLevels[0] ?? null;
 
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
-      {/* Sidebar - Trim Selector */}
-      <div className="lg:col-span-1">
-        <div
-          className="sticky top-24 lg:top-28 rounded-lg p-6"
-          style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
-        >
-          <h2 className="mb-4 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
-            בחר רמת גימור
-          </h2>
-          <TrimLevelSelector
+    <div className="trim-section">
+      <header className="trim-section-head">
+        <p className="trim-section-eyebrow">{manufacturerName} · {modelName}</p>
+        <h2 className="trim-section-title">
+          השוואת רמות הגימור
+        </h2>
+        <p className="trim-section-subtitle">
+          לחצו על רמת גימור ברשימה כדי לעדכן את המפרט הטכני המלא לצידה.
+        </p>
+      </header>
+
+      <div className="trim-split">
+        <div className="trim-split-header">
+          <div className="trim-split-header-list">
+            <span className="trim-split-col">רמת גימור</span>
+            <span className="trim-split-col trim-split-col-end">החזר חודשי</span>
+          </div>
+          <div className="trim-split-header-specs">
+            <span className="trim-split-col">מפרט טכני מלא</span>
+          </div>
+        </div>
+
+        <div className="trim-split-list">
+          <TrimComparisonTable
             trimLevels={trimLevels}
+            selectedId={selectedTrim?.id}
             onSelect={handleTrimSelect}
-            selectedId={trimDetails?.id}
           />
         </div>
-      </div>
 
-      {/* Main - Specifications */}
-      <div className="lg:col-span-2">
+        <div className="trim-split-specs trim-specs-block">
         {loadingSpecs ? (
-          <div className="space-y-4">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="h-12 w-full animate-pulse rounded-lg"
-                style={{ background: 'var(--color-gray-200)' }}
-              />
+          <div className="trim-specs-loading">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="trim-specs-skeleton" />
             ))}
           </div>
         ) : trimDetails ? (
           <VehicleSpecifications trimLevel={trimDetails} />
         ) : (
-          <div
-            className="rounded-lg p-8 text-center"
-            style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
-          >
-            <p style={{ color: 'var(--color-gray-500)' }}>בחר רמת גימור לצפייה במפרט המלא</p>
-          </div>
+          <div className="trim-specs-empty">בחרו רמת גימור לצפייה במפרט המלא</div>
         )}
+        </div>
       </div>
     </div>
   );

@@ -32,13 +32,6 @@ export default async function ModelPage({ params }: ModelPageProps) {
     firstTrimSpecs = await getTrimLevelWithSpecs(modelData.trim_levels[0].id);
   }
 
-  const priceRangeLabel =
-    modelData.min_price && modelData.max_price
-      ? `₪${modelData.min_price.toLocaleString('he-IL')} - ₪${modelData.max_price.toLocaleString('he-IL')}`
-      : modelData.min_price
-      ? `החל מ-₪${modelData.min_price.toLocaleString('he-IL')}`
-      : 'בקרוב יתעדכן';
-
   const modelYearLabel =
     modelData.year_from && modelData.year_to
       ? `${modelData.year_from} - ${modelData.year_to}`
@@ -48,12 +41,6 @@ export default async function ModelPage({ params }: ModelPageProps) {
 
   const featureChips = [modelData.body_type, modelData.segment, `שנות ייצור: ${modelYearLabel}`]
     .filter((value): value is string => Boolean(value));
-
-  const firstTrim = modelData.trim_levels[0];
-  const drivetrainLabel =
-    [firstTrim?.engine_type, firstTrim?.transmission]
-      .filter((value): value is string => Boolean(value))
-      .join(' • ') || 'משתנה לפי רמת הגימור';
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
@@ -79,7 +66,28 @@ export default async function ModelPage({ params }: ModelPageProps) {
             </nav>
 
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-              <div className="text-center lg:text-right">
+              <div className="route-surface-card p-3 order-1 lg:order-2">
+                {modelData.image_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={modelData.image_url}
+                    alt={modelData.name}
+                    width={700}
+                    height={460}
+                    className="rounded-xl object-cover w-full"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    className="aspect-7/4 rounded-xl flex items-center justify-center"
+                    style={{ background: 'var(--color-gray-100)' }}
+                  >
+                    <span style={{ color: 'var(--color-silver-500)' }}>אין תמונה זמינה</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="text-center lg:text-right order-2 lg:order-1">
                 <p className="route-hero-kicker">{modelData.manufacturer_name}</p>
                 <h1 className="route-hero-title">{modelData.name_he || modelData.name}</h1>
                 {modelData.name_he && (
@@ -126,70 +134,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                   )}
                 </div>
               </div>
-
-              <div className="route-surface-card p-3">
-                {modelData.image_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={modelData.image_url}
-                    alt={modelData.name}
-                    width={700}
-                    height={460}
-                    className="rounded-xl object-cover w-full"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div
-                    className="aspect-7/4 rounded-xl flex items-center justify-center"
-                    style={{ background: 'var(--color-gray-100)' }}
-                  >
-                    <span style={{ color: 'var(--color-silver-500)' }}>אין תמונה זמינה</span>
-                  </div>
-                )}
-              </div>
             </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="home-soft-section py-10">
-        <Container>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <article className="route-surface-card p-5">
-              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
-                טווח מחירים
-              </p>
-              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
-                {priceRangeLabel}
-              </p>
-              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
-                המחירים משתנים בהתאם לרמת הגימור, חבילות ותוספות.
-              </p>
-            </article>
-
-            <article className="route-surface-card p-5">
-              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
-                יחידת הנעה
-              </p>
-              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
-                {drivetrainLabel}
-              </p>
-              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
-                דגש על שילוב ביצועים, נוחות ועלות שימוש לאורך זמן.
-              </p>
-            </article>
-
-            <article className="route-surface-card p-5">
-              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
-                שנות ייצור
-              </p>
-              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
-                {modelYearLabel}
-              </p>
-              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
-                מתאים להשוואה מול דורות קודמים ותצורות נוספות בשוק.
-              </p>
-            </article>
           </div>
         </Container>
       </section>
@@ -200,6 +145,8 @@ export default async function ModelPage({ params }: ModelPageProps) {
             <ModelPageClient
               trimLevels={modelData.trim_levels}
               initialTrimSpecs={firstTrimSpecs}
+              modelName={modelData.name_he || modelData.name}
+              manufacturerName={modelData.manufacturer_name}
             />
           ) : (
             <article className="route-surface-card p-8 text-center">

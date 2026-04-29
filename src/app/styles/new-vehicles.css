@@ -405,3 +405,688 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
   color: #000 !important;
   border-color: #fff !important;
 }
+
+
+/* =============================================================
+ * TRIM LEVEL SECTION — comparison table + dynamic specs
+ * ============================================================= */
+
+.trim-section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.trim-section-head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.trim-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.65rem;
+}
+.trim-section-eyebrow::before,
+.trim-section-eyebrow::after {
+  content: '';
+  width: 22px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--color-primary));
+  border-radius: 1px;
+}
+.trim-section-eyebrow::after {
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+}
+.trim-section-title {
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: var(--color-gray-900);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.018em;
+  line-height: 1.15;
+}
+.trim-section-subtitle {
+  color: var(--color-gray-500);
+  font-size: 0.97rem;
+  line-height: 1.65;
+}
+
+/* ---------- TRIM LIST — premium card rows ---------- */
+.trim-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trim-row {
+  position: relative;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 1.15rem 1.35rem;
+  text-align: right;
+  font-family: inherit;
+  background: var(--color-card-bg);
+  border: 1.5px solid var(--color-card-border);
+  border-radius: 16px;
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.25s ease,
+    box-shadow 0.3s ease,
+    background 0.25s ease;
+  /* desktop layout: rank | identity | chips | monthly | price */
+  grid-template-columns: 56px 1fr 1.4fr auto auto;
+}
+.trim-row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, var(--color-overlay-primary-08) 0%, transparent 38%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.trim-row:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-card-hover, 0 14px 32px -18px rgba(26, 63, 168, 0.22));
+}
+.trim-row:hover::before { opacity: 1; }
+
+.trim-row.is-selected {
+  border-color: var(--color-primary);
+  box-shadow:
+    0 0 0 1px var(--color-primary),
+    0 18px 36px -22px rgba(26, 63, 168, 0.35);
+  background: var(--color-overlay-primary-15, var(--color-overlay-primary-08));
+}
+.trim-row.is-selected::before { opacity: 0; }
+
+/* --- rank --- */
+.trim-row-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--color-silver-500);
+  background: var(--color-silver-100);
+  border: 1px solid var(--color-border);
+  transition: all 0.25s ease;
+}
+.trim-row:hover .trim-row-rank {
+  color: var(--color-primary);
+  background: var(--color-overlay-primary-08);
+  border-color: var(--color-overlay-primary-15, var(--color-primary));
+}
+.trim-row.is-selected .trim-row-rank {
+  color: var(--color-text-inverse);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-700) 100%);
+  border-color: transparent;
+  box-shadow: 0 6px 18px -6px rgba(26, 63, 168, 0.45);
+}
+
+/* --- identity (name + eyebrow) --- */
+.trim-row-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+}
+.trim-row-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-silver-500);
+}
+.trim-row-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-gray-900);
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+}
+.trim-row.is-selected .trim-row-name { color: var(--color-primary); }
+
+/* --- chips --- */
+.trim-row-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.trim-row-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.34rem 0.62rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-gray-700);
+  background: var(--color-silver-100);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  white-space: nowrap;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.trim-row:hover .trim-row-chip {
+  border-color: var(--color-overlay-primary-15, transparent);
+  background: var(--color-card-bg);
+}
+.trim-row.is-selected .trim-row-chip {
+  background: var(--color-card-bg);
+  border-color: var(--color-overlay-primary-15, var(--color-primary));
+  color: var(--color-gray-900);
+}
+.trim-row-chip-icon {
+  display: inline-flex;
+  color: var(--color-primary);
+}
+
+/* --- monthly --- */
+.trim-row-monthly {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+  padding-inline: 1rem;
+  position: relative;
+}
+.trim-row-monthly::before,
+.trim-row-price::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 1px;
+  background: var(--color-border);
+}
+.trim-row-monthly-label,
+.trim-row-price-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-silver-500);
+}
+.trim-row-monthly-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+.trim-row-monthly-value small {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-gray-500);
+  letter-spacing: 0;
+}
+.trim-row-monthly-empty {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-silver-500);
+  font-style: italic;
+}
+
+/* --- price --- */
+.trim-row-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  padding-inline: 1rem;
+  position: relative;
+  text-align: start;
+}
+.trim-row-price-value {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-gray-900);
+  letter-spacing: -0.005em;
+}
+
+/* --- focus --- */
+.trim-row:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* --- responsive: tablet --- */
+@media (max-width: 1180px) {
+  .trim-row {
+    grid-template-columns: 52px 1fr auto auto;
+    gap: 1.05rem;
+    padding: 1.05rem 1.15rem;
+  }
+  .trim-row-chips { display: none; }
+}
+
+/* --- responsive: mobile --- */
+@media (max-width: 720px) {
+  .trim-row {
+    grid-template-columns: 44px 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "rank identity"
+      "monthly price";
+    gap: 0.6rem 0.85rem;
+    padding: 1rem 1.05rem;
+  }
+  .trim-row-rank { grid-area: rank; width: 40px; height: 40px; font-size: 0.92rem; border-radius: 11px; }
+  .trim-row-identity { grid-area: identity; }
+  .trim-row-name { font-size: 1.05rem; }
+  .trim-row-monthly {
+    grid-area: monthly;
+    padding: 0.6rem 0.7rem;
+    background: var(--color-overlay-primary-08);
+    border-radius: 10px;
+  }
+  .trim-row-monthly::before { display: none; }
+  .trim-row-monthly-value { font-size: 1.18rem; }
+  .trim-row-price {
+    grid-area: price;
+    padding: 0.6rem 0.7rem;
+    background: var(--color-silver-100);
+    border-radius: 10px;
+    text-align: end;
+  }
+  .trim-row-price::before { display: none; }
+}
+
+/* ---------- TRIM SPLIT (unified card: list ⟷ specs) ---------- */
+.trim-split {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  background:
+    linear-gradient(180deg, var(--color-card-bg) 0%, var(--color-card-bg) 100%);
+  border: 1px solid var(--color-card-border);
+  border-radius: 22px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 24px 60px -32px rgba(26, 63, 168, 0.22),
+    0 8px 24px -16px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+  align-items: stretch;
+  isolation: isolate;
+}
+/* Subtle gradient ring */
+.trim-split::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(26, 63, 168, 0.18) 0%, transparent 35%, transparent 65%, rgba(212, 160, 23, 0.16) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Column headers row (spans full card) */
+.trim-split-header {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, var(--color-silver-100) 0%, var(--color-card-bg) 100%);
+  position: relative;
+  z-index: 2;
+}
+.trim-split-header-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  padding: 0.85rem 1.4rem;
+  align-items: center;
+}
+.trim-split-header-specs {
+  padding: 0.85rem 1.85rem;
+  border-inline-start: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.trim-split-header-specs::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 0 3px var(--color-overlay-primary-08);
+}
+.trim-split-col {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-silver-500);
+  white-space: nowrap;
+}
+.trim-split-col-end { text-align: end; }
+
+.trim-split-list {
+  max-height: 760px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-silver-300, var(--color-border)) transparent;
+}
+.trim-split-list::-webkit-scrollbar { width: 6px; }
+.trim-split-list::-webkit-scrollbar-thumb {
+  background: var(--color-silver-300, var(--color-border));
+  border-radius: 3px;
+}
+
+.trim-split-specs {
+  position: relative;
+  border-inline-start: 1px solid var(--color-border);
+  padding: 1.6rem 1.85rem;
+  min-width: 0;
+  background:
+    radial-gradient(110% 60% at 100% 0%, var(--color-overlay-primary-08) 0%, transparent 55%),
+    var(--color-card-bg);
+}
+
+/* Flatten the trim list inside the unified card */
+.trim-split .trim-list { gap: 0; }
+.trim-split .trim-row {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  box-shadow: none;
+  padding: 1rem 1.4rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto;
+  grid-template-areas: none;
+  gap: 0.9rem;
+  align-items: center;
+  position: relative;
+  transition: background 0.22s ease;
+}
+.trim-split .trim-row::before { display: none; }
+.trim-split .trim-row:last-child { border-bottom: 0; }
+.trim-split .trim-row:hover {
+  transform: none;
+  background: var(--color-overlay-primary-08);
+  box-shadow: none;
+  border-color: var(--color-border);
+}
+.trim-split .trim-row:hover .trim-row-rank {
+  color: var(--color-primary);
+  background: var(--color-card-bg);
+  border-color: var(--color-overlay-primary-15, var(--color-primary));
+  transform: scale(1.04);
+}
+
+/* SELECTED row — folder tab effect: extends into specs panel */
+.trim-split .trim-row.is-selected {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-700) 100%);
+  z-index: 3;
+}
+/* connector that erases the vertical divider for this row */
+.trim-split .trim-row.is-selected::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: -1px;
+  width: 2px;
+  background: var(--color-primary);
+}
+.trim-split .trim-row.is-selected .trim-row-name {
+  color: var(--color-text-inverse);
+  font-weight: 800;
+}
+.trim-split .trim-row.is-selected .trim-row-monthly-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+.trim-split .trim-row.is-selected .trim-row-monthly-value {
+  color: var(--color-text-inverse);
+}
+.trim-split .trim-row.is-selected .trim-row-monthly-value small {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Compact cell layout */
+.trim-split .trim-row-rank {
+  grid-area: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background: var(--color-silver-100);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s, color 0.2s, box-shadow 0.25s;
+}
+.trim-split .trim-row-identity { grid-area: auto; min-width: 0; }
+.trim-split .trim-row-name { font-size: 1.05rem; letter-spacing: -0.01em; }
+.trim-split .trim-row-eyebrow { display: none; }
+.trim-split .trim-row-chips {
+  grid-area: auto;
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin: 0;
+}
+.trim-split .trim-row-chip {
+  padding: 0.26rem 0.55rem;
+  font-size: 0.7rem;
+  border-radius: 8px;
+  background: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+.trim-split .trim-row.is-selected .trim-row-chip {
+  background: var(--color-card-bg);
+  border-color: var(--color-overlay-primary-15, var(--color-primary));
+}
+.trim-split .trim-row-monthly {
+  grid-area: auto;
+  padding-inline: 0;
+  text-align: end;
+  align-items: flex-end;
+  gap: 0;
+}
+.trim-split .trim-row-monthly::before { display: none; }
+.trim-split .trim-row-monthly-label { display: none; }
+.trim-split .trim-row-monthly-value { font-size: 1.08rem; }
+.trim-split .trim-row-price {
+  grid-area: auto;
+  padding-inline: 0;
+  text-align: end;
+  align-items: flex-end;
+  gap: 0;
+  min-width: 84px;
+}
+.trim-split .trim-row-price::before { display: none; }
+.trim-split .trim-row-price-label { display: none; }
+.trim-split .trim-row-price-value {
+  font-size: 0.88rem;
+  color: var(--color-silver-500);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Specs panel — flat content inside the unified card */
+.trim-split-specs .trim-specs-block {
+  gap: 1.2rem;
+}
+
+/* Stack on smaller screens */
+@media (max-width: 1024px) {
+  .trim-split,
+  .trim-split-header {
+    grid-template-columns: 1fr;
+  }
+  .trim-split-header-specs {
+    border-inline-start: 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .trim-split-list {
+    max-height: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .trim-split-specs {
+    border-inline-start: 0;
+    background:
+      radial-gradient(120% 40% at 50% 0%, var(--color-overlay-primary-08) 0%, transparent 60%),
+      var(--color-card-bg);
+  }
+  .trim-split-header-list {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 0.85rem 1.4rem;
+  }
+  .trim-split .trim-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .trim-split { border-radius: 16px; }
+  .trim-split-header { display: none; }
+  .trim-split .trim-row {
+    padding: 0.95rem 1.05rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.85rem;
+  }
+  .trim-split-specs { padding: 1.2rem 1.05rem; }
+}
+
+/* ---------- TRIM SPECS BLOCK ---------- */
+.trim-specs-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.trim-specs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.2rem;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 14px;
+}
+.trim-specs-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-silver-500);
+  margin-bottom: 0.25rem;
+}
+.trim-specs-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-gray-900);
+  letter-spacing: -0.005em;
+}
+.trim-specs-price-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  padding: 0.55rem 1rem;
+  border-radius: 12px;
+  background: var(--color-overlay-primary-08);
+  border: 1px solid var(--color-overlay-primary-15);
+}
+.trim-specs-price-tag-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-silver-500);
+}
+.trim-specs-price-tag-value {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.01em;
+}
+
+.trim-specs-loading {
+  display: grid;
+  gap: 0.55rem;
+}
+.trim-specs-skeleton {
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--color-gray-100) 0%, var(--color-gray-200) 50%, var(--color-gray-100) 100%);
+  background-size: 200% 100%;
+  animation: trim-skeleton 1.4s ease-in-out infinite;
+}
+@keyframes trim-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.trim-specs-empty {
+  text-align: center;
+  padding: 2.4rem 1rem;
+  color: var(--color-gray-500);
+  background: var(--color-card-bg);
+  border: 1px dashed var(--color-card-border);
+  border-radius: 16px;
+}
+
+/* ---------- A11Y HIGH CONTRAST ---------- */
+html.a11y-high-contrast .trim-table-wrap,
+html.a11y-high-contrast .trim-specs-head {
+  background: #000 !important;
+  border-color: #fff !important;
+}
+html.a11y-high-contrast .trim-table thead th,
+html.a11y-high-contrast .trim-table-corner,
+html.a11y-high-contrast .trim-table tbody tr:nth-child(even) {
+  background: #111 !important;
+}
+html.a11y-high-contrast .trim-table-rowhead,
+html.a11y-high-contrast .trim-table-cell,
+html.a11y-high-contrast .trim-table-th-name,
+html.a11y-high-contrast .trim-section-title,
+html.a11y-high-contrast .trim-specs-title,
+html.a11y-high-contrast .trim-table-corner-title {
+  color: #fff !important;
+}
+html.a11y-high-contrast .trim-table-cell.is-highlight,
+html.a11y-high-contrast .trim-table-row.is-highlight .trim-table-rowhead,
+html.a11y-high-contrast .trim-specs-price-tag-value {
+  color: #ffd400 !important;
+}
+html.a11y-high-contrast .trim-table-th.is-selected::after {
+  background: #ffd400 !important;
+}

@@ -5,7 +5,10 @@
 
 'use client';
 
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { TrimLevelWithSpecifications } from '../types';
+import { LeadForm } from '@modules/leads';
 
 interface VehicleSpecificationsProps {
   trimLevel: TrimLevelWithSpecifications;
@@ -14,6 +17,27 @@ interface VehicleSpecificationsProps {
 export function VehicleSpecifications({
   trimLevel,
 }: VehicleSpecificationsProps) {
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const vehicleTitle = `${trimLevel.manufacturer_name} ${trimLevel.model_name} — ${trimLevel.name}`;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isLeadModalOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsLeadModalOpen(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isLeadModalOpen]);
   // Group specifications by category
   const specsByCategory = trimLevel.specifications?.reduce(
     (acc, spec) => {
@@ -164,25 +188,76 @@ export function VehicleSpecifications({
         <p className="mt-2" style={{ color: 'var(--color-silver-400)' }}>
           {trimLevel.name} ב-₪{trimLevel.price.toLocaleString('he-IL')}
         </p>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <div className="mt-4 flex justify-center">
           <button
-            className="rounded-lg px-6 py-2 font-semibold transition-opacity"
-            style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
-          >
-            קבל הצעת מחיר
-          </button>
-          <button
-            className="rounded-lg px-6 py-2 font-semibold transition-opacity"
+            type="button"
+            onClick={() => setIsLeadModalOpen(true)}
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-2.5 text-base font-bold transition-all duration-200 hover:scale-105 hover:opacity-90"
             style={{
-              border: '1px solid var(--color-primary)',
-              color: 'var(--color-primary)',
-              background: 'transparent',
+              background: 'var(--color-primary)',
+              color: 'var(--color-text-inverse)',
+              boxShadow: 'var(--shadow-primary-soft)',
             }}
           >
-            השווה דגמים
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            קבלו הצעת מחיר
           </button>
         </div>
       </div>
+
+      {/* Lead Form Modal (portal to body to escape stacking contexts) */}
+      {isMounted && isLeadModalOpen && createPortal(
+        <div
+          className="fixed inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4"
+          style={{ zIndex: 9999 }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="טופס קבלת הצעת מחיר"
+        >
+          <div
+            className="absolute inset-0 backdrop-blur-sm"
+            style={{ background: 'var(--color-overlay-black-50)' }}
+            onClick={() => setIsLeadModalOpen(false)}
+          />
+          <div className="relative z-10 w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl">
+            <div
+              className="flex items-center justify-between px-5 py-4"
+              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
+            >
+              <div className="min-w-0">
+                <p className="font-bold text-lg leading-tight">קבלו הצעת מחיר</p>
+                <p className="text-sm opacity-90 leading-tight truncate">{vehicleTitle}</p>
+              </div>
+              <button
+                onClick={() => setIsLeadModalOpen(false)}
+                className="w-9 h-9 flex items-center justify-center rounded-full overlay-action-btn shrink-0"
+                aria-label="סגור טופס"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div style={{ background: 'var(--color-gray-100)' }}>
+              <div className="p-5">
+                <LeadForm
+                  formId="vehicle-inquiry"
+                  vehicleTitle={vehicleTitle}
+                  title=""
+                  showMessage
+                  showEmail
+                  submitLabel="שלח ונחזור אליך בהקדם"
+                  variant="minimal"
+                  onSuccess={() => setIsLeadModalOpen(false)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
