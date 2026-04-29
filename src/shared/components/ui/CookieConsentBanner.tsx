@@ -1,97 +1,79 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-interface CookieConsent {
-  essential: true; // always required
-  functional: boolean;
-  analytics: boolean;
-  marketing: boolean;
-  timestamp: string;
-}
-
-const STORAGE_KEY = 'cookie-consent';
-
-function getConsent(): CookieConsent | null {
-  if (typeof window === 'undefined') return null;
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-
-    // Backward compatibility: migrate old session consent to persistent storage.
-    const legacySessionConsent = sessionStorage.getItem(STORAGE_KEY);
-    if (legacySessionConsent) {
-      const parsed = JSON.parse(legacySessionConsent) as CookieConsent;
-      localStorage.setItem(STORAGE_KEY, legacySessionConsent);
-      sessionStorage.removeItem(STORAGE_KEY);
-      return parsed;
-    }
-  } catch {}
-  return null;
-}
-
-function saveConsent(consent: CookieConsent) {
-  try {
-    const serialized = JSON.stringify(consent);
-    localStorage.setItem(STORAGE_KEY, serialized);
-
-    // Cookie fallback for environments where localStorage may be restricted.
-    document.cookie = `cookie_consent=true; path=/; max-age=${60 * 60 * 24 * 365}`;
-  } catch {}
-}
+import {
+  type CookieConsent,
+  readConsent,
+  writeConsent,
+} from '@shared/hooks/useCookieConsent';
 
 export default function CookieConsentBanner() {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      const existingConsent = getConsent();
-      setMounted(true);
-      setVisible(existingConsent === null);
-    }, 0);
-
-    return () => window.clearTimeout(timer);
-  }, []);
+  // Toggle state — seeded from saved consent on mount so re-opening the
+  // panel reflects the user's prior choice instead of always defaulting.
   const [functional, setFunctional] = useState(true);
   const [analytics, setAnalytics] = useState(true);
   const [marketing, setMarketing] = useState(false);
 
+  useEffect(() => {
+    const existing = readConsent();
+    if (existing) {
+      // Sync UI state with persisted consent so re-opening the panel
+      // reflects the user's saved choice. This is the canonical "sync with
+      // external system" useEffect pattern; cannot run during render
+      // because localStorage is unavailable on the server.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFunctional(existing.functional);
+      setAnalytics(existing.analytics);
+      setMarketing(existing.marketing);
+    }
+    setMounted(true);
+    setVisible(existing === null);
+  }, []);
+
+  const persist = (consent: CookieConsent) => {
+    writeConsent(consent);
+    setVisible(false);
+    setShowDetails(false);
+  };
+
   const handleAcceptAll = () => {
-    const consent: CookieConsent = {
+    setFunctional(true);
+    setAnalytics(true);
+    setMarketing(true);
+    persist({
       essential: true,
       functional: true,
       analytics: true,
       marketing: true,
       timestamp: new Date().toISOString(),
-    };
-    saveConsent(consent);
-    setVisible(false);
+    });
   };
 
   const handleRejectAll = () => {
-    const consent: CookieConsent = {
+    setFunctional(false);
+    setAnalytics(false);
+    setMarketing(false);
+    persist({
       essential: true,
       functional: false,
       analytics: false,
       marketing: false,
       timestamp: new Date().toISOString(),
-    };
-    saveConsent(consent);
-    setVisible(false);
+    });
   };
 
   const handleSavePreferences = () => {
-    const consent: CookieConsent = {
+    persist({
       essential: true,
       functional,
       analytics,
       marketing,
       timestamp: new Date().toISOString(),
-    };
-    saveConsent(consent);
-    setVisible(false);
+    });
   };
 
   // Don't render anything until client-side hydration is complete
