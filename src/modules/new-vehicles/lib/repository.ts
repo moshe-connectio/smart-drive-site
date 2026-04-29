@@ -4,12 +4,14 @@
  */
 
 import { createServerSupabaseClient } from '@core/lib/supabase';
+import { logger } from '@core/lib/logger';
 import type {
   ManufacturerWithCounts,
   ManufacturerWithModels,
   ModelWithManufacturer,
   ModelWithTrimLevels,
   TrimLevel,
+  TrimLevelFullInfo,
   TrimLevelWithSpecifications,
   SearchFilters,
   SearchResult,
@@ -36,7 +38,7 @@ export async function getAllManufacturers(): Promise<ManufacturerWithCounts[]> {
     if (error) throw error;
     return data || [];
   } catch (error) {
-    console.error('❌ Error fetching manufacturers:', error);
+    logger.error('❌ Error fetching manufacturers:', error);
     throw error;
   }
 }
@@ -81,7 +83,7 @@ export async function getManufacturerBySlug(slug: string): Promise<ManufacturerW
       models: modelsData || [],
     };
   } catch (error) {
-    console.error(`❌ Error fetching manufacturer ${slug}:`, error);
+    logger.error(`❌ Error fetching manufacturer ${slug}:`, error);
     throw error;
   }
 }
@@ -107,7 +109,7 @@ export async function getManufacturerModels(
     if (error) throw error;
     return data || [];
   } catch (error) {
-    console.error(`❌ Error fetching models for manufacturer ${manufacturerId}:`, error);
+    logger.error(`❌ Error fetching models for manufacturer ${manufacturerId}:`, error);
     throw error;
   }
 }
@@ -156,7 +158,7 @@ export async function getModelBySlug(
       trim_levels: trimData || [],
     };
   } catch (error) {
-    console.error(
+    logger.error(
       `❌ Error fetching model ${manufacturerSlug}/${modelSlug}:`,
       error
     );
@@ -184,7 +186,78 @@ export async function getModelTrimLevels(modelId: string): Promise<TrimLevel[]> 
     if (error) throw error;
     return data || [];
   } catch (error) {
-    console.error(`❌ Error fetching trim levels for model ${modelId}:`, error);
+    logger.error(`❌ Error fetching trim levels for model ${modelId}:`, error);
+    throw error;
+  }
+}
+
+/**
+ * קבל את כל רמות הגימור הפעילות עם מידע יצרן/דגם משולב.
+ * משמש לחיפוש בצד-לקוח בעמוד הבית.
+ *
+ * שולפים ישירות מטבלת רמות הגימור עם embeds — לא מהוויו —
+ * כדי לוודא ש-`monthly_payment` מוחזר תמיד גם אם הוויו מאחור.
+ */
+export async function getAllTrimLevelsFullInfo(): Promise<TrimLevelFullInfo[]> {
+  try {
+    type Row = TrimLevel & {
+      model: {
+        id: string;
+        name: string;
+        slug: string;
+        image_url: string | null;
+        body_type: string | null;
+        is_active: boolean;
+        manufacturer: {
+          id: string;
+          name: string;
+          slug: string;
+          logo_url: string | null;
+          is_active: boolean;
+        } | null;
+      } | null;
+    };
+
+    const { data, error } = await client
+      .from('new_vehicles_trim_levels')
+      .select(
+        `
+        *,
+        model:new_vehicles_models!inner (
+          id, name, slug, image_url, body_type, is_active,
+          manufacturer:new_vehicles_manufacturers!inner (
+            id, name, slug, logo_url, is_active
+          )
+        )
+      `
+      )
+      .eq('is_active', true)
+      .order('display_order', { ascending: true })
+      .returns<Row[]>();
+
+    if (error) throw error;
+
+    const rows = (data || []).filter(
+      (r) => r.model?.is_active && r.model?.manufacturer?.is_active
+    );
+
+    return rows.map((r) => {
+      const { model, ...trim } = r;
+      return {
+        ...trim,
+        model_id: model!.id,
+        model_name: model!.name,
+        model_slug: model!.slug,
+        model_image: model!.image_url,
+        model_body_type: model!.body_type,
+        manufacturer_id: model!.manufacturer!.id,
+        manufacturer_name: model!.manufacturer!.name,
+        manufacturer_slug: model!.manufacturer!.slug,
+        manufacturer_logo: model!.manufacturer!.logo_url,
+      } as TrimLevelFullInfo;
+    });
+  } catch (error) {
+    logger.error('❌ Error fetching all trim levels:', error);
     throw error;
   }
 }
@@ -220,7 +293,7 @@ export async function getTrimLevelWithSpecs(
       specifications: specsData || [],
     };
   } catch (error) {
-    console.error(`❌ Error fetching trim level ${trimId}:`, error);
+    logger.error(`❌ Error fetching trim level ${trimId}:`, error);
     throw error;
   }
 }
@@ -313,7 +386,7 @@ export async function searchVehicles(
       total_count: tCount || 0,
     };
   } catch (error) {
-    console.error('❌ Error searching vehicles:', error);
+    logger.error('❌ Error searching vehicles:', error);
     throw error;
   }
 }
@@ -363,7 +436,7 @@ export async function searchVehiclesByText(
       total_count: total,
     };
   } catch (error) {
-    console.error('❌ Error searching by text:', error);
+    logger.error('❌ Error searching by text:', error);
     throw error;
   }
 }
@@ -402,7 +475,7 @@ export async function getStatistics() {
       trim_levels: trimCount || 0,
     };
   } catch (error) {
-    console.error('❌ Error fetching statistics:', error);
+    logger.error('❌ Error fetching statistics:', error);
     throw error;
   }
 }

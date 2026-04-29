@@ -4,6 +4,7 @@
  */
 
 import { createServerSupabaseClient } from '@core/lib/supabase';
+import { logger } from '@core/lib/logger';
 
 export async function POST(request: Request) {
   try {
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error('Error adding specification:', error);
+      logger.error('Error adding specification:', error);
       return Response.json(
         { error: error.message || 'Failed to add specification' },
         { status: 400 }
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
 
     return Response.json(data, { status: 201 });
   } catch (error) {
-    console.error('API error:', error);
+    logger.error('API error:', error);
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -83,7 +84,7 @@ export async function GET(request: Request) {
 
     return Response.json(data);
   } catch (error) {
-    console.error('Error fetching specifications:', error);
+    logger.error('Error fetching specifications:', error);
     return Response.json(
       { error: 'Failed to fetch specifications' },
       { status: 500 }

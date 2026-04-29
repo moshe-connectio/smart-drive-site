@@ -1,5 +1,6 @@
 import { getVehicleById, getVehicleByIdSuffix } from '@modules/vehicles/lib/repository';
 import { extractIdFromSlug } from '@shared/utils/formatting';
+import { logger } from '@core/lib/logger';
 
 export async function GET(
   request: Request,
@@ -39,7 +40,7 @@ export async function GET(
 
     return Response.json(vehicle);
   } catch (error) {
-    console.error('Error fetching vehicle:', error);
+    logger.error('Error fetching vehicle:', error);
     return Response.json(
       { error: 'Failed to fetch vehicle' },
       { status: 500 }

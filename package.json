@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
+    "precheck": "npm run typecheck && npm run lint",
     "seed:new-vehicles": "ts-node src/modules/new-vehicles/lib/seed.ts"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.0",

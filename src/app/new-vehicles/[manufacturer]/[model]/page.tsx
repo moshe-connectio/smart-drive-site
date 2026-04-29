@@ -3,11 +3,14 @@
  * עמוד דגם ספציפי עם בחירת רמת גימור וצפיית פרטים
  */
 
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getModelBySlug, getTrimLevelWithSpecs } from '@modules/new-vehicles/lib/repository';
 import { ModelPageClient } from '@modules/new-vehicles/components/ModelPageClient';
 import { Container } from '@shared/components/layout/Container';
+import { dealershipConfig } from '@core/config/site.config';
+import { logger } from '@core/lib/logger';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -17,6 +20,71 @@ interface ModelPageProps {
     manufacturer: string;
     model: string;
   }>;
+}
+
+const siteUrl = dealershipConfig.seo.siteUrl;
+
+export async function generateMetadata(
+  { params }: ModelPageProps
+): Promise<Metadata> {
+  const { manufacturer, model } = await params;
+
+  try {
+    const modelData = await getModelBySlug(manufacturer, model);
+
+    if (!modelData) {
+      return {
+        title: 'דגם לא נמצא | רכבים חדשים',
+        robots: { index: false, follow: true },
+      };
+    }
+
+    const displayName = modelData.name_he || modelData.name;
+    const fullName = `${modelData.manufacturer_name} ${displayName}`;
+    const canonical = `${siteUrl}/new-vehicles/${modelData.manufacturer_slug}/${modelData.slug}`;
+
+    const description =
+      modelData.description ||
+      `כל הפרטים על ${fullName} החדש - רמות גימור, מפרט טכני, מחירים וצפייה בתמונות. הצעת מחיר מיידית מ${dealershipConfig.business.name}.`;
+
+    const titleBase = `${fullName} | רכבים חדשים | ${dealershipConfig.business.name}`;
+
+    return {
+      title: titleBase,
+      description,
+      alternates: {
+        canonical,
+      },
+      openGraph: {
+        title: `${fullName} - רכבים חדשים`,
+        description,
+        url: canonical,
+        type: 'website',
+        locale: 'he_IL',
+        images: modelData.image_url
+          ? [
+              {
+                url: modelData.image_url,
+                width: 1200,
+                height: 630,
+                alt: fullName,
+              },
+            ]
+          : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${fullName} - רכבים חדשים`,
+        description,
+        images: modelData.image_url ? [modelData.image_url] : [],
+      },
+    };
+  } catch (error) {
+    logger.error('Error generating metadata for model page:', error);
+    return {
+      title: `רכבים חדשים | ${dealershipConfig.business.name}`,
+    };
+  }
 }
 
 export default async function ModelPage({ params }: ModelPageProps) {

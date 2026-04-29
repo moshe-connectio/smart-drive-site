@@ -1,4 +1,5 @@
 import type { Lead } from '../types';
+import { logger } from '@core/lib/logger';
 
 /**
  * Fires the configured webhook with the lead payload.
@@ -49,9 +50,9 @@ export async function fireLeadWebhook(lead: Lead): Promise<void> {
     });
 
     if (!res.ok) {
-      console.error(`[leads-webhook] HTTP ${res.status} from webhook`);
+      logger.error(`[leads-webhook] HTTP ${res.status} from webhook`);
     }
   } catch (err) {
-    console.error('[leads-webhook] Failed to fire webhook:', err);
+    logger.error('[leads-webhook] Failed to fire webhook:', err);
   }
 }

@@ -90,7 +90,6 @@ export function ModelPageClient({
                   ? 'מיון לפי החזר חודשי — מהנמוך לגבוה. לחיצה תהפוך לסדר יורד.'
                   : 'מיון לפי החזר חודשי — מהגבוה לנמוך. לחיצה תהפוך לסדר עולה.'
               }
-              aria-sort={monthlySort === 'asc' ? 'ascending' : 'descending'}
             >
               <span>החזר חודשי</span>
               <span className="trim-sort-icon" aria-hidden="true">

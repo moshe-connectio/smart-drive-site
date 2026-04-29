@@ -17,6 +17,8 @@
 
 import Link from 'next/link';
 import type { ModelWithManufacturer } from '../types';
+import { formatCategories, parseCategories } from '../lib/categories';
+import { formatPrice } from '@shared/utils/formatting';
 
 interface ModelGridProps {
   models: ModelWithManufacturer[];
@@ -24,21 +26,15 @@ interface ModelGridProps {
   isLoading?: boolean;
 }
 
-function formatPrice(value: number): string {
-  return `₪${value.toLocaleString('he-IL')}`;
-}
-
 function getPriceLine(model: ModelWithManufacturer): {
   label: string;
   value: string;
   muted?: boolean;
 } {
+  // Always show "החל מ-" with the lowest available trim price.
   const { min_price, max_price } = model;
-  if (min_price !== null && max_price !== null && min_price !== max_price) {
-    return { label: 'טווח מחירים', value: `${formatPrice(min_price)} – ${formatPrice(max_price)}` };
-  }
-  if (min_price !== null) return { label: 'מחיר התחלתי', value: formatPrice(min_price) };
-  if (max_price !== null) return { label: 'מחיר', value: formatPrice(max_price) };
+  if (min_price !== null) return { label: 'החל מ־', value: formatPrice(min_price) };
+  if (max_price !== null) return { label: 'החל מ־', value: formatPrice(max_price) };
   return { label: 'מחיר', value: 'יתעדכן בקרוב', muted: true };
 }
 
@@ -155,12 +151,12 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
 
               {/* Specs grid — colored icons matching the home grid */}
               <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
-                {model.body_type && (
+                {model.body_type && parseCategories(model.body_type).length > 0 && (
                   <div className="vc-spec vc-spec-body flex items-center gap-2" style={{ color: 'var(--color-gray-500)' }}>
                     <svg className="w-4 h-4 vc-spec-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 13l2-5a2 2 0 012-1h10a2 2 0 012 1l2 5M5 13h14M5 13v4a1 1 0 001 1h1a1 1 0 001-1v-1h8v1a1 1 0 001 1h1a1 1 0 001-1v-4M7 16h.01M17 16h.01" />
                     </svg>
-                    <span>{model.body_type}</span>
+                    <span>{formatCategories(model.body_type, ' / ')}</span>
                   </div>
                 )}
 

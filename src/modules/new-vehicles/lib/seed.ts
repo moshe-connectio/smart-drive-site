@@ -1,11 +1,15 @@
 /**
  * New Vehicles Module - Data Seed Script
  * ניתן להשתמש בזה כדי להוסיף נתוני דוגמה או טעינה בעיתוי של נתונים
- * 
+ *
  * השתמש בקובץ זה:
  * 1. מקומי: ts-node src/modules/new-vehicles/lib/seed.ts
  * 2. או הוסף קובץ SQL דומה ישירות ל-Supabase
+ *
+ * NOTE: This file is a CLI script that runs in the developer terminal.
+ * Direct console.* output is intentional and required here.
  */
+/* eslint-disable no-console */
 
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import type {

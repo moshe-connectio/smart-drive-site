@@ -1,5 +1,6 @@
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { extractIdFromSlug } from '@shared/utils/formatting';
+import { logger } from '@core/lib/logger';
 
 export type VehicleCondition = 'חדש' | '0 ק״מ' | 'משומש';
 
@@ -59,7 +60,7 @@ export async function getPublishedVehicles(): Promise<Vehicle[]> {
     let error = response.error;
 
     if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
-      console.warn(
+      logger.warn(
         '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
@@ -71,13 +72,13 @@ export async function getPublishedVehicles(): Promise<Vehicle[]> {
     }
 
     if (error) {
-      console.error('Error fetching vehicles:', error);
+      logger.error('Error fetching vehicles:', error);
       throw new Error(`Failed to fetch vehicles: ${error.message}`);
     }
 
     return data ?? [];
   } catch (err) {
-    console.error('Unexpected error in getPublishedVehicles:', err);
+    logger.error('Unexpected error in getPublishedVehicles:', err);
     throw err;
   }
 }
@@ -104,7 +105,7 @@ export async function getVehicleById(id: string): Promise<Vehicle | null> {
     let error = response.error;
 
     if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
-      console.warn(
+      logger.warn(
         '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
@@ -117,13 +118,13 @@ export async function getVehicleById(id: string): Promise<Vehicle | null> {
     }
 
     if (error) {
-      console.error('Error fetching vehicle by id:', error);
+      logger.error('Error fetching vehicle by id:', error);
       throw new Error(`Failed to fetch vehicle: ${error.message}`);
     }
 
     return data ?? null;
   } catch (err) {
-    console.error('Unexpected error in getVehicleById:', err);
+    logger.error('Unexpected error in getVehicleById:', err);
     throw err;
   }
 }
@@ -143,7 +144,7 @@ export async function getVehicleByIdSuffix(idSuffix: string): Promise<Vehicle | 
     let error = response.error;
 
     if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
-      console.warn(
+      logger.warn(
         '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
@@ -154,14 +155,14 @@ export async function getVehicleByIdSuffix(idSuffix: string): Promise<Vehicle | 
     }
 
     if (error) {
-      console.error('Error fetching vehicles:', error);
+      logger.error('Error fetching vehicles:', error);
       throw new Error(`Failed to fetch vehicles: ${error.message}`);
     }
 
     const vehicle = data?.find((v: Vehicle) => v.id.endsWith(idSuffix));
     return vehicle ?? null;
   } catch (err) {
-    console.error('Unexpected error in getVehicleByIdSuffix:', err);
+    logger.error('Unexpected error in getVehicleByIdSuffix:', err);
     throw err;
   }
 }
@@ -183,7 +184,7 @@ export async function getVehicleByCrmId(crmid: string): Promise<Vehicle | null> 
     let error = response.error;
 
     if (error && error.code === VEHICLE_IMAGES_RELATION_MISSING) {
-      console.warn(
+      logger.warn(
         '⚠️ vehicle_images relation not found, falling back to basic fetch'
       );
       const fallbackResponse = await client
@@ -196,13 +197,13 @@ export async function getVehicleByCrmId(crmid: string): Promise<Vehicle | null> 
     }
 
     if (error && error.code !== NO_ROWS_FOUND) {
-      console.error('Error fetching vehicle by CRM ID:', error);
+      logger.error('Error fetching vehicle by CRM ID:', error);
       throw new Error(`Failed to fetch vehicle: ${error.message}`);
     }
 
     return data ?? null;
   } catch (err) {
-    console.error('Unexpected error in getVehicleByCrmId:', err);
+    logger.error('Unexpected error in getVehicleByCrmId:', err);
     throw err;
   }
 }
@@ -225,13 +226,13 @@ export async function createVehicle(
       .single();
 
     if (error) {
-      console.error('Error creating vehicle:', error);
+      logger.error('Error creating vehicle:', error);
       throw new Error(`Failed to create vehicle: ${error.message}`);
     }
 
     return data;
   } catch (err) {
-    console.error('Unexpected error in createVehicle:', err);
+    logger.error('Unexpected error in createVehicle:', err);
     throw err;
   }
 }
@@ -256,13 +257,13 @@ export async function updateVehicle(
       .single();
 
     if (error) {
-      console.error('Error updating vehicle:', error);
+      logger.error('Error updating vehicle:', error);
       throw new Error(`Failed to update vehicle: ${error.message}`);
     }
 
     return data;
   } catch (err) {
-    console.error('Unexpected error in updateVehicle:', err);
+    logger.error('Unexpected error in updateVehicle:', err);
     throw err;
   }
 }
@@ -282,7 +283,7 @@ export async function upsertVehicleByCrmId(
     const newVehicle = await createVehicle(vehicleData);
     return { vehicle: newVehicle, action: 'created' };
   } catch (err) {
-    console.error('Unexpected error in upsertVehicleByCrmId:', err);
+    logger.error('Unexpected error in upsertVehicleByCrmId:', err);
     throw err;
   }
 }
@@ -304,13 +305,13 @@ export async function getVehicleImages(
       .order('position', { ascending: true });
 
     if (error) {
-      console.error('Error fetching vehicle images:', error);
+      logger.error('Error fetching vehicle images:', error);
       throw new Error(`Failed to fetch vehicle images: ${error.message}`);
     }
 
     return data ?? [];
   } catch (err) {
-    console.error('Unexpected error in getVehicleImages:', err);
+    logger.error('Unexpected error in getVehicleImages:', err);
     throw err;
   }
 }
@@ -329,11 +330,11 @@ export async function deleteVehicleImages(vehicleId: string): Promise<void> {
       .eq('vehicle_id', vehicleId);
 
     if (error) {
-      console.error('Error deleting vehicle images:', error);
+      logger.error('Error deleting vehicle images:', error);
       throw new Error(`Failed to delete images: ${error.message}`);
     }
   } catch (err) {
-    console.error('Unexpected error in deleteVehicleImages:', err);
+    logger.error('Unexpected error in deleteVehicleImages:', err);
     throw err;
   }
 }
@@ -364,13 +365,13 @@ export async function addImagesToVehicle(
       .select();
 
     if (error) {
-      console.error('Error adding images to vehicle:', error);
+      logger.error('Error adding images to vehicle:', error);
       throw new Error(`Failed to add images: ${error.message}`);
     }
 
     return data ?? [];
   } catch (err) {
-    console.error('Unexpected error in addImagesToVehicle:', err);
+    logger.error('Unexpected error in addImagesToVehicle:', err);
     throw err;
   }
 }
@@ -396,13 +397,13 @@ export async function updateVehicleImage(
       .single();
 
     if (error) {
-      console.error('Error updating image:', error);
+      logger.error('Error updating image:', error);
       throw new Error(`Failed to update image: ${error.message}`);
     }
 
     return data;
   } catch (err) {
-    console.error('Unexpected error in updateVehicleImage:', err);
+    logger.error('Unexpected error in updateVehicleImage:', err);
     throw err;
   }
 }
@@ -422,13 +423,13 @@ export async function markVehicleAsSold(crmid: string): Promise<boolean> {
       .select();
 
     if (error) {
-      console.error('Error marking vehicle as sold:', error);
+      logger.error('Error marking vehicle as sold:', error);
       throw new Error(`Failed to mark vehicle as sold: ${error.message}`);
     }
 
     return Boolean(data && data.length > 0);
   } catch (err) {
-    console.error('Unexpected error in markVehicleAsSold:', err);
+    logger.error('Unexpected error in markVehicleAsSold:', err);
     throw err;
   }
 }
@@ -446,11 +447,11 @@ export async function deleteVehicleById(vehicleId: string): Promise<void> {
       .eq('id', vehicleId);
 
     if (error) {
-      console.error('Error deleting vehicle:', error);
+      logger.error('Error deleting vehicle:', error);
       throw new Error(`Failed to delete vehicle: ${error.message}`);
     }
   } catch (err) {
-    console.error('Unexpected error in deleteVehicleById:', err);
+    logger.error('Unexpected error in deleteVehicleById:', err);
     throw err;
   }
 }
@@ -469,13 +470,13 @@ export async function deleteVehicleByCrmId(crmid: string): Promise<boolean> {
       .select();
 
     if (error) {
-      console.error('Error deleting vehicle:', error);
+      logger.error('Error deleting vehicle:', error);
       throw new Error(`Failed to delete vehicle: ${error.message}`);
     }
 
     return Boolean(data && data.length > 0);
   } catch (err) {
-    console.error('Unexpected error in deleteVehicleByCrmId:', err);
+    logger.error('Unexpected error in deleteVehicleByCrmId:', err);
     throw err;
   }
 }
@@ -490,11 +491,11 @@ export async function deleteVehicleImage(imageId: string): Promise<void> {
       .eq('id', imageId);
 
     if (error) {
-      console.error('Error deleting image:', error);
+      logger.error('Error deleting image:', error);
       throw new Error(`Failed to delete image: ${error.message}`);
     }
   } catch (err) {
-    console.error('Unexpected error in deleteVehicleImage:', err);
+    logger.error('Unexpected error in deleteVehicleImage:', err);
     throw err;
   }
 }
@@ -520,7 +521,7 @@ export async function reorderVehicleImages(
 
     return await Promise.all(updates);
   } catch (err) {
-    console.error('Unexpected error in reorderVehicleImages:', err);
+    logger.error('Unexpected error in reorderVehicleImages:', err);
     throw err;
   }
 }
@@ -544,13 +545,13 @@ export async function deleteSoldVehicles(): Promise<number> {
       .lt('updated_at', twoDaysAgoISO);
 
     if (response.error) {
-      console.error('Error deleting sold vehicles:', response.error);
+      logger.error('Error deleting sold vehicles:', response.error);
       throw new Error(`Failed to delete sold vehicles: ${response.error.message}`);
     }
 
     return response.count ?? 0;
   } catch (err) {
-    console.error('Unexpected error in deleteSoldVehicles:', err);
+    logger.error('Unexpected error in deleteSoldVehicles:', err);
     throw err;
   }
 }
@@ -561,7 +562,7 @@ export async function getUniqueBrands(): Promise<string[]> {
     const brands = [...new Set(vehicles.map(v => v.brand).filter((b): b is string => Boolean(b)))];
     return brands.sort();
   } catch (err) {
-    console.error('Error fetching unique brands:', err);
+    logger.error('Error fetching unique brands:', err);
     return [];
   }
 }
@@ -575,7 +576,7 @@ export async function getUniqueModels(brand?: string): Promise<string[]> {
     const models = [...new Set(filteredVehicles.map(v => v.model).filter((m): m is string => Boolean(m)))];
     return models.sort();
   } catch (err) {
-    console.error('Error fetching unique models:', err);
+    logger.error('Error fetching unique models:', err);
     return [];
   }
 }
@@ -587,7 +588,7 @@ export async function getUniqueCategories(): Promise<string[]> {
     const uniqueCategories = [...new Set(allCategories)];
     return uniqueCategories.sort();
   } catch (err) {
-    console.error('Error fetching unique categories:', err);
+    logger.error('Error fetching unique categories:', err);
     return [];
   }
 }

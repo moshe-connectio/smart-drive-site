@@ -4,6 +4,7 @@
  */
 
 import { createServerSupabaseClient } from '@core/lib/supabase';
+import { logger } from '@core/lib/logger';
 
 export async function POST(request: Request) {
   try {
@@ -136,7 +137,7 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     if (findErr) {
-      console.error('Error checking existing trim level:', findErr);
+      logger.error('Error checking existing trim level:', findErr);
       return Response.json(
         { error: findErr.message || 'Failed to check existing trim level' },
         { status: 400 }
@@ -167,7 +168,7 @@ export async function POST(request: Request) {
     }
 
     if (error) {
-      console.error('Error saving trim level:', error);
+      logger.error('Error saving trim level:', error);
       return Response.json(
         { error: error.message || 'Failed to save trim level' },
         { status: 400 }
@@ -179,7 +180,7 @@ export async function POST(request: Request) {
       { status }
     );
   } catch (error) {
-    console.error('API error:', error);
+    logger.error('API error:', error);
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -214,7 +215,7 @@ export async function GET(request: Request) {
 
     return Response.json(data);
   } catch (error) {
-    console.error('Error fetching trim levels:', error);
+    logger.error('Error fetching trim levels:', error);
     return Response.json(
       { error: 'Failed to fetch trim levels' },
       { status: 500 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { insertLead } from '@modules/leads/lib/repository';
 import { fireLeadWebhook } from '@modules/leads/lib/webhook';
+import { logger } from '@core/lib/logger';
 import type { CreateLeadInput } from '@modules/leads/types';
 
 const PHONE_RE = /^[\d\s\-+()]{7,20}$/;
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, id: lead.id }, { status: 201 });
   } catch (err) {
-    console.error('[POST /api/leads]', err);
+    logger.error('[POST /api/leads]', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

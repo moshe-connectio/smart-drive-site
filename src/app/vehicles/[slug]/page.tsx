@@ -6,10 +6,6 @@ import {
 } from '@modules/vehicles/lib/repository';
 import { generateVehicleSlug } from '@shared/utils/formatting';
 import { dealershipConfig } from '@core/config/site.config';
-import { Header } from '@shared/components/layout/Header';
-import { Footer } from '@shared/components/layout/Footer';
-import { Container } from '@shared/components/layout/Container';
-import Link from 'next/link';
 import VehicleDetailClient from './VehicleDetailClient';
 
 export const revalidate = 300; // ISR – revalidate every 5 minutes
@@ -225,28 +221,3 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     </>
   );
 }
-
-// 404 page when vehicle is not found
-export function generateNotFound() {
-  return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
-      <Header />
-      <main className="flex-1 py-12">
-        <Container>
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4" style={{ color: 'var(--color-gray-900)' }}>הרכב לא נמצא</h1>
-            <Link
-              href="/vehicles"
-              className="inline-block px-6 py-3 rounded-lg hover:opacity-90 transition-colors"
-              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
-            >
-              חזור לרשימת הרכבים
-            </Link>
-          </div>
-        </Container>
-      </main>
-      <Footer />
-    </div>
-  );
-}
-

@@ -5,6 +5,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
+import { logger } from '@core/lib/logger';
 
 /**
  * Convert any string to a URL-safe slug
@@ -68,7 +69,7 @@ export async function POST(request: Request) {
         .single();
 
       if (updateError) {
-        console.error('Error updating manufacturer:', updateError);
+        logger.error('Error updating manufacturer:', updateError);
         return Response.json(
           { error: updateError.message || 'Failed to update manufacturer' },
           { status: 400 }
@@ -100,7 +101,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error('Error adding manufacturer:', error);
+      logger.error('Error adding manufacturer:', error);
       return Response.json(
         { error: error.message || 'Failed to add manufacturer' },
         { status: 400 }
@@ -111,7 +112,7 @@ export async function POST(request: Request) {
     revalidatePath('/new-vehicles');
     return Response.json({ ...data, _action: 'created' }, { status: 201 });
   } catch (error) {
-    console.error('API error:', error);
+    logger.error('API error:', error);
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -207,7 +208,7 @@ export async function DELETE(request: Request) {
       models_deleted: modelIds.length,
     });
   } catch (error) {
-    console.error('API error:', error);
+    logger.error('API error:', error);
     return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -232,7 +233,7 @@ export async function GET() {
 
     return Response.json(data);
   } catch (error) {
-    console.error('Error fetching manufacturers:', error);
+    logger.error('Error fetching manufacturers:', error);
     return Response.json(
       { error: 'Failed to fetch manufacturers' },
       { status: 500 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { markVehicleAsSold } from '@modules/vehicles/lib/repository';
+import { logger } from '@core/lib/logger';
 
 /**
  * Webhook endpoint for marking a vehicle as sold (soft delete)
@@ -57,7 +58,7 @@ export async function POST(request: NextRequest) {
       note: 'Vehicle will be automatically deleted after 2 days',
     });
   } catch (error) {
-    console.error('❌ Error in mark-sold webhook:', error);
+    logger.error('❌ Error in mark-sold webhook:', error);
     return NextResponse.json(
       {
         success: false,

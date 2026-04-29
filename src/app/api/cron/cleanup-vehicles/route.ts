@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { deleteSoldVehicles } from '@modules/vehicles/lib/repository';
+import { logger } from '@core/lib/logger';
 
 /**
  * Cron Job endpoint for automatic cleanup of sold vehicles
@@ -39,7 +40,7 @@ export async function GET() {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Error in cleanup cron job:', error);
+    logger.error('Error in cleanup cron job:', error);
     return NextResponse.json(
       {
         success: false,

@@ -12,6 +12,7 @@ import { Container } from '@shared/components/layout/Container';
 import { FilterableVehicleGrid } from '@modules/vehicles/components/FilterableVehicleGrid';
 import { dealershipConfig } from '@core/config/site.config';
 import { generateVehicleSlug } from '@shared/utils/formatting';
+import { logger } from '@core/lib/logger';
 
 export const revalidate = 60;
 
@@ -58,23 +59,23 @@ export default async function VehiclesPage() {
     if (vehiclesResult.status === 'fulfilled') {
       vehicles = vehiclesResult.value.filter((vehicle) => vehicle.is_published);
     } else {
-      console.error('Failed to load vehicles:', vehiclesResult.reason);
+      logger.error('Failed to load vehicles:', vehiclesResult.reason);
       error = 'שגיאה בטעינת הרכבים. אנא נסו שוב בעוד מספר דקות.';
     }
 
     if (brandsResult.status === 'fulfilled') {
       brands = brandsResult.value;
     } else {
-      console.error('Failed to load brands:', brandsResult.reason);
+      logger.error('Failed to load brands:', brandsResult.reason);
     }
 
     if (categoriesResult.status === 'fulfilled') {
       categories = categoriesResult.value;
     } else {
-      console.error('Failed to load categories:', categoriesResult.reason);
+      logger.error('Failed to load categories:', categoriesResult.reason);
     }
   } catch (err) {
-    console.error('Failed to load vehicles page data:', err);
+    logger.error('Failed to load vehicles page data:', err);
     error = 'שגיאה בטעינת הרכבים. אנא נסו שוב בעוד מספר דקות.';
   }
 

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { VehicleImage } from '@modules/vehicles/lib/repository';
+import { useModal } from '@shared/hooks/useModal';
 
 interface ImageLightboxProps {
   images: VehicleImage[];
@@ -25,22 +26,18 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
     setCurrentIndex((prev) => (prev - 1 + sortedImages.length) % sortedImages.length);
   }, [sortedImages.length]);
 
-  // Keyboard navigation
+  // ESC dismiss + body scroll lock
+  useModal(true, onClose);
+
+  // Arrow-key navigation (RTL: left = next, right = prev)
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowLeft') goNext(); // RTL: left = next
-      if (e.key === 'ArrowRight') goPrev(); // RTL: right = prev
+      if (e.key === 'ArrowLeft') goNext();
+      if (e.key === 'ArrowRight') goPrev();
     };
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose, goNext, goPrev]);
-
-  // Prevent body scroll
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
+  }, [goNext, goPrev]);
 
   // Touch swipe support
   const touchStartX = useRef<number | null>(null);

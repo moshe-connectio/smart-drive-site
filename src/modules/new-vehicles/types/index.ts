@@ -99,6 +99,8 @@ export type TrimLevelFullInfo = TrimLevel & {
   model_name: string;
   model_slug: string;
   model_image: string | null;
+  /** סוג מרכב (Sedan / SUV / Coupe…) — נשאב מהדגם, אופציונלי. */
+  model_body_type?: string | null;
   manufacturer_id: string;
   manufacturer_name: string;
   manufacturer_slug: string;

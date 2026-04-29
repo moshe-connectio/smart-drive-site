@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
 import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
+import { useModal } from '@shared/hooks/useModal';
 
 const socialLinks = [
   { name: 'Facebook', url: dealershipConfig.social.facebook, icon: FaFacebook },
@@ -35,17 +36,8 @@ export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
           background: 'var(--color-background)',
         };
 
-  // Prevent body scroll when menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+  // ESC dismiss + body scroll lock
+  useModal(isOpen, () => setIsOpen(false));
 
   return (
     <>

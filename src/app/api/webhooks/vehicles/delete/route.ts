@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { deleteVehicleByCrmId, deleteVehicleById } from '@modules/vehicles/lib/repository';
+import { logger } from '@core/lib/logger';
 
 /**
  * Webhook endpoint for deleting vehicles
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   } catch (error) {
-    console.error('❌ Error in delete webhook:', error);
+    logger.error('❌ Error in delete webhook:', error);
     return NextResponse.json(
       {
         success: false,

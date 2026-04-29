@@ -8,8 +8,10 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllManufacturers, getManufacturerBySlug } from '@modules/new-vehicles/lib/repository';
 import { ModelGrid } from '@modules/new-vehicles/components/ModelGrid';
+import { parseCategories } from '@modules/new-vehicles/lib/categories';
 import { dealershipConfig } from '@core/config/site.config';
 import { Container } from '@shared/components/layout/Container';
+import { logger } from '@core/lib/logger';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -25,7 +27,7 @@ export async function generateStaticParams() {
       manufacturer: manufacturer.slug,
     }));
   } catch (error) {
-    console.error('Error generating static params:', error);
+    logger.error('Error generating static params:', error);
     return [];
   }
 }
@@ -67,7 +69,7 @@ export async function generateMetadata(
       },
     };
   } catch (error) {
-    console.error('Error generating metadata:', error);
+    logger.error('Error generating metadata:', error);
     return {
       title: `רכבים חדשים | ${dealershipConfig.business.name}`,
     };
@@ -82,7 +84,7 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
   try {
     manufacturerData = await getManufacturerBySlug(manufacturer);
   } catch (error) {
-    console.error(`Error loading manufacturer ${manufacturer}:`, error);
+    logger.error(`Error loading manufacturer ${manufacturer}:`, error);
     notFound();
   }
 
@@ -92,9 +94,7 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
 
   const modelBodyTypes = Array.from(
     new Set(
-      manufacturerData.models
-        .map((item) => item.body_type)
-        .filter((value): value is string => Boolean(value))
+      manufacturerData.models.flatMap((item) => parseCategories(item.body_type))
     )
   ).slice(0, 4);
 

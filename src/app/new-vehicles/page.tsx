@@ -8,6 +8,7 @@ import { getAllManufacturers } from '@modules/new-vehicles/lib/repository';
 import { ManufacturerGrid } from '@modules/new-vehicles/components/ManufacturerGrid';
 import { dealershipConfig } from '@core/config/site.config';
 import { Container } from '@shared/components/layout/Container';
+import { logger } from '@core/lib/logger';
 
 export const revalidate = 60;
 
@@ -43,7 +44,7 @@ async function NewVehiclesPage() {
   try {
     manufacturers = await getAllManufacturers();
   } catch (error) {
-    console.error('Error loading manufacturers:', error);
+    logger.error('Error loading manufacturers:', error);
     hasLoadError = true;
   }
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
+import { logger } from '@core/lib/logger';
 import { 
   upsertVehicleByCrmId,
   addImagesToVehicle,
@@ -92,7 +93,7 @@ async function extractZohoDownloadUrl(htmlPageUrl: string): Promise<string> {
     const actualDownloadUrl = downloadUrlMatch[1];
     return actualDownloadUrl;
   } catch (error) {
-    console.error(`❌ Error extracting Zoho URL`);
+    logger.error(`❌ Error extracting Zoho URL`);
     throw error;
   }
 }
@@ -189,7 +190,7 @@ async function downloadImage(imageUrl: string): Promise<{ buffer: Buffer; filena
       // Try direct fetch first (even for Zoho). If content-type invalid, fall back to extraction once.
       return await fetchImage(downloadUrl);
     } catch (directErr) {
-      console.warn('⚠️ Direct download failed or invalid content-type', directErr);
+      logger.warn('⚠️ Direct download failed or invalid content-type', directErr);
       if (isZohoWorkdrive && !triedExtract) {
         triedExtract = true;
         const extractedUrl = await extractZohoDownloadUrl(imageUrl);
@@ -199,7 +200,7 @@ async function downloadImage(imageUrl: string): Promise<{ buffer: Buffer; filena
     }
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error);
-    console.error(`❌ Download failed: ${errorMsg}`);
+    logger.error(`❌ Download failed: ${errorMsg}`);
     throw error;
   }
 }
@@ -249,7 +250,7 @@ async function uploadImageToSupabase(
       });
 
     if (error) {
-      console.error(`❌ Supabase upload error:`, JSON.stringify(error, null, 2));
+      logger.error(`❌ Supabase upload error:`, JSON.stringify(error, null, 2));
       throw new Error(`Supabase upload failed: ${error.message}`);
     }
 
@@ -265,7 +266,7 @@ async function uploadImageToSupabase(
     return publicUrlData.data.publicUrl;
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
-    console.error(`❌ Upload error: ${msg}`);
+    logger.error(`❌ Upload error: ${msg}`);
     throw error;
   }
 }
@@ -283,7 +284,7 @@ async function processAndUploadImages(
     try {
       // Skip if URL is base64
       if (img.image_url.startsWith('data:image/')) {
-        console.warn(`⚠️ Skipping base64 image at position ${img.position}`);
+        logger.warn(`⚠️ Skipping base64 image at position ${img.position}`);
         return null;
       }
 
@@ -308,7 +309,7 @@ async function processAndUploadImages(
         alt_text: img.alt_text || null,
       } as AddImageInput;
     } catch {
-      console.error(`❌ Failed to process image at position ${img.position}`);
+      logger.error(`❌ Failed to process image at position ${img.position}`);
       // Return null for failed images
       return null;
     }
@@ -330,7 +331,7 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json();
     } catch {
-      console.error('❌ Invalid JSON');
+      logger.error('❌ Invalid JSON');
       return NextResponse.json(
         { error: 'Invalid JSON payload' },
         { status: 400 }
@@ -339,7 +340,7 @@ export async function POST(request: NextRequest) {
 
     // Validate basic structure
     if (!body || typeof body !== 'object') {
-      console.error('❌ Invalid payload');
+      logger.error('❌ Invalid payload');
       return NextResponse.json(
         { error: 'Payload must be a JSON object' },
         { status: 400 }
@@ -349,7 +350,7 @@ export async function POST(request: NextRequest) {
     const bodyRecord = body as Record<string, unknown>;
 
     if (!bodyRecord.data) {
-      console.error('❌ Missing required field: data');
+      logger.error('❌ Missing required field: data');
       return NextResponse.json(
         { error: 'Missing required field: data' },
         { status: 400 }
@@ -357,7 +358,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!bodyRecord.crmid || typeof bodyRecord.crmid !== 'string') {
-      console.error('❌ Missing required field: crmid');
+      logger.error('❌ Missing required field: crmid');
       return NextResponse.json(
         { error: 'Missing required field: crmid' },
         { status: 400 }
@@ -509,7 +510,7 @@ export async function POST(request: NextRequest) {
           }
         }
       } catch (error) {
-        console.error('❌ Error processing images:', error);
+        logger.error('❌ Error processing images:', error);
         // Don't fail the entire webhook if image processing fails
         // The vehicle was created successfully
       }
@@ -529,7 +530,7 @@ export async function POST(request: NextRequest) {
       { status: result.action === 'created' ? 201 : 200 }
     );
   } catch (error) {
-    console.error('❌ Webhook error:', error);
+    logger.error('❌ Webhook error:', error);
 
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
 

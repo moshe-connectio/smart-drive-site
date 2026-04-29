@@ -8,6 +8,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
+import { logger } from '@core/lib/logger';
 
 function toSlug(text: string): string {
   return text
@@ -167,7 +168,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error('Error adding model:', error);
+      logger.error('Error adding model:', error);
       return Response.json({ error: error.message || 'Failed to add model' }, { status: 400 });
     }
 
@@ -175,7 +176,7 @@ export async function POST(request: Request) {
     revalidatePath('/new-vehicles');
     return Response.json({ ...data, _action: 'created' }, { status: 201 });
   } catch (error) {
-    console.error('API error:', error);
+    logger.error('API error:', error);
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -210,7 +211,7 @@ export async function GET(request: Request) {
 
     return Response.json(data);
   } catch (error) {
-    console.error('Error fetching models:', error);
+    logger.error('Error fetching models:', error);
     return Response.json(
       { error: 'Failed to fetch models' },
       { status: 500 }
