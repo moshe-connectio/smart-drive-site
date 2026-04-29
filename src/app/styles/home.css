@@ -516,78 +516,39 @@
 }
 
 /* ─── Featured vehicles grid (home only) ─────────────────────────────────── */
-/* Responsive breakpoints — card width scales gently per viewport tier:
- *   < 480px        → 1 col, fluid up to 300px (small phones)
- *   480px – 639px  → 1 col, fixed 300px (large phones)
- *   640px – 767px  → 2 cols × 280px (small tablets)
- *   768px – 1023px → 3 cols × 240px (tablets)
- *   1024px – 1279px → 3 cols × 280px (small laptops — avoids cramped 4-col)
- *   1280px – 1535px → 4 cols × 280px (desktops)
- *   ≥ 1536px       → 4 cols × 300px (large desktops)
+/* Responsive grid that hugs the Container width (max-w-7xl) without overflow.
+ * Mirrors the /vehicles page breakpoints: 1 → 2 → 3 → 4 columns.
+ * Columns flex to fill the row so we never exceed the container at any zoom.
  */
 .home-featured-grid {
   display: grid;
-  gap: 1.25rem;
-  grid-template-columns: minmax(0, 300px);
-  justify-content: center;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 .home-featured-grid > * {
   width: 100%;
-  max-width: 300px;
-  justify-self: center;
-}
-
-/* Large phones — lock card to 300px */
-@media (min-width: 480px) {
-  .home-featured-grid {
-    grid-template-columns: 300px;
-    gap: 1.5rem;
-  }
+  min-width: 0;
 }
 
 /* Small tablets — 2 columns */
 @media (min-width: 640px) {
   .home-featured-grid {
-    grid-template-columns: repeat(2, 280px);
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .home-featured-grid > * { max-width: 280px; }
 }
 
-/* Tablets — 3 narrow columns */
-@media (min-width: 768px) {
-  .home-featured-grid {
-    grid-template-columns: repeat(3, 240px);
-    gap: 1.25rem;
-  }
-  .home-featured-grid > * { max-width: 240px; }
-}
-
-/* Small laptops — 3 comfortable columns (avoid premature 4-col squeeze) */
+/* Small laptops — 3 columns */
 @media (min-width: 1024px) {
   .home-featured-grid {
-    grid-template-columns: repeat(3, 280px);
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .home-featured-grid > * { max-width: 280px; }
 }
 
 /* Desktops — 4 columns */
 @media (min-width: 1280px) {
   .home-featured-grid {
-    grid-template-columns: repeat(4, 280px);
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-  .home-featured-grid > * { max-width: 280px; }
-}
-
-/* Large desktops — slightly larger 4-col cards */
-@media (min-width: 1536px) {
-  .home-featured-grid {
-    grid-template-columns: repeat(4, 300px);
-    gap: 1.75rem;
-  }
-  .home-featured-grid > * { max-width: 300px; }
 }
 
 /* ─── Subtle polish for VehicleCard inside the home grid ─────────────────── */
