@@ -27,10 +27,16 @@ export default async function ModelPage({ params }: ModelPageProps) {
     notFound();
   }
 
-  let firstTrimSpecs = null;
-  if (modelData.trim_levels.length > 0) {
-    firstTrimSpecs = await getTrimLevelWithSpecs(modelData.trim_levels[0].id);
-  }
+  // Prefetch full specs for ALL trim levels in parallel so switching on the
+  // client is instant (no per-click network round trip).
+  const allTrimSpecs =
+    modelData.trim_levels.length > 0
+      ? (
+          await Promise.all(
+            modelData.trim_levels.map((t) => getTrimLevelWithSpecs(t.id))
+          )
+        ).filter((t): t is NonNullable<typeof t> => Boolean(t))
+      : [];
 
   const modelYearLabel =
     modelData.year_from && modelData.year_to
@@ -144,7 +150,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
           {modelData.trim_levels.length > 0 ? (
             <ModelPageClient
               trimLevels={modelData.trim_levels}
-              initialTrimSpecs={firstTrimSpecs}
+              allTrimSpecs={allTrimSpecs}
               modelName={modelData.name_he || modelData.name}
               manufacturerName={modelData.manufacturer_name}
             />
