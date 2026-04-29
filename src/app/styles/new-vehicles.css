@@ -5,6 +5,94 @@
  * of which optional fields (badges / price / trim count) are present.
  * ============================================================================ */
 
+/* ─── Manufacturer hero polish ───────────────────────────────────────────── */
+/* Adds a soft automotive-themed glow + framed logo on the hero of
+ * /new-vehicles/[manufacturer] so the page feels distinct from the index. */
+.nv-mfr-hero {
+  position: relative;
+  isolation: isolate;
+}
+.nv-mfr-hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(37, 83, 212, 0.18), transparent 60%),
+    radial-gradient(ellipse 30% 25% at 85% 30%, rgba(245, 196, 92, 0.12), transparent 70%);
+}
+
+/* Manufacturer logo frame — silver-ish elevated tile, automotive feel */
+.nv-mfr-logo-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #ffffff 0%, var(--color-silver-100, #f5f7fb) 100%);
+  border: 1px solid var(--color-glass-white-20, rgba(255, 255, 255, 0.2));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 12px 30px -16px rgba(15, 34, 84, 0.45);
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero stats — inline strip with subtle dividers (no boxy cards) */
+.nv-mfr-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+.nv-mfr-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5.5rem;
+}
+.nv-mfr-stat-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-inverse);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.nv-mfr-stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-glass-white-60, rgba(255, 255, 255, 0.65));
+  margin-top: 0.25rem;
+}
+.nv-mfr-stat-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--color-glass-white-20, rgba(255, 255, 255, 0.2));
+  min-height: 2.5rem;
+}
+@media (max-width: 480px) {
+  .nv-mfr-stat-divider { display: none; }
+}
+
+/* ─── Spec icon colors for the manufacturer model cards ──────────────────── */
+/* Reuses the home-featured-grid scope so cards on both pages stay aligned. */
+.home-featured-grid .vc-spec-body .vc-spec-icon {
+  color: #0891b2; /* teal — body shape */
+}
+.home-featured-grid .vc-spec-segment .vc-spec-icon {
+  color: #d97706; /* amber — segment / tier */
+}
+.home-featured-grid .vc-spec-trims .vc-spec-icon {
+  color: #2563eb; /* blue — trim levels */
+}
+
+/* ─── (Legacy) .nv-model-grid — kept for backwards compatibility ─────────── */
 .nv-model-grid {
   display: grid;
   gap: 1.5rem;
@@ -124,6 +212,7 @@
   /* clamp to 2 lines so cards stay aligned */
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: 2.85rem; /* reserves the 2-line height */

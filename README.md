@@ -10,6 +10,7 @@
 - גלריית תמונות עם Lightbox
 - טפסי לידים (יצירת קשר) עם מודאל
 - עמוד רכבים חדשים (יצרנים, דגמים, מפרטים)
+- דף בית עם 4 כרטיסיות בשורה + טעינה מצטברת ("טען עוד")
 - נגישות: מצב ניגודיות גבוהה עם 80+ משתני CSS
 - Mobile-first רספונסיבי + תפריט המבורגר
 - SEO מלא: metadata, JSON-LD, sitemap, robots.txt
@@ -33,6 +34,8 @@
 ```
 src/
   app/                    # דפים ו-API Routes
+    styles/               # CSS מודולרי: tokens, base, utilities, animations,
+                          # header, footer, home, new-vehicles, routes, a11y
     vehicles/             # קטלוג רכבים + דף רכב בודד
     new-vehicles/         # רכבים חדשים (יצרנים/דגמים)
     about/                # אודות
@@ -48,6 +51,11 @@ src/
     components/layout/    # Header, Footer, MobileMenu, Container
     components/ui/        # LeadModalButton, AccessibilityWidget
     utils/                # formatting, search, keywords, theme
+supabase-setup/
+  01_schema.sql                            # סכמה מלאה (vehicles + new_vehicles + RLS + views)
+  02_seed_data.sql                         # נתוני התחלה
+  03_leads.sql                             # טבלת leads
+  04_fix_security_definer_views.sql        # תיקון אבטחה ל-views (security_invoker)
 public/
   site.webmanifest        # PWA manifest
   logo.png                # לוגו
@@ -76,7 +84,14 @@ NEXT_PUBLIC_SITE_URL=https://smartanddrive.co.il
 - `vehicles` — טבלת רכבים (id, slug, title, brand, model, year, price, km, images...)
 - `vehicle_images` — תמונות רכבים (image_url, position, alt_text)
 - `leads` — טפסי לידים
-- `new_vehicle_*` — טבלאות רכבים חדשים (manufacturers, models, trim_levels, specifications)
+- `new_vehicles_manufacturers` / `new_vehicles_models` / `new_vehicles_trim_levels` / `new_vehicles_specifications` — רכבים חדשים
+- Views: `manufacturers_with_counts`, `models_with_manufacturer`, `trim_levels_full_info` — מוגדרים עם `security_invoker = true` כך ש-RLS של הטבלאות הבסיסיות נאכף
+
+### הגדרה ראשונית
+
+1. צור פרויקט Supabase חדש
+2. הרץ ב-SQL Editor: `supabase-setup/01_schema.sql` → `02_seed_data.sql` → `03_leads.sql`
+3. אם יש פרויקט קיים עם views ישנים שמסומנים ב-Advisor כ-`SECURITY DEFINER`, הרץ את `supabase-setup/04_fix_security_definer_views.sql`
 
 ## SEO
 

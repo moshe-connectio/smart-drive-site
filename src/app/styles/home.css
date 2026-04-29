@@ -465,64 +465,15 @@
   padding: 1.75rem;
   box-shadow: var(--shadow-card);
   transition:
-    transform var(--transition-automotive),
-    box-shadow var(--transition-automotive),
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
     border-color var(--transition-base);
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.home-advantage-card::before {
-  content: '';
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    var(--color-primary) 0%,
-    var(--color-gold, #d4a017) 100%
-  );
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-
-.home-advantage-card::after {
-  content: '';
-  position: absolute;
-  inset-inline-end: -2.5rem;
-  inset-block-start: -2.5rem;
-  width: 7.5rem;
-  height: 7.5rem;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    var(--color-primary-100) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  z-index: 0;
 }
 
 .home-advantage-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-card-lift);
-  border-color: var(--color-primary-300, var(--color-primary-200));
-}
-.home-advantage-card:hover::before {
-  transform: scaleX(1);
-}
-.home-advantage-card:hover::after {
-  opacity: 1;
-}
-
-.home-advantage-card > * {
-  position: relative;
-  z-index: 1;
+  border-color: var(--color-primary-200);
 }
 
 .home-advantage-icon {
@@ -534,33 +485,15 @@
   align-items: center;
   justify-content: center;
   color: var(--color-primary);
-  background: linear-gradient(
-    135deg,
-    var(--color-primary-50) 0%,
-    var(--color-card-bg) 100%
-  );
+  background: var(--color-primary-50);
   border: 1px solid var(--color-primary-100);
-  transition:
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color var(--transition-base),
-    background var(--transition-base);
-}
-.home-advantage-card:hover .home-advantage-icon {
-  transform: scale(1.05) rotate(-3deg);
-  border-color: var(--color-primary);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-advantage-card,
-  .home-advantage-card::before,
-  .home-advantage-card::after,
-  .home-advantage-icon {
+  .home-advantage-card {
     transition: none !important;
   }
   .home-advantage-card:hover {
-    transform: none;
-  }
-  .home-advantage-card:hover .home-advantage-icon {
     transform: none;
   }
 }
@@ -580,6 +513,228 @@
 }
 .home-inline-link:hover {
   opacity: 0.8;
+}
+
+/* ─── Featured vehicles grid (home only) ─────────────────────────────────── */
+/* Responsive breakpoints — card width scales gently per viewport tier:
+ *   < 480px        → 1 col, fluid up to 300px (small phones)
+ *   480px – 639px  → 1 col, fixed 300px (large phones)
+ *   640px – 767px  → 2 cols × 280px (small tablets)
+ *   768px – 1023px → 3 cols × 240px (tablets)
+ *   1024px – 1279px → 3 cols × 280px (small laptops — avoids cramped 4-col)
+ *   1280px – 1535px → 4 cols × 280px (desktops)
+ *   ≥ 1536px       → 4 cols × 300px (large desktops)
+ */
+.home-featured-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 300px);
+  justify-content: center;
+}
+.home-featured-grid > * {
+  width: 100%;
+  max-width: 300px;
+  justify-self: center;
+}
+
+/* Large phones — lock card to 300px */
+@media (min-width: 480px) {
+  .home-featured-grid {
+    grid-template-columns: 300px;
+    gap: 1.5rem;
+  }
+}
+
+/* Small tablets — 2 columns */
+@media (min-width: 640px) {
+  .home-featured-grid {
+    grid-template-columns: repeat(2, 280px);
+    gap: 1.5rem;
+  }
+  .home-featured-grid > * { max-width: 280px; }
+}
+
+/* Tablets — 3 narrow columns */
+@media (min-width: 768px) {
+  .home-featured-grid {
+    grid-template-columns: repeat(3, 240px);
+    gap: 1.25rem;
+  }
+  .home-featured-grid > * { max-width: 240px; }
+}
+
+/* Small laptops — 3 comfortable columns (avoid premature 4-col squeeze) */
+@media (min-width: 1024px) {
+  .home-featured-grid {
+    grid-template-columns: repeat(3, 280px);
+    gap: 1.5rem;
+  }
+  .home-featured-grid > * { max-width: 280px; }
+}
+
+/* Desktops — 4 columns */
+@media (min-width: 1280px) {
+  .home-featured-grid {
+    grid-template-columns: repeat(4, 280px);
+    gap: 1.5rem;
+  }
+  .home-featured-grid > * { max-width: 280px; }
+}
+
+/* Large desktops — slightly larger 4-col cards */
+@media (min-width: 1536px) {
+  .home-featured-grid {
+    grid-template-columns: repeat(4, 300px);
+    gap: 1.75rem;
+  }
+  .home-featured-grid > * { max-width: 300px; }
+}
+
+/* ─── Subtle polish for VehicleCard inside the home grid ─────────────────── */
+/* Scoped to .home-featured-grid so /vehicles page isn't affected.            */
+.home-featured-grid .card-automotive {
+  border-radius: 1.1rem;
+  border-color: var(--color-border-light, var(--color-border));
+  box-shadow: 0 1px 2px rgba(15, 34, 84, 0.04);
+  transition:
+    transform var(--transition-automotive),
+    box-shadow var(--transition-automotive),
+    border-color var(--transition-base);
+}
+.home-featured-grid .card-automotive:hover {
+  border-color: var(--color-primary-200);
+  box-shadow: 0 18px 40px -22px rgba(15, 34, 84, 0.22);
+}
+
+/* Image area — soft gradient surface, gentle inner separator */
+.home-featured-grid .card-automotive > div:nth-child(2) {
+  background: linear-gradient(
+    180deg,
+    var(--color-silver-100, #f5f7fb) 0%,
+    var(--color-background-secondary) 100%
+  ) !important;
+  border-bottom: 1px solid var(--color-border-light, rgba(15, 34, 84, 0.06));
+}
+
+/* Body — slightly tighter, refined spacing */
+.home-featured-grid .card-automotive > div:last-child {
+  padding: 1.1rem 1.15rem 1.15rem !important;
+}
+
+/* Title — refined automotive feel */
+.home-featured-grid .card-automotive h3 {
+  font-size: 1.05rem !important;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+/* Brand • Model • Year — uppercase eyebrow look */
+.home-featured-grid .card-automotive h3 + p {
+  font-size: 0.72rem !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-silver-500) !important;
+}
+
+/* Detail icons — distinct color per spec type (always on, not just hover) */
+.home-featured-grid .vc-spec-icon {
+  transition: transform var(--transition-base);
+}
+.home-featured-grid .vc-spec-km .vc-spec-icon {
+  color: #2563eb; /* blue — speed/distance */
+}
+.home-featured-grid .vc-spec-gear .vc-spec-icon {
+  color: #7c3aed; /* purple — mechanical */
+}
+.home-featured-grid .vc-spec-fuel .vc-spec-icon {
+  color: #ea580c; /* orange — fuel/energy */
+}
+.home-featured-grid .card-automotive:hover .vc-spec-icon {
+  transform: scale(1.08);
+}
+
+/* Price block — softer top divider */
+.home-featured-grid .card-automotive .pt-4 {
+  border-top-color: var(--color-border-light, rgba(15, 34, 84, 0.08)) !important;
+}
+
+/* Price — tabular numerals for an automotive, precise feel */
+.home-featured-grid .card-automotive .text-2xl {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+  font-size: 1.35rem !important;
+}
+
+/* "פרטים" CTA — refined pill */
+.home-featured-grid .card-automotive .pt-4 .group-hover\:-translate-x-1 {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--color-primary-50);
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-base);
+}
+.home-featured-grid .card-automotive:hover .pt-4 .group-hover\:-translate-x-1 {
+  background: var(--color-primary);
+  color: var(--color-text-inverse) !important;
+}
+
+/* ─── Load-more button (home featured vehicles) ──────────────────────────── */
+.home-load-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 999px;
+  background: var(--color-card-bg);
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform 120ms ease;
+  box-shadow: 0 1px 2px rgba(15, 34, 84, 0.06);
+}
+.home-load-more-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: 0 8px 20px -10px rgba(37, 83, 212, 0.55);
+}
+.home-load-more-btn:active {
+  transform: scale(0.97);
+}
+.home-load-more-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+.home-load-more-count {
+  font-weight: 600;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+.home-load-more-icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--transition-base);
+}
+.home-load-more-btn:hover .home-load-more-icon {
+  transform: translateY(2px);
+}
+@media (max-width: 480px) {
+  .home-load-more-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1.5rem;
+  }
 }
 
 /* ─── Contact strip ──────────────────────────────────────────────────────── */
@@ -630,4 +785,172 @@
   border-radius: 1rem;
   border: 1px solid var(--color-card-border);
   box-shadow: var(--shadow-card-lift);
+}
+
+/* ─── Manufacturer tile (home — new vehicles section) ────────────────────── */
+/* Dark showroom backdrop with bright tiles — like the hero. */
+.home-mfr-section {
+  position: relative;
+  background: var(--gradient-hero-premium);
+  isolation: isolate;
+  overflow: hidden;
+}
+.home-mfr-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 50% at 85% 0%, rgba(37, 83, 212, 0.22) 0%, transparent 70%),
+    radial-gradient(45% 55% at 5% 100%, rgba(212, 160, 23, 0.12) 0%, transparent 75%);
+  z-index: 0;
+}
+.home-mfr-section > * {
+  position: relative;
+  z-index: 1;
+}
+.home-mfr-section .home-section-kicker {
+  color: var(--color-gold, #d4a017);
+}
+.home-mfr-section .home-section-title {
+  color: #ffffff;
+}
+.home-mfr-section .home-section-subtitle {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.home-mfr-tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  padding: 0.55rem;
+  border-radius: 0.875rem;
+  background:
+    linear-gradient(180deg, var(--color-silver-100) 0%, var(--color-silver-200) 100%);
+  border: 1px solid var(--color-silver-200);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 1px 2px rgba(15, 34, 84, 0.06);
+  transition:
+    transform var(--transition-base),
+    box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color var(--transition-base),
+    background var(--transition-base);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Soft gold spotlight — fades in from above on hover (showroom display light) */
+.home-mfr-tile::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(212, 160, 23, 0.18) 0%,
+    rgba(212, 160, 23, 0) 55%
+  );
+  opacity: 0;
+  transition: opacity 380ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-mfr-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary-200);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 12px 24px -14px rgba(15, 34, 84, 0.28),
+    0 0 0 1px rgba(212, 160, 23, 0.08);
+}
+.home-mfr-tile:hover::before {
+  opacity: 1;
+}
+
+.home-mfr-tile:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.home-mfr-logo {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home-mfr-tile:hover .home-mfr-logo {
+  transform: scale(1.06);
+  transform: scale(1.06);
+}
+
+.home-mfr-fallback {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: var(--color-card-bg);
+  color: var(--color-primary-700);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  border: 1px solid var(--color-silver-200);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+@media (min-width: 768px) {
+  .home-mfr-fallback {
+    width: 4.5rem;
+    height: 4.5rem;
+    font-size: 1.5rem;
+  }
+}
+
+/* Manufacturer name — appears as a refined pill on hover */
+.home-mfr-name {
+  position: absolute;
+  inset-block-end: 0.55rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0.35rem);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: var(--color-text-inverse);
+  background: var(--color-primary-800);
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity 260ms ease, transform 260ms ease;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(15, 34, 84, 0.22);
+}
+.home-mfr-tile:hover .home-mfr-name,
+.home-mfr-tile:focus-visible .home-mfr-name {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-mfr-tile,
+  .home-mfr-tile::before,
+  .home-mfr-logo,
+  .home-mfr-name {
+    transition: none !important;
+  }
+  .home-mfr-tile:hover {
+    transform: none;
+  }
+  .home-mfr-tile:hover .home-mfr-logo {
+    transform: none;
+  }
 }

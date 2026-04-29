@@ -1,9 +1,16 @@
 /**
  * ModelGrid Component
- * Manufacturer page — model cards with consistent internal alignment
- * across the whole grid (equal heights, reserved badge area, pinned footer).
+ * ----------------------------------------------------------------------------
+ * Renders model cards on the manufacturer page using the same visual language
+ * as the home-page featured-vehicles grid. We deliberately reuse the
+ * `.home-featured-grid` + `.card-automotive` selectors so the polished hover,
+ * spacing, colored spec icons and CTA pill come "for free" — keeping both
+ * grids visually identical and any future tweak applied in one place.
  *
- * Visual rules live in `src/app/styles/new-vehicles.css` (.nv-model-card-*).
+ * Adaptations for new-vehicle data:
+ *   • km / gear / fuel  →  body_type / segment / trim_levels_count
+ *   • single price      →  price range or starting price
+ *   • "פרטים" CTA       →  "בחירה" (model picker)
  */
 
 'use client';
@@ -28,31 +35,28 @@ function getPriceLine(model: ModelWithManufacturer): {
 } {
   const { min_price, max_price } = model;
   if (min_price !== null && max_price !== null && min_price !== max_price) {
-    return {
-      label: 'טווח מחירים',
-      value: `${formatPrice(min_price)} – ${formatPrice(max_price)}`,
-    };
+    return { label: 'טווח מחירים', value: `${formatPrice(min_price)} – ${formatPrice(max_price)}` };
   }
-  if (min_price !== null) {
-    return { label: 'מחיר התחלתי', value: formatPrice(min_price) };
-  }
-  if (max_price !== null) {
-    return { label: 'מחיר', value: formatPrice(max_price) };
-  }
+  if (min_price !== null) return { label: 'מחיר התחלתי', value: formatPrice(min_price) };
+  if (max_price !== null) return { label: 'מחיר', value: formatPrice(max_price) };
   return { label: 'מחיר', value: 'יתעדכן בקרוב', muted: true };
 }
 
 export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProps) {
   if (isLoading) {
     return (
-      <div className="nv-model-grid">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="nv-model-card-skeleton animate-pulse">
-            <div className="nv-model-card-skeleton-media" />
-            <div className="nv-model-card-skeleton-body">
-              <div className="nv-model-card-skeleton-bar nv-model-card-skeleton-bar--wide" />
-              <div className="nv-model-card-skeleton-bar nv-model-card-skeleton-bar--narrow" />
-              <div className="nv-model-card-skeleton-bar" />
+      <div className="home-featured-grid">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            className="card-automotive flex flex-col h-full rounded-2xl overflow-hidden animate-pulse"
+            style={{ border: '1px solid var(--color-border)', background: 'var(--color-card-bg)' }}
+          >
+            <div className="min-h-44 sm:min-h-56" style={{ background: 'var(--color-background-secondary)' }} />
+            <div className="p-5 flex flex-col gap-3">
+              <div className="h-5 w-3/4 rounded" style={{ background: 'var(--color-gray-200)' }} />
+              <div className="h-3 w-1/2 rounded" style={{ background: 'var(--color-gray-100)' }} />
+              <div className="h-3 w-2/3 rounded mt-3" style={{ background: 'var(--color-gray-100)' }} />
             </div>
           </div>
         ))}
@@ -74,7 +78,7 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
   }
 
   return (
-    <div className="nv-model-grid">
+    <div className="home-featured-grid">
       {models.map((model) => {
         const price = getPriceLine(model);
         const displayName = model.name_he || model.name;
@@ -83,66 +87,134 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
           <Link
             key={model.id}
             href={`/new-vehicles/${manufacturerSlug}/${model.slug}`}
-            className="nv-model-card"
+            className="group card-automotive flex flex-col h-full rounded-2xl overflow-hidden relative"
+            style={{
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-card-bg)',
+            }}
             aria-label={`${displayName} — צפייה ברמות גימור ומפרטים`}
           >
-            <div className="nv-model-card-media">
+            {/* Image area */}
+            <div
+              className="p-3 flex items-center justify-center overflow-hidden min-h-44 sm:min-h-56 relative"
+              style={{ background: 'var(--color-background-secondary)' }}
+            >
               {model.image_url ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={model.image_url}
                   alt={displayName}
-                  className="nv-model-card-img"
                   loading="lazy"
+                  className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
                 />
               ) : (
-                <span className="nv-model-card-img-placeholder">אין תמונה</span>
+                <span className="text-sm font-medium" style={{ color: 'var(--color-silver-500)' }}>
+                  אין תמונה
+                </span>
               )}
 
               {model.manufacturer_name && (
-                <span className="nv-model-card-mfr">{model.manufacturer_name}</span>
+                <span
+                  className="absolute bottom-2 inline-flex items-center px-2.5 py-1 rounded-full text-[0.7rem] font-semibold"
+                  style={{
+                    insetInlineStart: '0.625rem',
+                    background: 'rgba(15, 23, 42, 0.78)',
+                    color: 'var(--color-text-inverse)',
+                    backdropFilter: 'blur(6px)',
+                    WebkitBackdropFilter: 'blur(6px)',
+                  }}
+                >
+                  {model.manufacturer_name}
+                </span>
               )}
             </div>
 
-            <div className="nv-model-card-body">
-              <h3 className="nv-model-card-title">{displayName}</h3>
+            {/* Body */}
+            <div className="p-5 flex flex-col flex-1">
+              {/* Title */}
+              <h3
+                className="text-xl font-bold mb-2 group-hover:text-primary transition-colors"
+                style={{ color: 'var(--color-gray-900)' }}
+              >
+                {displayName}
+              </h3>
 
-              <div className="nv-model-card-tags" aria-hidden={!model.body_type && !model.segment}>
+              {/* Eyebrow row — manufacturer • years */}
+              <p className="text-sm mb-3" style={{ color: 'var(--color-gray-500)' }}>
+                {[
+                  model.manufacturer_name,
+                  model.year_from
+                    ? model.year_to && model.year_to !== model.year_from
+                      ? `${model.year_from}–${model.year_to}`
+                      : `${model.year_from}+`
+                    : null,
+                ]
+                  .filter(Boolean)
+                  .join(' • ')}
+              </p>
+
+              {/* Specs grid — colored icons matching the home grid */}
+              <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
                 {model.body_type && (
-                  <span className="nv-model-card-tag nv-model-card-tag-primary">
-                    {model.body_type}
-                  </span>
+                  <div className="vc-spec vc-spec-body flex items-center gap-2" style={{ color: 'var(--color-gray-500)' }}>
+                    <svg className="w-4 h-4 vc-spec-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 13l2-5a2 2 0 012-1h10a2 2 0 012 1l2 5M5 13h14M5 13v4a1 1 0 001 1h1a1 1 0 001-1v-1h8v1a1 1 0 001 1h1a1 1 0 001-1v-4M7 16h.01M17 16h.01" />
+                    </svg>
+                    <span>{model.body_type}</span>
+                  </div>
                 )}
+
                 {model.segment && (
-                  <span className="nv-model-card-tag nv-model-card-tag-neutral">
-                    {model.segment}
-                  </span>
+                  <div className="vc-spec vc-spec-segment flex items-center gap-2" style={{ color: 'var(--color-gray-500)' }}>
+                    <svg className="w-4 h-4 vc-spec-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.539 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                    <span>{model.segment}</span>
+                  </div>
+                )}
+
+                {model.trim_levels_count > 0 && (
+                  <div className="vc-spec vc-spec-trims flex items-center gap-2" style={{ color: 'var(--color-gray-500)' }}>
+                    <svg className="w-4 h-4 vc-spec-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2H7a2 2 0 00-2 2v2m14 0V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4" />
+                    </svg>
+                    <span>{model.trim_levels_count} רמות גימור</span>
+                  </div>
                 )}
               </div>
 
-              <div className="nv-model-card-price">
-                <span className="nv-model-card-price-label">{price.label}</span>
-                <span
-                  className={
-                    price.muted
-                      ? 'nv-model-card-price-value nv-model-card-price-value--muted'
-                      : 'nv-model-card-price-value'
-                  }
-                >
-                  {price.value}
-                </span>
-              </div>
+              {/* Spacer */}
+              <div className="flex-1"></div>
 
-              <div className="nv-model-card-footer">
-                <span className="nv-model-card-meta">
-                  {model.trim_levels_count} רמות גימור
-                </span>
-                <span className="nv-model-card-cta" aria-hidden="true">
-                  בחירה
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5m0 0l6-6m-6 6l6 6" />
-                  </svg>
-                </span>
+              {/* Price + CTA */}
+              <div className="pt-4 relative" style={{ borderTop: '1px solid var(--color-border)' }}>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex flex-col leading-tight">
+                    <span className="text-[0.7rem] uppercase tracking-[0.12em] font-semibold" style={{ color: 'var(--color-silver-500)' }}>
+                      {price.label}
+                    </span>
+                    <span
+                      className="font-bold"
+                      style={{
+                        color: price.muted ? 'var(--color-silver-500)' : 'var(--color-primary)',
+                        fontSize: '1.05rem',
+                        fontVariantNumeric: 'tabular-nums',
+                        letterSpacing: '-0.01em',
+                      }}
+                    >
+                      {price.value}
+                    </span>
+                  </div>
+                  <span
+                    className="group-hover:-translate-x-1 transition-transform inline-flex items-center gap-1 text-sm font-medium"
+                    style={{ color: 'var(--color-primary)' }}
+                  >
+                    בחירה
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </span>
+                </div>
               </div>
             </div>
           </Link>

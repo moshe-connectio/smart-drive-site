@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { getPublishedVehicles, Vehicle } from '@modules/vehicles/lib/repository';
 import { getAllManufacturers } from '@modules/new-vehicles/lib/repository';
 import { HomeManufacturersGrid } from '@modules/new-vehicles/components/HomeManufacturersGrid';
-import { VehicleGrid } from '@modules/vehicles/components/VehicleGrid';
+import { HomeFeaturedVehicles } from '@modules/vehicles/components/HomeFeaturedVehicles';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 interface SectionHeadingProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle?: string;
 }
@@ -54,7 +54,7 @@ interface AdvantageItem {
 function SectionHeading({ eyebrow, title, subtitle }: SectionHeadingProps) {
   return (
     <div className="text-center mb-14 md:mb-16">
-      <p className="home-section-kicker">{eyebrow}</p>
+      {eyebrow ? <p className="home-section-kicker">{eyebrow}</p> : null}
       <h2 className="home-section-title">{title}</h2>
       {subtitle ? <p className="home-section-subtitle">{subtitle}</p> : null}
     </div>
@@ -83,8 +83,6 @@ export default async function HomePage() {
   } else {
     console.error('Failed to load manufacturers:', manufacturersResult.reason);
   }
-
-  const featuredVehicles = vehicles.slice(0, dealershipConfig.pagination.featuredVehiclesCount);
 
   const heroStats = [
     { value: `${vehicles.length}+`, label: 'רכבים במלאי' },
@@ -262,7 +260,6 @@ export default async function HomePage() {
         <section className="py-24" style={{ background: 'var(--color-background)' }}>
           <Container>
             <SectionHeading
-              eyebrow="למה לבחור בנו"
               title="הדרך המקצועית לרכב הבא שלכם"
               subtitle="שילוב של שקיפות, מקצועיות ושירות ברמה גבוהה לאורך כל התהליך."
             />
@@ -287,7 +284,7 @@ export default async function HomePage() {
         </section>
 
         {manufacturers.length > 0 && (
-          <section className="home-soft-section">
+          <section className="home-mfr-section">
             <Container className="py-20">
               <SectionHeading
                 eyebrow="רכבים חדשים"
@@ -303,7 +300,7 @@ export default async function HomePage() {
           <Container className="py-24">
             <SectionHeading
               eyebrow="המלאי שלנו"
-              title="רכבים מומלצים"
+              title="רכבים במלאי מיידי"
               subtitle="רכבים נבחרים שמוכנים לנסיעה הבאה שלכם."
             />
 
@@ -313,15 +310,8 @@ export default async function HomePage() {
               </div>
             )}
 
-            {featuredVehicles.length > 0 ? (
-              <>
-                <VehicleGrid vehicles={featuredVehicles} />
-                <div className="text-center mt-10">
-                  <Link href={ROUTES.vehicles} className="home-inline-link">
-                    לכל המלאי המלא
-                  </Link>
-                </div>
-              </>
+            {vehicles.length > 0 ? (
+              <HomeFeaturedVehicles vehicles={vehicles} />
             ) : (
               <div className="text-center py-12" style={{ color: 'var(--color-gray-500)' }}>
                 אין רכבים זמינים כרגע

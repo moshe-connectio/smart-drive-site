@@ -282,14 +282,6 @@ html.a11y-high-contrast .home-advantage-card {
   border: 2px solid #fff !important;
   box-shadow: none !important;
 }
-html.a11y-high-contrast .home-advantage-card::before {
-  background: #ffd54f !important;
-  height: 3px !important;
-  transform: scaleX(1) !important;
-}
-html.a11y-high-contrast .home-advantage-card::after {
-  display: none !important;
-}
 html.a11y-high-contrast .home-advantage-icon {
   background: #000 !important;
   border: 2px solid #ffd54f !important;

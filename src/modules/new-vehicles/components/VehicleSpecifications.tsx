@@ -30,6 +30,7 @@ export function VehicleSpecifications({
   // Core specs that we show separately
   const coreSpecs = [
     { label: 'מחיר', value: trimLevel.price, format: (v: unknown) => `₪${Number(v).toLocaleString('he-IL')}` },
+    { label: 'החזר חודשי', value: trimLevel.monthly_payment, format: (v: unknown) => `₪${Number(v).toLocaleString('he-IL')} / חודש` },
     { label: 'מנוע', value: trimLevel.engine_type },
     { label: 'תיבת הילוכים', value: trimLevel.transmission },
     { label: 'דלק', value: trimLevel.fuel_type },

@@ -13,6 +13,7 @@
 - גלריית תמונות עם Lightbox
 - מודאל טופס יצירת קשר (לידים)
 - עמוד רכבים חדשים — יצרנים, דגמים, מפרטים
+- דף בית: 4 כרטיסיות בשורה בדסקטופ + הצגה הדרגתית עם כפתור "טען עוד"
 - נגישות: מצב ניגודיות גבוהה (80+ משתני CSS)
 - Mobile-first רספונסיבי + תפריט המבורגר
 - SEO: metadata, JSON-LD, sitemap, robots.txt
@@ -35,6 +36,7 @@
 ```
 src/
   app/                    # דפים ו-API Routes
+    styles/               # CSS מודולרי (10 קבצים)
     vehicles/             # קטלוג + דף רכב בודד [slug]
     new-vehicles/         # רכבים חדשים (יצרנים/דגמים)
     about/                # אודות
@@ -50,6 +52,9 @@ src/
     components/layout/    # Header, Footer, MobileMenu, Container
     components/ui/        # LeadModalButton, AccessibilityWidget
     utils/                # formatting, search, keywords, theme
+supabase-setup/
+  01_schema.sql, 02_seed_data.sql, 03_leads.sql
+  04_fix_security_definer_views.sql   # תיקון אבטחה ל-views
 ```
 
 ## התחלה מהירה
@@ -75,7 +80,10 @@ NEXT_PUBLIC_SITE_URL=https://smartanddrive.co.il
 - `vehicles` — רכבים (id, slug, title, brand, model, year, price, km, condition, images)
 - `vehicle_images` — תמונות (image_url, position, alt_text)
 - `leads` — טפסי לידים
-- `new_vehicle_manufacturers/models/trim_levels/specifications` — רכבים חדשים
+- `new_vehicles_manufacturers` / `new_vehicles_models` / `new_vehicles_trim_levels` / `new_vehicles_specifications` — רכבים חדשים
+- Views (עם `security_invoker = true` — RLS של הטבלאות הבסיסיות נאכף): `manufacturers_with_counts`, `models_with_manufacturer`, `trim_levels_full_info`
+
+הגדרה ראשונית: הרץ בסדר את קבצי `supabase-setup/01_schema.sql` → `02_seed_data.sql` → `03_leads.sql`. לתיקון Advisor של פרויקט קיים: `04_fix_security_definer_views.sql`.
 
 ## דיפלוי
 

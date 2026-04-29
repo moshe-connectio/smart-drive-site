@@ -111,19 +111,15 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
   );
 
   const minCatalogPrice = allPrices.length > 0 ? Math.min(...allPrices) : null;
-  const maxCatalogPrice = allPrices.length > 0 ? Math.max(...allPrices) : null;
-  const averageTrimLevels =
-    manufacturerData.models_count > 0
-      ? (manufacturerData.total_trim_levels / manufacturerData.models_count).toFixed(1)
-      : null;
   const heroHighlightTags =
     (modelSegments.length > 0 ? modelSegments : modelBodyTypes).slice(0, 3);
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
-      <section className="route-hero">
+      <section className="route-hero nv-mfr-hero">
         <div className="route-hero-atmo" />
         <div className="route-hero-grid" />
+        <div className="nv-mfr-hero-glow" aria-hidden="true" />
 
         <Container>
           <div className="route-hero-inner">
@@ -136,22 +132,22 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
             </nav>
 
             <div className="mx-auto max-w-4xl text-center">
-              <div className="flex flex-col items-center gap-4">
+              <div className="flex flex-col items-center gap-5">
                 {manufacturerData.logo_url && (
-                  <div className="route-surface-card p-4 shrink-0">
+                  <div className="nv-mfr-logo-frame shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={manufacturerData.logo_url}
                       alt={manufacturerData.name}
                       width={140}
                       height={140}
-                      className="h-28 w-28 object-contain"
+                      className="h-24 w-24 object-contain"
                     />
                   </div>
                 )}
 
                 <div>
-                  <p className="route-hero-kicker mb-2">יצרן</p>
+                  <p className="route-hero-kicker mb-2">יצרן רכב</p>
                   <h1 className="route-hero-title">{manufacturerData.name}</h1>
                 </div>
               </div>
@@ -179,26 +175,24 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
                 </div>
               )}
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-3 max-w-3xl mx-auto">
-                <article className="route-stat-card text-center">
-                  <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
-                    {manufacturerData.models_count}
-                  </p>
-                  <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>דגמים</p>
+              <div className="nv-mfr-stats mt-8">
+                <article className="nv-mfr-stat">
+                  <span className="nv-mfr-stat-value">{manufacturerData.models_count}</span>
+                  <span className="nv-mfr-stat-label">דגמים</span>
                 </article>
-
-                <article className="route-stat-card text-center">
-                  <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
-                    {manufacturerData.total_trim_levels}
-                  </p>
-                  <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>רמות גימור</p>
+                <span className="nv-mfr-stat-divider" aria-hidden="true" />
+                <article className="nv-mfr-stat">
+                  <span className="nv-mfr-stat-value">{manufacturerData.total_trim_levels}</span>
+                  <span className="nv-mfr-stat-label">רמות גימור</span>
                 </article>
-
-                <article className="route-stat-card text-center">
-                  <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>
-                    {minCatalogPrice !== null ? `₪${minCatalogPrice.toLocaleString('he-IL')}` : 'בקרוב'}
-                  </p>
-                  <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>מחיר כניסה</p>
+                <span className="nv-mfr-stat-divider" aria-hidden="true" />
+                <article className="nv-mfr-stat">
+                  <span className="nv-mfr-stat-value">
+                    {minCatalogPrice !== null
+                      ? `₪${minCatalogPrice.toLocaleString('he-IL')}`
+                      : 'בקרוב'}
+                  </span>
+                  <span className="nv-mfr-stat-label">מחיר כניסה</span>
                 </article>
               </div>
             </div>
@@ -208,48 +202,6 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
 
       <section className="py-14" style={{ background: 'var(--color-background)' }}>
         <Container>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-10">
-            <article className="route-surface-card p-5">
-              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
-                טווח מחירים משוער
-              </p>
-              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
-                {minCatalogPrice !== null && maxCatalogPrice !== null
-                  ? `₪${minCatalogPrice.toLocaleString('he-IL')} - ₪${maxCatalogPrice.toLocaleString('he-IL')}`
-                  : 'בקרוב יתעדכן'}
-              </p>
-              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
-                מבוסס על כלל הדגמים הפעילים של {manufacturerData.name}.
-              </p>
-            </article>
-
-            <article className="route-surface-card p-5">
-              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
-                עומק קטלוג
-              </p>
-              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
-                {averageTrimLevels ? `${averageTrimLevels} רמות גימור לדגם` : 'נתון לא זמין'}
-              </p>
-              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
-                סה״כ {manufacturerData.total_trim_levels} רמות גימור לכלל הדגמים.
-              </p>
-            </article>
-
-            <article className="route-surface-card p-5">
-              <p className="text-xs font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-silver-500)' }}>
-                סגמנטים מובילים
-              </p>
-              <p className="mt-3 text-lg font-bold" style={{ color: 'var(--color-gray-900)' }}>
-                {modelSegments.length > 0 ? `${modelSegments.length} סגמנטים` : 'בקרוב יתעדכן'}
-              </p>
-              <p className="mt-2 text-sm" style={{ color: 'var(--color-gray-500)' }}>
-                {modelSegments.length > 0
-                  ? modelSegments.slice(0, 3).join(' • ')
-                  : 'המאגר מתעדכן באופן שוטף.'}
-              </p>
-            </article>
-          </div>
-
           <div className="mb-10">
             <p className="home-section-kicker">דגמים זמינים בישראל</p>
             <h2 className="home-section-title">{manufacturerData.models_count} דגמים לבחירה</h2>

@@ -67,6 +67,7 @@ export type TrimLevel = {
   slug: string;
   description: string | null;
   price: number;
+  monthly_payment?: number | null; // החזר חודשי משוער (ליזינג/מימון) ₪
   transmission: string | null; // "Manual", "Automatic", "CVT"
   engine_type: string | null; // "Petrol", "Diesel", "Hybrid", "Electric"
   fuel_type: string | null; // Same as engine_type usually

@@ -115,6 +115,7 @@ CREATE TABLE new_vehicles_trim_levels (
   slug VARCHAR(255) NOT NULL,
   description TEXT,
   price DECIMAL(10, 2) NOT NULL,
+  monthly_payment DECIMAL(10, 2),
   transmission VARCHAR(100),
   engine_type VARCHAR(100),
   fuel_type VARCHAR(100),
@@ -178,7 +179,8 @@ CREATE INDEX idx_model_images_model_id ON new_vehicles_model_images(model_id);
 -- =====================================================================
 
 -- Manufacturers with model/trim counts
-CREATE VIEW manufacturers_with_counts AS
+CREATE VIEW manufacturers_with_counts
+WITH (security_invoker = true) AS
 SELECT 
   m.id, m.name, m.slug, m.logo_url, m.banner_url, m.description,
   m.country, m.website_url,
@@ -194,7 +196,8 @@ GROUP BY m.id, m.name, m.slug, m.logo_url, m.banner_url, m.description,
 ORDER BY m.display_order, m.name;
 
 -- Models with manufacturer info and price ranges
-CREATE VIEW models_with_manufacturer AS
+CREATE VIEW models_with_manufacturer
+WITH (security_invoker = true) AS
 SELECT 
   mo.id, mo.name, mo.slug, mo.image_url, mo.description,
   mo.body_type, mo.segment, mo.base_price,
@@ -214,9 +217,10 @@ GROUP BY mo.id, mo.name, mo.slug, mo.image_url, mo.description,
 ORDER BY m.display_order, mo.display_order, mo.name;
 
 -- Trim levels with full manufacturer/model info
-CREATE VIEW trim_levels_full_info AS
+CREATE VIEW trim_levels_full_info
+WITH (security_invoker = true) AS
 SELECT 
-  tl.id, tl.name, tl.slug, tl.description, tl.price,
+  tl.id, tl.name, tl.slug, tl.description, tl.price, tl.monthly_payment,
   tl.transmission, tl.engine_type, tl.fuel_type,
   tl.power_hp, tl.torque_nm, tl.acceleration_0_100, tl.top_speed,
   tl.fuel_consumption, tl.co2_emissions, tl.body_dimensions,

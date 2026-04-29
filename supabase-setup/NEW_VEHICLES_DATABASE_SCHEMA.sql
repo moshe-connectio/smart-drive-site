@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS new_vehicles_trim_levels (
   slug VARCHAR(255) NOT NULL,
   description TEXT,
   price DECIMAL(10, 2) NOT NULL,
+  monthly_payment DECIMAL(10, 2),
   transmission VARCHAR(100),
   engine_type VARCHAR(100),
   fuel_type VARCHAR(100),
@@ -124,7 +125,9 @@ CREATE INDEX idx_model_images_model_id ON new_vehicles_model_images(model_id);
 -- ============================================
 
 -- View: יצרנים עם ספירת דגמים
-CREATE OR REPLACE VIEW manufacturers_with_counts AS
+DROP VIEW IF EXISTS manufacturers_with_counts CASCADE;
+CREATE VIEW manufacturers_with_counts
+WITH (security_invoker = true) AS
 SELECT 
   m.id,
   m.name,
@@ -143,7 +146,9 @@ GROUP BY m.id, m.name, m.slug, m.logo_url, m.description, m.is_active, m.display
 ORDER BY m.display_order, m.name;
 
 -- View: דגמים עם יצרן וספירת רמות גימור
-CREATE OR REPLACE VIEW models_with_manufacturer AS
+DROP VIEW IF EXISTS models_with_manufacturer CASCADE;
+CREATE VIEW models_with_manufacturer
+WITH (security_invoker = true) AS
 SELECT 
   mo.id,
   mo.name,
@@ -168,7 +173,9 @@ GROUP BY mo.id, mo.name, mo.slug, mo.image_url, mo.body_type, mo.base_price,
 ORDER BY mo.display_order, mo.name;
 
 -- View: רמות גימור עם מודל ויצרן
-CREATE OR REPLACE VIEW trim_levels_full_info AS
+DROP VIEW IF EXISTS trim_levels_full_info CASCADE;
+CREATE VIEW trim_levels_full_info
+WITH (security_invoker = true) AS
 SELECT 
   tl.id,
   tl.name as trim_name,

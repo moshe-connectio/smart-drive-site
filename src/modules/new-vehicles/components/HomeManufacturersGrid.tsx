@@ -74,8 +74,7 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
   return (
     <Link
       href={`/new-vehicles/${m.slug}`}
-      className="group relative flex items-center justify-center rounded-xl p-4 md:p-5 aspect-square transition-all hover:shadow-lg"
-      style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
+      className="home-mfr-tile"
       title={m.name}
       aria-label={`צפה ברכבי ${m.name}`}
     >
@@ -89,21 +88,13 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
           width={80}
           height={80}
           loading="lazy"
-          className="h-14 w-14 md:h-20 md:w-20 object-contain transition-transform group-hover:scale-110"
+          className="home-mfr-logo"
         />
       ) : (
-        <div className="flex h-14 w-14 md:h-20 md:w-20 items-center justify-center rounded-full text-xl md:text-2xl font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
-          {m.name.charAt(0)}
-        </div>
+        <div className="home-mfr-fallback">{m.name.charAt(0)}</div>
       )}
 
-      {/* Hover tooltip with name */}
-      <span
-        className="absolute -bottom-1 left-1/2 -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap text-xs font-semibold py-1 px-3 rounded-lg shadow-lg z-10"
-        style={{ background: 'var(--color-primary-800)', color: 'var(--color-text-inverse)' }}
-      >
-        {m.name}
-      </span>
+      <span className="home-mfr-name">{m.name}</span>
     </Link>
   );
 }
