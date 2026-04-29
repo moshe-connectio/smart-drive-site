@@ -3,18 +3,20 @@ import { Container } from '@shared/components/layout/Container';
 import { ROUTES } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 
-interface HomeHeroProps {
-  vehicleCount: number;
-}
-
-export function HomeHero({ vehicleCount }: HomeHeroProps) {
+export function HomeHero() {
   const heroStats = [
-    { value: `${vehicleCount}+`, label: 'רכבים במלאי' },
     {
       value: `${dealershipConfig.company.yearsExperience}+`,
       label: 'שנות ניסיון',
     },
-    { value: dealershipConfig.company.satisfaction, label: 'שביעות רצון' },
+    {
+      value: dealershipConfig.company.satisfaction,
+      label: 'שביעות רצון',
+    },
+    {
+      value: '24/7',
+      label: 'שירות זמין',
+    },
   ];
 
   return (
@@ -30,7 +32,7 @@ export function HomeHero({ vehicleCount }: HomeHeroProps) {
           <div className="home-hero-copy">
             <span className="home-hero-status">
               <span className="home-hero-status-dot" aria-hidden />
-              מלאי מתעדכן בזמן אמת · {vehicleCount} רכבים זמינים
+              מלאי מתעדכן בזמן אמת
             </span>
 
             <h1 className="home-hero-title">
