@@ -192,7 +192,7 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
                     <span
                       className="font-bold"
                       style={{
-                        color: price.muted ? 'var(--color-silver-500)' : 'var(--color-primary)',
+                        color: price.muted ? 'var(--color-silver-500)' : 'var(--color-gold-500, var(--color-gold, #d4a017))',
                         fontSize: '1.05rem',
                         fontVariantNumeric: 'tabular-nums',
                         letterSpacing: '-0.01em',

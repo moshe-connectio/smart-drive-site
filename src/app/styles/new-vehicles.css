@@ -682,7 +682,7 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
   font-size: 1.4rem;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  color: var(--color-primary);
+  color: var(--color-gold-500, var(--color-gold, #d4a017));
   letter-spacing: -0.025em;
   line-height: 1.05;
 }
@@ -1112,8 +1112,8 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
   gap: 0.15rem;
   padding: 0.55rem 1rem;
   border-radius: 12px;
-  background: var(--color-overlay-primary-08);
-  border: 1px solid var(--color-overlay-primary-15);
+  background: var(--color-overlay-gold-tag-bg, rgba(212, 160, 23, 0.1));
+  border: 1px solid var(--color-overlay-gold-tag-border, rgba(212, 160, 23, 0.3));
 }
 .trim-specs-price-tag-label {
   font-size: 0.7rem;
@@ -1125,7 +1125,7 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
 .trim-specs-price-tag-value {
   font-size: 1.2rem;
   font-weight: 800;
-  color: var(--color-primary);
+  color: var(--color-gold-500, var(--color-gold, #d4a017));
   letter-spacing: -0.01em;
 }
 

@@ -3,6 +3,12 @@
  * Anything that targets html/body or pure resets goes here.
  * ============================================================================ */
 
+html, body {
+  /* Prevent stray horizontal overflow from breaking the mobile layout. */
+  overflow-x: clip;
+  max-width: 100%;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text-primary);

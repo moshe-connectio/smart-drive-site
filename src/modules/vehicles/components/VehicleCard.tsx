@@ -131,7 +131,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                 <span
                   className="font-bold"
                   style={{
-                    color: 'var(--color-primary)',
+                    color: 'var(--color-gold-500, var(--color-gold, #d4a017))',
                     fontSize: '1.25rem',
                     fontVariantNumeric: 'tabular-nums',
                     letterSpacing: '-0.01em',

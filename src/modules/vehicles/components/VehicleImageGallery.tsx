@@ -10,6 +10,7 @@ interface VehicleImageGalleryProps {
   onImageChange?: (index: number) => void;
   selectedIndex?: number;
   imageHeight?: string; // Tailwind height class (e.g., 'h-52', 'h-96')
+  thumbSize?: 'sm' | 'lg'; // 'sm' = compact (cards), 'lg' = enlarged (detail page)
 }
 
 export default function VehicleImageGallery({
@@ -19,6 +20,7 @@ export default function VehicleImageGallery({
   onImageChange,
   selectedIndex = 0,
   imageHeight = 'h-52',
+  thumbSize = 'sm',
 }: VehicleImageGalleryProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(selectedIndex);
 
@@ -85,7 +87,7 @@ export default function VehicleImageGallery({
 
       {/* Thumbnail Navigation */}
       {sortedImages.length > 1 && (
-        <div className="flex gap-1 overflow-x-auto">
+        <div className="flex gap-2 overflow-x-auto">
           {/* All images as thumbnails */}
           {sortedImages.map((image, index) => (
             <button
@@ -97,7 +99,11 @@ export default function VehicleImageGallery({
                   onImageChange?.(index);
                 }
               }}
-              className={`relative w-14 h-14 rounded overflow-hidden shrink-0 transition-all duration-200 border-2 ${
+              className={`relative ${
+                thumbSize === 'lg'
+                  ? 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24'
+                  : 'w-14 h-14'
+              } rounded-md overflow-hidden shrink-0 transition-all duration-200 border-2 ${
                 selectedImageIndex === index
                   ? 'border-primary ring-2 ring-primary/50'
                   : 'border-gray-600 hover:border-gray-500'

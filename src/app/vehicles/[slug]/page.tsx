@@ -109,6 +109,35 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     notFound();
   }
 
+  // Related vehicles: same category overlap + closest monthly payment, excluding self.
+  const allVehicles = await getPublishedVehicles().catch(() => []);
+  const myCats = new Set(vehicle.categories ?? []);
+  const myMonthly = vehicle.monthly_payment ?? null;
+  const myPrice = vehicle.price ?? null;
+  const relatedVehicles = allVehicles
+    .filter((v) => v.id !== vehicle.id && v.is_published)
+    .map((v) => {
+      const overlap = (v.categories ?? []).reduce(
+        (n, c) => n + (myCats.has(c) ? 1 : 0),
+        0,
+      );
+      const monthlyDiff =
+        myMonthly && v.monthly_payment
+          ? Math.abs(v.monthly_payment - myMonthly)
+          : Number.POSITIVE_INFINITY;
+      const priceDiff =
+        myPrice && v.price ? Math.abs(v.price - myPrice) : Number.POSITIVE_INFINITY;
+      return { v, overlap, monthlyDiff, priceDiff };
+    })
+    .sort(
+      (a, b) =>
+        b.overlap - a.overlap ||
+        a.monthlyDiff - b.monthlyDiff ||
+        a.priceDiff - b.priceDiff,
+    )
+    .slice(0, 6)
+    .map((s) => s.v);
+
   const siteUrl = dealershipConfig.seo.siteUrl;
   const pageUrl = `${siteUrl}/vehicles/${slug}`;
   const imageUrl =
@@ -217,7 +246,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
       />
 
       {/* Client component handles all interactivity */}
-      <VehicleDetailClient vehicle={vehicle} />
+      <VehicleDetailClient vehicle={vehicle} relatedVehicles={relatedVehicles} />
     </>
   );
 }
