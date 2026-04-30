@@ -38,7 +38,7 @@ export function HomeHero() {
             <h1 className="home-hero-title">
               <span className="home-hero-title-line">הרכב הבא שלך</span>
               <span className="home-hero-title-highlight">
-                בדרך אליך — חכם יותר.
+                מתחיל בסמארט דרייב
               </span>
             </h1>
 
@@ -51,7 +51,7 @@ export function HomeHero() {
                 href={ROUTES.vehicles}
                 className="home-primary-cta home-primary-cta--icon"
               >
-                <span>גלה את המלאי</span>
+                <span>מלאי מיידי</span>
                 <svg
                   width="18"
                   height="18"
@@ -154,7 +154,7 @@ export function HomeHero() {
                 <p className="home-hero-panel-eyebrow">
                   SMART &amp; DRIVE · LIVE
                 </p>
-                <p className="home-hero-panel-title">לוח בקרה לרכישה</p>
+                <p className="home-hero-panel-title">סמארט דרייב</p>
               </div>
               <span className="home-hero-panel-pulse" aria-hidden />
             </div>

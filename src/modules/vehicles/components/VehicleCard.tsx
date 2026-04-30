@@ -117,13 +117,52 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         {/* Spacer - pushes price to bottom */}
         <div className="flex-1"></div>
 
-        {/* Price - always at bottom */}
+        {/* Monthly payment — always at bottom */}
         <div className="pt-4 relative" style={{ borderTop: '1px solid var(--color-border)' }}>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold" style={{ color: 'var(--color-primary)' }}>
-              {formatPrice(vehicle.price)}
-            </span>
-            <span className="group-hover:-translate-x-1 transition-transform inline-flex items-center gap-1 text-sm font-medium" style={{ color: 'var(--color-primary)' }}>
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col leading-tight">
+              <span
+                className="text-[0.7rem] uppercase tracking-[0.12em] font-semibold"
+                style={{ color: 'var(--color-silver-500, var(--color-text-tertiary))' }}
+              >
+                החזר חודשי החל מ־
+              </span>
+              {vehicle.monthly_payment && vehicle.monthly_payment > 0 ? (
+                <span
+                  className="font-bold"
+                  style={{
+                    color: 'var(--color-primary)',
+                    fontSize: '1.25rem',
+                    fontVariantNumeric: 'tabular-nums',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  {formatPrice(vehicle.monthly_payment)}
+                  <span
+                    className="font-medium"
+                    style={{ fontSize: '0.78rem', color: 'var(--color-text-tertiary)' }}
+                  >
+                    {' '}
+                    / חודש
+                  </span>
+                </span>
+              ) : (
+                <span
+                  className="font-bold"
+                  style={{
+                    color: 'var(--color-silver-500, var(--color-text-tertiary))',
+                    fontSize: '1.05rem',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  יתעדכן בקרוב
+                </span>
+              )}
+            </div>
+            <span
+              className="group-hover:-translate-x-1 transition-transform inline-flex items-center gap-1 text-sm font-medium"
+              style={{ color: 'var(--color-primary)' }}
+            >
               פרטים
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

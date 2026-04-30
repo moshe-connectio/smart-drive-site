@@ -221,6 +221,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
               allTrimSpecs={allTrimSpecs}
               modelName={modelData.name_he || modelData.name}
               manufacturerName={modelData.manufacturer_name}
+              manufacturerSlug={modelData.manufacturer_slug}
             />
           ) : (
             <article className="route-surface-card p-8 text-center">

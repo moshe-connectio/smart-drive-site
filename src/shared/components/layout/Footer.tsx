@@ -8,8 +8,9 @@ import { APP_CONFIG, ROUTES, CONTACT_INFO } from '@core/lib/constants';
 
 const navigationLinks = [
   { href: ROUTES.home, label: 'דף הבית' },
-  { href: ROUTES.vehicles, label: 'רכבים למכירה' },
+  { href: ROUTES.vehicles, label: 'מלאי מיידי' },
   { href: '/new-vehicles', label: 'רכבים חדשים' },
+  { href: ROUTES.finance, label: 'מימון' },
   { href: ROUTES.about, label: 'אודות' },
 ];
 

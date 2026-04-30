@@ -17,6 +17,7 @@ export const ROUTES = {
   home: '/',
   vehicles: '/vehicles',
   about: '/about',
+  finance: '/finance',
   vehicleDetail: (slug: string) => `/vehicles/${slug}`,
   api: {
     webhooks: {

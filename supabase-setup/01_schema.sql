@@ -31,6 +31,7 @@ CREATE TABLE vehicles (
   categories TEXT[] DEFAULT '{}',
   main_image_url TEXT,
   short_description TEXT,
+  monthly_payment INTEGER,
   raw_data JSONB
 );
 

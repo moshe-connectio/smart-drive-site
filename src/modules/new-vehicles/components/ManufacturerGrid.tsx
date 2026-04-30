@@ -42,11 +42,14 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
         <Link
           key={manufacturer.id}
           href={`/new-vehicles/${manufacturer.slug}`}
-          className="group relative flex flex-col overflow-hidden rounded-lg transition-all hover:shadow-lg"
-          style={{ background: 'var(--color-card-bg)', border: '1px solid var(--color-card-border)' }}
+          className="nv-mfr-card group"
+          aria-label={`${manufacturer.name} — ${manufacturer.models_count} דגמים`}
         >
+          {/* פס דקורטיבי עליון */}
+          <span className="nv-mfr-card-accent" aria-hidden="true" />
+
           {/* לוגו - תופס רוב הכרטיסיה */}
-          <div className="flex aspect-4/3 items-center justify-center p-6" style={{ background: 'var(--color-gray-100)' }}>
+          <div className="nv-mfr-card-logo">
             {manufacturer.logo_url ? (
               // Logos come from arbitrary external manufacturer domains; <img> avoids per-host config.
               // eslint-disable-next-line @next/next/no-img-element
@@ -55,23 +58,22 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
                 alt={manufacturer.name}
                 width={160}
                 height={160}
-                className="h-28 w-28 object-contain transition-transform group-hover:scale-110"
+                className="nv-mfr-card-logo-img"
                 loading="lazy"
               />
             ) : (
-              <div className="flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold" style={{ background: 'var(--color-gray-200)', color: 'var(--color-silver-500)' }}>
+              <div className="nv-mfr-card-logo-fallback">
                 {manufacturer.name.charAt(0)}
               </div>
             )}
           </div>
 
           {/* שם + מידע - פס תחתון קומפקטי */}
-          <div className="px-3 py-2.5 text-center" style={{ borderTop: '1px solid var(--color-card-border)' }}>
-            <p className="text-sm font-semibold text-gray-900 truncate">
-              {manufacturer.name}
-            </p>
-            <p className="mt-0.5 text-xs" style={{ color: 'var(--color-silver-500)' }}>
-              {manufacturer.models_count} דגמים
+          <div className="nv-mfr-card-foot">
+            <p className="nv-mfr-card-name">{manufacturer.name}</p>
+            <p className="nv-mfr-card-meta">
+              <span className="nv-mfr-card-meta-num">{manufacturer.models_count}</span>{' '}
+              דגמים
             </p>
           </div>
         </Link>

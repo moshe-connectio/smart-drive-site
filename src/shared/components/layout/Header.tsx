@@ -13,7 +13,8 @@ import MobileMenu from './MobileMenu';
 
 const navLinks = [
   { href: '/new-vehicles', label: 'רכבים חדשים' },
-  { href: ROUTES.vehicles, label: 'רכבים' },
+  { href: ROUTES.vehicles, label: 'מלאי מיידי' },
+  { href: ROUTES.finance, label: 'מימון' },
   { href: ROUTES.about, label: 'אודות' },
 ];
 

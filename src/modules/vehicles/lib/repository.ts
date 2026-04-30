@@ -26,6 +26,7 @@ export type Vehicle = {
   categories: string[];
   main_image_url: string | null;
   short_description: string | null;
+  monthly_payment: number | null;
   images: VehicleImage[] | null;
   raw_data: Record<string, unknown> | null;
 };

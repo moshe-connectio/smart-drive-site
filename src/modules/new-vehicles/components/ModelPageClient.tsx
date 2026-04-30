@@ -7,6 +7,7 @@
 'use client';
 
 import { useMemo, useState, useCallback } from 'react';
+import Link from 'next/link';
 import type { TrimLevel, TrimLevelWithSpecifications } from '../types';
 import { TrimComparisonTable } from './TrimComparisonTable';
 import { VehicleSpecifications } from './VehicleSpecifications';
@@ -18,6 +19,7 @@ interface ModelPageClientProps {
   allTrimSpecs: TrimLevelWithSpecifications[];
   modelName: string;
   manufacturerName: string;
+  manufacturerSlug: string;
 }
 
 export function ModelPageClient({
@@ -25,6 +27,7 @@ export function ModelPageClient({
   allTrimSpecs,
   modelName,
   manufacturerName,
+  manufacturerSlug,
 }: ModelPageClientProps) {
   const specsById = useMemo(() => {
     const map = new Map<string, TrimLevelWithSpecifications>();
@@ -68,12 +71,12 @@ export function ModelPageClient({
   return (
     <div className="trim-section">
       <header className="trim-section-head">
-        <p className="trim-section-eyebrow">{manufacturerName} · {modelName}</p>
-        <h2 className="trim-section-title">
-          השוואת רמות הגימור
-        </h2>
-        <p className="trim-section-subtitle">
-          לחצו על רמת גימור ברשימה כדי לעדכן את המפרט הטכני המלא לצידה.
+        <p className="trim-section-eyebrow trim-section-eyebrow--lg">
+          <Link href={`/new-vehicles/${manufacturerSlug}`} className="trim-section-eyebrow-link">
+            {manufacturerName}
+          </Link>
+          <span className="trim-section-eyebrow-sep" aria-hidden="true">·</span>
+          <span>{modelName}</span>
         </p>
       </header>
 

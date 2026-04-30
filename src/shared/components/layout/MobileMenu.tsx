@@ -98,7 +98,8 @@ export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
           {[
             { href: ROUTES.home, label: 'דף הבית' },
             { href: '/new-vehicles', label: 'רכבים חדשים' },
-            { href: ROUTES.vehicles, label: 'רכבים' },
+            { href: ROUTES.vehicles, label: 'מלאי מיידי' },
+            { href: ROUTES.finance, label: 'מימון' },
             { href: ROUTES.about, label: 'אודות' },
           ].map((link) => {
             const isActive = pathname === link.href;

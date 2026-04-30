@@ -1,10 +1,16 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { MonthlyPaymentRange } from './MonthlyPaymentRange';
 
 interface VehicleFiltersProps {
   brands: string[];
   categories: string[];
+  /** Inclusive monthly payment bounds derived from the inventory */
+  monthlyMin: number;
+  monthlyMax: number;
+  /** Step for the monthly slider (e.g. 100) */
+  monthlyStep?: number;
   onFilterChange: (filters: FilterState) => void;
 }
 
@@ -12,13 +18,24 @@ export interface FilterState {
   brand: string;
   categories: string[];
   searchQuery: string;
+  monthlyMin: number;
+  monthlyMax: number;
 }
 
-export function VehicleFilters({ brands, categories, onFilterChange }: VehicleFiltersProps) {
+export function VehicleFilters({
+  brands,
+  categories,
+  monthlyMin,
+  monthlyMax,
+  monthlyStep = 100,
+  onFilterChange,
+}: VehicleFiltersProps) {
   const [filters, setFilters] = useState<FilterState>({
     brand: '',
     categories: [],
     searchQuery: '',
+    monthlyMin,
+    monthlyMax,
   });
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [categorySearch, setCategorySearch] = useState('');
@@ -58,11 +75,26 @@ export function VehicleFilters({ brands, categories, onFilterChange }: VehicleFi
   };
 
   const handleReset = () => {
-    setFilters({ brand: '', categories: [], searchQuery: '' });
+    setFilters({
+      brand: '',
+      categories: [],
+      searchQuery: '',
+      monthlyMin,
+      monthlyMax,
+    });
     setCategorySearch('');
   };
 
-  const hasActiveFilters = filters.brand || filters.categories.length > 0 || filters.searchQuery;
+  const handleMonthlyChange = ([nextMin, nextMax]: [number, number]) => {
+    setFilters((prev) => ({ ...prev, monthlyMin: nextMin, monthlyMax: nextMax }));
+  };
+
+  const monthlyActive = filters.monthlyMin > monthlyMin || filters.monthlyMax < monthlyMax;
+  const hasActiveFilters =
+    filters.brand ||
+    filters.categories.length > 0 ||
+    filters.searchQuery ||
+    monthlyActive;
 
   // Filter categories based on search
   const filteredCategories = categories.filter(cat =>
@@ -235,6 +267,17 @@ export function VehicleFilters({ brands, categories, onFilterChange }: VehicleFi
             )}
           </div>
         </div>
+
+        {/* Monthly payment range */}
+        <div className="mt-6 pt-5" style={{ borderTop: '1px dashed var(--color-border)' }}>
+          <MonthlyPaymentRange
+            min={monthlyMin}
+            max={monthlyMax}
+            step={monthlyStep}
+            value={[filters.monthlyMin, filters.monthlyMax]}
+            onChange={handleMonthlyChange}
+          />
+        </div>
       </div>
 
       {/* Active Filters Display */}
@@ -281,6 +324,23 @@ export function VehicleFilters({ brands, categories, onFilterChange }: VehicleFi
                 onClick={() => handleSearchChange('')}
                 className="hover:opacity-70 transition-opacity leading-none"
                 aria-label="נקה חיפוש"
+              >
+                ✕
+              </button>
+            </span>
+          )}
+          {monthlyActive && (
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
+              style={{ background: 'var(--color-primary-50)', color: 'var(--color-primary)', border: '1px solid var(--color-primary-100)' }}
+            >
+              החזר חודשי: ₪{filters.monthlyMin.toLocaleString('he-IL')}–₪{filters.monthlyMax.toLocaleString('he-IL')}
+              <button
+                onClick={() =>
+                  setFilters((prev) => ({ ...prev, monthlyMin, monthlyMax }))
+                }
+                className="hover:opacity-70 transition-opacity leading-none"
+                aria-label="נקה החזר חודשי"
               >
                 ✕
               </button>
