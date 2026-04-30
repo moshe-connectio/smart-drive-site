@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { logger } from '@core/lib/logger';
+import { verifyWebhookSecret } from '@core/lib/webhook-auth';
 import { 
   upsertVehicleByCrmId,
   addImagesToVehicle,
@@ -325,6 +326,9 @@ async function processAndUploadImages(
 }
 
 export async function POST(request: NextRequest) {
+  const authError = verifyWebhookSecret(request);
+  if (authError) return authError;
+
   try {
     // Parse request body
     let body: unknown;

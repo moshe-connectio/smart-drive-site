@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { markVehicleAsSold } from '@modules/vehicles/lib/repository';
 import { logger } from '@core/lib/logger';
+import { verifyWebhookSecret } from '@core/lib/webhook-auth';
 
 /**
  * Webhook endpoint for marking a vehicle as sold (soft delete)
@@ -22,6 +23,9 @@ import { logger } from '@core/lib/logger';
  * }
  */
 export async function POST(request: NextRequest) {
+  const authError = verifyWebhookSecret(request);
+  if (authError) return authError;
+
   try {
     const payload = await request.json();
 

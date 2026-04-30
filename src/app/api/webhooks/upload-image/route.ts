@@ -3,6 +3,7 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { logger } from '@core/lib/logger';
+import { verifyWebhookSecret } from '@core/lib/webhook-auth';
 
 /**
  * Image Upload Endpoint
@@ -11,6 +12,9 @@ import { logger } from '@core/lib/logger';
  */
 
 export async function POST(request: NextRequest) {
+  const authError = verifyWebhookSecret(request);
+  if (authError) return authError;
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File;
