@@ -12,7 +12,7 @@
     "seed:new-vehicles": "ts-node src/modules/new-vehicles/lib/seed.ts"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": "24.x"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.0",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
