@@ -187,7 +187,7 @@ export default function TradeInPage() {
                   formId="trade-in"
                   buttonLabel="קבלת הערכה ראשונית"
                   variant="cta"
-                  className="!rounded-full text-[0.95rem] px-7 min-h-[3.15rem]"
+                  className="rounded-full! text-[0.95rem] px-7 min-h-[3.15rem]"
                 />
                 <Link href={ROUTES.vehicles} className="home-outline-cta">
                   לעיון במלאי המיידי
@@ -361,7 +361,7 @@ export default function TradeInPage() {
                   formId="trade-in"
                   buttonLabel="קבלת הערכה ראשונית"
                   variant="cta"
-                  className="!rounded-full text-[0.95rem] px-7 min-h-[3.15rem]"
+                  className="rounded-full! text-[0.95rem] px-7 min-h-[3.15rem]"
                 />
                 <a
                   href={`https://wa.me/${dealershipConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('שלום, אני מתעניין בשירות טרייד-אין')}`}
