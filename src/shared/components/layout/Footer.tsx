@@ -11,6 +11,7 @@ const navigationLinks = [
   { href: ROUTES.vehicles, label: 'מלאי מיידי' },
   { href: '/new-vehicles', label: 'רכבים חדשים' },
   { href: ROUTES.finance, label: 'מימון' },
+  { href: ROUTES.tradeIn, label: 'טרייד-אין' },
   { href: ROUTES.about, label: 'אודות' },
 ];
 

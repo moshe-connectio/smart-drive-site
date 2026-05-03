@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/new-vehicles', label: 'רכבים חדשים' },
   { href: ROUTES.vehicles, label: 'מלאי מיידי' },
   { href: ROUTES.finance, label: 'מימון' },
+  { href: ROUTES.tradeIn, label: 'טרייד-אין' },
   { href: ROUTES.about, label: 'אודות' },
 ];
 

@@ -62,6 +62,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
+      url: `${siteUrl}/trade-in`,
+      lastModified: ABOUT_LAST_MODIFIED,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
       url: `${siteUrl}/about`,
       lastModified: ABOUT_LAST_MODIFIED,
       changeFrequency: 'monthly',

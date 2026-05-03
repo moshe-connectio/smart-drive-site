@@ -1210,3 +1210,124 @@ html.a11y-high-contrast .vd-spec-icon {
   color: #ffd84d !important;
   border-color: #fff !important;
 }
+
+/* ============================================================================
+ * /trade-in — Trade-in page (factor cards + FAQ accordion)
+ * Reuses route-hero / about-process-* / home-advantage-* styling from existing
+ * pages; only the trade-specific blocks live here.
+ * ============================================================================ */
+
+.trade-factor-card {
+  position: relative;
+  padding: 1.4rem 1.5rem;
+  border-radius: 16px;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 12px 28px -22px rgba(15, 34, 84, 0.18);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.trade-factor-card::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 1.4rem;
+  bottom: 1.4rem;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--color-primary, #1a3fa8) 0%, var(--color-gold, #d4a017) 100%);
+  opacity: 0.85;
+}
+.trade-factor-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-overlay-primary-15, rgba(26, 63, 168, 0.18));
+  box-shadow: 0 18px 38px -22px rgba(15, 34, 84, 0.28);
+}
+.trade-factor-title {
+  margin: 0 0 0.55rem;
+  padding-inline-start: 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-gray-900, #111827);
+  letter-spacing: -0.005em;
+}
+.trade-factor-desc {
+  margin: 0;
+  padding-inline-start: 0.85rem;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--color-gray-500, #5f6775);
+}
+
+/* FAQ accordion */
+.trade-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.trade-faq-item {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.trade-faq-item[open] {
+  border-color: var(--color-overlay-primary-15, rgba(26, 63, 168, 0.18));
+  box-shadow: 0 14px 30px -22px rgba(15, 34, 84, 0.22);
+}
+.trade-faq-q {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-gray-900, #111827);
+  user-select: none;
+  transition: color 160ms ease;
+}
+.trade-faq-q::-webkit-details-marker { display: none; }
+.trade-faq-q:hover { color: var(--color-primary, #1a3fa8); }
+.trade-faq-q:focus-visible {
+  outline: none;
+  background: var(--color-primary-50, #eef2ff);
+}
+.trade-faq-chevron {
+  flex-shrink: 0;
+  color: var(--color-primary, #1a3fa8);
+  transition: transform 200ms ease;
+}
+.trade-faq-item[open] .trade-faq-chevron { transform: rotate(180deg); }
+.trade-faq-a {
+  padding: 0 1.2rem 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-gray-600, #4b5260);
+}
+
+@media (max-width: 480px) {
+  .trade-factor-card { padding: 1.15rem 1.2rem; }
+  .trade-faq-q { padding: 0.85rem 1rem; font-size: 0.95rem; }
+  .trade-faq-a { padding: 0 1rem 0.95rem; font-size: 0.9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trade-factor-card,
+  .trade-faq-item,
+  .trade-faq-chevron { transition: none !important; }
+  .trade-factor-card:hover { transform: none !important; }
+}
+
+html.a11y-high-contrast .trade-factor-card,
+html.a11y-high-contrast .trade-faq-item {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.a11y-high-contrast .trade-factor-title,
+html.a11y-high-contrast .trade-faq-q { color: #ffd84d !important; }
+html.a11y-high-contrast .trade-factor-desc,
+html.a11y-high-contrast .trade-faq-a { color: #fff !important; }
