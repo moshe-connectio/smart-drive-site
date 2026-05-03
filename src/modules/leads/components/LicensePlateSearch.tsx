@@ -36,9 +36,11 @@ type LookupResult = {
 };
 
 function formatPlate(plate: string): string {
-  // Israeli plate visual format: XX-XXX-XX (8) or XXX-XX-XXX (7)
-  if (plate.length === 8) return `${plate.slice(0, 2)}-${plate.slice(2, 5)}-${plate.slice(5)}`;
-  if (plate.length === 7) return `${plate.slice(0, 3)}-${plate.slice(3, 5)}-${plate.slice(5)}`;
+  // Israeli plate visual format:
+  //   8 digits → 000-00-000  (post-2017 / new format)
+  //   7 digits → 00-000-00   (legacy format)
+  if (plate.length === 8) return `${plate.slice(0, 3)}-${plate.slice(3, 5)}-${plate.slice(5)}`;
+  if (plate.length === 7) return `${plate.slice(0, 2)}-${plate.slice(2, 5)}-${plate.slice(5)}`;
   return plate;
 }
 

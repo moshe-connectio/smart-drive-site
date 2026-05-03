@@ -1494,6 +1494,8 @@ html.a11y-high-contrast .trade-faq-a { color: #fff !important; }
   font-weight: 800;
   box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.25);
   align-self: center;
+  /* Force LTR so the IL flag stays on the visual left even inside an RTL page */
+  direction: ltr;
 }
 .plate-result-plate-flag {
   background: #1a3fa8;
