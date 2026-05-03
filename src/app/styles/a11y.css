@@ -93,6 +93,23 @@ html.a11y-high-contrast {
   --color-silver-400: #bbb;
   --color-silver-500: #aaa;
 
+  /* Section alt (light alt-strip on /home, /trade-in, etc.) */
+  --color-section-alt: #0a0a0a;
+
+  /* Header tokens — both scroll states (transparent over hero, solid scrolled) */
+  --color-header-transparent-text: #fff;
+  --color-header-transparent-text-dim: #fff;
+  --color-header-transparent-border: #fff;
+  --color-header-transparent-icon: #fff;
+  --color-header-transparent-icon-hover: rgba(255, 216, 77, 0.18);
+  --color-header-solid-bg: #000;
+  --color-header-solid-border: #fff;
+  --color-header-solid-icon-hover: rgba(255, 216, 77, 0.18);
+  --color-header-bg: #000;
+  --color-header-border: #fff;
+  --color-header-icon-hover: rgba(255, 216, 77, 0.18);
+  --shadow-header-solid: 0 0 0 1px #fff;
+
   /* Footer */
   --color-footer-bg: #000;
   --color-footer-text: #ddd;
@@ -144,6 +161,57 @@ html.a11y-high-contrast .bg-header {
   background-color: rgba(0, 0, 0, 0.95) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+}
+
+/* ─── Header — both scroll states must remain readable in HC ────────────── */
+html.a11y-high-contrast .header-shell {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+/* Transparent state (over hero, before scroll) — replace translucent gradient
+   with a solid black panel + white border so nav text always passes WCAG AAA */
+html.a11y-high-contrast .header-transparent .header-surface {
+  background: rgba(0, 0, 0, 0.92) !important;
+  border-color: #fff !important;
+  box-shadow: none !important;
+}
+/* Solid state (after scroll) — solid black, white outline */
+html.a11y-high-contrast .header-solid .header-surface {
+  background: #000 !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 0 1px #fff !important;
+}
+/* Nav links — both tones go to white, gold underline + hover */
+html.a11y-high-contrast .header-nav-link-light,
+html.a11y-high-contrast .header-nav-link-dark {
+  color: #fff !important;
+}
+html.a11y-high-contrast .header-nav-link-light:hover,
+html.a11y-high-contrast .header-nav-link-dark:hover,
+html.a11y-high-contrast .header-nav-link-active {
+  color: #ffd84d !important;
+}
+html.a11y-high-contrast .header-nav-link-light::after,
+html.a11y-high-contrast .header-nav-link-dark::after {
+  background: #ffd84d !important;
+}
+/* Icon buttons (non-social) — both tones to white outline, gold on hover */
+html.a11y-high-contrast .header-icon-light,
+html.a11y-high-contrast .header-icon-dark {
+  color: #fff !important;
+  border-color: #fff !important;
+  background: transparent !important;
+}
+html.a11y-high-contrast .header-icon-light:hover,
+html.a11y-high-contrast .header-icon-dark:hover {
+  color: #000 !important;
+  background: #ffd84d !important;
+  border-color: #ffd84d !important;
+}
+/* Inline divider between social icons & CTA — uses inline style with token */
+html.a11y-high-contrast .header-surface [style*="--color-header-transparent-border"],
+html.a11y-high-contrast .header-surface [style*="--color-border"] {
+  background: #fff !important;
 }
 html.a11y-high-contrast [style*="background: #f5f7fa"],
 html.a11y-high-contrast [style*="background: '#f5f7fa'"],

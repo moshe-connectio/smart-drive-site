@@ -54,6 +54,10 @@ export default function HomePage() {
       <main className="flex-1">
         <HomeHero />
 
+        <Suspense fallback={<HomeSectionPlaceholder minHeight={480} />}>
+          <HomeFeaturedSection />
+        </Suspense>
+
         <HomeAdvantages />
 
         <Suspense fallback={<HomeSectionPlaceholder minHeight={520} />}>
@@ -62,10 +66,6 @@ export default function HomePage() {
 
         <Suspense fallback={<HomeSectionPlaceholder minHeight={400} />}>
           <HomeManufacturersSection />
-        </Suspense>
-
-        <Suspense fallback={<HomeSectionPlaceholder minHeight={480} />}>
-          <HomeFeaturedSection />
         </Suspense>
 
         <HomeContactBlock />

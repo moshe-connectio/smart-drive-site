@@ -8,6 +8,7 @@ import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
+import { LicensePlateSearch } from '@modules/leads';
 import { dealershipConfig } from '@core/config/site.config';
 import { ROUTES } from '@core/lib/constants';
 import type { Metadata } from 'next';
@@ -186,6 +187,7 @@ export default function TradeInPage() {
                   formId="trade-in"
                   buttonLabel="קבלת הערכה ראשונית"
                   variant="cta"
+                  className="!rounded-full text-[0.95rem] px-7 min-h-[3.15rem]"
                 />
                 <Link href={ROUTES.vehicles} className="home-outline-cta">
                   לעיון במלאי המיידי
@@ -194,7 +196,8 @@ export default function TradeInPage() {
             </div>
           </Container>
         </section>
-
+        {/* ─── LICENSE PLATE SEARCH ────────────────────── */}
+        <LicensePlateSearch />
         {/* ─── INTRO TEXT ─────────────────────────────────────── */}
         <section className="py-16 sm:py-20" style={{ background: 'var(--color-background)' }}>
           <Container>
@@ -358,6 +361,7 @@ export default function TradeInPage() {
                   formId="trade-in"
                   buttonLabel="קבלת הערכה ראשונית"
                   variant="cta"
+                  className="!rounded-full text-[0.95rem] px-7 min-h-[3.15rem]"
                 />
                 <a
                   href={`https://wa.me/${dealershipConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('שלום, אני מתעניין בשירות טרייד-אין')}`}

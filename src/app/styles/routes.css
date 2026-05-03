@@ -1331,3 +1331,492 @@ html.a11y-high-contrast .trade-factor-title,
 html.a11y-high-contrast .trade-faq-q { color: #ffd84d !important; }
 html.a11y-high-contrast .trade-factor-desc,
 html.a11y-high-contrast .trade-faq-a { color: #fff !important; }
+
+/* ============================================================================
+ * /trade-in — License plate search (LicensePlateSearch component)
+ * ============================================================================ */
+
+.plate-search-form {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 16px;
+  padding: 0.5rem;
+  box-shadow: 0 18px 38px -22px rgba(15, 34, 84, 0.22);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.plate-search-form:focus-within {
+  border-color: var(--color-primary, #1a3fa8);
+  box-shadow: 0 22px 44px -22px rgba(15, 34, 84, 0.32);
+}
+.plate-search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  background: #f8fafc;
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.plate-search-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-text-inverse);
+  background: linear-gradient(180deg, #1a3fa8 0%, #102a73 100%);
+}
+.plate-search-input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 0 1rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--color-gray-900, #111827);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  text-align: center;
+  font-family: 'Courier New', ui-monospace, monospace;
+}
+.plate-search-input::placeholder {
+  color: var(--color-gray-400, #9ca3af);
+  font-weight: 600;
+}
+.plate-search-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: 12px;
+  background: var(--color-primary, #1a3fa8);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+  box-shadow: var(--shadow-primary-cta, 0 14px 30px -10px rgba(26, 63, 168, 0.5));
+  white-space: nowrap;
+}
+.plate-search-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.plate-search-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.plate-search-hint {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--color-gray-500, #6b7280);
+  margin-top: 0.85rem;
+}
+.plate-search-error {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 520px;
+  margin: 1rem auto 0;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.plate-result-card {
+  max-width: 760px;
+  margin: 2rem auto 0;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  box-shadow: 0 24px 50px -28px rgba(15, 34, 84, 0.28);
+  animation: plate-result-in 320ms ease both;
+}
+@keyframes plate-result-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.plate-result-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-card-border);
+  margin-bottom: 1.5rem;
+}
+.plate-result-tag {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--color-primary-50, #eef2ff);
+  color: var(--color-primary, #1a3fa8);
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+.plate-result-title {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+  font-weight: 800;
+  color: var(--color-gray-900, #111827);
+  letter-spacing: -0.01em;
+}
+.plate-result-trim {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: var(--color-gray-500, #6b7280);
+}
+.plate-result-plate {
+  display: inline-flex;
+  align-items: stretch;
+  border: 2px solid #111;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fbb50a;
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-weight: 800;
+  box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.25);
+  align-self: center;
+}
+.plate-result-plate-flag {
+  background: #1a3fa8;
+  color: #fff;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+}
+.plate-result-plate-num {
+  padding: 0.4rem 0.85rem;
+  color: #111;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  direction: ltr;
+}
+
+.plate-result-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.85rem 1.25rem;
+}
+.plate-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.65rem 0.85rem;
+  background: #f8fafc;
+  border: 1px solid var(--color-card-border);
+  border-radius: 10px;
+}
+.plate-spec-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-gray-500, #6b7280);
+}
+.plate-spec-value {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-gray-900, #111827);
+  word-break: break-word;
+}
+.plate-spec-value--mono {
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+}
+
+.plate-result-history {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-card-border);
+}
+.plate-result-history-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-gray-900, #111827);
+}
+.plate-result-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.plate-result-history-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.85rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.plate-result-history-date {
+  font-weight: 700;
+  color: var(--color-gray-700, #374151);
+  font-variant-numeric: tabular-nums;
+}
+.plate-result-history-owner {
+  color: var(--color-gray-600, #4b5260);
+}
+
+.plate-result-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  justify-content: center;
+}
+.plate-result-cta {
+  flex: 1 1 240px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.5rem;
+  border: 0;
+  border-radius: 12px;
+  background: var(--color-warning, #f59e0b);
+  color: var(--color-text-inverse);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 160ms ease, opacity 160ms ease;
+  box-shadow: var(--shadow-gold-cta-base, 0 14px 30px -10px rgba(245, 158, 11, 0.5));
+}
+.plate-result-cta:hover { transform: translateY(-1px); opacity: 0.95; }
+
+.plate-result-reset {
+  flex: 0 0 auto;
+  padding: 0.95rem 1.4rem;
+  background: transparent;
+  border: 1.5px solid var(--color-card-border);
+  border-radius: 12px;
+  color: var(--color-gray-700, #374151);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+.plate-result-reset:hover {
+  background: #f3f4f6;
+  border-color: var(--color-gray-400, #9ca3af);
+}
+
+@media (max-width: 540px) {
+  .plate-search-form { flex-direction: column; padding: 0.5rem; }
+  .plate-search-submit { width: 100%; padding: 0.85rem 1.25rem; }
+  .plate-search-input { font-size: 1.2rem; }
+  .plate-result-card { padding: 1.25rem; border-radius: 16px; }
+  .plate-result-header { flex-direction: column; align-items: flex-start; }
+  .plate-result-plate { align-self: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate-result-card { animation: none !important; }
+  .plate-search-submit:hover,
+  .plate-result-cta:hover { transform: none !important; }
+}
+
+html.a11y-high-contrast .plate-search-form,
+html.a11y-high-contrast .plate-result-card,
+html.a11y-high-contrast .plate-spec,
+html.a11y-high-contrast .plate-result-history-list li {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.a11y-high-contrast .plate-search-input { color: #ffd84d !important; }
+html.a11y-high-contrast .plate-result-title,
+html.a11y-high-contrast .plate-result-history-title,
+html.a11y-high-contrast .plate-spec-value { color: #ffd84d !important; }
+html.a11y-high-contrast .plate-spec-label,
+html.a11y-high-contrast .plate-result-trim,
+html.a11y-high-contrast .plate-result-history-owner { color: #fff !important; }
+
+/* ============================================================================
+ * /trade-in & inner routes — accessibility overrides for high-contrast mode
+ * Ensures readable text on dark hero/callout surfaces and consistent focus.
+ * ============================================================================ */
+
+/* ─── /trade-in: focus-visible rings (WCAG 2.4.7) ────────────────────────── */
+.plate-search-input:focus-visible {
+  outline: 3px solid var(--color-primary, #1a3fa8);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+.plate-search-submit:focus-visible,
+.plate-result-cta:focus-visible,
+.plate-result-reset:focus-visible {
+  outline: 3px solid var(--color-warning, #f59e0b);
+  outline-offset: 3px;
+}
+.trade-faq-q:focus-visible {
+  outline: 3px solid var(--color-primary, #1a3fa8);
+  outline-offset: -3px;
+}
+
+/* ─── /trade-in: reduced-motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .plate-result-card,
+  .plate-search-form,
+  .trade-factor-card,
+  .trade-faq-item,
+  .plate-search-submit,
+  .plate-result-cta,
+  .plate-result-reset {
+    transition: none !important;
+    animation: none !important;
+  }
+  .plate-search-submit:hover,
+  .plate-result-cta:hover,
+  .plate-result-reset:hover,
+  .trade-factor-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ─── HC: route hero / callout (used by /trade-in, /finance, etc.) ──────── */
+html.a11y-high-contrast .route-hero,
+html.a11y-high-contrast .route-callout {
+  background: #000 !important;
+}
+html.a11y-high-contrast .route-hero-atmo,
+html.a11y-high-contrast .route-hero-grid {
+  display: none !important;
+}
+html.a11y-high-contrast .route-hero-title { color: #fff !important; }
+html.a11y-high-contrast .route-hero-kicker,
+html.a11y-high-contrast .route-hero-subtitle,
+html.a11y-high-contrast .route-breadcrumb,
+html.a11y-high-contrast .route-breadcrumb-link {
+  color: #fff !important;
+}
+html.a11y-high-contrast .route-breadcrumb-link:hover {
+  color: #ffd84d !important;
+}
+
+/* /trade-in callout: H2 has inline color: var(--color-text-inverse) → flips
+   to #000 in HC. Force-override via attribute selector + element rule. */
+html.a11y-high-contrast .route-callout-inner h2,
+html.a11y-high-contrast .route-callout-inner [style*="--color-text-inverse"] {
+  color: #fff !important;
+}
+html.a11y-high-contrast .route-callout-inner p,
+html.a11y-high-contrast .route-callout-inner [style*="--color-header-transparent-text-dim"] {
+  color: #fff !important;
+}
+
+/* about-hero-accent: gold gradient-text inside route-hero-title → solid gold */
+html.a11y-high-contrast .about-hero-accent {
+  background: none !important;
+  -webkit-text-fill-color: #ffd84d !important;
+  color: #ffd84d !important;
+}
+
+/* /trade-in inline section text overrides (--color-gray-600 / --color-gray-500
+   are already swapped via tokens; nothing extra needed). */
+
+/* ─── HC: plate search — fill remaining hardcoded colors ────────────────── */
+html.a11y-high-contrast .plate-search-input-wrap {
+  background: #000 !important;
+  border-color: #fff !important;
+}
+html.a11y-high-contrast .plate-search-flag {
+  background: #ffd84d !important;
+  color: #000 !important;
+}
+html.a11y-high-contrast .plate-search-input::placeholder {
+  color: #999 !important;
+}
+html.a11y-high-contrast .plate-search-submit {
+  background: #ffd84d !important;
+  color: #000 !important;
+  box-shadow: 0 0 0 2px #fff !important;
+}
+html.a11y-high-contrast .plate-search-submit:hover:not(:disabled) {
+  background: #fff !important;
+  color: #000 !important;
+}
+html.a11y-high-contrast .plate-search-hint {
+  color: #fff !important;
+}
+html.a11y-high-contrast .plate-search-error {
+  background: #2a0a0a !important;
+  border-color: #ff6666 !important;
+  color: #ffaaaa !important;
+}
+
+/* Plate result card extras (header border + plate badge stays yellow) */
+html.a11y-high-contrast .plate-result-header {
+  border-bottom-color: #fff !important;
+}
+html.a11y-high-contrast .plate-result-history {
+  border-top-color: #fff !important;
+}
+html.a11y-high-contrast .plate-result-tag {
+  background: #1a2a4a !important;
+  color: #ffd84d !important;
+  border: 1px solid #ffd84d;
+}
+html.a11y-high-contrast .plate-result-plate {
+  background: #ffd84d !important;
+  border-color: #fff !important;
+}
+html.a11y-high-contrast .plate-result-plate-flag {
+  background: #000 !important;
+  color: #fff !important;
+}
+html.a11y-high-contrast .plate-result-plate-num {
+  color: #000 !important;
+}
+html.a11y-high-contrast .plate-result-cta {
+  background: #ffd84d !important;
+  color: #000 !important;
+  box-shadow: 0 0 0 2px #fff !important;
+}
+html.a11y-high-contrast .plate-result-cta:hover { opacity: 1 !important; background: #fff !important; }
+html.a11y-high-contrast .plate-result-reset {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html.a11y-high-contrast .plate-result-reset:hover {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+html.a11y-high-contrast .plate-result-history-date {
+  color: #ffd84d !important;
+}
+
+/* ─── HC: trade-in factor + FAQ details ─────────────────────────────────── */
+html.a11y-high-contrast .trade-factor-card::before {
+  background: #ffd84d !important;
+  opacity: 1 !important;
+}
+html.a11y-high-contrast .trade-faq-chevron {
+  color: #ffd84d !important;
+}
+html.a11y-high-contrast .trade-faq-q:hover {
+  color: #fff !important;
+}
