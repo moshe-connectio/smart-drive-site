@@ -29,6 +29,7 @@ export const ROUTES = {
 
 export const CONTACT_INFO = {
   phone: dealershipConfig.contact.phone,
+  phoneDisplay: dealershipConfig.contact.phoneDisplay,
   email: dealershipConfig.contact.email,
   address: dealershipConfig.contact.address,
 } as const;

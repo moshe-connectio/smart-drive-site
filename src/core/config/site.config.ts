@@ -16,10 +16,11 @@ export const dealershipConfig = {
 
   // Contact Information
   contact: {
-    phone: '+972-50-123-4567',
-    whatsapp: '+972-50-123-4567',
-    email: 'info@cardealership.com',
-    address: 'תל אביב, ישראל',
+    phone: '+972-52-640-6728',
+    phoneDisplay: '052-640-6728',
+    whatsapp: '+972-52-640-6728',
+    email: 'info@smart-drive.co.il',
+    address: 'דרך העצמאות 43, יהוד',
     businessHours: {
       weekdays: '09:00 - 18:00',
       friday: '09:00 - 14:00',
@@ -32,7 +33,7 @@ export const dealershipConfig = {
   social: {
     facebook: 'https://facebook.com/cardealership',
     instagram: 'https://instagram.com/cardealership',
-    whatsapp: 'https://wa.me/972501234567',
+    whatsapp: 'https://wa.me/972526406728',
     linkedin: 'https://linkedin.com/company/cardealership',
     youtube: 'https://youtube.com/@cardealership',
   },
@@ -108,9 +109,9 @@ export const dealershipConfig = {
 
   // Email Configuration
   email: {
-    from: 'info@cardealership.com',
-    replyTo: 'support@cardealership.com',
-    bcc: 'admin@cardealership.com',
+    from: 'info@smart-drive.co.il',
+    replyTo: 'info@smart-drive.co.il',
+    bcc: 'info@smart-drive.co.il',
   },
 
   // Vehicle Database

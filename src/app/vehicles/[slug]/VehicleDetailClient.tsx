@@ -64,7 +64,7 @@ export default function VehicleDetailClient({ vehicle, relatedVehicles = [] }: V
 
   const hasMonthly = !!(vehicle.monthly_payment && vehicle.monthly_payment > 0);
   const isNew = vehicle.km !== null && vehicle.km === 0;
-  const whatsappHref = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '972501234567'}?text=${encodeURIComponent(
+  const whatsappHref = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '972526406728'}?text=${encodeURIComponent(
     `שלום, אני מתעניין ברכב: ${vehicle.title}`,
   )}`;
 

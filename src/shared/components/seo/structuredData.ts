@@ -31,13 +31,14 @@ export const localBusinessJsonLd = {
   email: dealershipConfig.contact.email,
   address: {
     '@type': 'PostalAddress',
-    addressLocality: dealershipConfig.contact.address,
+    streetAddress: 'דרך העצמאות 43',
+    addressLocality: 'יהוד',
     addressCountry: 'IL',
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 32.0853,
-    longitude: 34.7818,
+    latitude: 32.033,
+    longitude: 34.892,
   },
   openingHoursSpecification: [
     {

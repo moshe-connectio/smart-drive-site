@@ -58,7 +58,7 @@ export function Footer() {
               href={`tel:${CONTACT_INFO.phone}`}
               className="footer-action footer-action-secondary"
             >
-              {CONTACT_INFO.phone}
+              {CONTACT_INFO.phoneDisplay}
             </a>
           </div>
         </div>
@@ -136,7 +136,7 @@ export function Footer() {
               צור קשר
             </h3>
             <ul className="space-y-2.5 text-sm" style={{ color: 'var(--color-footer-text)' }}>
-              <li>{CONTACT_INFO.phone}</li>
+              <li>{CONTACT_INFO.phoneDisplay}</li>
               <li>{CONTACT_INFO.email}</li>
               <li>{CONTACT_INFO.address}</li>
               <li>{dealershipConfig.contact.businessHours.weekdays}</li>

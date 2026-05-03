@@ -9,6 +9,7 @@ const trustPoints = [
 ];
 
 const phoneRaw = dealershipConfig.contact.phone;
+const phoneDisplay = dealershipConfig.contact.phoneDisplay;
 const whatsappLink = dealershipConfig.social.whatsapp;
 const email = dealershipConfig.contact.email;
 const address = dealershipConfig.contact.address;
@@ -69,7 +70,7 @@ export function HomeContactBlock() {
               <a
                 href={`tel:${phoneRaw}`}
                 className="home-contact-channel home-contact-channel-phone"
-                aria-label={`התקשרו ל־${phoneRaw}`}
+                aria-label={`התקשרו ל־${phoneDisplay}`}
               >
                 <span className="home-contact-channel-icon">
                   <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -77,7 +78,7 @@ export function HomeContactBlock() {
                   </svg>
                 </span>
                 <span className="home-contact-channel-text">
-                  <span className="home-contact-channel-label">{phoneRaw}</span>
+                  <span className="home-contact-channel-label">{phoneDisplay}</span>
                   <span className="home-contact-channel-value">התקשרו עכשיו</span>
                 </span>
               </a>
