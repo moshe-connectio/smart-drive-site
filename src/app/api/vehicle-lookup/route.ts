@@ -222,7 +222,10 @@ export async function GET(req: NextRequest) {
   if (!Number.isNaN(yearNum) && yearNum > 2017) {
     const history = await fetchGov(RESOURCES.ownershipHistory, plate, 5);
     let minDate: number | null = null;
+    let maxDate: number | null = null;
     let originality = '';
+    let latestOwner = '';
+    let latestAmbiguous = false;
 
     const formatted = history
       .map((line) => {
@@ -230,9 +233,19 @@ export async function GET(req: NextRequest) {
         const owner = str(line, 'baalut');
         if (dt) {
           const num = Number.parseInt(dt, 10);
-          if (!Number.isNaN(num) && (minDate === null || num < minDate)) {
-            minDate = num;
-            originality = owner;
+          if (!Number.isNaN(num)) {
+            if (minDate === null || num < minDate) {
+              minDate = num;
+              originality = owner;
+            }
+            if (maxDate === null || num > maxDate) {
+              maxDate = num;
+              latestOwner = owner;
+              latestAmbiguous = false;
+            } else if (num === maxDate && owner !== latestOwner) {
+              // Two different owners share the same latest date → can't decide
+              latestAmbiguous = true;
+            }
           }
         }
         return { date: formatBaalutDate(dt), owner };
@@ -241,6 +254,11 @@ export async function GET(req: NextRequest) {
 
     result.originality = originality;
     result.ownershipHistory = formatted;
+
+    // Current ownership = owner of the latest entry; tie on same date → unknown
+    if (maxDate !== null) {
+      result.ownershipType = latestAmbiguous ? 'לא ידוע' : latestOwner;
+    }
   }
 
   return NextResponse.json(result, {
