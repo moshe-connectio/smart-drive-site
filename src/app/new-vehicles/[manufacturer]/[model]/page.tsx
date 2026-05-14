@@ -12,6 +12,7 @@ import {
   manufacturerSlugExists,
 } from '@modules/new-vehicles/lib/repository';
 import { ModelPageClient } from '@modules/new-vehicles/components/ModelPageClient';
+import { parseCategories, formatCategories } from '@modules/new-vehicles/lib/categories';
 import { Container } from '@shared/components/layout/Container';
 import { dealershipConfig } from '@core/config/site.config';
 import { logger } from '@core/lib/logger';
@@ -124,8 +125,12 @@ export default async function ModelPage({ params }: ModelPageProps) {
       ? `משנת ${modelData.year_from}`
       : 'לא צוין';
 
-  const featureChips = [modelData.body_type, modelData.segment, `שנות ייצור: ${modelYearLabel}`]
-    .filter((value): value is string => Boolean(value));
+  const bodyTypeChips = parseCategories(modelData.body_type);
+  const featureChips = [
+    ...bodyTypeChips,
+    modelData.segment,
+    `שנות ייצור: ${modelYearLabel}`,
+  ].filter((value): value is string => Boolean(value));
 
   return (
     <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
@@ -182,7 +187,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
                 )}
 
                 <p className="route-hero-subtitle">
-                  {modelData.description || modelData.body_type || 'מפרט מלא ורמות גימור מעודכנות לדגם זה.'}
+                  {modelData.description || formatCategories(modelData.body_type) || 'מפרט מלא ורמות גימור מעודכנות לדגם זה.'}
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-2 justify-center lg:justify-start">
