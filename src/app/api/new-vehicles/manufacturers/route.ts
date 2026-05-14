@@ -138,7 +138,7 @@ export async function DELETE(request: Request) {
     // Find manufacturer
     const { data: manufacturer } = await client
       .from('new_vehicles_manufacturers')
-      .select('id, name')
+      .select('id, name, slug')
       .ilike('name', name)
       .single();
 
@@ -163,12 +163,12 @@ export async function DELETE(request: Request) {
 
       const trimIds = (trims || []).map((t: { id: string }) => t.id);
 
-      // Delete specs for all trims
+      // Delete specs for all trims (FK column is `trim_id`)
       if (trimIds.length > 0) {
         await client
           .from('new_vehicles_specifications')
           .delete()
-          .in('trim_level_id', trimIds);
+          .in('trim_id', trimIds);
       }
 
       // Delete trim levels
@@ -202,6 +202,9 @@ export async function DELETE(request: Request) {
 
     revalidatePath('/');
     revalidatePath('/new-vehicles');
+    if (manufacturer.slug) {
+      revalidatePath(`/new-vehicles/${manufacturer.slug}`);
+    }
     return Response.json({
       success: true,
       deleted: manufacturer.name,

@@ -77,13 +77,22 @@ export async function POST(request: Request) {
       .ilike('name', name)
       .single();
 
+    // Resolve manufacturer slug (for revalidation of its public page)
+    const { data: manufacturerRow } = await client
+      .from('new_vehicles_manufacturers')
+      .select('slug')
+      .eq('id', resolvedManufacturerId)
+      .single();
+    const manufacturerSlug: string | undefined = manufacturerRow?.slug;
+
     // active=false → delete
     if (!active) {
       if (!existing) {
         return Response.json({ message: 'Model not found, nothing to delete', _action: 'no_change' });
       }
 
-      // Delete related trim levels and their specifications first
+      // Defensive cleanup of children (DB FKs also CASCADE, but we keep this explicit
+      // in case the schema is ever changed and to make intent clear in logs).
       const { data: trims } = await client
         .from('new_vehicles_trim_levels')
         .select('id')
@@ -107,9 +116,21 @@ export async function POST(request: Request) {
         return Response.json({ error: delError.message }, { status: 400 });
       }
 
+      // Revalidate every public surface that referenced this model
       revalidatePath('/');
       revalidatePath('/new-vehicles');
-      return Response.json({ message: `Model "${name}" deleted`, _action: 'deleted' });
+      if (manufacturerSlug) {
+        revalidatePath(`/new-vehicles/${manufacturerSlug}`);
+        if (existing.slug) {
+          revalidatePath(`/new-vehicles/${manufacturerSlug}/${existing.slug}`);
+        }
+      }
+
+      return Response.json({
+        message: `Model "${name}" deleted`,
+        _action: 'deleted',
+        trims_deleted: trims?.length ?? 0,
+      });
     }
 
     const resolvedSlug = slug ? toSlug(slug) : toSlug(name);

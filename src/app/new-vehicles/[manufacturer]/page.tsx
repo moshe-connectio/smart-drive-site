@@ -5,7 +5,7 @@
 
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { getAllManufacturers, getManufacturerBySlug } from '@modules/new-vehicles/lib/repository';
 import { ModelGrid } from '@modules/new-vehicles/components/ModelGrid';
 import { parseCategories } from '@modules/new-vehicles/lib/categories';
@@ -85,11 +85,14 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
     manufacturerData = await getManufacturerBySlug(manufacturer);
   } catch (error) {
     logger.error(`Error loading manufacturer ${manufacturer}:`, error);
-    notFound();
+    // Manufacturer slug no longer exists (likely deleted) — send the user
+    // back to the new-vehicles index instead of a hard 404.
+    redirect('/new-vehicles');
   }
 
   if (!manufacturerData) {
-    notFound();
+    // Deleted / inactive manufacturer → take the user to the main lineup.
+    redirect('/new-vehicles');
   }
 
   const modelBodyTypes = Array.from(

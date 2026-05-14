@@ -3,6 +3,7 @@
  * Add a new trim level
  */
 
+import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { logger } from '@core/lib/logger';
 
@@ -35,12 +36,19 @@ export async function POST(request: Request) {
       doors,
       trunk_volume,
       display_order,
+      active = true,
     } = body;
 
     // Validation
-    if (!name || !slug || !price) {
+    if (!name) {
       return Response.json(
-        { error: 'name, slug, and price are required' },
+        { error: 'name is required' },
+        { status: 400 }
+      );
+    }
+    if (active && (!slug || price === undefined || price === null)) {
+      return Response.json(
+        { error: 'slug and price are required when creating/updating a trim level' },
         { status: 400 }
       );
     }
@@ -99,6 +107,90 @@ export async function POST(request: Request) {
         );
       }
       model_id = modelRows[0].id;
+    }
+
+    // Resolve model + manufacturer slugs once, used both for delete-path response
+    // and for revalidating public pages.
+    let modelSlugForRevalidate: string | undefined;
+    let manufacturerSlugForRevalidate: string | undefined;
+    {
+      const { data: modelInfo } = await client
+        .from('new_vehicles_models')
+        .select('slug, manufacturer:new_vehicles_manufacturers!inner(slug)')
+        .eq('id', model_id as string)
+        .single<{ slug: string; manufacturer: { slug: string } | null }>();
+      modelSlugForRevalidate = modelInfo?.slug;
+      manufacturerSlugForRevalidate = modelInfo?.manufacturer?.slug;
+    }
+
+    const revalidatePublicPaths = () => {
+      revalidatePath('/');
+      revalidatePath('/new-vehicles');
+      if (manufacturerSlugForRevalidate) {
+        revalidatePath(`/new-vehicles/${manufacturerSlugForRevalidate}`);
+        if (modelSlugForRevalidate) {
+          revalidatePath(
+            `/new-vehicles/${manufacturerSlugForRevalidate}/${modelSlugForRevalidate}`
+          );
+        }
+      }
+    };
+
+    // active=false → delete the trim (and its specifications via DB cascade)
+    if (!active) {
+      const orFilter = slug
+        ? `slug.eq.${slug},name.eq.${name}`
+        : `name.eq.${name}`;
+      const { data: existingTrim, error: findExistingErr } = await client
+        .from('new_vehicles_trim_levels')
+        .select('id, name, slug')
+        .eq('model_id', model_id as string)
+        .or(orFilter)
+        .limit(1)
+        .maybeSingle();
+
+      if (findExistingErr) {
+        logger.error('Error locating trim level for deletion:', findExistingErr);
+        return Response.json(
+          { error: findExistingErr.message || 'Failed to locate trim level' },
+          { status: 400 }
+        );
+      }
+
+      if (!existingTrim?.id) {
+        return Response.json({
+          message: `Trim level "${name}" not found for this model, nothing to delete`,
+          _action: 'no_change',
+        });
+      }
+
+      // Defensive: delete child specifications first (FK ON DELETE CASCADE
+      // also covers this, but being explicit keeps the intent obvious).
+      await client
+        .from('new_vehicles_specifications')
+        .delete()
+        .eq('trim_id', existingTrim.id);
+
+      const { error: delErr } = await client
+        .from('new_vehicles_trim_levels')
+        .delete()
+        .eq('id', existingTrim.id);
+
+      if (delErr) {
+        logger.error('Error deleting trim level:', delErr);
+        return Response.json(
+          { error: delErr.message || 'Failed to delete trim level' },
+          { status: 400 }
+        );
+      }
+
+      revalidatePublicPaths();
+
+      return Response.json({
+        message: `Trim level "${existingTrim.name}" deleted`,
+        _action: 'deleted',
+        id: existingTrim.id,
+      });
     }
 
     // Build payload (skip undefined to avoid overwriting on update)
@@ -174,6 +266,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    revalidatePublicPaths();
 
     return Response.json(
       { ...data, _action: existing?.id ? 'updated' : 'created' },

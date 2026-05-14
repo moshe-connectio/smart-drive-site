@@ -4,9 +4,13 @@
  */
 
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { getModelBySlug, getTrimLevelWithSpecs } from '@modules/new-vehicles/lib/repository';
+import {
+  getModelBySlug,
+  getTrimLevelWithSpecs,
+  manufacturerSlugExists,
+} from '@modules/new-vehicles/lib/repository';
 import { ModelPageClient } from '@modules/new-vehicles/components/ModelPageClient';
 import { Container } from '@shared/components/layout/Container';
 import { dealershipConfig } from '@core/config/site.config';
@@ -92,7 +96,14 @@ export default async function ModelPage({ params }: ModelPageProps) {
   const modelData = await getModelBySlug(manufacturer, model);
 
   if (!modelData) {
-    notFound();
+    // The model slug no longer exists (likely deleted or deactivated).
+    // If the manufacturer is still active, send the visitor to its page
+    // so they can pick another model; otherwise, fall back to the index.
+    const mfgStillExists = await manufacturerSlugExists(manufacturer);
+    if (mfgStillExists) {
+      redirect(`/new-vehicles/${manufacturer}`);
+    }
+    redirect('/new-vehicles');
   }
 
   // Prefetch full specs for ALL trim levels in parallel so switching on the

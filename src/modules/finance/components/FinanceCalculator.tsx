@@ -28,6 +28,10 @@ interface FinanceCalculatorProps {
   leadFormId?: LeadFormId;
   /** CTA button label */
   ctaLabel?: string;
+  /** Notifies parent whenever the estimated monthly payment changes (0 when invalid). */
+  onMonthlyChange?: (monthly: number) => void;
+  /** Notifies parent whenever the target vehicle price changes. */
+  onPriceChange?: (price: number) => void;
 }
 
 const DEFAULT_PRICE = 150_000;
@@ -43,6 +47,8 @@ export default function FinanceCalculator({
   embedded = false,
   leadFormId = 'financing',
   ctaLabel = 'צרו קשר לליווי אישי',
+  onMonthlyChange,
+  onPriceChange,
 }: FinanceCalculatorProps) {
   const baseId = useId();
   const [contactOpen, setContactOpen] = useState(false);
@@ -87,6 +93,16 @@ export default function FinanceCalculator({
   );
 
   const downPct = price > 0 ? Math.round((downPayment / price) * 100) : 0;
+
+  // Notify external listeners (e.g. vehicle suggestions) of the current monthly estimate.
+  const monthlyEstimate = result.isValid ? Math.round(result.monthlyPayment) : 0;
+  useEffect(() => {
+    onMonthlyChange?.(monthlyEstimate);
+  }, [monthlyEstimate, onMonthlyChange]);
+
+  useEffect(() => {
+    onPriceChange?.(price);
+  }, [price, onPriceChange]);
 
   // Bound editing helpers (keep down payment ≤ price, balloon ≤ loan)
   const handlePriceChange = (next: number) => {

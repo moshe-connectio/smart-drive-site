@@ -44,6 +44,29 @@ export async function getAllManufacturers(): Promise<ManufacturerWithCounts[]> {
 }
 
 /**
+ * בדיקה מהירה האם יצרן קיים ופעיל לפי slug (ללא טעינת הדגמים).
+ * שימושי לוגיקה של redirect כשמודל נמחק אך היצרן עדיין קיים.
+ */
+export async function manufacturerSlugExists(slug: string): Promise<boolean> {
+  try {
+    const { data, error } = await client
+      .from('new_vehicles_manufacturers')
+      .select('id')
+      .eq('slug', slug)
+      .eq('is_active', true)
+      .maybeSingle();
+    if (error) {
+      logger.error(`❌ Error checking manufacturer slug ${slug}:`, error);
+      return false;
+    }
+    return Boolean(data?.id);
+  } catch (error) {
+    logger.error(`❌ Error checking manufacturer slug ${slug}:`, error);
+    return false;
+  }
+}
+
+/**
  * קבל יצרן ספציפי לפי slug עם הדגמים שלו
  */
 export async function getManufacturerBySlug(slug: string): Promise<ManufacturerWithModels | null> {

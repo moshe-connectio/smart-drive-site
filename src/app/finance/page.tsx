@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
-import { FinanceCalculator } from '@modules/finance';
+import { FinanceCalculatorSection } from '@modules/finance';
+import { getPublishedVehicles } from '@modules/vehicles/lib/repository';
+import { getAllTrimLevelsFullInfo } from '@modules/new-vehicles/lib/repository';
 import { dealershipConfig } from '@core/config/site.config';
+import { logger } from '@core/lib/logger';
+
+export const revalidate = 60;
 
 const siteUrl = dealershipConfig.seo.siteUrl;
 const businessName = dealershipConfig.business.name;
@@ -67,7 +72,31 @@ const faq = [
   },
 ];
 
-export default function FinancePage() {
+export default async function FinancePage() {
+  // Suggestions are a progressive enhancement — never fail the page on data errors.
+  const [usedSettled, newSettled] = await Promise.allSettled([
+    getPublishedVehicles(),
+    getAllTrimLevelsFullInfo(),
+  ]);
+
+  const usedVehicles =
+    usedSettled.status === 'fulfilled' ? usedSettled.value : [];
+  const newTrimLevels =
+    newSettled.status === 'fulfilled' ? newSettled.value : [];
+
+  if (usedSettled.status === 'rejected') {
+    logger.error(
+      'FinancePage: failed to load used vehicles for suggestions',
+      usedSettled.reason,
+    );
+  }
+  if (newSettled.status === 'rejected') {
+    logger.error(
+      'FinancePage: failed to load new vehicle trim levels for suggestions',
+      newSettled.reason,
+    );
+  }
+
   return (
     <div
       className="min-h-screen flex flex-col"
@@ -94,12 +123,11 @@ export default function FinancePage() {
           </Container>
         </section>
 
-        {/* ─── Calculator ───────────────────────────────────────── */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <FinanceCalculator />
-          </Container>
-        </section>
+        {/* ─── Calculator + matching vehicles ────────────── */}
+        <FinanceCalculatorSection
+          usedVehicles={usedVehicles}
+          newTrimLevels={newTrimLevels}
+        />
 
         {/* ─── Why us ───────────────────────────────────────────── */}
         <section
