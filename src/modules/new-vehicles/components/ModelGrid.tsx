@@ -31,11 +31,15 @@ function getPriceLine(model: ModelWithManufacturer): {
   value: string;
   muted?: boolean;
 } {
-  // Always show "החל מ-" with the lowest available trim price.
-  const { min_price, max_price } = model;
-  if (min_price !== null) return { label: 'החל מ־', value: formatPrice(min_price) };
-  if (max_price !== null) return { label: 'החל מ־', value: formatPrice(max_price) };
-  return { label: 'מחיר', value: 'יתעדכן בקרוב', muted: true };
+  // Show "החזר חודשי החל מ-" with the lowest available monthly_payment across trims.
+  const { min_monthly_payment } = model;
+  if (min_monthly_payment != null && min_monthly_payment > 0) {
+    return {
+      label: 'החזר חודשי החל מ־',
+      value: `${formatPrice(min_monthly_payment)} / חודש`,
+    };
+  }
+  return { label: 'החזר חודשי', value: 'יתעדכן בקרוב', muted: true };
 }
 
 export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProps) {

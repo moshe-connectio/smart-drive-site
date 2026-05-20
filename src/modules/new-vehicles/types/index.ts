@@ -55,6 +55,8 @@ export type ModelWithManufacturer = Model & {
   trim_levels_count: number;
   min_price: number | null;
   max_price: number | null;
+  min_monthly_payment?: number | null;
+  max_monthly_payment?: number | null;
 };
 
 // ============================================
