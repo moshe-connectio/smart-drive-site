@@ -140,11 +140,6 @@ export default function AccessibilityPage() {
                   </div>
                 </div>
               </div>
-
-              <p className="legal-note">
-                הצהרת נגישות זו נכתבה כתבנית כללית. מומלץ להתאים את פרטיה למצב בפועל של האתר והסניף,
-                ולהיוועץ עם מורשה נגישות מוסמך ובאיש מקצוע משפטי לפני פרסום סופי.
-              </p>
             </div>
           </Container>
         </section>
