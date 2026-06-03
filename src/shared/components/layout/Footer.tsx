@@ -1,6 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
+import {
+  FaFacebook,
+  FaInstagram,
+  FaWhatsapp,
+  FaYoutube,
+  FaPhone,
+  FaEnvelope,
+  FaLocationDot,
+  FaClock,
+  FaArrowLeft,
+} from 'react-icons/fa6';
 import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 import { Container } from './Container';
@@ -22,6 +32,13 @@ const servicePoints = [
   'ליווי עד מסירה',
 ];
 
+const contactItems = [
+  { icon: FaPhone, label: CONTACT_INFO.phoneDisplay, href: `tel:${CONTACT_INFO.phone}` },
+  { icon: FaEnvelope, label: CONTACT_INFO.email, href: `mailto:${CONTACT_INFO.email}` },
+  { icon: FaLocationDot, label: CONTACT_INFO.address, href: undefined },
+  { icon: FaClock, label: dealershipConfig.contact.businessHours.weekdays, href: undefined },
+];
+
 const socialLinks = [
   { label: 'Facebook', href: dealershipConfig.social.facebook, icon: FaFacebook },
   { label: 'Instagram', href: dealershipConfig.social.instagram, icon: FaInstagram },
@@ -37,46 +54,41 @@ export function Footer() {
       <div className="footer-glow" />
 
       <Container className="relative py-16 md:py-20">
-        <div className="footer-cta-panel rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.16em] uppercase mb-2" style={{ color: 'var(--color-footer-text)' }}>
-              מוכנים לעסקה הבאה
-            </p>
-            <h3 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--color-footer-text-strong)' }}>
-              רוצים ייעוץ מהיר לפני בחירת רכב?
-            </h3>
+        {/* CTA panel */}
+        <div className="footer-cta-panel">
+          <div className="footer-cta-copy">
+            <span className="footer-cta-eyebrow">מוכנים לעסקה הבאה</span>
+            <h3 className="footer-cta-title">רוצים ייעוץ מהיר לפני בחירת רכב?</h3>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="footer-cta-actions">
             <LeadModalButton
               formId="general"
               buttonLabel="צרו קשר"
               variant="cta"
               className="footer-action"
             />
-            <a
-              href={`tel:${CONTACT_INFO.phone}`}
-              className="footer-action footer-action-secondary"
-            >
+            <a href={`tel:${CONTACT_INFO.phone}`} className="footer-action footer-action-secondary">
               {CONTACT_INFO.phoneDisplay}
             </a>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mt-12">
-          <div className="md:col-span-4">
+        {/* Main grid */}
+        <div className="footer-grid">
+          <div className="footer-brand">
             <Image
               src={dealershipConfig.business.logo}
               alt={dealershipConfig.business.name}
               width={170}
               height={50}
-              className="h-11 w-auto object-contain mb-5 opacity-90"
+              className="footer-logo"
             />
-            <p className="text-sm leading-relaxed max-w-sm" style={{ color: 'var(--color-footer-text)', lineHeight: 1.85 }}>
+            <p className="footer-about">
               {APP_CONFIG.description} מגוון רכבים איכותיים, שקיפות מלאה וליווי מקצועי מהשיחה הראשונה ועד המסירה.
             </p>
 
-            <div className="flex items-center gap-2 mt-5">
+            <div className="footer-social">
               {socialLinks.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -96,60 +108,71 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="md:col-span-3">
-            <h3
-              className="text-xs font-semibold tracking-[0.15em] uppercase mb-5"
-              style={{ color: 'var(--color-footer-text-strong)' }}
-            >
-              ניווט
-            </h3>
-            <ul className="space-y-2.5 text-sm">
+          <nav className="footer-col" aria-label="ניווט בפוטר">
+            <h3 className="footer-col-title">ניווט</h3>
+            <ul className="footer-list">
               {navigationLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="footer-link">
-                    {link.label}
+                    <FaArrowLeft className="footer-link-icon" aria-hidden />
+                    <span>{link.label}</span>
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="footer-col">
+            <h3 className="footer-col-title">שירותים</h3>
+            <ul className="footer-list footer-list-muted">
+              {servicePoints.map((item) => (
+                <li key={item} className="footer-service-item">
+                  <span className="footer-service-dot" aria-hidden />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="md:col-span-2">
-            <h3
-              className="text-xs font-semibold tracking-[0.15em] uppercase mb-5"
-              style={{ color: 'var(--color-footer-text-strong)' }}
-            >
-              שירותים
-            </h3>
-            <ul className="space-y-2.5 text-sm" style={{ color: 'var(--color-footer-text)' }}>
-              {servicePoints.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="md:col-span-3">
-            <h3
-              className="text-xs font-semibold tracking-[0.15em] uppercase mb-5"
-              style={{ color: 'var(--color-footer-text-strong)' }}
-            >
-              צור קשר
-            </h3>
-            <ul className="space-y-2.5 text-sm" style={{ color: 'var(--color-footer-text)' }}>
-              <li>{CONTACT_INFO.phoneDisplay}</li>
-              <li>{CONTACT_INFO.email}</li>
-              <li>{CONTACT_INFO.address}</li>
-              <li>{dealershipConfig.contact.businessHours.weekdays}</li>
+          <div className="footer-col">
+            <h3 className="footer-col-title">צור קשר</h3>
+            <ul className="footer-list footer-contact-list">
+              {contactItems.map((item) => {
+                const Icon = item.icon;
+                const content = (
+                  <>
+                    <span className="footer-contact-icon" aria-hidden>
+                      <Icon />
+                    </span>
+                    <span>{item.label}</span>
+                  </>
+                );
+                return (
+                  <li key={item.label}>
+                    {item.href ? (
+                      <a href={item.href} className="footer-contact-item footer-contact-item--link">
+                        {content}
+                      </a>
+                    ) : (
+                      <span className="footer-contact-item">{content}</span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
 
-        <div
-          className="mt-12 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs"
-          style={{ borderTop: '1px solid var(--color-footer-border)', color: 'var(--color-footer-text)' }}
-        >
+        {/* Bottom bar */}
+        <div className="footer-bottom">
           <p>© {currentYear} {APP_CONFIG.name}. כל הזכויות שמורות.</p>
-          <p style={{ color: 'var(--color-footer-text)' }}>אתר מותאם לפרודקשיין: ביצועים, נגישות ו-SEO</p>
+          <div className="footer-bottom-links">
+            <Link href={ROUTES.accessibility} className="footer-bottom-link">הצהרת נגישות</Link>
+            <span className="footer-bottom-sep" aria-hidden>•</span>
+            <Link href={ROUTES.privacy} className="footer-bottom-link">מדיניות פרטיות</Link>
+            <span className="footer-bottom-sep" aria-hidden>•</span>
+            <a href={`tel:${CONTACT_INFO.phone}`} className="footer-bottom-link">צור קשר</a>
+          </div>
         </div>
       </Container>
     </footer>

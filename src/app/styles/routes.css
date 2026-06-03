@@ -1738,6 +1738,143 @@ html.a11y-high-contrast .about-hero-accent {
 /* /trade-in inline section text overrides (--color-gray-600 / --color-gray-500
    are already swapped via tokens; nothing extra needed). */
 
+/* ============================================================================
+ * Legal pages — /accessibility, /privacy (`.legal-*`).
+ * ============================================================================ */
+
+.legal-section {
+  padding-block: 3.5rem 4.5rem;
+  background: var(--color-background);
+}
+
+.legal-doc {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.legal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  font-size: 0.85rem;
+  color: var(--color-gray-500);
+}
+
+.legal-meta strong {
+  color: var(--color-gray-700, #374151);
+  font-weight: 600;
+}
+
+.legal-block {
+  margin-bottom: 2.25rem;
+}
+
+.legal-block:last-child {
+  margin-bottom: 0;
+}
+
+.legal-block-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--color-gray-900, #111827);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.legal-block-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-primary, #2553d4);
+  background: rgba(37, 83, 212, 0.1);
+}
+
+.legal-block p {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--color-gray-600);
+  margin-bottom: 0.85rem;
+}
+
+.legal-block p:last-child {
+  margin-bottom: 0;
+}
+
+.legal-list {
+  list-style: none;
+  margin: 0.5rem 0 0.85rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.legal-list li {
+  position: relative;
+  padding-inline-start: 1.4rem;
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--color-gray-600);
+}
+
+.legal-list li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.62em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--color-primary, #2553d4);
+}
+
+.legal-contact-card {
+  margin-top: 1rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 1rem;
+  background: var(--color-section-alt, #f7f8fa);
+  border: 1px solid var(--color-border, #e5e7eb);
+}
+
+.legal-contact-card .legal-contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.97rem;
+  line-height: 1.9;
+  color: var(--color-gray-600);
+}
+
+.legal-contact-card a {
+  color: var(--color-primary, #2553d4);
+  font-weight: 600;
+}
+
+.legal-contact-card a:hover {
+  text-decoration: underline;
+}
+
+.legal-note {
+  margin-top: 2.5rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: 0.85rem;
+  border: 1px dashed var(--color-border, #d1d5db);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--color-gray-500);
+}
+
 /* ─── HC: plate search — fill remaining hardcoded colors ────────────────── */
 html.a11y-high-contrast .plate-search-input-wrap {
   background: #000 !important;

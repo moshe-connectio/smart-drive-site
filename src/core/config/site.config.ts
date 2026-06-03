@@ -38,6 +38,23 @@ export const dealershipConfig = {
     youtube: 'https://youtube.com/@cardealership',
   },
 
+  // Legal & Accessibility
+  legal: {
+    // שם הישות המשפטית כפי שרשומה ברשם החברות / רשם העוסקים
+    legalEntityName: 'Smart & Drive',
+    // מספר ח.פ / ע.מ. — יש לעדכן לבעל העסק
+    companyId: '',
+    // תאריך עדכון אחרון של המסמכים המשפטיים
+    lastUpdated: '2026-06-03',
+    // רכז/ת נגישות — חובה לפי תקנות שוויון זכויות
+    accessibilityCoordinator: {
+      name: 'צוות השירות',
+      phone: '+972-52-640-6728',
+      phoneDisplay: '052-640-6728',
+      email: 'info@smart-drive.co.il',
+    },
+  },
+
   // Localization
   locale: {
     language: 'he-IL',
