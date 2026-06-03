@@ -13,6 +13,7 @@ import {
   websiteJsonLd,
   localBusinessJsonLd,
 } from '@shared/components/seo/structuredData';
+import { safeJsonLd } from '@shared/utils/json-ld';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -167,12 +168,12 @@ export default function RootLayout({
         {/* Global JSON-LD: WebSite + LocalBusiness */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteJsonLd) }}
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessJsonLd),
+            __html: safeJsonLd(localBusinessJsonLd),
           }}
         />
 

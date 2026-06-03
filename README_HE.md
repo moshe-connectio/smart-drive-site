@@ -73,7 +73,17 @@ npm run dev
 NEXT_PUBLIC_SUPABASE_URL=...
 SUPABASE_SERVICE_ROLE_KEY=...
 NEXT_PUBLIC_SITE_URL=https://smartanddrive.co.il
+
+# סוד משותף ל-Webhooks של Zoho ול-API של רכבים חדשים (POST/DELETE)
+ZOHO_WEBHOOK_SECRET=...
+# סוד ל-Cron של Vercel (ניקוי רכבים שנמכרו) – נשלח כ-Authorization: Bearer
+CRON_SECRET=...
+# אופציונלי – סוד לכותרת ב-webhook של לידים
+LEADS_WEBHOOK_SECRET=...
 ```
+
+> **אבטחה:** כל ה-endpoints המשנים נתונים (Webhooks, רכבים חדשים, Cron) דורשים סוד.
+> `/api/leads` מוגבל ל-5 בקשות לדקה לכל IP.
 
 ## מסד נתונים
 

@@ -3,6 +3,18 @@
 ## Overview
 Complete REST API for managing new vehicles data (manufacturers, models, trim levels, and specifications).
 
+## Authentication
+All **mutating** endpoints (`POST` / `DELETE`) require the shared webhook secret.
+`GET` endpoints are public (read-only).
+
+Send the secret in one of these ways:
+- Header (preferred): `x-webhook-secret: <ZOHO_WEBHOOK_SECRET>`
+- Query string: `?secret=<ZOHO_WEBHOOK_SECRET>`
+
+The secret is configured via the `ZOHO_WEBHOOK_SECRET` environment variable.
+Requests without a valid secret receive `401 Unauthorized` (or `500` if the
+server has no secret configured).
+
 ## Endpoints
 
 ### Manufacturers
@@ -298,6 +310,7 @@ Get specifications, optionally filtered by trim and/or category.
 ```bash
 curl -X POST http://localhost:3000/api/new-vehicles/manufacturers \
   -H "Content-Type: application/json" \
+  -H "x-webhook-secret: $ZOHO_WEBHOOK_SECRET" \
   -d '{
     "name": "BMW",
     "slug": "bmw",
@@ -312,6 +325,7 @@ curl -X POST http://localhost:3000/api/new-vehicles/manufacturers \
 ```bash
 curl -X POST http://localhost:3000/api/new-vehicles/models \
   -H "Content-Type: application/json" \
+  -H "x-webhook-secret: $ZOHO_WEBHOOK_SECRET" \
   -d '{
     "manufacturer_id": "mfg-123",
     "name": "3 Series",
@@ -327,6 +341,7 @@ curl -X POST http://localhost:3000/api/new-vehicles/models \
 ```bash
 curl -X POST http://localhost:3000/api/new-vehicles/trim-levels \
   -H "Content-Type: application/json" \
+  -H "x-webhook-secret: $ZOHO_WEBHOOK_SECRET" \
   -d '{
     "model_id": "mdl-456",
     "name": "330i",
@@ -343,6 +358,7 @@ curl -X POST http://localhost:3000/api/new-vehicles/trim-levels \
 ```bash
 curl -X POST http://localhost:3000/api/new-vehicles/specifications \
   -H "Content-Type: application/json" \
+  -H "x-webhook-secret: $ZOHO_WEBHOOK_SECRET" \
   -d '{
     "trim_id": "trim-789",
     "spec_key": "leather_seats",

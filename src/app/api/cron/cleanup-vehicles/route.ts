@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { deleteSoldVehicles } from '@modules/vehicles/lib/repository';
 import { logger } from '@core/lib/logger';
+import { verifyCronSecret } from '@core/lib/webhook-auth';
 
 /**
  * Cron Job endpoint for automatic cleanup of sold vehicles
@@ -8,6 +9,10 @@ import { logger } from '@core/lib/logger';
  * for more than 2 days
  * 
  * GET /api/cron/cleanup-vehicles
+ * 
+ * Authentication: requires `Authorization: Bearer <CRON_SECRET>`.
+ * Vercel Cron Jobs send this header automatically when the `CRON_SECRET`
+ * environment variable is configured on the project.
  * 
  * Configure in vercel.json:
  * {
@@ -24,7 +29,10 @@ import { logger } from '@core/lib/logger';
  *   "deletedCount": 5
  * }
  */
-export async function GET() {
+export async function GET(request: Request) {
+  const authError = verifyCronSecret(request);
+  if (authError) return authError;
+
   try {
     const startTime = Date.now();
 

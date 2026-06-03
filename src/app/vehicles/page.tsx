@@ -12,6 +12,7 @@ import { Container } from '@shared/components/layout/Container';
 import { FilterableVehicleGrid } from '@modules/vehicles/components/FilterableVehicleGrid';
 import { dealershipConfig } from '@core/config/site.config';
 import { generateVehicleSlug } from '@shared/utils/formatting';
+import { safeJsonLd } from '@shared/utils/json-ld';
 import { logger } from '@core/lib/logger';
 
 export const revalidate = 60;
@@ -100,7 +101,7 @@ export default async function VehiclesPage() {
       {itemListJsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(itemListJsonLd) }}
         />
       )}
       <Header />

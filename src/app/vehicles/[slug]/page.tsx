@@ -6,6 +6,7 @@ import {
 } from '@modules/vehicles/lib/repository';
 import { generateVehicleSlug } from '@shared/utils/formatting';
 import { dealershipConfig } from '@core/config/site.config';
+import { safeJsonLd } from '@shared/utils/json-ld';
 import VehicleDetailClient from './VehicleDetailClient';
 
 export const revalidate = 300; // ISR – revalidate every 5 minutes
@@ -238,11 +239,11 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
       {/* Structured data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(carJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(carJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbJsonLd) }}
       />
 
       {/* Client component handles all interactivity */}

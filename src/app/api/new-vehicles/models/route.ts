@@ -9,6 +9,7 @@
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { logger } from '@core/lib/logger';
+import { verifyWebhookSecret } from '@core/lib/webhook-auth';
 
 function toSlug(text: string): string {
   return text
@@ -21,6 +22,9 @@ function toSlug(text: string): string {
 }
 
 export async function POST(request: Request) {
+  const authError = verifyWebhookSecret(request);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const {

@@ -156,6 +156,11 @@ NEXT_PUBLIC_SUPABASE_URL=your_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
 SUPABASE_SERVICE_ROLE_KEY=your_key
 
+# סודות אבטחה (חובה ל-endpoints מוגנים)
+ZOHO_WEBHOOK_SECRET=your_shared_secret   # Webhooks + API רכבים חדשים (POST/DELETE)
+CRON_SECRET=your_cron_secret             # Vercel Cron (ניקוי רכבים שנמכרו)
+LEADS_WEBHOOK_SECRET=your_leads_secret   # אופציונלי – webhook לידים
+
 # Stripe (Live Keys!)
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 STRIPE_SECRET_KEY=sk_live_...
@@ -166,6 +171,10 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
 ```
 
 **⚠️ חשוב**: בדוק שבחרת **Live Keys** של Stripe, לא Test Keys!
+
+> **אבטחה:** ללא `ZOHO_WEBHOOK_SECRET` כל ה-Webhooks ו-API הרכבים החדשים יחזירו 401/500.
+> ללא `CRON_SECRET` ה-Cron `/api/cron/cleanup-vehicles` יחזיר 401. Vercel מזריק את
+> כותרת ה-`Authorization: Bearer <CRON_SECRET>` אוטומטית כשהמשתנה מוגדר.
 
 ### 4.2 שמירה ודפלוי מחדש
 

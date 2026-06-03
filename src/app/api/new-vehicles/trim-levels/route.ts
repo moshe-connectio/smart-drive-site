@@ -6,8 +6,12 @@
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { logger } from '@core/lib/logger';
+import { verifyWebhookSecret } from '@core/lib/webhook-auth';
 
 export async function POST(request: Request) {
+  const authError = verifyWebhookSecret(request);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const {

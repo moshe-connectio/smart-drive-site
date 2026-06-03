@@ -6,6 +6,7 @@
 import { revalidatePath } from 'next/cache';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { logger } from '@core/lib/logger';
+import { verifyWebhookSecret } from '@core/lib/webhook-auth';
 
 /**
  * Convert any string to a URL-safe slug
@@ -20,6 +21,9 @@ function toSlug(str: string): string {
 }
 
 export async function POST(request: Request) {
+  const authError = verifyWebhookSecret(request);
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const { name, slug: rawSlug, logo_url, banner_url, description, country, website_url, display_order } = body;
@@ -125,6 +129,9 @@ export async function POST(request: Request) {
  * Delete a manufacturer and all related data (models, specs, trims, images)
  */
 export async function DELETE(request: Request) {
+  const authError = verifyWebhookSecret(request);
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const name = searchParams.get('name');

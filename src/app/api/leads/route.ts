@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { insertLead } from '@modules/leads/lib/repository';
 import { fireLeadWebhook } from '@modules/leads/lib/webhook';
 import { logger } from '@core/lib/logger';
+import { rateLimit, getClientIp } from '@shared/utils/rate-limit';
 import type { CreateLeadInput } from '@modules/leads/types';
 
 const PHONE_RE = /^[\d\s\-+()]{7,20}$/;
+
+// Allow at most 5 lead submissions per IP within a 60-second window.
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 60_000;
 
 function validate(body: unknown): CreateLeadInput {
   if (!body || typeof body !== 'object') {
@@ -30,6 +35,20 @@ function validate(body: unknown): CreateLeadInput {
  * Returns: { success: true, id: string }
  */
 export async function POST(req: NextRequest) {
+  // Rate-limit by client IP to mitigate spam / abuse.
+  const ip = getClientIp(req);
+  const { allowed, retryAfter } = rateLimit(
+    `leads:${ip}`,
+    RATE_LIMIT_MAX,
+    RATE_LIMIT_WINDOW_MS,
+  );
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again shortly.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfter) } },
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();

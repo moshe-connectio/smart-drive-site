@@ -123,7 +123,11 @@ export const dealershipConfig = {
 
   // API Configuration
   api: {
-    webhookSecret: process.env.WEBHOOK_SECRET || '',
+    // Shared secret for Zoho webhooks and new-vehicles admin routes.
+    // Must match the value read by src/core/lib/webhook-auth.ts.
+    webhookSecret: process.env.ZOHO_WEBHOOK_SECRET || '',
+    // Bearer secret for Vercel cron endpoints (e.g. cleanup-vehicles).
+    cronSecret: process.env.CRON_SECRET || '',
     apiTimeout: 30000, // 30 seconds
     retryAttempts: 3,
   },
