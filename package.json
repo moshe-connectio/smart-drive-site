@@ -12,7 +12,7 @@
     "seed:new-vehicles": "ts-node src/modules/new-vehicles/lib/seed.ts"
   },
   "engines": {
-    "node": "24.x"
+    "node": "22.x"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.0",
