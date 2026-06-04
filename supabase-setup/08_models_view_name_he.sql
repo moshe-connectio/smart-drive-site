@@ -22,6 +22,8 @@ SELECT
   COUNT(DISTINCT tl.id) AS trim_levels_count,
   MIN(tl.price) AS min_price,
   MAX(tl.price) AS max_price,
+  MIN(tl.monthly_payment) AS min_monthly_payment,
+  MAX(tl.monthly_payment) AS max_monthly_payment,
   mo.is_active, mo.display_order, mo.created_at, mo.updated_at
 FROM public.new_vehicles_models mo
 JOIN public.new_vehicles_manufacturers m
