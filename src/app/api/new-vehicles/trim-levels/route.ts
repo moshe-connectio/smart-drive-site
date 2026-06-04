@@ -39,6 +39,15 @@ export async function POST(request: Request) {
       seats,
       doors,
       trunk_volume,
+      engine_cc,
+      drivetrain,
+      battery_kwh,
+      range_km,
+      charging_kw,
+      pollution_level,
+      safety_level,
+      screen_inch,
+      warranty,
       display_order,
       active = true,
     } = body;
@@ -221,6 +230,15 @@ export async function POST(request: Request) {
     if (seats !== undefined) payload.seats = seats || null;
     if (doors !== undefined) payload.doors = doors || null;
     if (trunk_volume !== undefined) payload.trunk_volume = trunk_volume || null;
+    if (engine_cc !== undefined) payload.engine_cc = engine_cc || null;
+    if (drivetrain !== undefined) payload.drivetrain = drivetrain || null;
+    if (battery_kwh !== undefined) payload.battery_kwh = battery_kwh || null;
+    if (range_km !== undefined) payload.range_km = range_km || null;
+    if (charging_kw !== undefined) payload.charging_kw = charging_kw || null;
+    if (pollution_level !== undefined) payload.pollution_level = pollution_level || null;
+    if (safety_level !== undefined) payload.safety_level = safety_level || null;
+    if (screen_inch !== undefined) payload.screen_inch = screen_inch || null;
+    if (warranty !== undefined) payload.warranty = warranty || null;
     if (display_order !== undefined) payload.display_order = display_order || 0;
 
     // Check if trim already exists for this model (by slug or by name)

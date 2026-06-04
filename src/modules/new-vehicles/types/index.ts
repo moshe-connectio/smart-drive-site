@@ -84,6 +84,16 @@ export type TrimLevel = {
   seats: number | null;
   doors: number | null;
   trunk_volume: number | null; // Liters
+  // --- שדות נוספים מ-Zoho (מוצגים רק כשקיים בהם מידע) ---
+  engine_cc?: number | null; // נפח מנוע (סמ״ק)
+  drivetrain?: string | null; // הנעה: "קדמית" / "אחורית" / "כפולה"
+  battery_kwh?: number | null; // קיבולת סוללה (קוט״ש) — חשמלי/היברידי
+  range_km?: number | null; // טווח חשמלי (ק״מ)
+  charging_kw?: number | null; // הספק טעינה (kW)
+  pollution_level?: string | null; // דרגת זיהום אוויר
+  safety_level?: string | null; // רמת בטיחות
+  screen_inch?: number | null; // גודל מסך מולטימדיה (אינץ׳)
+  warranty?: string | null; // אחריות, לדוגמה "3 שנים"
   display_order: number;
   is_active: boolean;
   created_at: string;

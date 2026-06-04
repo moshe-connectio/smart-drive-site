@@ -39,22 +39,32 @@ export function VehicleSpecifications({
     { label: 'מחיר', value: trimLevel.price, format: (v: unknown) => `₪${Number(v).toLocaleString('he-IL')}` },
     { label: 'החזר חודשי', value: trimLevel.monthly_payment, format: (v: unknown) => `₪${Number(v).toLocaleString('he-IL')} / חודש` },
     { label: 'מנוע', value: trimLevel.engine_type },
+    { label: 'נפח מנוע', value: trimLevel.engine_cc, format: (v: unknown) => `${Number(v).toLocaleString('he-IL')} סמ״ק` },
     { label: 'תיבת הילוכים', value: trimLevel.transmission },
+    { label: 'הנעה', value: trimLevel.drivetrain },
     { label: 'דלק', value: trimLevel.fuel_type },
     { label: 'כוח', value: trimLevel.power_hp, format: (v: unknown) => `${v} hp` },
     { label: 'מומנט', value: trimLevel.torque_nm, format: (v: unknown) => `${v} Nm` },
     { label: 'דחיפה 0-100 ק״מ', value: trimLevel.acceleration_0_100, format: (v: unknown) => `${v}s` },
     { label: 'מהירות מקסימלית', value: trimLevel.top_speed, format: (v: unknown) => `${v} km/h` },
     { label: 'צריכת דלק', value: trimLevel.fuel_consumption, format: (v: unknown) => `${v} L/100km` },
+    { label: 'קיבולת סוללה', value: trimLevel.battery_kwh, format: (v: unknown) => `${v} קוט״ש` },
+    { label: 'טווח חשמלי', value: trimLevel.range_km, format: (v: unknown) => `${Number(v).toLocaleString('he-IL')} ק״מ` },
+    { label: 'הספק טעינה', value: trimLevel.charging_kw, format: (v: unknown) => `${v} kW` },
     { label: 'פליטות CO2', value: trimLevel.co2_emissions, format: (v: unknown) => `${v} g/km` },
+    { label: 'דרגת זיהום', value: trimLevel.pollution_level },
+    { label: 'רמת בטיחות', value: trimLevel.safety_level },
+    { label: 'מסך מולטימדיה', value: trimLevel.screen_inch, format: (v: unknown) => `${v}″` },
     { label: 'משקל', value: trimLevel.weight, format: (v: unknown) => `${v} kg` },
     { label: 'מושבים', value: trimLevel.seats, format: (v: unknown) => `${v}` },
     { label: 'דלתות', value: trimLevel.doors, format: (v: unknown) => `${v}` },
     { label: 'תא המטען', value: trimLevel.trunk_volume, format: (v: unknown) => `${v} L` },
+    { label: 'אחריות', value: trimLevel.warranty },
   ];
 
   const filledCoreSpecs = coreSpecs.filter(
-    (spec) => spec.value !== null && spec.value !== undefined
+    (spec) =>
+      spec.value !== null && spec.value !== undefined && spec.value !== ''
   );
 
   // Body dimensions
