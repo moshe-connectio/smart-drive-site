@@ -227,6 +227,7 @@ export async function getAllTrimLevelsFullInfo(): Promise<TrimLevelFullInfo[]> {
       model: {
         id: string;
         name: string;
+        name_he: string | null;
         slug: string;
         image_url: string | null;
         body_type: string | null;
@@ -247,7 +248,7 @@ export async function getAllTrimLevelsFullInfo(): Promise<TrimLevelFullInfo[]> {
         `
         *,
         model:new_vehicles_models!inner (
-          id, name, slug, image_url, body_type, is_active,
+          id, name, name_he, slug, image_url, body_type, is_active,
           manufacturer:new_vehicles_manufacturers!inner (
             id, name, slug, logo_url, is_active
           )
@@ -270,6 +271,7 @@ export async function getAllTrimLevelsFullInfo(): Promise<TrimLevelFullInfo[]> {
         ...trim,
         model_id: model!.id,
         model_name: model!.name,
+        model_name_he: model!.name_he,
         model_slug: model!.slug,
         model_image: model!.image_url,
         model_body_type: model!.body_type,

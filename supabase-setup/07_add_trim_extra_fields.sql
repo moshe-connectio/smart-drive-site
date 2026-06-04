@@ -56,6 +56,7 @@ SELECT
   tl.pollution_level, tl.safety_level, tl.screen_inch, tl.warranty,
   mo.id   AS model_id,
   mo.name AS model_name,
+  mo.name_he AS model_name_he,
   mo.slug AS model_slug,
   mo.image_url AS model_image,
   m.id    AS manufacturer_id,

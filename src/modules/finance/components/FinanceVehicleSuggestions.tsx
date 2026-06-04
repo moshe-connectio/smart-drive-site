@@ -96,7 +96,7 @@ function buildNewItem(trim: TrimLevelFullInfo): SuggestionItem | null {
     href: `/new-vehicles/${trim.manufacturer_slug}/${trim.model_slug}`,
     imageUrl: trim.model_image,
     topLabel: trim.manufacturer_name,
-    title: trim.model_name,
+    title: trim.model_name_he || trim.model_name,
     subtitle: trim.name,
     price: trim.price,
     monthly: monthly != null ? Math.round(monthly) : null,

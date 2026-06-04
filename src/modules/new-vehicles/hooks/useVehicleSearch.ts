@@ -121,7 +121,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
 
     const filtered = trims.filter((t) => {
       if (q) {
-        const haystack = [t.manufacturer_name, t.model_name, t.name]
+        const haystack = [t.manufacturer_name, t.model_name, t.model_name_he, t.name]
           .filter(Boolean)
           .join(' ')
           .toLowerCase();

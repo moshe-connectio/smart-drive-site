@@ -32,7 +32,7 @@ export function SearchResults({
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={trim.model_image}
-                      alt={`${trim.manufacturer_name} ${trim.model_name}`}
+                      alt={`${trim.manufacturer_name} ${trim.model_name_he || trim.model_name}`}
                       loading="lazy"
                     />
                   ) : (
@@ -63,7 +63,7 @@ export function SearchResults({
                     {trim.manufacturer_name}
                   </p>
                   <h3 className="home-search-result-title">
-                    {trim.model_name}
+                    {trim.model_name_he || trim.model_name}
                   </h3>
                   <p className="home-search-result-trim">{trim.name}</p>
                 </div>

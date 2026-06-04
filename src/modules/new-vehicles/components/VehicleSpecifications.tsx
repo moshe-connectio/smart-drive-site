@@ -18,7 +18,7 @@ export function VehicleSpecifications({
   trimLevel,
 }: VehicleSpecificationsProps) {
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
-  const vehicleTitle = `${trimLevel.manufacturer_name} ${trimLevel.model_name} — ${trimLevel.name}`;
+  const vehicleTitle = `${trimLevel.manufacturer_name} ${trimLevel.model_name_he || trimLevel.model_name} — ${trimLevel.name}`;
 
   useModal(isLeadModalOpen, () => setIsLeadModalOpen(false));
   // Group specifications by category

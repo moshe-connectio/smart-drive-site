@@ -109,6 +109,8 @@ export type BodyDimensions = {
 
 export type TrimLevelFullInfo = TrimLevel & {
   model_name: string;
+  /** שם הדגם בעברית להצגה ללקוח (נופל חזרה ל-model_name). */
+  model_name_he?: string | null;
   model_slug: string;
   model_image: string | null;
   /** סוג מרכב (Sedan / SUV / Coupe…) — נשאב מהדגם, אופציונלי. */
