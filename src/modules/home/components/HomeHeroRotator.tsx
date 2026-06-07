@@ -62,8 +62,9 @@ export function HomeHeroRotator({
   statsPanel,
   intervalMs = 5000,
 }: HomeHeroRotatorProps) {
-  // Slide 0 is the stats panel; slides 1..N are the model groups.
+  // Slides 0..N-1 are the model groups; the last slide is the stats panel.
   const slideCount = groups.length + 1;
+  const statsIndex = groups.length;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -92,18 +93,9 @@ export function HomeHeroRotator({
       onBlurCapture={() => setPaused(false)}
     >
       <div className="home-hero-rotator-stage" aria-live="polite">
-        {/* Stats-panel slide */}
-        <div
-          className="home-hero-rotator-slide"
-          data-active={index === 0}
-          aria-hidden={index !== 0}
-        >
-          {statsPanel}
-        </div>
-
-        {/* Model-group slides */}
+        {/* Model-group slides (shown first) */}
         {groups.map((group, gi) => {
-          const slideIndex = gi + 1;
+          const slideIndex = gi;
           const [feature, ...rest] = group;
           return (
             <div
@@ -120,7 +112,7 @@ export function HomeHeroRotator({
                 <ModelCard
                   model={feature}
                   variant="feature"
-                  eager={slideIndex === 1}
+                  eager={slideIndex === 0}
                 />
                 {rest.length > 0 && (
                   <div className="home-hero-showcase-row">
@@ -138,6 +130,15 @@ export function HomeHeroRotator({
             </div>
           );
         })}
+
+        {/* Stats-panel slide (shown last) */}
+        <div
+          className="home-hero-rotator-slide"
+          data-active={index === statsIndex}
+          aria-hidden={index !== statsIndex}
+        >
+          {statsPanel}
+        </div>
       </div>
 
       {slideCount > 1 && (
@@ -148,7 +149,7 @@ export function HomeHeroRotator({
               type="button"
               role="tab"
               aria-selected={index === i}
-              aria-label={i === 0 ? 'נתוני הסוכנות' : `קבוצת דגמים ${i}`}
+              aria-label={i === statsIndex ? 'נתוני הסוכנות' : `קבוצת דגמים ${i + 1}`}
               className="home-hero-rotator-dot"
               data-active={index === i}
               onClick={() => goTo(i)}
