@@ -12,7 +12,7 @@
  */
 
 import { useState, useCallback, useRef } from 'react';
-import { LeadForm } from '@modules/leads';
+import { LeadForm, LeadFormModal } from '@modules/leads';
 
 type LookupResult = {
   plate: string;
@@ -274,53 +274,23 @@ export function LicensePlateSearch() {
 
       {/* Lead modal — pre-populated with vehicle title */}
       {showLeadModal && result && (
-        <div
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-label="טופס הערכת רכב"
+        <LeadFormModal
+          title="קבלת הערכה לרכב"
+          subtitle={buildVehicleTitle(result)}
+          ariaLabel="טופס הערכת רכב"
+          onClose={() => setShowLeadModal(false)}
         >
-          <div
-            className="absolute inset-0 backdrop-blur-sm"
-            style={{ background: 'var(--color-overlay-black-50)' }}
-            onClick={() => setShowLeadModal(false)}
+          <LeadForm
+            formId="trade-in"
+            vehicleTitle={`${buildVehicleTitle(result)} — מס׳ רישוי ${formatPlate(result.plate)}`}
+            title=""
+            showMessage
+            showEmail
+            submitLabel="שלחו לי הערכה ראשונית"
+            variant="minimal"
+            onSuccess={() => setShowLeadModal(false)}
           />
-          <div className="relative z-10 w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl">
-            <div
-              className="flex items-center justify-between px-5 py-4"
-              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
-            >
-              <div>
-                <p className="font-bold text-lg leading-tight">קבלת הערכה לרכב</p>
-                <p className="text-sm opacity-75">{buildVehicleTitle(result)}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowLeadModal(false)}
-                className="w-9 h-9 flex items-center justify-center rounded-full overlay-action-btn"
-                aria-label="סגור טופס"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div style={{ background: 'var(--color-gray-100)' }}>
-              <div className="p-5">
-                <LeadForm
-                  formId="trade-in"
-                  vehicleTitle={`${buildVehicleTitle(result)} — מס׳ רישוי ${formatPlate(result.plate)}`}
-                  title=""
-                  showMessage
-                  showEmail
-                  submitLabel="שלחו לי הערכה ראשונית"
-                  variant="minimal"
-                  onSuccess={() => setShowLeadModal(false)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        </LeadFormModal>
       )}
     </section>
   );

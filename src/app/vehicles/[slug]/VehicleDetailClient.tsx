@@ -8,7 +8,7 @@ import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import VehicleImageGallery from '@modules/vehicles/components/VehicleImageGallery';
-import { LeadForm } from '@modules/leads';
+import { LeadForm, LeadFormModal } from '@modules/leads';
 
 interface VehicleDetailClientProps {
   vehicle: Vehicle;
@@ -402,59 +402,25 @@ export default function VehicleDetailClient({ vehicle, relatedVehicles = [] }: V
 
       {/* Lead Form Modal */}
       {isLeadModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="vd-lead-modal-title"
+        <LeadFormModal
+          ref={modalCloseBtnRef}
+          title="השאירו פרטים"
+          subtitle={vehicle.title}
+          titleId="vd-lead-modal-title"
+          onClose={() => setIsLeadModalOpen(false)}
         >
-          <button
-            type="button"
-            aria-label="סגור טופס"
-            className="absolute inset-0 backdrop-blur-sm"
-            style={{ background: 'var(--color-overlay-black-50)', border: 0, padding: 0 }}
-            onClick={() => setIsLeadModalOpen(false)}
+          <LeadForm
+            formId="vehicle-inquiry"
+            vehicleId={vehicle.id}
+            vehicleTitle={vehicle.title}
+            title=""
+            showEmail
+            showMessage
+            submitLabel="שליחה וקבלת מענה אישי"
+            variant="minimal"
+            onSuccess={() => setIsLeadModalOpen(false)}
           />
-
-          <div className="relative z-10 w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl max-h-[92vh] flex flex-col">
-            <div
-              className="flex items-center justify-between px-5 py-4 shrink-0"
-              style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}
-            >
-              <div className="min-w-0">
-                <p id="vd-lead-modal-title" className="font-bold text-lg leading-tight">השאירו פרטים</p>
-                <p className="text-sm opacity-90 leading-tight truncate">{vehicle.title}</p>
-              </div>
-              <button
-                ref={modalCloseBtnRef}
-                onClick={() => setIsLeadModalOpen(false)}
-                className="w-11 h-11 flex items-center justify-center rounded-full overlay-action-btn shrink-0"
-                aria-label="סגור טופס"
-                type="button"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="overflow-y-auto" style={{ background: 'var(--color-gray-100)' }}>
-              <div className="p-5">
-                <LeadForm
-                  formId="vehicle-inquiry"
-                  vehicleId={vehicle.id}
-                  vehicleTitle={vehicle.title}
-                  title=""
-                  showEmail
-                  showMessage
-                  submitLabel="שליחה וקבלת מענה אישי"
-                  variant="minimal"
-                  onSuccess={() => setIsLeadModalOpen(false)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        </LeadFormModal>
       )}
     </div>
   );

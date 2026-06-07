@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
+import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 import { FinanceCalculatorSection } from '@modules/finance';
 import { getPublishedVehicles } from '@modules/vehicles/lib/repository';
 import { getAllTrimLevelsFullInfo } from '@modules/new-vehicles/lib/repository';
 import { dealershipConfig } from '@core/config/site.config';
+import { ROUTES } from '@core/lib/constants';
 import { logger } from '@core/lib/logger';
 
 export const revalidate = 60;
@@ -119,6 +122,18 @@ export default async function FinancePage() {
                 אתכם בבחירה מושכלת — מהשוואת מסלולים והצגת ההחזר החודשי, ועד אישור
                 ההלוואה והחתימה. שקיפות מלאה, תנאים מותאמים אישית ולווי מקצועי בכל שלב.
               </p>
+
+              <div className="mt-7 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <LeadModalButton
+                  formId="financing"
+                  buttonLabel="לקבלת ייעוץ מימון אישי"
+                  variant="cta"
+                  className="rounded-full! text-[0.95rem] px-7 min-h-[3.15rem]"
+                />
+                <Link href={ROUTES.vehicles} className="home-outline-cta">
+                  לעיון במלאי המיידי
+                </Link>
+              </div>
             </div>
           </Container>
         </section>

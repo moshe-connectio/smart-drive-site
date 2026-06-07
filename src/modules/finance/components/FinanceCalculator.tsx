@@ -13,7 +13,7 @@
 
 import { useEffect, useMemo, useState, useId } from 'react';
 import { formatPrice } from '@shared/utils/formatting';
-import { LeadForm } from '@modules/leads';
+import { LeadForm, LeadFormModal } from '@modules/leads';
 import type { LeadFormId } from '@modules/leads';
 import { calculateFinance } from '../lib/calculator';
 
@@ -379,71 +379,34 @@ export default function FinanceCalculator({
     </Wrapper>
 
     {contactOpen && (
-      <div
-        className="fc-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={`${baseId}-modal-title`}
+      <LeadFormModal
+        title="ליווי אישי למימון הרכב"
+        subtitle={leadSubtitle}
+        titleId={`${baseId}-modal-title`}
+        onClose={() => setContactOpen(false)}
       >
-        <div
-          className="fc-modal-backdrop"
-          onClick={() => setContactOpen(false)}
-          aria-hidden="true"
-        />
-        <div className="fc-modal-panel">
-          <div className="fc-modal-header">
-            <div>
-              <p id={`${baseId}-modal-title`} className="fc-modal-title">
-                ליווי אישי למימון הרכב
-              </p>
-              <p className="fc-modal-subtitle">{leadSubtitle}</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setContactOpen(false)}
-              className="fc-modal-close"
-              aria-label="סגור טופס"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
+        <div className="flex flex-col gap-4">
+          <ul className="fc-modal-summary" aria-label="פרטי הסימולציה">
+            {leadContextLines.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
 
-          <div className="fc-modal-body">
-            <ul className="fc-modal-summary" aria-label="פרטי הסימולציה">
-              {leadContextLines.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
-
-            <LeadForm
-              formId={leadFormId}
-              vehicleTitle={vehicleTitle}
-              title=""
-              showEmail
-              showMessage
-              submitLabel="שלחו ונחזור אליכם"
-              variant="minimal"
-              onSuccess={() => {
-                // Close shortly after success so the user sees the confirmation
-                window.setTimeout(() => setContactOpen(false), 1800);
-              }}
-            />
-          </div>
+          <LeadForm
+            formId={leadFormId}
+            vehicleTitle={vehicleTitle}
+            title=""
+            showEmail
+            showMessage
+            submitLabel="שלחו ונחזור אליכם"
+            variant="minimal"
+            onSuccess={() => {
+              // Close shortly after success so the user sees the confirmation
+              window.setTimeout(() => setContactOpen(false), 1800);
+            }}
+          />
         </div>
-      </div>
+      </LeadFormModal>
     )}
     </>
   );
