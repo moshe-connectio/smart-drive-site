@@ -510,10 +510,11 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
 .trim-row {
   position: relative;
   width: 100%;
-  display: grid;
-  align-items: center;
-  gap: 1.4rem;
-  padding: 1.15rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 1.05rem 1.15rem;
   text-align: right;
   font-family: inherit;
   background: var(--color-card-bg);
@@ -526,8 +527,18 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
     border-color 0.25s ease,
     box-shadow 0.3s ease,
     background 0.25s ease;
-  /* desktop layout: rank | identity | chips | monthly | price */
-  grid-template-columns: 56px 1fr 1.4fr auto auto;
+}
+/* Side-by-side once there is room for the name and the payment together. */
+@media (min-width: 480px) {
+  .trim-row {
+    display: grid;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.4rem;
+    padding: 1.15rem 1.35rem;
+    /* layout: identity (name) | monthly payment */
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
 }
 .trim-row::before {
   content: '';
@@ -654,10 +665,8 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
   flex-direction: column;
   gap: 0.18rem;
   min-width: 0;
-  padding-inline: 1rem;
   position: relative;
 }
-.trim-row-monthly::before,
 .trim-row-price::before {
   content: '';
   position: absolute;
@@ -666,6 +675,21 @@ html.a11y-high-contrast .nv-model-card:hover .nv-model-card-cta {
   bottom: 18%;
   width: 1px;
   background: var(--color-border);
+}
+/* Divider + inner spacing only apply in the side-by-side layout. */
+@media (min-width: 480px) {
+  .trim-row-monthly {
+    padding-inline: 1rem;
+  }
+  .trim-row-monthly::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 18%;
+    bottom: 18%;
+    width: 1px;
+    background: var(--color-border);
+  }
 }
 .trim-row-monthly-label,
 .trim-row-price-label {
