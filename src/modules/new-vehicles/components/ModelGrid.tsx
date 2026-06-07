@@ -139,19 +139,14 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
                 {displayName}
               </h3>
 
-              {/* Eyebrow row — manufacturer • years */}
-              <p className="text-sm mb-3" style={{ color: 'var(--color-gray-500)' }}>
-                {[
-                  model.manufacturer_name,
-                  model.year_from
-                    ? model.year_to && model.year_to !== model.year_from
-                      ? `${model.year_from}–${model.year_to}`
-                      : `${model.year_from}+`
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join(' • ')}
-              </p>
+              {/* Eyebrow row — production years (manufacturer already shown as a badge on the image) */}
+              {model.year_from && (
+                <p className="text-sm mb-3" style={{ color: 'var(--color-gray-500)' }}>
+                  {model.year_to && model.year_to !== model.year_from
+                    ? `${model.year_from}–${model.year_to}`
+                    : `${model.year_from}+`}
+                </p>
+              )}
 
               {/* Specs grid — colored icons matching the home grid */}
               <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
