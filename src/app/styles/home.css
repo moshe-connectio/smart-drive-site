@@ -1151,6 +1151,15 @@
   position: relative;
   overflow: hidden;
 }
+/* Let the category multi-select dropdown escape the card's clip when open. */
+.home-search-card:has(.home-search-field--category.is-open) {
+  overflow: visible;
+}
+/* Lift the grid (which holds the open dropdown) above the sibling actions row,
+   since `.home-search-card > *` gives every child the same z-index. */
+.home-search-card:has(.home-search-field--category.is-open) .home-search-grid {
+  z-index: 20;
+}
 .home-search-card::before {
   content: '';
   position: absolute;
