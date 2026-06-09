@@ -71,8 +71,8 @@ export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
 
       {/* Slide-in Panel */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-72 max-w-[85vw] transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed top-0 left-0 z-50 h-full w-72 max-w-[85vw] transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         style={{ background: 'var(--color-background)' }}
       >
