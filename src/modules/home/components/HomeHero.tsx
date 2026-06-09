@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Suspense } from 'react';
 import { Container } from '@shared/components/layout/Container';
 import { ROUTES } from '@core/lib/constants';
@@ -18,10 +19,14 @@ export function HomeHero() {
       <Container>
         <div className="home-hero-layout">
           <div className="home-hero-copy">
-            <span className="home-hero-status">
-              <span className="home-hero-status-dot" aria-hidden />
-              מלאי מתעדכן בזמן אמת
-            </span>
+            <Image
+              src={dealershipConfig.business.logo}
+              alt={dealershipConfig.business.name}
+              width={886}
+              height={615}
+              priority
+              className="home-hero-logo"
+            />
 
             <h1 className="home-hero-title">
               <span className="home-hero-title-line">הרכב הבא שלך</span>

@@ -67,10 +67,10 @@ export function Header() {
             <Image
               src={dealershipConfig.business.logo}
               alt={dealershipConfig.business.name}
-              width={170}
-              height={50}
+              width={144}
+              height={100}
               priority
-              className="h-9 md:h-11 w-auto object-contain"
+              className="h-11 md:h-14 w-auto object-contain"
             />
           </Link>
 

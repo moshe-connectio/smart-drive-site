@@ -10,7 +10,7 @@ export const dealershipConfig = {
     name: 'Smart & Drive',
     description: 'הדרך הנכונה לקניה חכמה!',
     tagline: 'הדרך הנכונה לקניה חכמה!',
-    logo: '/logo.png',
+    logo: '/LOGO-A.png',
     favicon: '/favicon.ico',
   },
 

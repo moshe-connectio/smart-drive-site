@@ -80,8 +80,8 @@ export function Footer() {
             <Image
               src={dealershipConfig.business.logo}
               alt={dealershipConfig.business.name}
-              width={170}
-              height={50}
+              width={144}
+              height={100}
               className="footer-logo"
             />
             <p className="footer-about">

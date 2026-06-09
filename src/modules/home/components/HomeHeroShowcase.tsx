@@ -10,8 +10,8 @@ const GROUP_SIZE = 3;
 /**
  * Async hero-right-column showcase. Picks the most premium models (ranked by
  * price) that have a photo, splits them into groups of three, and hands them
- * to a client rotator that cycles through the original stats-panel mockup and
- * each group of luxury models every few seconds.
+ * to a client rotator that cycles through each group of luxury models every
+ * few seconds.
  *
  * Falls back to the static stats panel if no models with images exist, so the
  * hero never renders an empty column.
@@ -74,6 +74,6 @@ export async function HomeHeroShowcase() {
   }
 
   return (
-    <HomeHeroRotator groups={groups} statsPanel={<HomeHeroStatsPanel />} />
+    <HomeHeroRotator groups={groups} />
   );
 }

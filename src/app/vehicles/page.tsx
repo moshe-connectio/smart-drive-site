@@ -122,25 +122,6 @@ export default async function VehiclesPage() {
           </Container>
         </section>
 
-        <section className="home-soft-section py-8">
-          <Container>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="route-stat-card text-center">
-                <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>{vehicles.length}</p>
-                <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>רכבים זמינים</p>
-              </div>
-              <div className="route-stat-card text-center">
-                <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>150</p>
-                <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>נקודות בדיקה לרכב</p>
-              </div>
-              <div className="route-stat-card text-center">
-                <p className="text-3xl font-bold" style={{ color: 'var(--color-primary)' }}>1:1</p>
-                <p className="text-sm" style={{ color: 'var(--color-gray-500)' }}>ליווי אישי בעסקה</p>
-              </div>
-            </div>
-          </Container>
-        </section>
-
         <section className="py-12" style={{ background: 'var(--color-background)' }}>
           <Container>
             {error && (

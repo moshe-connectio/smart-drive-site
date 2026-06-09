@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BLUR_DATA_URL } from '@shared/utils/imagePlaceholder';
@@ -19,8 +18,6 @@ export type ShowcaseModel = {
 interface HomeHeroRotatorProps {
   /** Groups of (up to) three luxury models, rotated one group per slide. */
   groups: ShowcaseModel[][];
-  /** The original stats-panel mockup, shown as one of the rotating slides. */
-  statsPanel: ReactNode;
   /** Auto-advance interval in milliseconds. */
   intervalMs?: number;
 }
@@ -69,12 +66,9 @@ function ModelCard({
 
 export function HomeHeroRotator({
   groups,
-  statsPanel,
   intervalMs = 5000,
 }: HomeHeroRotatorProps) {
-  // Slides 0..N-1 are the model groups; the last slide is the stats panel.
-  const slideCount = groups.length + 1;
-  const statsIndex = groups.length;
+  const slideCount = groups.length;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -140,15 +134,6 @@ export function HomeHeroRotator({
             </div>
           );
         })}
-
-        {/* Stats-panel slide (shown last) */}
-        <div
-          className="home-hero-rotator-slide"
-          data-active={index === statsIndex}
-          aria-hidden={index !== statsIndex}
-        >
-          {statsPanel}
-        </div>
       </div>
 
       {slideCount > 1 && (
@@ -159,7 +144,7 @@ export function HomeHeroRotator({
               type="button"
               role="tab"
               aria-selected={index === i}
-              aria-label={i === statsIndex ? 'נתוני הסוכנות' : `קבוצת דגמים ${i + 1}`}
+              aria-label={`קבוצת דגמים ${i + 1}`}
               className="home-hero-rotator-dot"
               data-active={index === i}
               onClick={() => goTo(i)}
