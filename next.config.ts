@@ -38,10 +38,16 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  // next/image is only used for local assets (e.g. /logo.png in Header/Footer).
-  // Vehicle and manufacturer photos come from arbitrary external hosts and use plain <img>.
+  // next/image optimizes both local assets and remote vehicle/manufacturer photos.
+  // Remote hosts are whitelisted (not wildcarded) so the optimizer can't be abused
+  // as an open image proxy. AVIF/WebP + responsive resizing cut payloads dramatically.
   images: {
-    remotePatterns: [],
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      { protocol: "https", hostname: "**.supabase.co" }, // production stored vehicle images
+      { protocol: "https", hostname: "images.gsmdev.co.il" }, // demo/content images
+      { protocol: "https", hostname: "images.unsplash.com" }, // seed/sample images
+    ],
   },
   poweredByHeader: false,
   reactStrictMode: true,

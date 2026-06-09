@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatPrice } from '@shared/utils/formatting';
 
 export type ShowcaseModel = {
@@ -38,11 +39,17 @@ function ModelCard({
       className={`home-hero-showcase-card home-hero-showcase-${variant}`}
       aria-label={`${model.manufacturer} ${model.name} — צפייה בדגם`}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={model.image}
         alt={`${model.manufacturer} ${model.name}`}
-        loading={eager ? 'eager' : 'lazy'}
+        fill
+        sizes={
+          variant === 'feature'
+            ? '(max-width: 640px) 88vw, (max-width: 1024px) 45vw, 480px'
+            : '(max-width: 640px) 44vw, (max-width: 1024px) 22vw, 240px'
+        }
+        style={{ objectFit: 'cover' }}
+        priority={eager}
       />
       <div className="home-hero-showcase-overlay">
         <span className="home-hero-showcase-mfr">{model.manufacturer}</span>
