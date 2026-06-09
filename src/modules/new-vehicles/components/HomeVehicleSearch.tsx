@@ -16,6 +16,7 @@
 
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import type { TrimLevelFullInfo } from '../types';
 import {
   PAGE_SIZE,
@@ -36,8 +37,8 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
     categories,
     query,
     setQuery,
-    category,
-    setCategory,
+    selectedCategories,
+    toggleCategory,
     minMonthly,
     maxMonthly,
     handleMinChange,
@@ -53,6 +54,36 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
     remaining,
     loadMore,
   } = useVehicleSearch(trims);
+
+  // Category multi-select dropdown (matches the inventory filter UX).
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [categorySearch, setCategorySearch] = useState('');
+  const categoryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!categoryOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        categoryRef.current &&
+        !categoryRef.current.contains(event.target as Node)
+      ) {
+        setCategoryOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [categoryOpen]);
+
+  const filteredCategories = categories.filter((cat) =>
+    cat.toLowerCase().includes(categorySearch.toLowerCase()),
+  );
+
+  const categoryLabel =
+    selectedCategories.length === 0
+      ? 'כל הקטגוריות'
+      : selectedCategories.length === 1
+      ? selectedCategories[0]
+      : `${selectedCategories.length} קטגוריות נבחרו`;
 
   return (
     <div className="home-search">
@@ -106,40 +137,82 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
             </label>
 
             {categories.length > 0 && (
-              <label className="home-search-field home-search-field--category">
+              <div
+                className={`home-search-field home-search-field--category${
+                  categoryOpen ? ' is-open' : ''
+                }`}
+                ref={categoryRef}
+              >
                 <span className="home-search-label">קטגוריה</span>
-                <span className="home-search-select-wrap">
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className={`home-search-select${category ? ' is-selected' : ''}`}
+                <div className="home-search-multiselect">
+                  <button
+                    type="button"
+                    onClick={() => setCategoryOpen((o) => !o)}
+                    className={`home-search-multiselect-trigger${
+                      selectedCategories.length > 0 ? ' is-selected' : ''
+                    }`}
+                    aria-haspopup="listbox"
+                    aria-expanded={categoryOpen}
                     aria-label="סינון לפי קטגוריה"
                   >
-                    <option value="">כל הקטגוריות</option>
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                  <svg
-                    className="home-search-select-icon"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    height="16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M19 9l-7 7-7-7"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </label>
+                    <span className="home-search-multiselect-value">
+                      {categoryLabel}
+                    </span>
+                    <svg
+                      className="home-search-select-icon home-search-multiselect-chevron"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      height="16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M19 9l-7 7-7-7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+
+                  {categoryOpen && (
+                    <div className="home-search-multiselect-panel" role="listbox">
+                      <div className="home-search-multiselect-search-wrap">
+                        <input
+                          type="text"
+                          value={categorySearch}
+                          onChange={(e) => setCategorySearch(e.target.value)}
+                          placeholder="חפש קטגוריה..."
+                          className="home-search-multiselect-search"
+                          aria-label="חיפוש קטגוריה"
+                        />
+                      </div>
+                      <div className="home-search-multiselect-list">
+                        {filteredCategories.length === 0 ? (
+                          <p className="home-search-multiselect-empty">
+                            אין קטגוריות תואמות
+                          </p>
+                        ) : (
+                          filteredCategories.map((cat) => (
+                            <label
+                              key={cat}
+                              className="home-search-multiselect-option"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedCategories.includes(cat)}
+                                onChange={() => toggleCategory(cat)}
+                              />
+                              <span>{cat}</span>
+                            </label>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             )}
           </div>
 

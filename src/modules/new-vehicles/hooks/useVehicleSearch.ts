@@ -10,7 +10,7 @@ export const SLIDER_STEP = 100;
 
 interface AppliedFilters {
   query: string;
-  category: string;
+  categories: string[];
   min: number;
   max: number;
   /** True when the slider was narrower than the domain at submit time. */
@@ -40,7 +40,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
 
   // ── Form state ─────────────────────────────────────────────────────
   const [query, setQuery] = useState('');
-  const [category, setCategory] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [minMonthly, setMinMonthly] = useState(domainMin);
   const [maxMonthly, setMaxMonthly] = useState(domainMax);
   const [activeThumb, setActiveThumb] = useState<ActiveThumb>(null);
@@ -74,9 +74,13 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     setMaxMonthly(domainMax);
   }
 
+  // Stable key for the selected-categories array so the render-time live-sync
+  // can compare it cheaply (the array reference changes on every toggle).
+  const categoriesKey = selectedCategories.join('\u0001');
+
   const formTouched =
     query.trim().length > 0 ||
-    category !== '' ||
+    selectedCategories.length > 0 ||
     minMonthly !== domainMin ||
     maxMonthly !== domainMax;
 
@@ -86,7 +90,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     const hi = Math.max(minMonthly, maxMonthly);
     return {
       query: query.trim(),
-      category,
+      categories: selectedCategories,
       min: lo,
       max: hi,
       priceFilterActive: lo !== domainMin || hi !== domainMax,
@@ -97,18 +101,18 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
   // recomputes the results immediately (same render-time sync pattern).
   const [prevForm, setPrevForm] = useState({
     query,
-    category,
+    categoriesKey,
     minMonthly,
     maxMonthly,
   });
   if (
     liveActive &&
     (prevForm.query !== query ||
-      prevForm.category !== category ||
+      prevForm.categoriesKey !== categoriesKey ||
       prevForm.minMonthly !== minMonthly ||
       prevForm.maxMonthly !== maxMonthly)
   ) {
-    setPrevForm({ query, category, minMonthly, maxMonthly });
+    setPrevForm({ query, categoriesKey, minMonthly, maxMonthly });
     setApplied(buildApplied());
     setVisibleCount(PAGE_SIZE);
   }
@@ -122,19 +126,25 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
 
     setApplied({
       query: query.trim(),
-      category,
+      categories: selectedCategories,
       min: lo,
       max: hi,
       priceFilterActive: lo !== domainMin || hi !== domainMax,
     });
     setVisibleCount(PAGE_SIZE);
     setLiveActive(true);
-    setPrevForm({ query, category, minMonthly: lo, maxMonthly: hi });
+    setPrevForm({ query, categoriesKey, minMonthly: lo, maxMonthly: hi });
+  };
+
+  const toggleCategory = (cat: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat],
+    );
   };
 
   const handleReset = () => {
     setQuery('');
-    setCategory('');
+    setSelectedCategories([]);
     setMinMonthly(domainMin);
     setMaxMonthly(domainMax);
     setApplied(null);
@@ -142,7 +152,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     setLiveActive(false);
     setPrevForm({
       query: '',
-      category: '',
+      categoriesKey: '',
       minMonthly: domainMin,
       maxMonthly: domainMax,
     });
@@ -162,7 +172,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
   const results = useMemo(() => {
     if (!applied) return [];
     const q = applied.query.toLowerCase();
-    const { min, max, priceFilterActive, category: cat } = applied;
+    const { min, max, priceFilterActive, categories: cats } = applied;
 
     const filtered = trims.filter((t) => {
       if (q) {
@@ -173,9 +183,9 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
         if (!haystack.includes(q)) return false;
       }
 
-      if (cat) {
-        const cats = parseCategories(t.model_body_type);
-        if (!cats.includes(cat)) return false;
+      if (cats.length > 0) {
+        const trimCats = parseCategories(t.model_body_type);
+        if (!cats.some((c) => trimCats.includes(c))) return false;
       }
 
       const monthly = toMonthly(t.monthly_payment);
@@ -211,8 +221,8 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     // form state
     query,
     setQuery,
-    category,
-    setCategory,
+    selectedCategories,
+    toggleCategory,
     minMonthly,
     maxMonthly,
     handleMinChange,
