@@ -84,7 +84,8 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={m.logo_url}
-          alt={m.name}
+          alt=""
+          aria-hidden="true"
           width={80}
           height={80}
           loading="lazy"

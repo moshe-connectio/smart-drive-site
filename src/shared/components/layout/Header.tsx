@@ -120,6 +120,7 @@ export function Header() {
             <LeadModalButton
               formId="general"
               buttonLabel=""
+              ariaLabel="השאירו פרטים ונחזור אליכם"
               variant="cta"
               className="w-10 h-10 p-0"
             />
