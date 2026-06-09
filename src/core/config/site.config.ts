@@ -65,7 +65,9 @@ export const dealershipConfig = {
 
   // SEO & Meta
   seo: {
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://smartanddrive.co.il',
+    // Sanitize: env vars are a common source of stray whitespace/newlines and
+    // trailing slashes, which would break robots.txt, sitemap.xml and canonical URLs.
+    siteUrl: (process.env.NEXT_PUBLIC_SITE_URL || 'https://smartanddrive.co.il').trim().replace(/\/+$/, ''),
     title: 'Smart & Drive - הדרך הנכונה לקניה חכמה!',
     description: 'סוכנות רכב מובילה - מגוון רכבים איכותיים חדשים ומשומשים במחירים תחרותיים',
     keywords: 'רכבים, מכירת רכבים, סוכנות רכב, רכבים משומשים, רכבים חדשים, Smart Drive, קניית רכב',
