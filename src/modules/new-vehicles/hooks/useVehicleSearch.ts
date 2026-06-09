@@ -57,6 +57,9 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
   // ── Applied state ──────────────────────────────────────────────────
   const [applied, setApplied] = useState<AppliedFilters | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  // Once the user has run an initial search, the form filters apply live so
+  // changing any field updates the results without re-clicking "search".
+  const [liveActive, setLiveActive] = useState(false);
 
   // Sync slider bounds when the underlying domain changes (data refresh).
   // Uses the "reset state during render" pattern to avoid `setState` inside
@@ -77,6 +80,39 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     minMonthly !== domainMin ||
     maxMonthly !== domainMax;
 
+  /** Build the applied-filters snapshot from the current form state. */
+  const buildApplied = (): AppliedFilters => {
+    const lo = Math.min(minMonthly, maxMonthly);
+    const hi = Math.max(minMonthly, maxMonthly);
+    return {
+      query: query.trim(),
+      category,
+      min: lo,
+      max: hi,
+      priceFilterActive: lo !== domainMin || hi !== domainMax,
+    };
+  };
+
+  // Live re-apply: after the first search, any change to the form fields
+  // recomputes the results immediately (same render-time sync pattern).
+  const [prevForm, setPrevForm] = useState({
+    query,
+    category,
+    minMonthly,
+    maxMonthly,
+  });
+  if (
+    liveActive &&
+    (prevForm.query !== query ||
+      prevForm.category !== category ||
+      prevForm.minMonthly !== minMonthly ||
+      prevForm.maxMonthly !== maxMonthly)
+  ) {
+    setPrevForm({ query, category, minMonthly, maxMonthly });
+    setApplied(buildApplied());
+    setVisibleCount(PAGE_SIZE);
+  }
+
   const handleSearch = () => {
     // Auto-correct an inverted range if it ever happens.
     const lo = Math.min(minMonthly, maxMonthly);
@@ -92,6 +128,8 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
       priceFilterActive: lo !== domainMin || hi !== domainMax,
     });
     setVisibleCount(PAGE_SIZE);
+    setLiveActive(true);
+    setPrevForm({ query, category, minMonthly: lo, maxMonthly: hi });
   };
 
   const handleReset = () => {
@@ -101,6 +139,13 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     setMaxMonthly(domainMax);
     setApplied(null);
     setVisibleCount(PAGE_SIZE);
+    setLiveActive(false);
+    setPrevForm({
+      query: '',
+      category: '',
+      minMonthly: domainMin,
+      maxMonthly: domainMax,
+    });
   };
 
   const handleMinChange = (raw: number) => {
