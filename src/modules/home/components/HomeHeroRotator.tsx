@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { BLUR_DATA_URL } from '@shared/utils/imagePlaceholder';
 import { formatPrice } from '@shared/utils/formatting';
 
 export type ShowcaseModel = {
@@ -49,6 +50,8 @@ function ModelCard({
             : '(max-width: 640px) 44vw, (max-width: 1024px) 22vw, 240px'
         }
         style={{ objectFit: 'cover' }}
+        placeholder="blur"
+        blurDataURL={BLUR_DATA_URL}
         priority={eager}
       />
       <div className="home-hero-showcase-overlay">

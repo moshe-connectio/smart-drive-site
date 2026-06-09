@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
+import { BLUR_DATA_URL } from '@shared/utils/imagePlaceholder';
 import { VehicleImage } from '@modules/vehicles/lib/repository';
 import { useModal } from '@shared/hooks/useModal';
 
@@ -110,12 +112,15 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
 
         {/* Image */}
         <div className="relative w-full h-full max-h-[70vh]">
-          {/* Vehicle photos originate from arbitrary CRM/storage hosts. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={currentImage.image_url}
             alt={currentImage.alt_text || vehicleTitle}
-            className="absolute inset-0 w-full h-full object-contain"
+            fill
+            sizes="(max-width: 768px) 100vw, 1024px"
+            className="object-contain"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+            priority
           />
         </div>
 
@@ -152,12 +157,14 @@ export default function ImageLightbox({ images, initialIndex, vehicleTitle, onCl
                 }`}
                 style={currentIndex === index ? undefined : { borderColor: 'var(--color-glass-white-20)' }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={image.image_url}
                   alt={image.alt_text || `תמונה ${index + 1}`}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading="lazy"
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
                 />
               </button>
             ))}

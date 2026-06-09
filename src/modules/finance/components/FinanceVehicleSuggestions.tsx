@@ -14,8 +14,10 @@
  */
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { formatPrice, generateVehicleSlug } from '@shared/utils/formatting';
+import { BLUR_DATA_URL } from '@shared/utils/imagePlaceholder';
 import type { Vehicle } from '@modules/vehicles/lib/repository';
 import type { TrimLevelFullInfo } from '@modules/new-vehicles/types';
 import { toMonthly } from '@modules/new-vehicles/lib/searchUtils';
@@ -298,11 +300,14 @@ export function FinanceVehicleSuggestions({
                 <Link href={item.href} className="home-search-result-link">
                   <div className="home-search-result-media">
                     {item.imageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={item.imageUrl}
                         alt={item.title}
-                        loading="lazy"
+                        fill
+                        sizes="126px"
+                        className="object-contain"
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA_URL}
                       />
                     ) : (
                       <div

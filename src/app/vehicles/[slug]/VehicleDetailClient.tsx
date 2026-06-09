@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Vehicle } from '@modules/vehicles/lib/repository';
 import { formatPrice, formatKilometers, generateVehicleSlug } from '@shared/utils/formatting';
+import { BLUR_DATA_URL } from '@shared/utils/imagePlaceholder';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
@@ -277,12 +279,14 @@ export default function VehicleDetailClient({ vehicle, relatedVehicles = [] }: V
                         <Link href={href} className="home-search-result-link">
                           <div className="home-search-result-media">
                             {cover && (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
+                              <Image
                                 src={cover}
                                 alt={rv.title}
-                                loading="lazy"
-                                decoding="async"
+                                fill
+                                sizes="126px"
+                                className="object-cover"
+                                placeholder="blur"
+                                blurDataURL={BLUR_DATA_URL}
                                 referrerPolicy="no-referrer"
                                 onError={(e) => {
                                   e.currentTarget.style.visibility = 'hidden';
