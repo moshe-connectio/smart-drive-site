@@ -12,8 +12,6 @@ export function HomeHero() {
     <section className="home-hero relative overflow-hidden">
       <div className="home-hero-atmo" />
       <div className="home-hero-grid" />
-      <div className="home-hero-orb home-hero-orb--a" aria-hidden />
-      <div className="home-hero-orb home-hero-orb--b" aria-hidden />
       <div className="home-hero-scanline" aria-hidden />
 
       <Container>

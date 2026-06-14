@@ -236,7 +236,6 @@ html.a11y-high-contrast .home-hero {
 }
 html.a11y-high-contrast .home-hero-atmo,
 html.a11y-high-contrast .home-hero-grid,
-html.a11y-high-contrast .home-hero-orb,
 html.a11y-high-contrast .home-hero-scanline {
   display: none !important;
 }
