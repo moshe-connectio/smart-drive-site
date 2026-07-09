@@ -37,7 +37,7 @@ interface FinanceCalculatorProps {
 const DEFAULT_PRICE = 150_000;
 const DEFAULT_DOWN_PCT = 20;
 const DEFAULT_TERM = 60;
-const DEFAULT_RATE = 6.5;
+const DEFAULT_RATE = 4.8;
 
 const TERM_PRESETS = [24, 36, 48, 60, 72, 84];
 
@@ -74,11 +74,14 @@ export default function FinanceCalculator({
     Math.round((initialPrice * DEFAULT_DOWN_PCT) / 100),
   );
   const [termMonths, setTermMonths] = useState<number>(DEFAULT_TERM);
-  const [rate, setRate] = useState<number>(DEFAULT_RATE);
+  const [rate] = useState<number>(DEFAULT_RATE);
   const [balloonPct, setBalloonPct] = useState<number>(0);
 
   const loanBeforeBalloon = Math.max(0, price - downPayment);
   const balloon = Math.round((loanBeforeBalloon * balloonPct) / 100);
+
+  // With a balloon payment the loan term is capped at 60 months.
+  const maxTerm = balloonPct > 0 ? 60 : 99;
 
   const result = useMemo(
     () =>
@@ -239,15 +242,16 @@ export default function FinanceCalculator({
               label="תקופת ההלוואה"
               value={termMonths}
               min={6}
-              max={96}
+              max={maxTerm}
               step={6}
-              onChange={(v) => setTermMonths(Math.max(6, Math.min(96, Math.round(v))))}
+              onChange={(v) => setTermMonths(Math.max(6, Math.min(maxTerm, Math.round(v))))}
               suffix="חודשים"
               sliderHint={`${termMonths} חודשים (${(termMonths / 12).toFixed(1)} שנים)`}
             />
             <div className="mt-2 flex flex-wrap gap-2">
               {TERM_PRESETS.map((t) => {
                 const active = termMonths === t;
+                const disabled = t > maxTerm;
                 return (
                   <button
                     key={t}
@@ -256,6 +260,7 @@ export default function FinanceCalculator({
                     className="fc-chip"
                     data-active={active || undefined}
                     aria-pressed={active}
+                    disabled={disabled}
                   >
                     {t} ח׳
                   </button>
@@ -264,19 +269,7 @@ export default function FinanceCalculator({
             </div>
           </div>
 
-          {/* Interest rate */}
-          <Field
-            id={`${baseId}-rate`}
-            label="ריבית שנתית"
-            value={rate}
-            min={0}
-            max={15}
-            step={0.1}
-            onChange={(v) => setRate(Math.max(0, Math.min(15, Number(v.toFixed(2)))))}
-            suffix="%"
-            sliderHint={`${rate.toFixed(2)}%`}
-            decimals={2}
-          />
+          {/* Interest rate is fixed at the default and not user-editable */}
 
           {/* Balloon */}
           <div>
@@ -297,7 +290,11 @@ export default function FinanceCalculator({
               max={50}
               step={5}
               value={balloonPct}
-              onChange={(e) => setBalloonPct(Number(e.target.value))}
+              onChange={(e) => {
+                const next = Number(e.target.value);
+                setBalloonPct(next);
+                if (next > 0) setTermMonths(60);
+              }}
               className="fc-slider"
               aria-valuemin={0}
               aria-valuemax={50}

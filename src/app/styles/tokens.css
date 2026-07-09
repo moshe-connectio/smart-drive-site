@@ -18,14 +18,14 @@
   --color-primary-900: #0a1636;
   --color-primary: #1a3fa8;
 
-  /* Gold / Warm Accent */
-  --color-gold-50: #fefce8;
-  --color-gold-100: #fef9c3;
-  --color-gold-200: #fef08a;
-  --color-gold-300: #fde047;
-  --color-gold-400: #facc15;
-  --color-gold-500: #d4a017;
-  --color-gold: #d4a017;
+  /* Sky / Cool Accent (תכלת) */
+  --color-gold-50: #f0f9ff;
+  --color-gold-100: #e0f2fe;
+  --color-gold-200: #bae6fd;
+  --color-gold-300: #7dd3fc;
+  --color-gold-400: #38bdf8;
+  --color-gold-500: #0ea5e9;
+  --color-gold: #0ea5e9;
 
   /* Silver/Neutral — contrast-safe (AA on white) */
   --color-silver-100: #f8f9fb;
@@ -127,10 +127,10 @@
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, #1a3fa8 0%, #2553d4 100%);
-  --gradient-secondary: linear-gradient(135deg, #0f2254 0%, #1a3fa8 100%);
-  --gradient-hero: linear-gradient(160deg, #050d1f 0%, #0a1636 30%, #15327e 70%, #1a3fa8 100%);
-  --gradient-gold: linear-gradient(135deg, #d4a017 0%, #facc15 50%, #d4a017 100%);
-  --gradient-navy-soft: linear-gradient(180deg, #0f2254 0%, #1a3fa8 100%);
+  --gradient-secondary: linear-gradient(135deg, #1a3fa8 0%, #2553d4 100%);
+  --gradient-hero: linear-gradient(160deg, #12285e 0%, #1e46b0 45%, #2a5ae0 100%);
+  --gradient-gold: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #0ea5e9 100%);
+  --gradient-navy-soft: linear-gradient(180deg, #1a3fa8 0%, #2553d4 100%);
   --gradient-silver: linear-gradient(135deg, #b8bfc9 0%, #d8dce3 50%, #98a3b0 100%);
   --gradient-card: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
 
@@ -139,12 +139,12 @@
   --gradient-primary-gold: linear-gradient(90deg, var(--color-primary) 0%, var(--color-gold) 100%);
   --pattern-hero-grid: linear-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px);
 
-  --color-overlay-gold-soft: rgba(212, 160, 23, 0.18);
+  --color-overlay-gold-soft: rgba(14, 165, 233, 0.18);
   --color-overlay-primary-soft: rgba(37, 83, 212, 0.22);
-  --color-overlay-gold-tag-bg: rgba(212, 160, 23, 0.1);
-  --color-overlay-gold-tag-border: rgba(212, 160, 23, 0.3);
-  --color-overlay-gold-20: rgba(212, 160, 23, 0.2);
-  --color-overlay-gold-35: rgba(212, 160, 23, 0.35);
+  --color-overlay-gold-tag-bg: rgba(14, 165, 233, 0.1);
+  --color-overlay-gold-tag-border: rgba(14, 165, 233, 0.3);
+  --color-overlay-gold-20: rgba(14, 165, 233, 0.2);
+  --color-overlay-gold-35: rgba(14, 165, 233, 0.35);
 
   --color-glass-white-04: rgba(255, 255, 255, 0.04);
   --color-glass-white-06: rgba(255, 255, 255, 0.06);
@@ -157,8 +157,8 @@
   --color-glass-white-50: rgba(255, 255, 255, 0.5);
   --color-glass-text-strong: rgba(255, 255, 255, 0.9);
 
-  --shadow-gold-cta-base: 0 4px 20px rgba(212, 160, 23, 0.4);
-  --shadow-gold-cta-strong: 0 8px 28px rgba(212, 160, 23, 0.38);
+  --shadow-gold-cta-base: 0 4px 20px rgba(14, 165, 233, 0.4);
+  --shadow-gold-cta-strong: 0 8px 28px rgba(14, 165, 233, 0.38);
   --shadow-primary-cta: 0 4px 20px rgba(37, 83, 212, 0.35);
   --shadow-primary-soft: 0 4px 16px rgba(26, 101, 224, 0.3);
   --shadow-primary-focus: 0 0 0 3px rgba(26, 101, 224, 0.4);
@@ -186,7 +186,7 @@
   --color-header-icon-hover: rgba(37, 83, 212, 0.07);
 
   /* Premium Hero */
-  --gradient-hero-premium: linear-gradient(170deg, #06080f 0%, #0c1424 45%, #111e38 100%);
+  --gradient-hero-premium: linear-gradient(170deg, #142440 0%, #1d3563 45%, #274a86 100%);
   --color-hero-noise: rgba(255,255,255,0.015);
   --shadow-cta-primary: 0 0 0 1px rgba(255,255,255,0.18), 0 8px 32px rgba(37,83,212,0.35);
   --shadow-cta-outline: 0 0 0 1px rgba(255,255,255,0.3);
@@ -196,7 +196,7 @@
   --color-luxury-line: rgba(37, 83, 212, 0.22);
   --color-luxury-dot: #1a3fa8;
 
-  --gradient-footer: linear-gradient(180deg, #07101f 0%, #0a1636 100%);
+  --gradient-footer: linear-gradient(180deg, #122038 0%, #1b3160 100%);
   --color-footer-text-strong: #dce7ff;
   --color-footer-surface: rgba(255, 255, 255, 0.05);
   --color-footer-surface-border: rgba(255, 255, 255, 0.1);

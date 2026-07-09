@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Vehicle } from '@modules/vehicles/lib/repository';
-import { formatPrice, formatKilometers, generateVehicleSlug } from '@shared/utils/formatting';
+import { formatPrice, generateVehicleSlug } from '@shared/utils/formatting';
 import VehicleImageGallery from './VehicleImageGallery';
 import ImageLightbox from './ImageLightbox';
 
@@ -67,52 +67,10 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
 
       {/* Clickable Content Section - flex-1 to grow */}
       <div className="p-5 flex flex-col flex-1 cursor-pointer" onClick={handleContentClick}>
-        {/* New Status Badge */}
-        {vehicle.km !== null && vehicle.km === 0 && (
-          <div className="mb-3 inline-block text-xs font-semibold px-3 py-1 rounded-full shadow-lg w-fit" style={{ background: 'var(--color-primary)', color: 'var(--color-text-inverse)' }}>
-            חדש מהאפס
-          </div>
-        )}
-
         {/* Title */}
         <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors" style={{ color: 'var(--color-gray-900)' }}>
           {vehicle.title}
         </h3>
-
-        {/* Brand, Model, Year */}
-        <p className="text-sm mb-3" style={{ color: 'var(--color-gray-500)' }}>
-          {vehicle.brand} {vehicle.model} • {vehicle.year}
-        </p>
-
-        {/* Details Grid */}
-        <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
-          {vehicle.km !== null && (
-            <div className="vc-spec vc-spec-km flex items-center gap-2" style={{ color: 'var(--color-gray-500)' }}>
-              <svg className="w-4 h-4 vc-spec-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <span>{formatKilometers(vehicle.km)}</span>
-            </div>
-          )}
-          
-          {vehicle.gear_type && (
-            <div className="vc-spec vc-spec-gear flex items-center gap-2" style={{ color: 'var(--color-gray-500)' }}>
-              <svg className="w-4 h-4 vc-spec-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-              </svg>
-              <span>{vehicle.gear_type}</span>
-            </div>
-          )}
-          
-          {vehicle.fuel_type && (
-            <div className="vc-spec vc-spec-fuel flex items-center gap-2" style={{ color: 'var(--color-gray-500)' }}>
-              <svg className="w-4 h-4 vc-spec-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-              </svg>
-              <span>{vehicle.fuel_type}</span>
-            </div>
-          )}
-        </div>
 
         {/* Spacer - pushes price to bottom */}
         <div className="flex-1"></div>
