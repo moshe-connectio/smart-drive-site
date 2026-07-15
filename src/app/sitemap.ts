@@ -4,6 +4,7 @@ import { getAllManufacturers } from '@modules/new-vehicles/lib/repository';
 import { createServerSupabaseClient } from '@core/lib/supabase';
 import { generateVehicleSlug } from '@shared/utils/formatting';
 import { dealershipConfig } from '@core/config/site.config';
+import { SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import type { ModelWithManufacturer } from '@modules/new-vehicles/types';
 
 export const revalidate = 3600; // Regenerate sitemap every hour
@@ -43,12 +44,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 1.0,
     },
-    {
-      url: `${siteUrl}/vehicles`,
-      lastModified: latestInventoryDate,
-      changeFrequency: 'hourly',
-      priority: 0.9,
-    },
+    ...(SHOW_IMMEDIATE_INVENTORY
+      ? [
+          {
+            url: `${siteUrl}/vehicles`,
+            lastModified: latestInventoryDate,
+            changeFrequency: 'hourly' as const,
+            priority: 0.9,
+          },
+        ]
+      : []),
     {
       url: `${siteUrl}/new-vehicles`,
       lastModified: new Date(),
@@ -88,12 +93,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ─── Dynamic inventory vehicle pages ─────────────────────────────────────
-  const vehicleRoutes: MetadataRoute.Sitemap = publishedVehicles.map((v) => ({
-    url: `${siteUrl}/vehicles/${generateVehicleSlug(v.title, v.year, v.id)}`,
-    lastModified: new Date(v.updated_at || v.created_at),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }));
+  const vehicleRoutes: MetadataRoute.Sitemap = SHOW_IMMEDIATE_INVENTORY
+    ? publishedVehicles.map((v) => ({
+        url: `${siteUrl}/vehicles/${generateVehicleSlug(v.title, v.year, v.id)}`,
+        lastModified: new Date(v.updated_at || v.created_at),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      }))
+    : [];
 
   // ─── New vehicles: manufacturer pages ────────────────────────────────────
   const manufacturerRoutes: MetadataRoute.Sitemap = activeManufacturers.map((m) => ({

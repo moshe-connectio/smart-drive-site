@@ -14,12 +14,14 @@ import {
 import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 import { Container } from './Container';
-import { APP_CONFIG, ROUTES, CONTACT_INFO } from '@core/lib/constants';
+import { APP_CONFIG, ROUTES, CONTACT_INFO, SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 
 const navigationLinks = [
   { href: ROUTES.home, label: 'דף הבית' },
-  { href: ROUTES.vehicles, label: 'מלאי מיידי' },
   { href: '/new-vehicles', label: 'רכבים חדשים' },
+  ...(SHOW_IMMEDIATE_INVENTORY
+    ? [{ href: ROUTES.vehicles, label: 'מלאי מיידי' }]
+    : []),
   { href: ROUTES.finance, label: 'מימון' },
   { href: ROUTES.tradeIn, label: 'טרייד-אין' },
   { href: ROUTES.about, label: 'אודות' },

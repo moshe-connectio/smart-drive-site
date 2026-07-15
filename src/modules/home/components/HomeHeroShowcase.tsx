@@ -7,13 +7,18 @@ import { HomeHeroRotator, type ShowcaseModel } from './HomeHeroRotator';
 const MAX_MODELS = 9;
 const GROUP_SIZE = 3;
 
+/** Only feature these manufacturers in the hero showcase. */
+const TARGET_MANUFACTURERS = ['bmw', 'mercedes-benz'];
+/** Prefer models whose monthly payment is closest to this figure (₪). */
+const TARGET_MONTHLY = 6000;
+
 /**
- * Async hero-right-column showcase. Picks the most premium models (ranked by
- * price) that have a photo, splits them into groups of three, and hands them
- * to a client rotator that cycles through each group of luxury models every
- * few seconds.
+ * Async hero-right-column showcase. Features BMW & Mercedes models whose
+ * monthly payment is closest to ~₪6,000, splits them into groups of three, and
+ * hands them to a client rotator that cycles through each group every few
+ * seconds.
  *
- * Falls back to the static stats panel if no models with images exist, so the
+ * Falls back to the static stats panel if no matching models exist, so the
  * hero never renders an empty column.
  */
 export async function HomeHeroShowcase() {
@@ -25,6 +30,7 @@ export async function HomeHeroShowcase() {
 
     for (const t of trims) {
       if (!t.model_image) continue;
+      if (!TARGET_MANUFACTURERS.includes(t.manufacturer_slug)) continue;
       const monthly = t.monthly_payment ?? null;
       const price = t.price ?? 0;
       const existing = byModel.get(t.model_slug);
@@ -47,8 +53,15 @@ export async function HomeHeroShowcase() {
       }
     }
 
+    // Rank by how close the model's monthly payment is to the target (~₪6,000);
+    // models without a monthly figure sort last.
+    const distance = (m: { minMonthly: number | null }) =>
+      m.minMonthly == null
+        ? Number.POSITIVE_INFINITY
+        : Math.abs(m.minMonthly - TARGET_MONTHLY);
+
     luxury = Array.from(byModel.values())
-      .sort((a, b) => b.rankPrice - a.rankPrice)
+      .sort((a, b) => distance(a) - distance(b))
       .slice(0, MAX_MODELS)
       .map((m) => ({
         modelSlug: m.modelSlug,

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import {
   deleteSoldVehicles,
   getPublishedVehicles,
@@ -11,6 +12,7 @@ import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import { FilterableVehicleGrid } from '@modules/vehicles/components/FilterableVehicleGrid';
 import { dealershipConfig } from '@core/config/site.config';
+import { ROUTES, SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import { generateVehicleSlug } from '@shared/utils/formatting';
 import { safeJsonLd } from '@shared/utils/json-ld';
 import { logger } from '@core/lib/logger';
@@ -43,6 +45,10 @@ export const metadata: Metadata = {
 };
 
 export default async function VehiclesPage() {
+  if (!SHOW_IMMEDIATE_INVENTORY) {
+    redirect(ROUTES.home);
+  }
+
   let vehicles: Vehicle[] = [];
   let brands: string[] = [];
   let categories: string[] = [];

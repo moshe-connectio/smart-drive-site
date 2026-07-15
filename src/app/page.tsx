@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { dealershipConfig } from '@core/config/site.config';
+import { SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import { HomeHero } from '@modules/home/components/HomeHero';
 import { HomeAdvantages } from '@modules/home/components/HomeAdvantages';
 import { HomeContactBlock } from '@modules/home/components/HomeContactBlock';
@@ -54,9 +55,11 @@ export default function HomePage() {
       <main className="flex-1">
         <HomeHero />
 
-        <Suspense fallback={<HomeSectionPlaceholder minHeight={480} />}>
-          <HomeFeaturedSection />
-        </Suspense>
+        {SHOW_IMMEDIATE_INVENTORY && (
+          <Suspense fallback={<HomeSectionPlaceholder minHeight={480} />}>
+            <HomeFeaturedSection />
+          </Suspense>
+        )}
 
         <HomeAdvantages />
 

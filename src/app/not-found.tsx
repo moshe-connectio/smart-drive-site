@@ -39,11 +39,11 @@ export default function NotFound() {
                 חזור לעמוד הבית
               </Link>
               <Link
-                href="/vehicles"
+                href="/new-vehicles"
                 className="inline-flex items-center justify-center gap-2 font-bold py-3 px-8 rounded-xl transition-all"
                 style={{ border: '2px solid var(--color-primary)', color: 'var(--color-primary)' }}
               >
-                עיינו במלאי הרכבים
+                עיינו ברכבים החדשים
               </Link>
             </div>
           </div>

@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import {
   getVehicleBySlug,
   getPublishedVehicles,
 } from '@modules/vehicles/lib/repository';
 import { generateVehicleSlug } from '@shared/utils/formatting';
 import { dealershipConfig } from '@core/config/site.config';
+import { ROUTES, SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import { safeJsonLd } from '@shared/utils/json-ld';
 import VehicleDetailClient from './VehicleDetailClient';
 
@@ -103,6 +104,10 @@ export async function generateMetadata(
 
 // ─── Server component (SSR / ISR) ─────────────────────────────────────────────
 export default async function VehicleDetailPage({ params }: VehicleDetailPageProps) {
+  if (!SHOW_IMMEDIATE_INVENTORY) {
+    redirect(ROUTES.home);
+  }
+
   const { slug } = await params;
   const vehicle = await getVehicleBySlug(slug).catch(() => null);
 

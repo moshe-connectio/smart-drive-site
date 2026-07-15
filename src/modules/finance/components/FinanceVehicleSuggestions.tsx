@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { formatPrice, generateVehicleSlug } from '@shared/utils/formatting';
 import { BLUR_DATA_URL } from '@shared/utils/imagePlaceholder';
+import { SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import type { Vehicle } from '@modules/vehicles/lib/repository';
 import type { TrimLevelFullInfo } from '@modules/new-vehicles/types';
 import { toMonthly } from '@modules/new-vehicles/lib/searchUtils';
@@ -118,7 +119,7 @@ export function FinanceVehicleSuggestions({
   const [visible, setVisible] = useState<number>(initialCount);
 
   const allItems = useMemo<SuggestionItem[]>(() => {
-    const used = usedVehicles
+    const used = (SHOW_IMMEDIATE_INVENTORY ? usedVehicles : [])
       .map(buildUsedItem)
       .filter((x): x is SuggestionItem => x !== null);
     const fresh = newTrimLevels
@@ -246,7 +247,9 @@ export function FinanceVehicleSuggestions({
           {(
             [
               { id: 'all', label: 'הכל', count: totals.all },
-              { id: 'used', label: 'מלאי מיידי', count: totals.used },
+              ...(SHOW_IMMEDIATE_INVENTORY
+                ? [{ id: 'used' as const, label: 'מלאי מיידי', count: totals.used }]
+                : []),
               { id: 'new', label: 'רכבים חדשים', count: totals.new },
             ] as const
           ).map((tab) => {
@@ -282,9 +285,11 @@ export function FinanceVehicleSuggestions({
             המחיר במחשבון או להחליף סוג רכב.
           </p>
           <div className="fc-suggestions-empty-links">
-            <Link href="/vehicles" className="fc-suggestions-link">
-              למלאי מיידי ←
-            </Link>
+            {SHOW_IMMEDIATE_INVENTORY && (
+              <Link href="/vehicles" className="fc-suggestions-link">
+                למלאי מיידי ←
+              </Link>
+            )}
             <Link href="/new-vehicles" className="fc-suggestions-link">
               לרכבים חדשים ←
             </Link>

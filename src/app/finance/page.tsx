@@ -8,7 +8,6 @@ import { FinanceCalculatorSection } from '@modules/finance';
 import { getPublishedVehicles } from '@modules/vehicles/lib/repository';
 import { getAllTrimLevelsFullInfo } from '@modules/new-vehicles/lib/repository';
 import { dealershipConfig } from '@core/config/site.config';
-import { ROUTES } from '@core/lib/constants';
 import { logger } from '@core/lib/logger';
 
 export const revalidate = 60;
@@ -130,8 +129,8 @@ export default async function FinancePage() {
                   variant="cta"
                   className="rounded-full! text-[0.95rem] px-7 min-h-[3.15rem]"
                 />
-                <Link href={ROUTES.vehicles} className="home-outline-cta">
-                  לעיון במלאי המיידי
+                <Link href="/new-vehicles" className="home-outline-cta">
+                  לעיון ברכבים החדשים
                 </Link>
               </div>
             </div>

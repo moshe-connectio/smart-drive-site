@@ -9,7 +9,6 @@ import { Header } from '@shared/components/layout/Header';
 import { Footer } from '@shared/components/layout/Footer';
 import { Container } from '@shared/components/layout/Container';
 import { dealershipConfig } from '@core/config/site.config';
-import { ROUTES } from '@core/lib/constants';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -287,7 +286,7 @@ export default function AboutPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link href={ROUTES.vehicles} className="home-primary-cta">
+                <Link href="/new-vehicles" className="home-primary-cta">
                   צפו בכל הרכבים
                   <svg
                     className="w-5 h-5 rotate-180"

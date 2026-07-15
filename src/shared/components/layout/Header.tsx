@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
-import { ROUTES } from '@core/lib/constants';
+import { ROUTES, SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
 import { Container } from './Container';
@@ -13,7 +13,9 @@ import MobileMenu from './MobileMenu';
 
 const navLinks = [
   { href: '/new-vehicles', label: 'רכבים חדשים' },
-  { href: ROUTES.vehicles, label: 'מלאי מיידי' },
+  ...(SHOW_IMMEDIATE_INVENTORY
+    ? [{ href: ROUTES.vehicles, label: 'מלאי מיידי' }]
+    : []),
   { href: ROUTES.finance, label: 'מימון' },
   { href: ROUTES.tradeIn, label: 'טרייד-אין' },
   { href: ROUTES.about, label: 'אודות' },

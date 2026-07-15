@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
-import { ROUTES } from '@core/lib/constants';
+import { ROUTES, SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 import { useModal } from '@shared/hooks/useModal';
 
@@ -98,7 +98,9 @@ export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
           {[
             { href: ROUTES.home, label: 'דף הבית' },
             { href: '/new-vehicles', label: 'רכבים חדשים' },
-            { href: ROUTES.vehicles, label: 'מלאי מיידי' },
+            ...(SHOW_IMMEDIATE_INVENTORY
+              ? [{ href: ROUTES.vehicles, label: 'מלאי מיידי' }]
+              : []),
             { href: ROUTES.finance, label: 'מימון' },
             { href: ROUTES.tradeIn, label: 'טרייד-אין' },
             { href: ROUTES.about, label: 'אודות' },

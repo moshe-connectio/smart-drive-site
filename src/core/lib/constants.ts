@@ -29,6 +29,13 @@ export const ROUTES = {
   },
 } as const;
 
+/**
+ * Toggles the "immediate inventory" (used cars / מלאי מיידי) area site-wide:
+ * the /vehicles pages, the home featured section, nav links and hero CTA.
+ * Set back to `true` once real immediate-inventory vehicles are uploaded.
+ */
+export const SHOW_IMMEDIATE_INVENTORY = false;
+
 export const CONTACT_INFO = {
   phone: dealershipConfig.contact.phone,
   phoneDisplay: dealershipConfig.contact.phoneDisplay,
