@@ -32,6 +32,11 @@ function isJacModel(model: ShowcaseModel): boolean {
   return manufacturer.includes('jac') || manufacturer.includes('ג׳אק') || manufacturer.includes('גאק');
 }
 
+function isExcludedHeroModel(model: ShowcaseModel): boolean {
+  const manufacturer = normalized(`${model.manufacturerSlug} ${model.manufacturer}`);
+  return manufacturer.includes('peugeot') || manufacturer.includes('פיגו') || manufacturer.includes('porsche') || manufacturer.includes('פורשה');
+}
+
 function isHeroPriorityModel(model: ShowcaseModel): boolean {
   const manufacturer = normalized(`${model.manufacturerSlug} ${model.manufacturer}`);
   const name = normalized(`${model.modelSlug} ${model.name}`);
@@ -103,7 +108,9 @@ export async function HomeHeroShowcase() {
       }
     }
 
-    const heroModels = Array.from(byModel.values()).filter((model) => !isJacModel(model));
+    const heroModels = Array.from(byModel.values()).filter(
+      (model) => !isJacModel(model) && !isExcludedHeroModel(model),
+    );
     const priced = heroModels
       .filter((model) => model.price != null && model.price > 0)
       .sort((a, b) => (a.price ?? 0) - (b.price ?? 0));

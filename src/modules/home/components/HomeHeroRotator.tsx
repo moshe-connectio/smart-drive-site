@@ -33,7 +33,7 @@ interface HomeHeroRotatorProps {
 
 export function HomeHeroRotator({
   groups,
-  intervalMs = 7000,
+  intervalMs = 4000,
 }: HomeHeroRotatorProps) {
   const models = groups.flat();
   const slideCount = models.length;
