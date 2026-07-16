@@ -584,11 +584,11 @@ html.a11y-no-animations .home-hero-video {
 .home-hero-drive-card {
   flex: 0 0 calc((100% - 2.7rem) / 4);
   min-width: 0;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 0.9rem;
-  background: linear-gradient(155deg, rgba(16, 38, 67, 0.78), rgba(4, 14, 29, 0.86));
-  box-shadow: 0 18px 38px -25px rgba(0, 0, 0, 0.9);
-  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 .home-hero-drive-card .home-hero-drive-scene {
   min-height: 27rem;
@@ -3432,6 +3432,7 @@ html.a11y-no-animations .home-hero::after {
   min-height: 5.6rem;
   margin-top: -0.5rem;
   padding: 0.75rem 0.8rem;
+  border-top-color: rgba(255, 255, 255, 0.18);
 }
 
 @media (max-width: 767px) {
