@@ -565,6 +565,121 @@ html.a11y-no-animations .home-hero-video {
   padding: 0.35rem 0.25rem 0.75rem;
 }
 
+/* Wide Hero vehicle rail: four models on desktop, one touch-sized card on mobile. */
+.home-hero-rotator-viewport {
+  position: relative;
+  overflow: hidden;
+  margin-inline: -0.5rem;
+  padding: 0.5rem;
+  touch-action: pan-y;
+}
+.home-hero-rotator-track {
+  display: flex;
+  gap: 0.9rem;
+  direction: ltr;
+  transform: translateX(calc(var(--hero-slide-index, 0) * var(--hero-slide-step, 0px) * -1));
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.home-hero-drive-card {
+  flex: 0 0 calc((100% - 2.7rem) / 4);
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 0.9rem;
+  background: linear-gradient(155deg, rgba(16, 38, 67, 0.78), rgba(4, 14, 29, 0.86));
+  box-shadow: 0 18px 38px -25px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+.home-hero-drive-card .home-hero-drive-scene {
+  min-height: 27rem;
+  padding: 0.25rem 0.15rem 0;
+}
+.home-hero-drive-card .home-hero-drive-car {
+  min-height: 16rem;
+  margin-inline: -0.75rem;
+}
+.home-hero-drive-card .home-hero-drive-details {
+  display: block;
+  min-height: 5.6rem;
+  margin-top: -0.5rem;
+  padding: 0.75rem 0.8rem;
+}
+.home-hero-drive-card .home-hero-drive-details > div:first-child {
+  min-width: 0;
+}
+.home-hero-drive-card .home-hero-drive-details strong {
+  display: block;
+  overflow: hidden;
+  font-size: 1.12rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-hero-drive-card .home-hero-drive-pricing {
+  justify-content: flex-start;
+  gap: 0.7rem !important;
+  margin-top: 0.45rem;
+}
+.home-hero-drive-card .home-hero-drive-pricing small {
+  font-size: 0.52rem;
+}
+.home-hero-drive-card .home-hero-drive-pricing strong {
+  font-size: 0.7rem;
+}
+.home-hero-drive-card .home-hero-drive-specs {
+  margin-inline: 0.8rem;
+}
+.home-hero-drive-card .home-hero-drive-specs > span {
+  padding: 0.55rem 0.4rem;
+}
+.home-hero-drive-card .home-hero-drive-specs small {
+  font-size: 0.55rem;
+}
+.home-hero-drive-card .home-hero-drive-specs strong {
+  font-size: 0.68rem;
+}
+
+@media (min-width: 768px) {
+  .home-hero-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2.25rem;
+  }
+  .home-hero-copy {
+    max-width: 58rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .home-hero-title,
+  .home-hero-value {
+    margin-inline: auto;
+  }
+  .home-hero-ctas,
+  .home-hero-proof {
+    justify-content: center;
+  }
+  .home-hero-rotator {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-hero-rotator-track {
+    --hero-card-step: 100%;
+    gap: 0.7rem;
+    transform: translateX(calc(var(--hero-slide-index, 0) * var(--hero-slide-step, 0px) * -1));
+  }
+  .home-hero-drive-card {
+    flex-basis: 100%;
+  }
+  .home-hero-drive-card .home-hero-drive-scene {
+    min-height: 26rem;
+  }
+  .home-hero-drive-card .home-hero-drive-car {
+    min-height: 18rem;
+  }
+}
+
 .home-hero-drive-car {
   position: relative;
   z-index: 2;
@@ -3269,4 +3384,68 @@ html.a11y-no-animations .home-hero::after {
   .home-hero-showcase-small .home-hero-showcase-price { display: none; }
   .home-advantages-section { padding-block: 4.5rem !important; }
   .home-advantage-card { min-height: 0; padding: 1.5rem; }
+}
+
+/* Final Hero rail layout overrides. */
+.home-hero-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+.home-hero-copy {
+  width: 100%;
+  max-width: 62rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.home-hero-copy .home-hero-title,
+.home-hero-copy .home-hero-value {
+  margin-inline: auto;
+}
+.home-hero-copy .home-hero-ctas,
+.home-hero-copy .home-hero-proof {
+  justify-content: center;
+}
+.home-hero-rotator {
+  width: 100%;
+}
+.home-hero-rotator-viewport {
+  margin-inline: -0.5rem;
+  padding-inline: 0.5rem;
+}
+.home-hero-rotator-track {
+  gap: 0.9rem;
+  transform: translateX(calc(var(--hero-slide-index, 0) * var(--hero-slide-step, 0px) * -1));
+}
+.home-hero-drive-card {
+  flex: 0 0 calc((100% - 2.7rem) / 4);
+}
+.home-hero-drive-card .home-hero-drive-scene {
+  min-height: 27rem;
+}
+.home-hero-drive-card .home-hero-drive-car {
+  min-height: 16rem;
+  margin-inline: -0.75rem;
+}
+.home-hero-drive-card .home-hero-drive-details {
+  min-height: 5.6rem;
+  margin-top: -0.5rem;
+  padding: 0.75rem 0.8rem;
+}
+
+@media (max-width: 767px) {
+  .home-hero-rotator-track {
+    gap: 0.7rem;
+    transform: translateX(calc(var(--hero-slide-index, 0) * var(--hero-slide-step, 0px) * -1));
+  }
+  .home-hero-drive-card {
+    flex-basis: 100%;
+  }
+  .home-hero-drive-card .home-hero-drive-scene {
+    min-height: 26rem;
+  }
+  .home-hero-drive-card .home-hero-drive-car {
+    min-height: 18rem;
+  }
 }
