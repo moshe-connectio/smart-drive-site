@@ -24,16 +24,16 @@
   height: 100%;
   object-fit: cover;
   object-position: 58% center;
-  filter: saturate(0.72) contrast(1.08) brightness(0.68);
+  filter: saturate(0.82) contrast(1.02) brightness(0.88);
   transform: scale(1.035);
 }
 .home-hero-video-grade {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(5, 14, 28, 0.38) 0%, rgba(5, 14, 28, 0.78) 58%, rgba(5, 14, 28, 0.96) 100%),
-    linear-gradient(180deg, rgba(4, 12, 24, 0.48) 0%, rgba(4, 12, 24, 0.12) 46%, rgba(4, 12, 24, 0.9) 100%),
-    rgba(12, 55, 112, 0.18);
+    linear-gradient(90deg, rgba(5, 14, 28, 0.2) 0%, rgba(5, 14, 28, 0.5) 58%, rgba(5, 14, 28, 0.78) 100%),
+    linear-gradient(180deg, rgba(4, 12, 24, 0.28) 0%, rgba(4, 12, 24, 0.04) 46%, rgba(4, 12, 24, 0.62) 100%),
+    rgba(12, 55, 112, 0.08);
   pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2881,8 +2881,8 @@ html.a11y-no-animations .home-hero::after {
 }
 .home-hero-atmo {
   background:
-    radial-gradient(65% 70% at 90% 20%, rgba(30, 111, 210, 0.28) 0%, transparent 66%),
-    radial-gradient(45% 45% at 8% 88%, rgba(56, 189, 248, 0.1) 0%, transparent 75%);
+    radial-gradient(65% 70% at 90% 20%, rgba(80, 157, 213, 0.16) 0%, transparent 66%),
+    radial-gradient(45% 45% at 8% 88%, rgba(117, 212, 251, 0.08) 0%, transparent 75%);
 }
 .home-hero-grid {
   opacity: 0.035;
