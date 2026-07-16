@@ -27,10 +27,14 @@ function normalized(value: string): string {
   return value.toLowerCase().replace(/[׳'’\-\s]/g, '');
 }
 
+function isJacModel(model: ShowcaseModel): boolean {
+  const manufacturer = normalized(`${model.manufacturerSlug} ${model.manufacturer}`);
+  return manufacturer.includes('jac') || manufacturer.includes('ג׳אק') || manufacturer.includes('גאק');
+}
+
 function isHeroPriorityModel(model: ShowcaseModel): boolean {
   const manufacturer = normalized(`${model.manufacturerSlug} ${model.manufacturer}`);
   const name = normalized(`${model.modelSlug} ${model.name}`);
-  const jac = manufacturer.includes('jac') || manufacturer.includes('ג׳אק') || manufacturer.includes('גאק');
   const omoda = manufacturer.includes('omoda') || manufacturer.includes('אומודה');
   const toyotaYarisCross = manufacturer.includes('toyota') && (name.includes('yaris') || name.includes('יאריס')) && name.includes('cross');
   const box = name.includes('box') || name.includes('בוקס');
@@ -40,7 +44,7 @@ function isHeroPriorityModel(model: ShowcaseModel): boolean {
   const bmwX1 = manufacturer.includes('bmw') && name.includes('x1');
   const byd = manufacturer.includes('byd');
   const bydPopularModel = ['atto', 'dolphin', 'seal', 'song', 'tang', 'yuan', 'sealion', 'אטו', 'דולפין', 'סיל', 'סונג', 'טאנג'].some((term) => name.includes(normalized(term)));
-  return jac || (omoda && (name.includes('7') || name.includes('9'))) || toyotaYarisCross || box || chery || cupra || skodaSuperb || bmwX1 || (byd && bydPopularModel);
+  return (omoda && (name.includes('7') || name.includes('9'))) || toyotaYarisCross || box || chery || cupra || skodaSuperb || bmwX1 || (byd && bydPopularModel);
 }
 
 function popularityScore(model: ShowcaseModel): number {
@@ -99,12 +103,13 @@ export async function HomeHeroShowcase() {
       }
     }
 
-    const priced = Array.from(byModel.values())
+    const heroModels = Array.from(byModel.values()).filter((model) => !isJacModel(model));
+    const priced = heroModels
       .filter((model) => model.price != null && model.price > 0)
       .sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
 
-    const priorityModels = Array.from(byModel.values()).filter(isHeroPriorityModel);
-    const remainingModels = Array.from(byModel.values()).filter((model) => !isHeroPriorityModel(model));
+    const priorityModels = heroModels.filter(isHeroPriorityModel);
+    const remainingModels = heroModels.filter((model) => !isHeroPriorityModel(model));
     const orderedModels = [...priorityModels, ...remainingModels];
     const selectedKeys = new Set<string>();
     const selectedManufacturers = new Set<string>();
