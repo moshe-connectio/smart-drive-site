@@ -50,7 +50,7 @@ export function HomeHeroRotator({
   useEffect(() => {
     const syncVisibleCount = () => {
       const width = window.innerWidth;
-      setVisibleCount(width < 768 ? 1 : width < 1200 ? 2 : 4);
+      setVisibleCount(width < 900 ? 1 : width < 1200 ? 2 : 4);
     };
     syncVisibleCount();
     window.addEventListener('resize', syncVisibleCount);
