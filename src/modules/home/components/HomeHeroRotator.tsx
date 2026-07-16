@@ -160,6 +160,15 @@ export function HomeHeroRotator({
       <div className="home-hero-road" aria-hidden="true">
         <span />
       </div>
+      <button
+        type="button"
+        className="home-hero-rotator-control home-hero-rotator-control-prev"
+        aria-label="גלילה שמאלה בין הרכבים"
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={() => moveTo(-1)}
+      >
+        <span aria-hidden="true" />
+      </button>
       <div className="home-hero-rotator-viewport" aria-live="off">
         <div
           className="home-hero-rotator-track"
@@ -237,6 +246,15 @@ export function HomeHeroRotator({
           ))}
         </div>
       </div>
+      <button
+        type="button"
+        className="home-hero-rotator-control home-hero-rotator-control-next"
+        aria-label="גלילה ימינה בין הרכבים"
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={() => moveTo(1)}
+      >
+        <span aria-hidden="true" />
+      </button>
 
     </div>
   );

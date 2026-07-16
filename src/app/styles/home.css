@@ -3432,6 +3432,47 @@ html.a11y-no-animations .home-hero::after {
 .home-hero-rotator {
   width: 100%;
 }
+.home-hero-rotator-control {
+  position: absolute;
+  top: 50%;
+  z-index: 8;
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(7, 17, 31, 0.72);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.24);
+  color: #fff;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.home-hero-rotator-control:hover {
+  border-color: rgba(117, 212, 251, 0.72);
+  background: rgba(20, 77, 115, 0.92);
+  transform: translateY(-50%) scale(1.06);
+}
+.home-hero-rotator-control:focus-visible {
+  outline: 2px solid #75d4fb;
+  outline-offset: 3px;
+}
+.home-hero-rotator-control-prev { inset-inline-start: -3.5rem; }
+.home-hero-rotator-control-next { inset-inline-end: -3.5rem; }
+.home-hero-rotator-control span {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-block-start: 2px solid currentColor;
+  border-inline-start: 2px solid currentColor;
+}
+.home-hero-rotator-control-prev span { transform: rotate(-45deg); }
+.home-hero-rotator-control-next span { transform: rotate(135deg); }
+
+@media (min-width: 1200px) {
+  .home-hero-rotator-control { display: inline-flex; }
+}
 .home-hero-rotator-viewport {
   overflow: hidden;
   margin-inline: 0;
