@@ -3432,9 +3432,10 @@ html.a11y-no-animations .home-hero::after {
 .home-hero-rotator {
   width: 100%;
 }
+.home-hero-rotator-stage {
+  width: 100%;
+}
 .home-hero-rotator-control {
-  position: absolute;
-  top: 50%;
   z-index: 8;
   display: none;
   width: 2.75rem;
@@ -3447,20 +3448,17 @@ html.a11y-no-animations .home-hero::after {
   box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.24);
   color: #fff;
   cursor: pointer;
-  transform: translateY(-50%);
   transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 .home-hero-rotator-control:hover {
   border-color: rgba(117, 212, 251, 0.72);
   background: rgba(20, 77, 115, 0.92);
-  transform: translateY(-50%) scale(1.06);
+  transform: scale(1.06);
 }
 .home-hero-rotator-control:focus-visible {
   outline: 2px solid #75d4fb;
   outline-offset: 3px;
 }
-.home-hero-rotator-control-prev { inset-inline-end: 0.75rem; }
-.home-hero-rotator-control-next { inset-inline-start: 0.75rem; }
 .home-hero-rotator-control span {
   display: block;
   font-size: 1.45rem;
@@ -3469,7 +3467,18 @@ html.a11y-no-animations .home-hero::after {
 }
 
 @media (min-width: 1200px) {
-  .home-hero-rotator-control { display: inline-flex; }
+  .home-hero-rotator-stage {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr) 3.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    direction: ltr;
+  }
+  .home-hero-rotator-control {
+    display: inline-flex;
+    position: static;
+    justify-self: center;
+  }
 }
 .home-hero-rotator-viewport {
   overflow: hidden;

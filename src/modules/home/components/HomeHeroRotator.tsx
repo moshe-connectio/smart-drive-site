@@ -160,30 +160,31 @@ export function HomeHeroRotator({
       <div className="home-hero-road" aria-hidden="true">
         <span />
       </div>
-      <button
-        type="button"
-        className="home-hero-rotator-control home-hero-rotator-control-prev"
-        aria-label="גלילה שמאלה בין הרכבים"
-        onPointerDown={(event) => event.stopPropagation()}
-        onClick={() => moveTo(-1)}
-      >
-        <span aria-hidden="true">←</span>
-      </button>
-      <div className="home-hero-rotator-viewport" aria-live="off">
-        <div
-          className="home-hero-rotator-track"
-          data-resetting={isResetting || undefined}
-          style={{
-            '--hero-slide-index': activeIndex,
-            '--hero-slide-step': `${slideStep}px`,
-          } as CSSProperties}
+      <div className="home-hero-rotator-stage">
+        <button
+          type="button"
+          className="home-hero-rotator-control home-hero-rotator-control-prev"
+          aria-label="גלילה שמאלה בין הרכבים"
+          onPointerDown={(event) => event.stopPropagation()}
+          onClick={() => moveTo(-1)}
         >
-          {loopModels.map((model, slideIndex) => (
-            <article
-              key={`${model.manufacturerSlug}-${model.modelSlug}-${slideIndex}`}
-              className="home-hero-drive-card"
-              aria-hidden={slideIndex < index || slideIndex >= index + visibleCount}
-            >
+          <span aria-hidden="true">←</span>
+        </button>
+        <div className="home-hero-rotator-viewport" aria-live="off">
+          <div
+            className="home-hero-rotator-track"
+            data-resetting={isResetting || undefined}
+            style={{
+              '--hero-slide-index': activeIndex,
+              '--hero-slide-step': `${slideStep}px`,
+            } as CSSProperties}
+          >
+            {loopModels.map((model, slideIndex) => (
+              <article
+                key={`${model.manufacturerSlug}-${model.modelSlug}-${slideIndex}`}
+                className="home-hero-drive-card"
+                aria-hidden={slideIndex < index || slideIndex >= index + visibleCount}
+              >
               <div className="home-hero-drive-scene" aria-label={`${model.manufacturer} ${model.name}`}>
                 <Link
                   href={`/new-vehicles/${model.manufacturerSlug}/${model.modelSlug}`}
@@ -242,19 +243,20 @@ export function HomeHeroRotator({
                   ))}
                 </div>
               </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
+        <button
+          type="button"
+          className="home-hero-rotator-control home-hero-rotator-control-next"
+          aria-label="גלילה ימינה בין הרכבים"
+          onPointerDown={(event) => event.stopPropagation()}
+          onClick={() => moveTo(1)}
+        >
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
-      <button
-        type="button"
-        className="home-hero-rotator-control home-hero-rotator-control-next"
-        aria-label="גלילה ימינה בין הרכבים"
-        onPointerDown={(event) => event.stopPropagation()}
-        onClick={() => moveTo(1)}
-      >
-        <span aria-hidden="true">→</span>
-      </button>
 
     </div>
   );
