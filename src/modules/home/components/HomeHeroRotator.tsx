@@ -167,7 +167,7 @@ export function HomeHeroRotator({
         onPointerDown={(event) => event.stopPropagation()}
         onClick={() => moveTo(-1)}
       >
-        <span aria-hidden="true" />
+        <span aria-hidden="true">←</span>
       </button>
       <div className="home-hero-rotator-viewport" aria-live="off">
         <div
@@ -253,7 +253,7 @@ export function HomeHeroRotator({
         onPointerDown={(event) => event.stopPropagation()}
         onClick={() => moveTo(1)}
       >
-        <span aria-hidden="true" />
+        <span aria-hidden="true">→</span>
       </button>
 
     </div>
