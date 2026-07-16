@@ -3480,8 +3480,8 @@ html.a11y-no-animations .home-hero::after {
     transform: translateY(-50%);
   }
   .home-hero-rotator-control:hover { transform: translateY(-50%) scale(1.06); }
-  .home-hero-rotator-control-prev { left: 0; }
-  .home-hero-rotator-control-next { right: 0; }
+  .home-hero-rotator-control-prev { left: -1.25rem; }
+  .home-hero-rotator-control-next { right: -1.25rem; }
 }
 
 @media (min-width: 900px) and (max-width: 1199px) {
