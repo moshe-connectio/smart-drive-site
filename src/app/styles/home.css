@@ -3433,6 +3433,7 @@ html.a11y-no-animations .home-hero::after {
   width: 100%;
 }
 .home-hero-rotator-stage {
+  position: relative;
   width: 100%;
 }
 .home-hero-rotator-control {
@@ -3468,22 +3469,17 @@ html.a11y-no-animations .home-hero::after {
 
 @media (min-width: 1200px) {
   .home-hero-rotator-stage {
-    display: grid;
-    grid-template-columns: 3.5rem minmax(0, 1fr) 3.5rem;
-    grid-template-areas: "prev viewport next";
-    align-items: center;
-    gap: 0.5rem;
-    direction: ltr;
+    display: block;
   }
   .home-hero-rotator-control {
     display: inline-flex;
-    position: static;
-    justify-self: center;
-    align-self: center;
+    position: absolute;
+    top: 22%;
+    transform: translateY(-50%);
   }
-  .home-hero-rotator-control-prev { grid-area: prev; }
-  .home-hero-rotator-control-next { grid-area: next; }
-  .home-hero-rotator-viewport { grid-area: viewport; }
+  .home-hero-rotator-control:hover { transform: translateY(-50%) scale(1.06); }
+  .home-hero-rotator-control-prev { left: 0.35rem; }
+  .home-hero-rotator-control-next { right: 0.35rem; }
 }
 .home-hero-rotator-viewport {
   overflow: hidden;
