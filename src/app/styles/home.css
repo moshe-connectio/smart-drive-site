@@ -3467,19 +3467,28 @@ html.a11y-no-animations .home-hero::after {
   line-height: 1;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 900px) {
   .home-hero-rotator-stage {
     display: block;
+    box-sizing: border-box;
+    padding-inline: clamp(3rem, 5vw, 4.5rem);
   }
   .home-hero-rotator-control {
     display: inline-flex;
     position: absolute;
-    top: 22%;
+    top: 38%;
     transform: translateY(-50%);
   }
   .home-hero-rotator-control:hover { transform: translateY(-50%) scale(1.06); }
-  .home-hero-rotator-control-prev { left: -2rem; }
-  .home-hero-rotator-control-next { right: -2rem; }
+  .home-hero-rotator-control-prev { left: 0; }
+  .home-hero-rotator-control-next { right: 0; }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .home-hero-rotator-control {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
 }
 .home-hero-rotator-viewport {
   overflow: hidden;
