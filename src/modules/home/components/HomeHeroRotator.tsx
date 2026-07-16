@@ -49,7 +49,8 @@ export function HomeHeroRotator({
 
   useEffect(() => {
     const syncVisibleCount = () => {
-      setVisibleCount(window.matchMedia('(max-width: 767px)').matches ? 1 : 4);
+      const width = window.innerWidth;
+      setVisibleCount(width < 768 ? 1 : width < 1200 ? 2 : 4);
     };
     syncVisibleCount();
     window.addEventListener('resize', syncVisibleCount);

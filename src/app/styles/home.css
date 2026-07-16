@@ -570,9 +570,9 @@ html.a11y-no-animations .home-hero-video {
   position: relative;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
-  margin-inline: -0.5rem;
-  padding: 0.5rem;
+  overflow: visible;
+  margin-inline: 0;
+  padding: 0;
   touch-action: pan-y;
 }
 .home-hero-rotator-track {
@@ -686,12 +686,28 @@ html.a11y-no-animations .home-hero-video {
   }
 }
 
+@media (min-width: 768px) and (max-width: 1199px) {
+  .home-hero-rotator-track {
+    gap: 0.9rem;
+  }
+  .home-hero-drive-card {
+    flex-basis: calc((100% - 0.9rem) / 2);
+  }
+  .home-hero-drive-card .home-hero-drive-scene {
+    min-height: 25rem;
+  }
+  .home-hero-drive-card .home-hero-drive-car {
+    min-height: 17rem;
+    margin-inline: -0.5rem;
+  }
+}
+
 .home-hero-drive-car {
   position: relative;
   z-index: 2;
   display: block;
   min-height: 25rem;
-  margin-inline: -1.5rem;
+  margin-inline: -0.75rem;
   transform-origin: center bottom;
 }
 .home-hero-drive-car img {
@@ -988,7 +1004,7 @@ html.a11y-no-animations .home-hero-video {
 
 /* ─── Section heads ──────────────────────────────────────────────────────── */
 .home-section-kicker {
-  display: inline-flex;
+    overflow: visible;
   align-items: center;
   gap: 0;
   color: var(--color-primary);
@@ -3417,8 +3433,9 @@ html.a11y-no-animations .home-hero::after {
   width: 100%;
 }
 .home-hero-rotator-viewport {
-  margin-inline: -0.5rem;
-  padding-inline: 0.5rem;
+  overflow: hidden;
+  margin-inline: 0;
+  padding-inline: 0;
 }
 .home-hero-rotator-track {
   width: 100%;
@@ -3455,5 +3472,18 @@ html.a11y-no-animations .home-hero::after {
   }
   .home-hero-drive-card .home-hero-drive-car {
     min-height: 18rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .home-hero-drive-card {
+    flex-basis: calc((100% - 0.9rem) / 2);
+  }
+  .home-hero-drive-card .home-hero-drive-scene {
+    min-height: 25rem;
+  }
+  .home-hero-drive-card .home-hero-drive-car {
+    min-height: 17rem;
+    margin-inline: -0.5rem;
   }
 }
