@@ -592,7 +592,7 @@ html.a11y-no-animations .home-hero-video {
   max-width: 100%;
   border: 0;
   border-radius: 0;
-  background: transparent;
+  background-color: transparent;
   box-shadow: none;
   overflow: visible;
 }
@@ -708,9 +708,11 @@ html.a11y-no-animations .home-hero-video {
   display: block;
   min-height: 25rem;
   margin-inline: -0.75rem;
+  background-color: transparent;
   transform-origin: center bottom;
 }
 .home-hero-drive-car img {
+  background-color: transparent;
   filter: drop-shadow(0 2.2rem 1.6rem rgba(0, 0, 0, 0.42));
   transition: filter 400ms ease, transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
