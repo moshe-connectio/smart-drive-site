@@ -37,7 +37,7 @@ interface HomeHeroRotatorProps {
 
 export function HomeHeroRotator({
   groups,
-  intervalMs = 4500,
+  intervalMs = 7000,
 }: HomeHeroRotatorProps) {
   const models = groups.flat();
   const slideCount = models.length;
@@ -249,31 +249,6 @@ export function HomeHeroRotator({
           );
         })}
       </div>
-
-      {slideCount > 1 && (
-        <div className="home-hero-rotator-controls" aria-label="ניווט בין רכבים">
-          <button type="button" className="home-hero-rotator-arrow" onClick={() => moveTo(-1)} aria-label="הרכב הקודם">
-            <span aria-hidden="true">‹</span>
-          </button>
-          <div className="home-hero-rotator-dots" role="tablist" aria-label="בחירת רכב">
-            {models.map((model, dotIndex) => (
-              <button
-                key={`${model.manufacturerSlug}-${model.modelSlug}-dot`}
-                type="button"
-                className="home-hero-rotator-dot"
-                data-active={index === dotIndex}
-                onClick={() => setIndex(dotIndex)}
-                role="tab"
-                aria-selected={index === dotIndex}
-                aria-label={`${model.manufacturer} ${model.name}`}
-              />
-            ))}
-          </div>
-          <button type="button" className="home-hero-rotator-arrow" onClick={() => moveTo(1)} aria-label="הרכב הבא">
-            <span aria-hidden="true">›</span>
-          </button>
-        </div>
-      )}
 
     </div>
   );
