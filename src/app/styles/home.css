@@ -3459,8 +3459,8 @@ html.a11y-no-animations .home-hero::after {
   outline: 2px solid #75d4fb;
   outline-offset: 3px;
 }
-.home-hero-rotator-control-prev { inset-inline-start: -3.5rem; }
-.home-hero-rotator-control-next { inset-inline-end: -3.5rem; }
+.home-hero-rotator-control-prev { inset-inline-end: 0.75rem; }
+.home-hero-rotator-control-next { inset-inline-start: 0.75rem; }
 .home-hero-rotator-control span {
   width: 0.62rem;
   height: 0.62rem;
