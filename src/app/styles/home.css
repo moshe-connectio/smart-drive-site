@@ -3470,6 +3470,7 @@ html.a11y-no-animations .home-hero::after {
   .home-hero-rotator-stage {
     display: grid;
     grid-template-columns: 3.5rem minmax(0, 1fr) 3.5rem;
+    grid-template-areas: "prev viewport next";
     align-items: center;
     gap: 0.5rem;
     direction: ltr;
@@ -3478,7 +3479,11 @@ html.a11y-no-animations .home-hero::after {
     display: inline-flex;
     position: static;
     justify-self: center;
+    align-self: center;
   }
+  .home-hero-rotator-control-prev { grid-area: prev; }
+  .home-hero-rotator-control-next { grid-area: next; }
+  .home-hero-rotator-viewport { grid-area: viewport; }
 }
 .home-hero-rotator-viewport {
   overflow: hidden;
