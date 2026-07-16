@@ -568,6 +568,8 @@ html.a11y-no-animations .home-hero-video {
 /* Wide Hero vehicle rail: four models on desktop, one touch-sized card on mobile. */
 .home-hero-rotator-viewport {
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   margin-inline: -0.5rem;
   padding: 0.5rem;
@@ -587,6 +589,7 @@ html.a11y-no-animations .home-hero-video {
 .home-hero-drive-card {
   flex: 0 0 calc((100% - 2.7rem) / 4);
   min-width: 0;
+  max-width: 100%;
   border: 0;
   border-radius: 0;
   background: transparent;

@@ -77,7 +77,11 @@ export function HomeHeroRotator({
 
     const syncSlideStep = () => {
       const gap = visibleCount === 1 ? 11.2 : 14.4;
-      setSlideStep((viewport.clientWidth - gap * (visibleCount - 1)) / visibleCount + gap);
+      const styles = window.getComputedStyle(viewport);
+      const horizontalPadding =
+        parseFloat(styles.paddingInlineStart) + parseFloat(styles.paddingInlineEnd);
+      const contentWidth = viewport.clientWidth - horizontalPadding;
+      setSlideStep((contentWidth - gap * (visibleCount - 1)) / visibleCount + gap);
     };
     syncSlideStep();
     const observer = new ResizeObserver(syncSlideStep);
