@@ -3464,11 +3464,11 @@ html.a11y-no-animations .home-hero::after {
 .home-hero-rotator-control span {
   width: 0.62rem;
   height: 0.62rem;
-  border-block-start: 2px solid currentColor;
-  border-inline-start: 2px solid currentColor;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
 }
-.home-hero-rotator-control-prev span { transform: rotate(-45deg); }
-.home-hero-rotator-control-next span { transform: rotate(135deg); }
+.home-hero-rotator-control-prev span { transform: rotate(135deg); }
+.home-hero-rotator-control-next span { transform: rotate(-45deg); }
 
 @media (min-width: 1200px) {
   .home-hero-rotator-control { display: inline-flex; }
