@@ -237,6 +237,9 @@ export default function FinanceCalculator({
                 );
               })}
             </div>
+            <p className="mt-2 text-xs text-slate-500">
+              בחירה של 0% מציגה סימולציה למימון מלא, בכפוף לאישור הגוף המממן.
+            </p>
           </div>
 
           {/* Term */}
