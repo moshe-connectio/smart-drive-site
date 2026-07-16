@@ -581,6 +581,9 @@ html.a11y-no-animations .home-hero-video {
   transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
+.home-hero-rotator-track[data-resetting='true'] {
+  transition: none;
+}
 .home-hero-drive-card {
   flex: 0 0 calc((100% - 2.7rem) / 4);
   min-width: 0;

@@ -37,9 +37,11 @@ export function HomeHeroRotator({
 }: HomeHeroRotatorProps) {
   const models = groups.flat();
   const slideCount = models.length;
+  const loopModels = [...models, ...models];
   const [visibleCount, setVisibleCount] = useState(4);
   const [slideStep, setSlideStep] = useState(0);
   const [index, setIndex] = useState(0);
+  const [isResetting, setIsResetting] = useState(false);
   const [paused, setPaused] = useState(false);
   const rotatorRef = useRef<HTMLDivElement>(null);
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
@@ -54,8 +56,20 @@ export function HomeHeroRotator({
     return () => window.removeEventListener('resize', syncVisibleCount);
   }, []);
 
-  const maxIndex = Math.max(0, slideCount - visibleCount);
+  const maxIndex = Math.max(0, slideCount);
   const activeIndex = Math.min(index, maxIndex);
+
+  useEffect(() => {
+    if (index !== slideCount || slideCount === 0) return;
+
+    const resetTimer = window.setTimeout(() => {
+      setIsResetting(true);
+      setIndex(0);
+      requestAnimationFrame(() => setIsResetting(false));
+    }, 720);
+
+    return () => window.clearTimeout(resetTimer);
+  }, [index, slideCount]);
 
   useEffect(() => {
     const viewport = rotatorRef.current?.querySelector('.home-hero-rotator-viewport');
@@ -74,7 +88,10 @@ export function HomeHeroRotator({
   const moveTo = (direction: 1 | -1) => {
     setIndex((current) => {
       if (maxIndex === 0) return 0;
-      return Math.min(maxIndex, Math.max(0, current + direction));
+      const next = current + direction;
+      if (next > maxIndex) return 0;
+      if (next < 0) return maxIndex - 1;
+      return next;
     });
   };
 
@@ -141,14 +158,15 @@ export function HomeHeroRotator({
       <div className="home-hero-rotator-viewport" aria-live="off">
         <div
           className="home-hero-rotator-track"
+          data-resetting={isResetting || undefined}
           style={{
             '--hero-slide-index': activeIndex,
             '--hero-slide-step': `${slideStep}px`,
           } as CSSProperties}
         >
-          {models.map((model, slideIndex) => (
+          {loopModels.map((model, slideIndex) => (
             <article
-              key={`${model.manufacturerSlug}-${model.modelSlug}`}
+              key={`${model.manufacturerSlug}-${model.modelSlug}-${slideIndex}`}
               className="home-hero-drive-card"
               aria-hidden={slideIndex < index || slideIndex >= index + visibleCount}
             >
