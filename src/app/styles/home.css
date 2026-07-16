@@ -1425,8 +1425,8 @@ html.a11y-no-animations .home-hero-video {
   width: 90%;
   height: 90%;
   object-fit: contain;
-  transition:
-    transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  margin-inline: 0;
+  padding-inline: 0;
 }
 .home-mfr-tile:hover .home-mfr-logo {
   transform: scale(1.06);
@@ -3421,6 +3421,7 @@ html.a11y-no-animations .home-hero::after {
   padding-inline: 0.5rem;
 }
 .home-hero-rotator-track {
+  width: 100%;
   gap: 0.9rem;
   transform: translateX(calc(var(--hero-slide-index, 0) * var(--hero-slide-step, 0px) * -1));
 }
