@@ -552,6 +552,8 @@ html.a11y-no-animations .home-hero-video {
 .home-hero-rotator {
   position: relative;
   isolation: isolate;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .home-hero-drive-scene {
@@ -777,6 +779,40 @@ html.a11y-no-animations .home-hero-video {
   justify-content: center;
   gap: 0.45rem;
   margin-top: 1rem;
+  max-width: min(70vw, 24rem);
+  overflow: hidden;
+}
+
+.home-hero-rotator-controls {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 0.8rem;
+}
+
+.home-hero-rotator-arrow {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(5, 11, 21, 0.55);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.45rem;
+  line-height: 1;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.home-hero-rotator-arrow:hover {
+  border-color: rgba(56, 189, 248, 0.75);
+  background: rgba(37, 83, 212, 0.45);
+  transform: scale(1.06);
 }
 
 .home-hero-rotator-dot {
@@ -809,6 +845,23 @@ html.a11y-no-animations .home-hero-video {
   }
   .home-hero-rotator-slide[data-active='true'] {
     transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-hero-rotator-controls {
+    margin-top: 0.45rem;
+  }
+  .home-hero-rotator-dots {
+    gap: 0.28rem;
+    margin-top: 0;
+  }
+  .home-hero-rotator-dot {
+    width: 0.38rem;
+    height: 0.38rem;
+  }
+  .home-hero-rotator-dot[data-active='true'] {
+    width: 1rem;
   }
 }
 

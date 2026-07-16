@@ -4,9 +4,9 @@ import { HomeHeroStatsPanel } from './HomeHeroStatsPanel';
 import { HomeHeroRotator, type ShowcaseModel } from './HomeHeroRotator';
 
 /** Keep the sequence varied without loading an excessive number of hero images. */
-const MAX_MODELS = 12;
+const MAX_MODELS = 24;
 const GROUP_SIZE = 4;
-const TIER_COUNTS = { accessible: 5, value: 4, premium: 3 } as const;
+const TIER_COUNTS = { accessible: 8, value: 8, premium: 8 } as const;
 const POPULAR_MANUFACTURERS = [
   'toyota', 'hyundai', 'kia', 'skoda', 'mazda', 'nissan', 'suzuki',
   'byd', 'volkswagen', 'ford', 'mitsubishi', 'seat', 'renault',
@@ -22,6 +22,26 @@ const POPULAR_MODEL_TERMS = [
   'golf', 'גולף', 'polo', 'פולו', 'focus', 'פוקוס', 'puma', 'פומה',
   'model 3', 'מודל 3', '3 series', 'סדרה 3', 'a-class', 'a3', 'xc40',
 ];
+
+function normalized(value: string): string {
+  return value.toLowerCase().replace(/[׳'’\-\s]/g, '');
+}
+
+function isHeroPriorityModel(model: ShowcaseModel): boolean {
+  const manufacturer = normalized(`${model.manufacturerSlug} ${model.manufacturer}`);
+  const name = normalized(`${model.modelSlug} ${model.name}`);
+  const jac = manufacturer.includes('jac') || manufacturer.includes('ג׳אק') || manufacturer.includes('גאק');
+  const omoda = manufacturer.includes('omoda') || manufacturer.includes('אומודה');
+  const toyotaYarisCross = manufacturer.includes('toyota') && (name.includes('yaris') || name.includes('יאריס')) && name.includes('cross');
+  const box = name.includes('box') || name.includes('בוקס');
+  const chery = manufacturer.includes('chery') || manufacturer.includes('צארי') || manufacturer.includes('צ׳רי') || manufacturer.includes('צרי');
+  const cupra = manufacturer.includes('cupra') || manufacturer.includes('קופרה');
+  const skodaSuperb = manufacturer.includes('skoda') && (name.includes('superb') || name.includes('סופרב'));
+  const bmwX1 = manufacturer.includes('bmw') && name.includes('x1');
+  const byd = manufacturer.includes('byd');
+  const bydPopularModel = ['atto', 'dolphin', 'seal', 'song', 'tang', 'yuan', 'sealion', 'אטו', 'דולפין', 'סיל', 'סונג', 'טאנג'].some((term) => name.includes(normalized(term)));
+  return jac || (omoda && (name.includes('7') || name.includes('9'))) || toyotaYarisCross || box || chery || cupra || skodaSuperb || bmwX1 || (byd && bydPopularModel);
+}
 
 function popularityScore(model: ShowcaseModel): number {
   const manufacturerIndex = POPULAR_MANUFACTURERS.indexOf(model.manufacturerSlug);
@@ -83,6 +103,9 @@ export async function HomeHeroShowcase() {
       .filter((model) => model.price != null && model.price > 0)
       .sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
 
+    const priorityModels = Array.from(byModel.values()).filter(isHeroPriorityModel);
+    const remainingModels = Array.from(byModel.values()).filter((model) => !isHeroPriorityModel(model));
+    const orderedModels = [...priorityModels, ...remainingModels];
     const selectedKeys = new Set<string>();
     const selectedManufacturers = new Set<string>();
     const pickTier = (
@@ -112,6 +135,7 @@ export async function HomeHeroShowcase() {
 
     const third = Math.max(1, Math.floor(priced.length / 3));
     showcaseModels = [
+      ...pickTier(orderedModels.filter(isHeroPriorityModel), MAX_MODELS, 'value'),
       ...pickTier(priced.slice(0, third), TIER_COUNTS.accessible, 'accessible'),
       ...pickTier(
         priced.slice(third, Math.max(third + 1, priced.length - third)),

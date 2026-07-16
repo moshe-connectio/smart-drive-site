@@ -44,6 +44,40 @@ export function HomeHeroRotator({
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const rotatorRef = useRef<HTMLDivElement>(null);
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const suppressClickRef = useRef(false);
+
+  const moveTo = (direction: 1 | -1) => {
+    setIndex((current) => (current + direction + slideCount) % slideCount);
+  };
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    pointerStartRef.current = { x: event.clientX, y: event.clientY };
+    suppressClickRef.current = false;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setPaused(true);
+  };
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    const start = pointerStartRef.current;
+    pointerStartRef.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    if (!start) {
+      setPaused(false);
+      return;
+    }
+
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+    if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+      suppressClickRef.current = true;
+      moveTo(deltaX < 0 ? 1 : -1);
+    }
+    setPaused(false);
+  };
 
   useGSAP(
     () => {
@@ -134,6 +168,12 @@ export function HomeHeroRotator({
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={() => {
+        pointerStartRef.current = null;
+        setPaused(false);
+      }}
     >
       <div className="home-hero-road" aria-hidden="true">
         <span />
@@ -152,6 +192,12 @@ export function HomeHeroRotator({
                   href={`/new-vehicles/${model.manufacturerSlug}/${model.modelSlug}`}
                   className="home-hero-drive-car"
                   aria-label={`${model.manufacturer} ${model.name} — צפייה בדגם`}
+                  onClick={(event) => {
+                    if (suppressClickRef.current) {
+                      event.preventDefault();
+                      suppressClickRef.current = false;
+                    }
+                  }}
                 >
                   <Image
                     src={model.image}
@@ -203,6 +249,31 @@ export function HomeHeroRotator({
           );
         })}
       </div>
+
+      {slideCount > 1 && (
+        <div className="home-hero-rotator-controls" aria-label="ניווט בין רכבים">
+          <button type="button" className="home-hero-rotator-arrow" onClick={() => moveTo(-1)} aria-label="הרכב הקודם">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <div className="home-hero-rotator-dots" role="tablist" aria-label="בחירת רכב">
+            {models.map((model, dotIndex) => (
+              <button
+                key={`${model.manufacturerSlug}-${model.modelSlug}-dot`}
+                type="button"
+                className="home-hero-rotator-dot"
+                data-active={index === dotIndex}
+                onClick={() => setIndex(dotIndex)}
+                role="tab"
+                aria-selected={index === dotIndex}
+                aria-label={`${model.manufacturer} ${model.name}`}
+              />
+            ))}
+          </div>
+          <button type="button" className="home-hero-rotator-arrow" onClick={() => moveTo(1)} aria-label="הרכב הבא">
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+      )}
 
     </div>
   );
