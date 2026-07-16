@@ -19,7 +19,7 @@ interface AdvantageItem {
 const advantages: AdvantageItem[] = [
   {
     title: 'ליווי אישי',
-    desc: 'ליווי אישי מהבחירה ועד למסירה, עם תשובות זמינות כשצריך אותן.',
+    desc: 'עוזרים לכם לבחור נכון, מסבירים כל שלב ונשארים זמינים עד שהרכב אצלכם.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -37,8 +37,27 @@ const advantages: AdvantageItem[] = [
     ),
   },
   {
+    title: 'טרייד־אין',
+    desc: 'בודקים את הרכב הקיים, מסבירים את התהליך ומרכזים את כל העסקה במקום אחד.',
+    icon: (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+        />
+      </svg>
+    ),
+  },
+  {
     title: 'בדיקה מקצועית',
-    desc: 'כל רכב עובר בדיקה מקצועית, עם הסבר ברור על המצב שלו לפני שמתקדמים.',
+    desc: 'כל רכב נבדק בקפידה, ואתם מקבלים תמונה ברורה לפני שמקבלים החלטה.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -57,7 +76,7 @@ const advantages: AdvantageItem[] = [
   },
   {
     title: 'מחיר ברור',
-    desc: 'המחיר והתנאים מוצגים בצורה ברורה מההתחלה, בלי הפתעות בדרך.',
+    desc: 'מציגים לכם את המחיר והתנאים מראש, כדי שתדעו בדיוק על מה אתם חותמים.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -70,25 +89,6 @@ const advantages: AdvantageItem[] = [
           strokeLinejoin="round"
           strokeWidth={1.8}
           d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: 'טרייד־אין',
-    desc: 'הערכת שווי לרכב שלכם ותהליך מסודר שמחבר את כל החלקים.',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.8}
-          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
         />
       </svg>
     ),
