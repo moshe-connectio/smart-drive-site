@@ -3564,12 +3564,18 @@ html.a11y-no-animations .home-hero::after {
   }
   .home-hero-rotator-track {
     gap: 0.7rem;
-    transition-duration: 220ms;
+    transition-duration: 380ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     transform: translate3d(calc(var(--hero-slide-index, 0) * var(--hero-slide-step, 0px) * -1), 0, 0);
   }
   .home-hero-drive-card {
     flex: 0 0 100%;
     max-width: 100%;
+    opacity: 0.72;
+    transition: opacity 260ms ease;
+  }
+  .home-hero-drive-card[aria-hidden='false'] {
+    opacity: 1;
   }
   .home-hero-drive-card .home-hero-drive-scene {
     min-height: clamp(24rem, 78vw, 28rem);
