@@ -18,7 +18,26 @@ interface AdvantageItem {
 
 const advantages: AdvantageItem[] = [
   {
-  title: 'בדיקה מקצועית',
+    title: 'ליווי אישי',
+    desc: 'ליווי אישי מהבחירה ועד למסירה, עם תשובות זמינות כשצריך אותן.',
+    icon: (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: 'בדיקה מקצועית',
     desc: 'כל רכב עובר בדיקה מקצועית, עם הסבר ברור על המצב שלו לפני שמתקדמים.',
     icon: (
       <svg
@@ -56,8 +75,8 @@ const advantages: AdvantageItem[] = [
     ),
   },
   {
-    title: 'טרייד־אין הוגן',
-    desc: 'הערכת שווי הוגנת לרכב שלכם ותהליך מסודר שמחבר את כל החלקים.',
+    title: 'טרייד־אין',
+    desc: 'הערכת שווי לרכב שלכם ותהליך מסודר שמחבר את כל החלקים.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -70,25 +89,6 @@ const advantages: AdvantageItem[] = [
           strokeLinejoin="round"
           strokeWidth={1.8}
           d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: 'ליווי אישי',
-    desc: 'ליווי אישי מהבחירה ועד למסירה, עם תשובות זמינות כשצריך אותן.',
-    icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.8}
-          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z"
         />
       </svg>
     ),
