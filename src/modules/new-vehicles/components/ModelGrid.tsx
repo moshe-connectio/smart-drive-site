@@ -19,6 +19,7 @@ import Link from 'next/link';
 import type { ModelWithManufacturer } from '../types';
 import { formatCategories, parseCategories } from '../lib/categories';
 import { formatPrice } from '@shared/utils/formatting';
+import { Reveal } from '@shared/components/motion/Reveal';
 
 interface ModelGridProps {
   models: ModelWithManufacturer[];
@@ -78,7 +79,7 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
   }
 
   return (
-    <div className="home-featured-grid">
+    <Reveal as="div" className="home-featured-grid" stagger={0.07} y={30}>
       {models.map((model) => {
         const price = getPriceLine(model);
         const displayName = model.name_he || model.name;
@@ -215,7 +216,7 @@ export function ModelGrid({ models, manufacturerSlug, isLoading }: ModelGridProp
           </Link>
         );
       })}
-    </div>
+    </Reveal>
   );
 }
 

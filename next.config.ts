@@ -43,6 +43,7 @@ const nextConfig: NextConfig = {
   // as an open image proxy. AVIF/WebP + responsive resizing cut payloads dramatically.
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 100],
     // Optimized images are immutable per source URL, so cache them aggressively
     // (30 days) at the CDN/browser. This overrides short upstream TTLs (e.g. the
     // 1h Cache-Control that Supabase storage returns) and fixes repeat-visit cost.

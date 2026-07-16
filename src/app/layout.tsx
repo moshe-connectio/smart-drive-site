@@ -28,7 +28,7 @@ const geistMono = Geist_Mono({
 const rubik = Rubik({
   variable: '--font-hebrew',
   subsets: ['hebrew'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
 });
 
 const siteUrl = dealershipConfig.seo.siteUrl;
@@ -165,6 +165,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${rubik.variable} antialiased`}
       >
+        {/* Skip to main content — first focusable element for keyboard/screen-reader users */}
+        <a href="#main-content" className="skip-link">
+          דלג לתוכן הראשי
+        </a>
+
         {/* Global JSON-LD: WebSite + LocalBusiness */}
         <script
           type="application/ld+json"

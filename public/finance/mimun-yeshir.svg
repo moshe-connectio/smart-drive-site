@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 260" role="img" aria-labelledby="title">
+  <title id="title">מימון ישיר</title>
+  <circle cx="260" cy="82" r="62" fill="#ff4145"/>
+  <path d="M196 48c-29 27-32 76-4 105 25 26 66 31 100 12-30 26-77 25-108-5-34-33-35-88-3-122 5-5 10-9 15-12z" fill="#ff4145"/>
+  <path d="M202 50c-23 26-24 65-2 89 18 20 45 28 72 20-28 19-67 14-90-12-26-30-25-77 1-103 6-6 12-11 19-15z" fill="#fff"/>
+  <path d="M238 39h42v22h-30l-2 17c25-7 44 8 44 29 0 23-18 38-43 38-17 0-31-6-42-15l10-20c9 7 19 11 30 11 10 0 17-5 17-13 0-9-9-13-24-13l-22 4 5-60z" fill="#fff"/>
+  <text x="260" y="218" text-anchor="middle" direction="rtl" font-family="Arial, sans-serif" font-size="48" font-weight="800" fill="#061b8f">מימון ישיר</text>
+</svg>

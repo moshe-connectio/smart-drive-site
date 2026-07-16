@@ -11,11 +11,15 @@
  *   <FinanceCalculator vehiclePrice={185000} vehicleTitle="טויוטה קאמרי 2024" />
  */
 
-import { useEffect, useMemo, useState, useId } from 'react';
+import { useEffect, useMemo, useRef, useState, useId } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { formatPrice } from '@shared/utils/formatting';
 import { LeadForm, LeadFormModal } from '@modules/leads';
 import type { LeadFormId } from '@modules/leads';
 import { calculateFinance } from '../lib/calculator';
+
+gsap.registerPlugin(useGSAP);
 
 interface FinanceCalculatorProps {
   /** Pre-fill the vehicle price (e.g. on a vehicle detail page) */
@@ -314,9 +318,10 @@ export default function FinanceCalculator({
         >
           <div className="fc-result-hero">
             <span className="fc-result-label">החזר חודשי מוערך</span>
-            <span className="fc-result-value">
-              {result.isValid ? formatPrice(Math.round(result.monthlyPayment)) : '—'}
-            </span>
+            <AnimatedCurrency
+              value={Math.round(result.monthlyPayment)}
+              valid={result.isValid}
+            />
             <span className="fc-result-sub">
               למשך {termMonths} חודשים
             </span>
@@ -406,6 +411,56 @@ export default function FinanceCalculator({
       </LeadFormModal>
     )}
     </>
+  );
+}
+
+function AnimatedCurrency({ value, valid }: { value: number; valid: boolean }) {
+  const valueRef = useRef<HTMLSpanElement>(null);
+  const previousValue = useRef(valid ? value : 0);
+
+  useGSAP(
+    () => {
+      const element = valueRef.current;
+      if (!element) return;
+
+      if (!valid) {
+        element.textContent = '—';
+        previousValue.current = 0;
+        return;
+      }
+
+      const target = Math.max(0, value);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        element.textContent = formatPrice(target);
+        previousValue.current = target;
+        return;
+      }
+
+      const counter = { value: previousValue.current };
+      gsap.to(counter, {
+        value: target,
+        duration: 0.55,
+        ease: 'power2.out',
+        overwrite: true,
+        onUpdate: () => {
+          element.textContent = formatPrice(Math.round(counter.value));
+        },
+        onComplete: () => {
+          element.textContent = formatPrice(target);
+          previousValue.current = target;
+        },
+      });
+    },
+    { dependencies: [value, valid], revertOnUpdate: true },
+  );
+
+  const label = valid ? formatPrice(Math.max(0, value)) : 'לא ניתן לחשב';
+  return (
+    <span className="fc-result-value" aria-label={label}>
+      <span ref={valueRef} aria-hidden="true">
+        {valid ? formatPrice(Math.max(0, value)) : '—'}
+      </span>
+    </span>
   );
 }
 

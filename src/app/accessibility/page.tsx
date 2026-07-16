@@ -34,7 +34,7 @@ export default function AccessibilityPage() {
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <section className="route-hero">
           <div className="route-hero-atmo" />
           <div className="route-hero-grid" />

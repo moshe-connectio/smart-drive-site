@@ -16,21 +16,27 @@
 
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import type { TrimLevelFullInfo } from '../types';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { ManufacturerWithCounts, TrimLevelFullInfo } from '../types';
 import {
   PAGE_SIZE,
   SLIDER_STEP,
   useVehicleSearch,
 } from '../hooks/useVehicleSearch';
+import {
+  formatCategoryLabel,
+  getCategorySearchTerms,
+} from '../lib/categories';
+import { resolveManufacturerLogo } from '../lib/constants';
 import { MonthlyPaymentSlider } from './MonthlyPaymentSlider';
 import { SearchResults } from './SearchResults';
 
 interface HomeVehicleSearchProps {
   trims: TrimLevelFullInfo[];
+  manufacturers: ManufacturerWithCounts[];
 }
 
-export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
+export function HomeVehicleSearch({ trims, manufacturers }: HomeVehicleSearchProps) {
   const {
     domainMin,
     domainMax,
@@ -58,6 +64,7 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
   // Category multi-select dropdown (matches the inventory filter UX).
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [categorySearch, setCategorySearch] = useState('');
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const categoryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -74,16 +81,39 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [categoryOpen]);
 
-  const filteredCategories = categories.filter((cat) =>
-    cat.toLowerCase().includes(categorySearch.toLowerCase()),
-  );
+  const filteredCategories = categories.filter((cat) => {
+    const search = categorySearch.toLocaleLowerCase('he');
+    return [cat, formatCategoryLabel(cat), ...getCategorySearchTerms(cat)].some(
+      (term) => term.toLocaleLowerCase('he').includes(search),
+    );
+  });
 
   const categoryLabel =
     selectedCategories.length === 0
-      ? 'כל הקטגוריות'
+      ? 'כל סוגי הרכב'
       : selectedCategories.length === 1
-      ? selectedCategories[0]
-      : `${selectedCategories.length} קטגוריות נבחרו`;
+      ? formatCategoryLabel(selectedCategories[0])
+      : `${selectedCategories.length} סוגי רכב נבחרו`;
+
+  const suggestions = useMemo(() => {
+    const normalizedQuery = query.trim().toLocaleLowerCase('he');
+    const letterCount = normalizedQuery.match(/\p{L}/gu)?.length ?? 0;
+    if (letterCount < 1) return [];
+
+    const matchingManufacturers = manufacturers.filter((manufacturer) =>
+      manufacturer.name.toLocaleLowerCase('he').startsWith(normalizedQuery),
+    );
+    return letterCount === 1
+      ? matchingManufacturers.slice(0, 8)
+      : matchingManufacturers;
+  }, [query, manufacturers]);
+
+  const chooseSuggestion = (manufacturer: ManufacturerWithCounts) => {
+    const selectedQuery = manufacturer.name;
+    setQuery(selectedQuery);
+    setSuggestionsOpen(false);
+    handleSearch(selectedQuery);
+  };
 
   return (
     <div className="home-search">
@@ -94,47 +124,100 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
           handleSearch();
         }}
         role="search"
-        aria-label="חיפוש רכבים חדשים"
+        aria-label="חיפוש רכב חדש"
       >
         <div className="home-search-grid">
           <div className="home-search-field-stack">
-            <label className="home-search-field home-search-field--query">
-              <span className="home-search-label">חיפוש</span>
-              <span className="home-search-input-wrap">
-                <svg
-                  className="home-search-input-icon"
-                  viewBox="0 0 24 24"
-                  width="18"
-                  height="18"
-                  aria-hidden="true"
+            <div className="home-search-query-area">
+              <label className="home-search-field home-search-field--query">
+                <span className="home-search-label">יצרן</span>
+                <span className="home-search-input-wrap">
+                  <svg
+                    className="home-search-input-icon"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="11"
+                      cy="11"
+                      r="7"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M20 20l-3.5-3.5"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      fill="none"
+                    />
+                  </svg>
+                  <input
+                    type="search"
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                      setSuggestionsOpen(true);
+                    }}
+                    onFocus={() => setSuggestionsOpen(true)}
+                    placeholder="הקלידו אות או שם יצרן מלא"
+                    className="home-search-input"
+                    inputMode="search"
+                    aria-label="חיפוש לפי יצרן"
+                    aria-expanded={suggestionsOpen && suggestions.length > 0}
+                    aria-controls="home-search-suggestions"
+                  />
+                </span>
+              </label>
+
+              {suggestionsOpen && suggestions.length > 0 && (
+                <div
+                  id="home-search-suggestions"
+                  className="home-search-suggestions"
+                  role="listbox"
+                  aria-label="יצרנים תואמים"
                 >
-                  <circle
-                    cx="11"
-                    cy="11"
-                    r="7"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M20 20l-3.5-3.5"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    fill="none"
-                  />
-                </svg>
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="יצרן, דגם או רמת גימור"
-                  className="home-search-input"
-                  inputMode="search"
-                  aria-label="חיפוש לפי יצרן, דגם או רמת גימור"
-                />
-              </span>
-            </label>
+                  {suggestions.map((manufacturer) => {
+                    const logo = resolveManufacturerLogo(manufacturer);
+                    return (
+                      <button
+                        key={manufacturer.id}
+                        type="button"
+                        className="home-search-suggestion"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => chooseSuggestion(manufacturer)}
+                        role="option"
+                      >
+                        <span className="home-search-suggestion-media">
+                          {logo ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={logo}
+                              alt=""
+                              aria-hidden="true"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span aria-hidden="true">יצרן</span>
+                          )}
+                        </span>
+                        <span className="home-search-suggestion-copy">
+                          <strong>יצרן</strong>
+                          <span>{manufacturer.name}</span>
+                          <small>{manufacturer.models_count} דגמים</small>
+                        </span>
+                        <span className="home-search-suggestion-arrow" aria-hidden="true">
+                          ←
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             {categories.length > 0 && (
               <div
@@ -143,7 +226,7 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
                 }`}
                 ref={categoryRef}
               >
-                <span className="home-search-label">קטגוריה</span>
+                <span className="home-search-label">סוג רכב</span>
                 <div className="home-search-multiselect">
                   <button
                     type="button"
@@ -153,7 +236,7 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
                     }`}
                     aria-haspopup="listbox"
                     aria-expanded={categoryOpen}
-                    aria-label="סינון לפי קטגוריה"
+                    aria-label="בחירת סוג רכב"
                   >
                     <span className="home-search-multiselect-value">
                       {categoryLabel}
@@ -183,15 +266,15 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
                           type="text"
                           value={categorySearch}
                           onChange={(e) => setCategorySearch(e.target.value)}
-                          placeholder="חפש קטגוריה..."
+                          placeholder="חיפוש לפי סוג רכב..."
                           className="home-search-multiselect-search"
-                          aria-label="חיפוש קטגוריה"
+                          aria-label="חיפוש לפי סוג רכב"
                         />
                       </div>
                       <div className="home-search-multiselect-list">
                         {filteredCategories.length === 0 ? (
                           <p className="home-search-multiselect-empty">
-                            אין קטגוריות תואמות
+                            לא נמצאו סוגי רכב תואמים
                           </p>
                         ) : (
                           filteredCategories.map((cat) => (
@@ -204,7 +287,7 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
                                 checked={selectedCategories.includes(cat)}
                                 onChange={() => toggleCategory(cat)}
                               />
-                              <span>{cat}</span>
+                              <span>{formatCategoryLabel(cat)}</span>
                             </label>
                           ))
                         )}
@@ -234,12 +317,12 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
             {applied ? (
               <span className="home-search-count">
                 {results.length === 0
-                  ? 'לא נמצאו רכבים תואמים לחיפוש'
-                  : `נמצאו ${results.length} רכבים תואמים`}
+                  ? 'לא נמצאו רכבים שמתאימים לבחירה'
+                  : `נמצאו ${results.length} רכבים מתאימים`}
               </span>
             ) : (
               <span className="home-search-hint">
-                ניתן לחפש לפי טקסט, לפי טווח החזר חודשי, או לשלב — ולחוץ ”חיפוש”.
+                בחרו את מה שחשוב לכם ולחצו על חיפוש.
               </span>
             )}
           </div>
@@ -251,7 +334,7 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
                 onClick={handleReset}
                 className="home-search-reset"
               >
-                איפוס
+                ניקוי הבחירה
               </button>
             )}
             <button type="submit" className="home-search-submit">
@@ -277,7 +360,7 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
                   fill="none"
                 />
               </svg>
-              חיפוש
+              הצגת תוצאות
             </button>
           </div>
         </div>
@@ -287,10 +370,10 @@ export function HomeVehicleSearch({ trims }: HomeVehicleSearchProps) {
         (results.length === 0 ? (
           <div className="home-search-empty">
             <p className="home-search-empty-title">
-              לא נמצאו תוצאות לחיפוש זה
+              לא מצאנו רכבים שמתאימים לבחירה
             </p>
             <p className="home-search-empty-sub">
-              נסו להרחיב את טווח ההחזר החודשי או לפנות אלינו לייעוץ אישי.
+              נסו לשנות את סוג הרכב או להרחיב את טווח ההחזר החודשי.
             </p>
           </div>
         ) : (

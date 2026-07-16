@@ -72,23 +72,23 @@ export function SearchResults({
                   {monthly != null ? (
                     <>
                       <span className="home-search-result-price-label">
-                        החזר חודשי
+                        החזר חודשי משוער
                       </span>
                       <span className="home-search-result-price-value">
                         {formatMoney(monthly)}
-                        <small>/ חודש</small>
+                        <small>לחודש</small>
                       </span>
                     </>
                   ) : (
                     <span className="home-search-result-price-empty">
-                      לבירור החזר חודשי
+                      פרטי מימון לפי בקשה
                     </span>
                   )}
                   <span
                     className="home-search-result-cta"
                     aria-hidden="true"
                   >
-                    צפו במפרט
+                    לפרטי הדגם
                     <svg
                       viewBox="0 0 24 24"
                       width="14"
@@ -117,9 +117,9 @@ export function SearchResults({
             className="home-search-load-more"
             onClick={onLoadMore}
           >
-            טען עוד {Math.min(remaining, pageSize)} רכבים
+            הצגת עוד {Math.min(remaining, pageSize)} רכבים
             <span className="home-search-load-more-meta">
-              ({remaining} נוספים תואמים)
+              ({remaining} תוצאות נוספות)
             </span>
           </button>
         </div>

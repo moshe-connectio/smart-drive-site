@@ -144,7 +144,7 @@ export default function AboutPage() {
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         {/* ─── HERO ─────────────────────────────────────────────── */}
         <section className="route-hero">
           <div className="route-hero-atmo" />

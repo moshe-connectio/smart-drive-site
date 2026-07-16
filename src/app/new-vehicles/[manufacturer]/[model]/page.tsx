@@ -133,7 +133,7 @@ export default async function ModelPage({ params }: ModelPageProps) {
   ].filter((value): value is string => Boolean(value));
 
   return (
-    <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
+    <main id="main-content" tabIndex={-1} className="min-h-screen" style={{ background: 'var(--color-background)' }}>
       <section className="route-hero">
         <div className="route-hero-atmo" />
         <div className="route-hero-grid" />

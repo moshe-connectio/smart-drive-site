@@ -10,6 +10,7 @@ import {
 } from '@modules/new-vehicles/lib/repository';
 import { ManufacturerGrid } from '@modules/new-vehicles/components/ManufacturerGrid';
 import { HomeVehicleSearch } from '@modules/new-vehicles/components/HomeVehicleSearch';
+import { CountUp } from '@shared/components/ui/CountUp';
 import { dealershipConfig } from '@core/config/site.config';
 import { Container } from '@shared/components/layout/Container';
 import { logger } from '@core/lib/logger';
@@ -103,18 +104,20 @@ async function NewVehiclesPage() {
 
             <ul className="nv-hero-stats" aria-label="סטטיסטיקות מאגר">
               <li className="nv-hero-stat">
-                <span className="nv-hero-stat-value">{manufacturers.length}</span>
+                <span className="nv-hero-stat-value">
+                  <CountUp value={manufacturers.length} />
+                </span>
                 <span className="nv-hero-stat-label">יצרנים</span>
               </li>
               <li className="nv-hero-stat">
                 <span className="nv-hero-stat-value">
-                  {totalModels.toLocaleString('he-IL')}
+                  <CountUp value={totalModels} />
                 </span>
                 <span className="nv-hero-stat-label">דגמים</span>
               </li>
               <li className="nv-hero-stat">
                 <span className="nv-hero-stat-value">
-                  {totalTrims.toLocaleString('he-IL')}
+                  <CountUp value={totalTrims} />
                 </span>
                 <span className="nv-hero-stat-label">רמות גימור</span>
               </li>
@@ -134,7 +137,7 @@ async function NewVehiclesPage() {
                 חיפוש לפי יצרן, דגם ורמת גימור — עם סינון לפי החזר חודשי מבוקש.
               </p>
             </div>
-            <HomeVehicleSearch trims={trims} />
+            <HomeVehicleSearch trims={trims} manufacturers={manufacturers} />
           </Container>
         </section>
       )}

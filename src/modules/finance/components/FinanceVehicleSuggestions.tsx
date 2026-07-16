@@ -309,7 +309,8 @@ export function FinanceVehicleSuggestions({
                         src={item.imageUrl}
                         alt={item.title}
                         fill
-                        sizes="126px"
+                        sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) 45vw, 600px"
+                        quality={90}
                         className="object-contain"
                         placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}

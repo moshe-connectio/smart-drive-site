@@ -8,6 +8,7 @@ import { HomeHero } from '@modules/home/components/HomeHero';
 import { HomeAdvantages } from '@modules/home/components/HomeAdvantages';
 import { HomeContactBlock } from '@modules/home/components/HomeContactBlock';
 import { HomeSearchSection } from '@modules/home/components/HomeSearchSection';
+import { HomeFinancePartners } from '@modules/home/components/HomeFinancePartners';
 import { HomeManufacturersSection } from '@modules/home/components/HomeManufacturersSection';
 import { HomeFeaturedSection } from '@modules/home/components/HomeFeaturedSection';
 import { HomeSectionPlaceholder } from '@modules/home/components/HomeSectionPlaceholder';
@@ -52,7 +53,7 @@ export default function HomePage() {
     >
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <HomeHero />
 
         {SHOW_IMMEDIATE_INVENTORY && (
@@ -64,6 +65,7 @@ export default function HomePage() {
         <HomeAdvantages />
 
         <Suspense fallback={<HomeSectionPlaceholder minHeight={520} />}>
+          <HomeFinancePartners />
           <HomeSearchSection />
         </Suspense>
 

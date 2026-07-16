@@ -6,7 +6,9 @@
 'use client';
 
 import Link from 'next/link';
+import { Reveal } from '@shared/components/motion/Reveal';
 import type { ManufacturerWithCounts } from '../types';
+import { resolveManufacturerLogo } from '../lib/constants';
 
 interface ManufacturerGridProps {
   manufacturers: ManufacturerWithCounts[];
@@ -37,8 +39,10 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-      {manufacturers.map((manufacturer) => (
+    <Reveal as="div" className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" stagger={0.045} y={24}>
+      {manufacturers.map((manufacturer) => {
+        const logo = resolveManufacturerLogo(manufacturer);
+        return (
         <Link
           key={manufacturer.id}
           href={`/new-vehicles/${manufacturer.slug}`}
@@ -50,11 +54,11 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
 
           {/* לוגו - תופס רוב הכרטיסיה */}
           <div className="nv-mfr-card-logo">
-            {manufacturer.logo_url ? (
+            {logo ? (
               // Logos come from arbitrary external manufacturer domains; <img> avoids per-host config.
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={manufacturer.logo_url}
+                src={logo}
                 alt={manufacturer.name}
                 width={160}
                 height={160}
@@ -77,8 +81,9 @@ export function ManufacturerGrid({ manufacturers, isLoading }: ManufacturerGridP
             </p>
           </div>
         </Link>
-      ))}
-    </div>
+        );
+      })}
+    </Reveal>
   );
 }
 

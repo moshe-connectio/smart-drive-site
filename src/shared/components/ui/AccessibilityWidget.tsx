@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface AccessibilityState {
   fontSize: number; // 0 = normal, 1 = large, 2 = xl
@@ -46,6 +46,53 @@ function saveSettings(state: AccessibilityState) {
 export default function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState<AccessibilityState>(() => loadSettings());
+  const panelRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  // Close on Escape, trap focus inside the panel, restore focus on close
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Move focus into the panel when it opens
+    const firstFocusable = panelRef.current?.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    firstFocusable?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab' || !panelRef.current) return;
+
+      const focusable = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute('disabled'));
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      // Restore focus to the toggle button when the panel closes
+      toggleRef.current?.focus();
+    };
+  }, [isOpen]);
 
   // Apply classes to <html> whenever settings change
   const applySettings = useCallback((s: AccessibilityState) => {
@@ -166,6 +213,7 @@ export default function AccessibilityWidget() {
     <>
       {/* Toggle Button */}
       <button
+        ref={toggleRef}
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-[72px] left-4 sm:bottom-[88px] sm:left-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
         style={{
@@ -174,6 +222,8 @@ export default function AccessibilityWidget() {
           boxShadow: 'var(--shadow-primary-focus)',
         }}
         aria-label="תפריט נגישות"
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
         title="נגישות"
       >
         <svg className="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24">
@@ -194,6 +244,10 @@ export default function AccessibilityWidget() {
 
           {/* Panel */}
           <div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="תפריט הגדרות נגישות"
             className="fixed inset-x-2 bottom-20 sm:inset-x-auto sm:bottom-24 sm:left-6 z-50 w-auto sm:w-80 max-h-[75vh] overflow-y-auto rounded-2xl shadow-2xl"
             style={{
               background: 'var(--color-gray-100)',
@@ -273,7 +327,12 @@ export default function AccessibilityWidget() {
               className="px-3 pb-3 text-center"
               style={{ color: 'var(--color-gray-500)' }}
             >
-              <span className="text-[10px]">♿ הצהרת נגישות</span>
+              <a
+                href="/accessibility"
+                className="text-[11px] underline underline-offset-2 hover:opacity-80"
+              >
+                הצהרת נגישות
+              </a>
             </div>
           </div>
         </>

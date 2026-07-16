@@ -74,7 +74,7 @@ export default function VehicleDetailClient({ vehicle, relatedVehicles = [] }: V
     <div className="min-h-screen flex flex-col" style={{ background: 'var(--color-background)' }}>
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         {/* ───── Hero band (premium dark, extends behind header) ───── */}
         <section className="vd-hero">
           <div className="vd-hero-glow" aria-hidden="true" />

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
@@ -21,6 +22,11 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false,
+  );
   const pathname = usePathname();
 
   const triggerStyle =
@@ -60,22 +66,25 @@ export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
         )}
       </button>
 
-      {/* Backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-40"
-          style={{ background: 'var(--color-overlay-black-50)' }}
-          onClick={() => setIsOpen(false)}
-        />
-      )}
+      {mounted &&
+        createPortal(
+          <>
+            {/* Backdrop */}
+            {isOpen && (
+              <div
+                className="fixed inset-0 z-40"
+                style={{ background: 'var(--color-overlay-black-50)' }}
+                onClick={() => setIsOpen(false)}
+              />
+            )}
 
-      {/* Slide-in Panel */}
-      <div
-        className={`fixed top-0 left-0 z-50 h-full w-72 max-w-[85vw] transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-        style={{ background: 'var(--color-background)' }}
-      >
+            {/* Slide-in Panel */}
+            <div
+              className={`fixed top-0 left-0 z-50 h-full w-72 max-w-[85vw] overflow-y-auto overscroll-contain transform transition-transform duration-300 ease-in-out ${
+                isOpen ? 'translate-x-0' : '-translate-x-full'
+              }`}
+              style={{ background: 'var(--color-background)' }}
+            >
         {/* Panel Header */}
         <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: 'var(--color-border)' }}>
           <span className="font-bold text-lg" style={{ color: 'var(--color-gray-900)' }}>
@@ -161,7 +170,10 @@ export default function MobileMenu({ tone = 'dark' }: MobileMenuProps) {
             })}
           </div>
         </div>
-      </div>
+            </div>
+          </>,
+          document.body,
+        )}
     </>
   );
 }

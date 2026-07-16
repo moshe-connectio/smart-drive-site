@@ -46,6 +46,44 @@ export function parseCategories(value: unknown): string[] {
   return [];
 }
 
+export const BODY_TYPE_LABELS: Record<string, string> = {
+  Sedan: 'סדאן / Sedan',
+  SUV: 'SUV / רכב פנאי',
+  Coupe: 'קופה / Coupe',
+  Hatchback: 'האצ׳בק / Hatchback',
+  'Station Wagon': 'סטיישן / Station Wagon',
+  Crossover: 'קרוסאובר / Crossover',
+  Minivan: 'מיני־ואן / Minivan',
+  MPV: 'מיניוואן / MPV',
+  Pickup: 'טנדר / Pickup',
+  Convertible: 'קבריולה / Convertible',
+  Roadster: 'רודסטר / Roadster',
+  Van: 'ואן / Van',
+};
+
+const BODY_TYPE_ALIASES: Record<string, string[]> = {
+  Sedan: ['sedan', 'סדאן'],
+  SUV: ['suv', 'רכב פנאי', 'ג׳יפון', "ג'יפון"],
+  Coupe: ['coupe', 'קופה'],
+  Hatchback: ['hatchback', 'האצ׳בק', "האצ'בק"],
+  'Station Wagon': ['station wagon', 'סטיישן'],
+  Crossover: ['crossover', 'קרוסאובר'],
+  Minivan: ['minivan', 'מיני ואן', 'מיני־ואן'],
+  MPV: ['mpv', 'מיניוואן'],
+  Pickup: ['pickup', 'טנדר'],
+  Convertible: ['convertible', 'קבריולה'],
+  Roadster: ['roadster', 'רודסטר'],
+  Van: ['van', 'ואן'],
+};
+
+export function formatCategoryLabel(category: string): string {
+  return BODY_TYPE_LABELS[category] ?? category;
+}
+
+export function getCategorySearchTerms(category: string): string[] {
+  return BODY_TYPE_ALIASES[category] ?? [category];
+}
+
 /** Join a body_type value for display (e.g. "SUV • Sedan"). */
 export function formatCategories(
   value: unknown,

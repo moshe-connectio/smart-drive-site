@@ -1,6 +1,14 @@
+'use client';
+
 import type { ReactNode } from 'react';
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import { Container } from '@shared/components/layout/Container';
 import { SectionHeading } from './SectionHeading';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 interface AdvantageItem {
   title: string;
@@ -10,8 +18,8 @@ interface AdvantageItem {
 
 const advantages: AdvantageItem[] = [
   {
-    title: 'אמינות מלאה',
-    desc: 'כל רכב עובר בדיקה מקצועית ונמכר עם שקיפות מלאה על מצבו.',
+  title: 'בדיקה מקצועית',
+    desc: 'כל רכב עובר בדיקה מקצועית, עם הסבר ברור על המצב שלו לפני שמתקדמים.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -29,8 +37,8 @@ const advantages: AdvantageItem[] = [
     ),
   },
   {
-    title: 'מחירים שקופים',
-    desc: 'הצעת מחיר ברורה מראש, ללא עלויות נסתרות וללא אותיות קטנות.',
+    title: 'מחיר ברור',
+    desc: 'המחיר והתנאים מוצגים בצורה ברורה מההתחלה, בלי הפתעות בדרך.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -48,8 +56,8 @@ const advantages: AdvantageItem[] = [
     ),
   },
   {
-    title: 'טרייד אין הוגן',
-    desc: 'מבצעים הערכת שווי מקצועית לרכב הקיים כחלק מתהליך הרכישה.',
+    title: 'טרייד־אין הוגן',
+    desc: 'הערכת שווי הוגנת לרכב שלכם ותהליך מסודר שמחבר את כל החלקים.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -67,8 +75,8 @@ const advantages: AdvantageItem[] = [
     ),
   },
   {
-    title: 'שירות אישי',
-    desc: 'ליווי מקצועי אמיתי משלב ההתאמה ועד למסירת המפתחות.',
+    title: 'ליווי אישי',
+    desc: 'ליווי אישי מהבחירה ועד למסירה, עם תשובות זמינות כשצריך אותן.',
     icon: (
       <svg
         className="w-6 h-6"
@@ -88,12 +96,63 @@ const advantages: AdvantageItem[] = [
 ];
 
 export function HomeAdvantages() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const cards = gsap.utils.toArray<HTMLElement>('.home-advantage-card');
+      if (
+        cards.length === 0 ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
+        gsap.set(cards, { clearProps: 'all' });
+        return;
+      }
+
+      const mm = gsap.matchMedia();
+      mm.add(
+        {
+          mobile: '(max-width: 767px)',
+          desktop: '(min-width: 768px)',
+        },
+        (context) => {
+          const mobile = Boolean(context.conditions?.mobile);
+          gsap.fromTo(
+            cards,
+            {
+              autoAlpha: 0,
+              y: mobile ? 18 : 30,
+              scale: mobile ? 0.985 : 0.95,
+            },
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: mobile ? 0.55 : 0.82,
+              stagger: mobile ? 0.08 : 0.15,
+              ease: 'power3.out',
+              clearProps: 'opacity,visibility,transform',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 78%',
+                once: true,
+              },
+            },
+          );
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
   return (
-    <section className="py-24" style={{ background: 'var(--color-background)' }}>
+    <section ref={sectionRef} className="home-advantages-section py-24">
       <Container>
         <SectionHeading
-          title="הדרך המקצועית לרכב הבא שלכם"
-          subtitle="שילוב של שקיפות, מקצועיות ושירות ברמה גבוהה לאורך כל התהליך."
+          title="הדרך הבטוחה לרכב הבא שלכם"
+          subtitle="בדיקה מקצועית, מחיר ברור וליווי אישי לאורך כל הדרך."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">

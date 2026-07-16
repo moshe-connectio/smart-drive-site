@@ -86,6 +86,26 @@ export const COMMON_MANUFACTURERS = {
   XPeng: 'xpeng',
 } as const;
 
+/**
+ * Local logo overrides for manufacturers whose DB `logo_url` is missing or of
+ * low quality. Keyed by a normalized slug/name (lowercase, letters/digits only).
+ */
+const LOCAL_MANUFACTURER_LOGOS: Record<string, string> = {
+  eveasy: '/manufacturers/eveasy.svg',
+  genesis: '/manufacturers/genesis.svg',
+  forthing: '/manufacturers/forthing.png',
+};
+
+/** Resolve the best available manufacturer logo, preferring a crisp local asset. */
+export function resolveManufacturerLogo(
+  manufacturer: { slug?: string | null; name?: string | null; logo_url?: string | null },
+): string | null {
+  const key = (manufacturer.slug || manufacturer.name || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
+  return LOCAL_MANUFACTURER_LOGOS[key] ?? manufacturer.logo_url ?? null;
+}
+
 // סוגי גוף נפוצים
 export const BODY_TYPES = {
   SEDAN: 'Sedan',

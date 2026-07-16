@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getAllManufacturers, getManufacturerBySlug } from '@modules/new-vehicles/lib/repository';
+import { resolveManufacturerLogo } from '@modules/new-vehicles/lib/constants';
 import { ModelGrid } from '@modules/new-vehicles/components/ModelGrid';
 import { parseCategories } from '@modules/new-vehicles/lib/categories';
 import { dealershipConfig } from '@core/config/site.config';
@@ -117,8 +118,10 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
   const heroHighlightTags =
     (modelSegments.length > 0 ? modelSegments : modelBodyTypes).slice(0, 3);
 
+  const manufacturerLogo = resolveManufacturerLogo(manufacturerData);
+
   return (
-    <main className="min-h-screen" style={{ background: 'var(--color-background)' }}>
+    <main id="main-content" tabIndex={-1} className="min-h-screen" style={{ background: 'var(--color-background)' }}>
       <section className="route-hero nv-mfr-hero">
         <div className="route-hero-atmo" />
         <div className="route-hero-grid" />
@@ -136,11 +139,11 @@ async function ManufacturerPage({ params }: ManufacturerPageProps) {
 
             <div className="mx-auto max-w-4xl text-center">
               <div className="flex flex-col items-center gap-5">
-                {manufacturerData.logo_url && (
+                {manufacturerLogo && (
                   <div className="nv-mfr-logo-frame shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={manufacturerData.logo_url}
+                      src={manufacturerLogo}
                       alt={manufacturerData.name}
                       width={140}
                       height={140}

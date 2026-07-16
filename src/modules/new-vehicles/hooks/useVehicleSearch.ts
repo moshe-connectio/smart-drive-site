@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import type { TrimLevelFullInfo } from '../types';
-import { parseCategories } from '../lib/categories';
+import { getCategorySearchTerms, parseCategories } from '../lib/categories';
 import { clampStep, toMonthly } from '../lib/searchUtils';
 
 export const PAGE_SIZE = 3;
@@ -18,6 +18,29 @@ interface AppliedFilters {
 }
 
 export type ActiveThumb = 'min' | 'max' | null;
+
+function normalizeSearchText(value: string): string {
+  return value
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('he')
+    .replace(/[‐‑‒–—−_]+/g, '-')
+    .replace(/[^\p{L}\p{N}-]+/gu, ' ')
+    .trim();
+}
+
+function matchesManufacturerQuery(
+  manufacturerName: string,
+  manufacturerSlug: string,
+  query: string,
+): boolean {
+  const normalizedQuery = normalizeSearchText(query);
+  if (!normalizedQuery) return true;
+
+  return [manufacturerName, manufacturerSlug].some((value) =>
+    normalizeSearchText(value).startsWith(normalizedQuery),
+  );
+}
 
 export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
   // ── Domain (min/max monthly payment) ───────────────────────────────
@@ -117,7 +140,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     setVisibleCount(PAGE_SIZE);
   }
 
-  const handleSearch = () => {
+  const handleSearch = (nextQuery = query) => {
     // Auto-correct an inverted range if it ever happens.
     const lo = Math.min(minMonthly, maxMonthly);
     const hi = Math.max(minMonthly, maxMonthly);
@@ -125,7 +148,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     setMaxMonthly(hi);
 
     setApplied({
-      query: query.trim(),
+      query: nextQuery.trim(),
       categories: selectedCategories,
       min: lo,
       max: hi,
@@ -133,7 +156,7 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
     });
     setVisibleCount(PAGE_SIZE);
     setLiveActive(true);
-    setPrevForm({ query, categoriesKey, minMonthly: lo, maxMonthly: hi });
+    setPrevForm({ query: nextQuery, categoriesKey, minMonthly: lo, maxMonthly: hi });
   };
 
   const toggleCategory = (cat: string) => {
@@ -171,16 +194,17 @@ export function useVehicleSearch(trims: TrimLevelFullInfo[]) {
   // ── Filter + sort ─────────────────────────────────────────────────
   const results = useMemo(() => {
     if (!applied) return [];
-    const q = applied.query.toLowerCase();
     const { min, max, priceFilterActive, categories: cats } = applied;
 
     const filtered = trims.filter((t) => {
-      if (q) {
-        const haystack = [t.manufacturer_name, t.model_name, t.model_name_he, t.name]
-          .filter(Boolean)
-          .join(' ')
-          .toLowerCase();
-        if (!haystack.includes(q)) return false;
+      if (
+        !matchesManufacturerQuery(
+          t.manufacturer_name,
+          t.manufacturer_slug,
+          applied.query,
+        )
+      ) {
+        return false;
       }
 
       if (cats.length > 0) {

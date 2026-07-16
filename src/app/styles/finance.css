@@ -183,6 +183,10 @@
 }
 
 .fc-result-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 7ch;
   font-size: clamp(1.9rem, 4.5vw, 2.6rem);
   font-weight: 800;
   line-height: 1.1;

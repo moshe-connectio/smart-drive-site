@@ -4,11 +4,10 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
+import { FaFacebook, FaInstagram, FaLocationDot, FaPhone, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
 import { ROUTES, SHOW_IMMEDIATE_INVENTORY } from '@core/lib/constants';
 import { dealershipConfig } from '@core/config/site.config';
 import { LeadModalButton } from '@shared/components/ui/LeadModalButton';
-import { Container } from './Container';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
@@ -24,7 +23,6 @@ const navLinks = [
 const socialLinks = [
   { name: 'Facebook', url: dealershipConfig.social.facebook, icon: FaFacebook },
   { name: 'Instagram', url: dealershipConfig.social.instagram, icon: FaInstagram },
-  { name: 'WhatsApp', url: dealershipConfig.social.whatsapp, icon: FaWhatsapp },
   { name: 'YouTube', url: dealershipConfig.social.youtube, icon: FaYoutube },
 ];
 
@@ -50,33 +48,33 @@ export function Header() {
 
   const transparentMode = !scrolled;
   const headerStateClass = transparentMode ? 'header-transparent' : 'header-solid';
-  const navToneClass = transparentMode ? 'header-nav-link-light' : 'header-nav-link-dark';
-  const iconToneClass = transparentMode ? 'header-icon-light' : 'header-icon-dark';
-  const dividerColor = transparentMode ? 'var(--color-header-transparent-border)' : 'var(--color-border)';
+  const navToneClass = 'header-nav-link-light';
 
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 header-shell transition-all duration-500 ${headerStateClass}`}
     >
-      <Container className="pt-3">
-        <div className="header-surface relative flex items-center h-16 md:h-[74px] px-3 md:px-5 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+      <div className="header-container">
+        <div className="header-surface relative flex items-center h-[60px] md:h-[68px] lg:h-[74px] px-3 lg:px-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center">
 
           <Link
             href={ROUTES.home}
-            className="shrink-0 transition-opacity hover:opacity-90 md:justify-self-start flex items-center"
+            className="header-logo-link shrink-0 lg:justify-self-start flex items-center"
             aria-label="חזרה לדף הבית"
           >
             <Image
-              src={dealershipConfig.business.logo}
+              src="/main-logo.png"
               alt={dealershipConfig.business.name}
-              width={144}
-              height={100}
+              width={1264}
+              height={843}
+              quality={100}
               priority
-              className="h-11 md:h-14 w-auto object-contain"
+              sizes="(max-width: 767px) 150px, 280px"
+              className="header-logo w-auto object-contain"
             />
           </Link>
 
-          <nav className="hidden md:flex items-center justify-center gap-8 lg:gap-10 md:justify-self-center">
+          <nav aria-label="ניווט ראשי" className="hidden lg:flex items-center justify-center gap-10 lg:justify-self-center">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -89,47 +87,85 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-2 shrink-0 md:justify-self-end">
-            {socialLinks.map((social) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`header-icon-button header-icon-button-compact ${iconToneClass}`}
-                  data-social={social.name.toLowerCase()}
-                  title={social.name}
-                  aria-label={social.name}
-                >
-                  <Icon className="w-[1.02rem] h-[1.02rem]" />
-                </a>
-              );
-            })}
-
-            <div className="w-px h-5 mx-1.5" style={{ background: dividerColor }} />
-
+          <div className="header-actions hidden lg:flex items-center gap-3 shrink-0 lg:justify-self-end">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dealershipConfig.contact.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-address-link"
+              aria-label={`ניווט אל ${dealershipConfig.contact.address}`}
+            >
+              <FaLocationDot aria-hidden="true" />
+              <span>{dealershipConfig.contact.address}</span>
+            </a>
+            <div className="header-social-group" aria-label="רשתות חברתיות">
+              {socialLinks.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="header-icon-button header-icon-button-compact"
+                    data-social={social.name.toLowerCase()}
+                    title={social.name}
+                    aria-label={social.name}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                );
+              })}
+            </div>
+            <a
+              href={`tel:${dealershipConfig.contact.phone}`}
+              className="header-phone-link"
+              title={`התקשרו ${dealershipConfig.contact.phoneDisplay}`}
+              aria-label={`התקשרו אלינו ${dealershipConfig.contact.phoneDisplay}`}
+            >
+              <FaPhone aria-hidden="true" />
+            </a>
+            <a
+              href={dealershipConfig.social.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-whatsapp-link"
+              title="וואטסאפ"
+              aria-label="פנייה בוואטסאפ"
+            >
+              <FaWhatsapp aria-hidden="true" />
+            </a>
             <LeadModalButton
               formId="general"
               buttonLabel="צרו קשר"
               variant="cta"
-              className="text-sm py-1.5 px-4"
+              className="header-contact-cta text-sm py-2.5 px-5"
             />
           </div>
 
-          <div className="flex md:hidden items-center gap-2 mr-auto">
-            <LeadModalButton
-              formId="general"
-              buttonLabel=""
-              ariaLabel="השאירו פרטים ונחזור אליכם"
-              variant="cta"
-              className="w-10 h-10 p-0"
-            />
-            <MobileMenu tone={transparentMode ? 'light' : 'dark'} />
+          <div className="flex lg:hidden items-center gap-2 mr-auto">
+            <a
+              href={`tel:${dealershipConfig.contact.phone}`}
+              className="header-phone-link header-phone-link-mobile"
+              title={`התקשרו ${dealershipConfig.contact.phoneDisplay}`}
+              aria-label={`התקשרו אלינו ${dealershipConfig.contact.phoneDisplay}`}
+            >
+              <FaPhone aria-hidden="true" />
+            </a>
+            <a
+              href={dealershipConfig.social.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-whatsapp-link header-whatsapp-link-mobile"
+              title="וואטסאפ"
+              aria-label="פנייה בוואטסאפ"
+            >
+              <FaWhatsapp aria-hidden="true" />
+            </a>
+            <MobileMenu tone="light" />
           </div>
         </div>
-      </Container>
+      </div>
     </header>
   );
 }

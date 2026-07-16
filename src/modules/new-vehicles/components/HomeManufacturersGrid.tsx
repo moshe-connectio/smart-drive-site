@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { ManufacturerWithCounts } from '../types';
+import { resolveManufacturerLogo } from '../lib/constants';
 
 interface HomeManufacturersGridProps {
   manufacturers: ManufacturerWithCounts[];
@@ -71,6 +72,7 @@ export function HomeManufacturersGrid({ manufacturers }: HomeManufacturersGridPr
 }
 
 function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithCounts }) {
+  const logo = resolveManufacturerLogo(m);
   return (
     <Link
       href={`/new-vehicles/${m.slug}`}
@@ -78,12 +80,12 @@ function ManufacturerItem({ manufacturer: m }: { manufacturer: ManufacturerWithC
       title={m.name}
       aria-label={`צפה ברכבי ${m.name}`}
     >
-      {m.logo_url ? (
+      {logo ? (
         // Manufacturer logos are sourced from arbitrary external domains; using a plain <img>
         // avoids hard-coding every host in next.config remotePatterns. Logos are small assets.
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={m.logo_url}
+          src={logo}
           alt=""
           aria-hidden="true"
           width={80}

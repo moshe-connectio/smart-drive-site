@@ -62,9 +62,9 @@
   --color-gray-900: #111827;
 
   /* Semantic Colors - Light Premium Theme */
-  --color-background: #ffffff;
-  --color-background-secondary: #f5f7fa;
-  --color-background-tertiary: #eef1f6;
+  --color-background: #fbfcfe;
+  --color-background-secondary: #f3f6fa;
+  --color-background-tertiary: #e9eef5;
 
   --color-text-primary: #111827;
   --color-text-secondary: #4b5563;
@@ -122,8 +122,10 @@
   --transition-automotive: 400ms cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Typography */
-  --font-family-primary: "Heebo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-hebrew: "Heebo", "Rubik", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-primary: var(--font-hebrew), "Heebo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-hebrew: var(--font-hebrew), "Heebo", "Rubik", -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Unified modern sans face across the whole site — headings included. */
+  --font-family-display: var(--font-hebrew), "Heebo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, #1a3fa8 0%, #2553d4 100%);
@@ -186,7 +188,7 @@
   --color-header-icon-hover: rgba(37, 83, 212, 0.07);
 
   /* Premium Hero */
-  --gradient-hero-premium: linear-gradient(170deg, #142440 0%, #1d3563 45%, #274a86 100%);
+  --gradient-hero-premium: linear-gradient(145deg, #07111f 0%, #0b1d38 48%, #123769 100%);
   --color-hero-noise: rgba(255,255,255,0.015);
   --shadow-cta-primary: 0 0 0 1px rgba(255,255,255,0.18), 0 8px 32px rgba(37,83,212,0.35);
   --shadow-cta-outline: 0 0 0 1px rgba(255,255,255,0.3);
@@ -196,7 +198,7 @@
   --color-luxury-line: rgba(37, 83, 212, 0.22);
   --color-luxury-dot: #1a3fa8;
 
-  --gradient-footer: linear-gradient(180deg, #122038 0%, #1b3160 100%);
+  --gradient-footer: linear-gradient(180deg, #07111f 0%, #0b1c35 100%);
   --color-footer-text-strong: #dce7ff;
   --color-footer-surface: rgba(255, 255, 255, 0.05);
   --color-footer-surface-border: rgba(255, 255, 255, 0.1);

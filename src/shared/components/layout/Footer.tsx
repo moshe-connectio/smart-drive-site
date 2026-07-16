@@ -80,10 +80,10 @@ export function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <Image
-              src={dealershipConfig.business.logo}
+              src="/main-logo.png"
               alt={dealershipConfig.business.name}
-              width={144}
-              height={100}
+              width={1264}
+              height={843}
               className="footer-logo"
             />
             <p className="footer-about">

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 150" role="img" aria-labelledby="title">
+  <title id="title">הבינלאומי</title>
+  <g fill="#ffb81c">
+    <path d="M18 75 43 43h22L40 75l25 32H43z"/>
+    <path d="M43 75 68 43h22L65 75l25 32H68z"/>
+    <path d="M68 75 93 43h22L90 75l25 32H93z"/>
+  </g>
+  <text x="580" y="99" text-anchor="end" direction="rtl" font-family="Arial, sans-serif" font-size="78" font-weight="800" fill="#005baa">הבינלאומי</text>
+</svg>

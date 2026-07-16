@@ -15,7 +15,7 @@ export default function NewVehiclesLayout({ children }: NewVehiclesLayoutProps) 
   return (
     <>
       <Header />
-      <main className="min-h-screen">{children}</main>
+      <main id="main-content" tabIndex={-1} className="min-h-screen">{children}</main>
       <Footer />
     </>
   );

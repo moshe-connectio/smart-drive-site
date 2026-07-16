@@ -45,10 +45,11 @@
 
 .route-hero-title {
   color: var(--color-text-inverse);
-  font-size: clamp(2rem, 4.8vw, 3.7rem);
-  font-weight: 800;
-  letter-spacing: -0.018em;
-  line-height: 1.12;
+  font-family: var(--font-family-display);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1.06;
 }
 
 .route-hero-subtitle {
@@ -537,10 +538,11 @@ html.a11y-high-contrast .about-process-desc {
 }
 .vd-hero-title {
   margin: 0.45rem 0 0.3rem;
-  font-size: clamp(1.45rem, 5.4vw, 2.4rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
+  font-family: var(--font-family-display);
+  font-size: clamp(1.6rem, 5.6vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1.1;
   color: #fff;
   overflow-wrap: anywhere;
   word-break: break-word;
