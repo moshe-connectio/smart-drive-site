@@ -3555,6 +3555,7 @@ html.a11y-no-animations .home-hero::after {
   }
   .home-hero-rotator-track {
     gap: 0.7rem;
+    transition-duration: 280ms;
   }
   .home-hero-drive-card {
     flex: 0 0 100%;
