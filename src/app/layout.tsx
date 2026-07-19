@@ -5,6 +5,7 @@ import './globals.css';
 import { dealershipConfig } from '@core/config/site.config';
 import AccessibilityWidget from '@shared/components/ui/AccessibilityWidget';
 import CookieConsentBanner from '@shared/components/ui/CookieConsentBanner';
+import SiteLoadingScreen from '@shared/components/ui/SiteLoadingScreen';
 import {
   AnalyticsBody,
   AnalyticsHead,
@@ -165,6 +166,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${rubik.variable} antialiased`}
       >
+        <SiteLoadingScreen />
         {/* Skip to main content — first focusable element for keyboard/screen-reader users */}
         <a href="#main-content" className="skip-link">
           דלג לתוכן הראשי

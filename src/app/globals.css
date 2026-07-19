@@ -32,3 +32,81 @@
 @import "./styles/new-vehicles.css";
 @import "./styles/finance.css";
 @import "./styles/a11y.css";
+
+.site-loading-screen {
+	position: fixed;
+	inset: 0;
+	z-index: 10000;
+	display: grid;
+	place-items: center;
+	gap: 1.2rem;
+	background: #07111f;
+	color: rgba(255, 255, 255, 0.72);
+	animation: site-loading-screen-in 300ms ease both;
+	transition: opacity 320ms ease, visibility 320ms ease;
+}
+
+.site-loading-screen--exit {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.site-loading-mark {
+	display: grid;
+	justify-items: center;
+	gap: 0.7rem;
+	animation: site-loading-mark-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.site-loading-mark img {
+	width: min(15rem, 58vw);
+	height: auto;
+	object-fit: contain;
+}
+
+.site-loading-line {
+	display: block;
+	width: 4.5rem;
+	height: 2px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(117, 212, 251, 0.18);
+}
+
+.site-loading-line::after {
+	content: '';
+	display: block;
+	width: 45%;
+	height: 100%;
+	border-radius: inherit;
+	background: #75d4fb;
+	animation: site-loading-line-slide 900ms ease-in-out infinite;
+}
+
+.site-loading-label {
+	font-size: 0.78rem;
+	letter-spacing: 0.04em;
+}
+
+@keyframes site-loading-screen-in {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes site-loading-mark-in {
+	from { opacity: 0; transform: translateY(0.7rem) scale(0.97); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes site-loading-line-slide {
+	from { transform: translateX(-130%); }
+	to { transform: translateX(320%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.site-loading-screen,
+	.site-loading-mark,
+	.site-loading-line::after {
+		animation: none;
+	}
+}
