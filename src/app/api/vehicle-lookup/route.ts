@@ -23,6 +23,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@core/lib/logger';
+import { getClientIp, rateLimit } from '@shared/utils/rate-limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -40,6 +41,8 @@ const RESOURCES = {
 
 const GOV_BASE = 'https://data.gov.il/api/3/action/datastore_search';
 const UPSTREAM_TIMEOUT_MS = 12_000;
+const RATE_LIMIT_MAX = 10;
+const RATE_LIMIT_WINDOW_MS = 60_000;
 
 /* ─── Types ────────────────────────────────────────────────────── */
 type GovRecord = Record<string, unknown>;
@@ -158,6 +161,18 @@ function formatBaalutDate(raw: string): string {
 
 /* ─── Route ────────────────────────────────────────────────────── */
 export async function GET(req: NextRequest) {
+  const { allowed, retryAfter } = rateLimit(
+    `vehicle-lookup:${getClientIp(req)}`,
+    RATE_LIMIT_MAX,
+    RATE_LIMIT_WINDOW_MS,
+  );
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'יותר מדי חיפושים. נסו שוב בעוד מעט.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfter) } },
+    );
+  }
+
   const rawPlate = req.nextUrl.searchParams.get('plate') ?? '';
   const plate = sanitizePlate(rawPlate);
 

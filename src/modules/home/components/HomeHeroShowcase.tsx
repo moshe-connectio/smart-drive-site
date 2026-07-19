@@ -1,6 +1,5 @@
 import { getAllTrimLevelsFullInfo } from '@modules/new-vehicles/lib/repository';
 import { logger } from '@core/lib/logger';
-import { HomeHeroStatsPanel } from './HomeHeroStatsPanel';
 import { HomeHeroRotator, type ShowcaseModel } from './HomeHeroRotator';
 
 /** Keep the sequence varied without loading an excessive number of hero images. */
@@ -158,11 +157,11 @@ export async function HomeHeroShowcase() {
     ].slice(0, MAX_MODELS);
   } catch (error) {
     logger.error('❌ HomeHeroShowcase: failed to load showcase models', error);
-    return <HomeHeroStatsPanel />;
+    return null;
   }
 
   if (showcaseModels.length === 0) {
-    return <HomeHeroStatsPanel />;
+    return null;
   }
 
   const groups: ShowcaseModel[][] = [];

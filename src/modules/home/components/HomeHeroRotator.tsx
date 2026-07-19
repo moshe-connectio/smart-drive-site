@@ -37,7 +37,8 @@ export function HomeHeroRotator({
 }: HomeHeroRotatorProps) {
   const models = groups.flat();
   const slideCount = models.length;
-  const loopModels = [...models, ...models];
+  const loopCopies = Math.max(2, Math.ceil(4 / Math.max(1, slideCount)) + 1);
+  const loopModels = Array.from({ length: loopCopies }, () => models).flat();
   const [visibleCount, setVisibleCount] = useState(4);
   const [slideStep, setSlideStep] = useState(0);
   const [index, setIndex] = useState(0);

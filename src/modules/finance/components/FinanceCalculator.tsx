@@ -42,6 +42,8 @@ const DEFAULT_PRICE = 150_000;
 const DEFAULT_DOWN_PCT = 20;
 const DEFAULT_TERM = 60;
 const DEFAULT_RATE = 4.8;
+const MAX_PRICE = 1_500_000;
+const MAX_TERM = 99;
 
 const TERM_PRESETS = [24, 36, 48, 60, 72, 84];
 
@@ -72,7 +74,10 @@ export default function FinanceCalculator({
     };
   }, [contactOpen]);
 
-  const initialPrice = vehiclePrice && vehiclePrice > 0 ? vehiclePrice : DEFAULT_PRICE;
+  const initialPrice =
+    Number.isFinite(vehiclePrice) && vehiclePrice && vehiclePrice > 0
+      ? Math.min(MAX_PRICE, Math.round(vehiclePrice))
+      : DEFAULT_PRICE;
   const [price, setPrice] = useState<number>(initialPrice);
   const [downPayment, setDownPayment] = useState<number>(
     Math.round((initialPrice * DEFAULT_DOWN_PCT) / 100),
@@ -81,7 +86,9 @@ export default function FinanceCalculator({
   const [rate] = useState<number>(DEFAULT_RATE);
   const [balloonPct, setBalloonPct] = useState<number>(0);
 
-  const loanBeforeBalloon = Math.max(0, price - downPayment);
+  const loanBeforeBalloon = Number.isFinite(price)
+    ? Math.max(0, price - downPayment)
+    : 0;
   const balloon = Math.round((loanBeforeBalloon * balloonPct) / 100);
 
   // With a balloon payment the loan term is capped at 60 months.
@@ -113,18 +120,22 @@ export default function FinanceCalculator({
 
   // Bound editing helpers (keep down payment ≤ price, balloon ≤ loan)
   const handlePriceChange = (next: number) => {
-    const clean = Math.max(0, Math.round(next));
+    const clean = Number.isFinite(next)
+      ? Math.max(0, Math.min(MAX_PRICE, Math.round(next)))
+      : 0;
     setPrice(clean);
     if (downPayment > clean) setDownPayment(clean);
   };
 
   const handleDownChange = (next: number) => {
-    const clean = Math.max(0, Math.min(price, Math.round(next)));
+    const clean = Number.isFinite(next)
+      ? Math.max(0, Math.min(price, Math.round(next)))
+      : 0;
     setDownPayment(clean);
   };
 
   const handleDownPctChange = (pct: number) => {
-    const clamped = Math.max(0, Math.min(100, pct));
+    const clamped = Number.isFinite(pct) ? Math.max(0, Math.min(100, pct)) : 0;
     setDownPayment(Math.round((price * clamped) / 100));
   };
 

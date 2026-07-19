@@ -6,6 +6,18 @@ import { rateLimit, getClientIp } from '@shared/utils/rate-limit';
 import type { CreateLeadInput } from '@modules/leads/types';
 
 const PHONE_RE = /^[\d\s\-+()]{7,20}$/;
+const MAX_BODY_BYTES = 64 * 1024;
+const MAX_FIELD_LENGTHS = {
+  name: 120,
+  phone: 30,
+  email: 254,
+  message: 4_000,
+  page_url: 2_048,
+  page_title: 300,
+  vehicle_id: 100,
+  vehicle_title: 300,
+  referrer: 2_048,
+} as const;
 
 // Allow at most 5 lead submissions per IP within a 60-second window.
 const RATE_LIMIT_MAX = 5;
@@ -21,8 +33,21 @@ function validate(body: unknown): CreateLeadInput {
   if (!b.name || typeof b.name !== 'string' || b.name.trim().length < 2) {
     throw new Error('name is required (min 2 chars)');
   }
+  if (b.name.trim().length > MAX_FIELD_LENGTHS.name) {
+    throw new Error('name is too long');
+  }
   if (!b.phone || typeof b.phone !== 'string' || !PHONE_RE.test(b.phone.trim())) {
     throw new Error('phone is required and must be a valid phone number');
+  }
+  if (b.phone.trim().length > MAX_FIELD_LENGTHS.phone) {
+    throw new Error('phone is too long');
+  }
+
+  for (const [field, maxLength] of Object.entries(MAX_FIELD_LENGTHS)) {
+    const value = b[field];
+    if (value !== undefined && (typeof value !== 'string' || value.length > maxLength)) {
+      throw new Error(`${field} is invalid or too long`);
+    }
   }
 
   return b as unknown as CreateLeadInput;
@@ -35,6 +60,11 @@ function validate(body: unknown): CreateLeadInput {
  * Returns: { success: true, id: string }
  */
 export async function POST(req: NextRequest) {
+  const contentLength = Number(req.headers.get('content-length') ?? 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'Request body is too large' }, { status: 413 });
+  }
+
   // Rate-limit by client IP to mitigate spam / abuse.
   const ip = getClientIp(req);
   const { allowed, retryAfter } = rateLimit(
@@ -51,7 +81,11 @@ export async function POST(req: NextRequest) {
 
   let body: unknown;
   try {
-    body = await req.json();
+    const rawBody = await req.text();
+    if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: 'Request body is too large' }, { status: 413 });
+    }
+    body = JSON.parse(rawBody) as unknown;
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }

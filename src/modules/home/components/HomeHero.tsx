@@ -3,7 +3,6 @@ import { Suspense } from 'react';
 import { Container } from '@shared/components/layout/Container';
 import { ROUTES } from '@core/lib/constants';
 import { HomeHeroShowcase } from './HomeHeroShowcase';
-import { HomeHeroStatsPanel } from './HomeHeroStatsPanel';
 import { HomeHeroMotion } from './HomeHeroMotion';
 import { HomeHeroVideo } from './HomeHeroVideo';
 
@@ -60,7 +59,7 @@ export function HomeHero() {
             </div>
           </div>
 
-          <Suspense fallback={<HomeHeroStatsPanel />}>
+          <Suspense fallback={null}>
             <HomeHeroShowcase />
           </Suspense>
         </HomeHeroMotion>

@@ -14,6 +14,7 @@
 type Hit = { count: number; resetAt: number };
 
 const store = new Map<string, Hit>();
+let lastPruneAt = 0;
 
 export interface RateLimitResult {
   /** Whether the request is allowed (within the limit). */
@@ -37,6 +38,15 @@ export function rateLimit(
   windowMs: number,
 ): RateLimitResult {
   const now = Date.now();
+
+  // Keep attacker-controlled keys from growing this best-effort store forever.
+  if (now - lastPruneAt > windowMs) {
+    for (const [storedKey, hit] of store) {
+      if (now >= hit.resetAt) store.delete(storedKey);
+    }
+    lastPruneAt = now;
+  }
+
   const existing = store.get(key);
 
   if (!existing || now >= existing.resetAt) {

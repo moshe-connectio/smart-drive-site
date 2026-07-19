@@ -26,13 +26,24 @@ const EMPTY_RESULT: FinanceResult = {
   isValid: false,
 };
 
+const MAX_FINANCE_VALUE = 10_000_000;
+const MAX_TERM_MONTHS = 120;
+const MAX_ANNUAL_RATE_PERCENT = 100;
+
+function finiteNonNegative(value: number, max: number): number {
+  return Number.isFinite(value) ? Math.max(0, Math.min(max, value)) : 0;
+}
+
 export function calculateFinance(input: FinanceInput): FinanceResult {
-  const price = Math.max(0, Number(input.vehiclePrice) || 0);
-  const down = Math.max(0, Math.min(price, Number(input.downPayment) || 0));
-  const months = Math.max(0, Math.floor(Number(input.termMonths) || 0));
-  const annual = Math.max(0, Number(input.annualRatePercent) || 0);
+  const price = finiteNonNegative(Number(input.vehiclePrice), MAX_FINANCE_VALUE);
+  const down = Math.min(price, finiteNonNegative(Number(input.downPayment), price));
+  const months = Math.min(
+    MAX_TERM_MONTHS,
+    Math.floor(finiteNonNegative(Number(input.termMonths), MAX_TERM_MONTHS)),
+  );
+  const annual = finiteNonNegative(Number(input.annualRatePercent), MAX_ANNUAL_RATE_PERCENT);
   const loanAmount = price - down;
-  const balloon = Math.max(0, Math.min(loanAmount, Number(input.balloon) || 0));
+  const balloon = Math.min(loanAmount, finiteNonNegative(Number(input.balloon), loanAmount));
 
   if (price <= 0 || months <= 0 || loanAmount <= 0) {
     return { ...EMPTY_RESULT, loanAmount, balloon };
@@ -55,6 +66,10 @@ export function calculateFinance(input: FinanceInput): FinanceResult {
 
   const totalCost = down + monthlyPayment * months + balloon;
   const totalInterest = totalCost - price;
+
+  if (!Number.isFinite(totalCost) || !Number.isFinite(totalInterest)) {
+    return { ...EMPTY_RESULT, loanAmount, balloon };
+  }
 
   return {
     loanAmount,

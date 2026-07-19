@@ -5,6 +5,9 @@ import { existsSync } from 'fs';
 import { logger } from '@core/lib/logger';
 import { verifyWebhookSecret } from '@core/lib/webhook-auth';
 
+const VEHICLE_ID_RE = /^[a-zA-Z0-9_-]{1,100}$/;
+const POSITION_RE = /^(?:[1-9]|10)$/;
+
 /**
  * Image Upload Endpoint
  * Handles image upload and saves to public/vehicles/images
@@ -29,14 +32,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!vehicleId) {
+    if (!vehicleId || !VEHICLE_ID_RE.test(vehicleId)) {
       return NextResponse.json(
         { error: 'Missing vehicleId' },
         { status: 400 }
       );
     }
 
-    if (!position || isNaN(Number(position)) || Number(position) < 1 || Number(position) > 10) {
+    if (!POSITION_RE.test(position)) {
       return NextResponse.json(
         { error: 'Position must be a number between 1 and 10' },
         { status: 400 }
@@ -70,7 +73,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate filename
-    const ext = file.name.split('.').pop();
+    const extensionByType: Record<string, string> = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/webp': 'webp',
+      'image/gif': 'gif',
+    };
+    const ext = extensionByType[file.type];
     const filename = `image-${position}.${ext}`;
     const filepath = join(imagesDir, filename);
     const relativePath = `/vehicles/images/${vehicleId}/${filename}`;
