@@ -110,3 +110,95 @@
 		animation: none;
 	}
 }
+
+/* Futuristic first-visit opening layer. */
+.site-loading-screen {
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 50% 44%, rgba(38, 112, 173, 0.2), transparent 24%),
+		linear-gradient(135deg, #06101d 0%, #0a1a2c 48%, #030912 100%);
+	isolation: isolate;
+}
+.site-loading-screen::before,
+.site-loading-screen::after {
+	content: '';
+	position: absolute;
+	inset: -20%;
+	pointer-events: none;
+}
+.site-loading-screen::before {
+	z-index: -2;
+	opacity: 0.26;
+	background-image: linear-gradient(rgba(117, 212, 251, 0.1) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(117, 212, 251, 0.1) 1px, transparent 1px);
+	background-size: 3.8rem 3.8rem;
+	mask-image: radial-gradient(circle at center, black 0%, transparent 68%);
+	transform: perspective(500px) rotateX(58deg) translateY(22%);
+}
+.site-loading-screen::after {
+	z-index: -1;
+	background: radial-gradient(ellipse at center, transparent 18%, rgba(1, 7, 14, 0.76) 78%);
+}
+.site-loading-kicker {
+	color: rgba(117, 212, 251, 0.72);
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.24em;
+	direction: ltr;
+}
+.site-loading-mark {
+	position: relative;
+}
+.site-loading-mark img {
+	position: relative;
+	z-index: 2;
+	filter: drop-shadow(0 1.2rem 2.6rem rgba(0, 0, 0, 0.46));
+}
+.site-loading-orbit {
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: 50%;
+	border: 1px solid rgba(117, 212, 251, 0.2);
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+}
+.site-loading-orbit--outer {
+	width: min(22rem, 84vw);
+	aspect-ratio: 1;
+	animation: site-loading-orbit-spin 12s linear infinite;
+}
+.site-loading-orbit--inner {
+	width: min(17rem, 66vw);
+	aspect-ratio: 1;
+	border-color: rgba(117, 212, 251, 0.1);
+	transform: translate(-50%, -50%) rotateX(64deg) rotateZ(-18deg);
+}
+.site-loading-label {
+	letter-spacing: 0.06em;
+}
+html.site-opening .header-shell {
+	animation: site-opening-header 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+html.site-opening #main-content {
+	animation: site-opening-main 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes site-loading-orbit-spin {
+	to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes site-opening-header {
+	from { opacity: 0; transform: translateY(-0.8rem); }
+	to { opacity: 1; transform: translateY(0); }
+}
+@keyframes site-opening-main {
+	from { opacity: 0; transform: translateY(1rem) scale(0.995); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.site-loading-orbit,
+	html.site-opening .header-shell,
+	html.site-opening #main-content {
+		animation: none;
+	}
+}

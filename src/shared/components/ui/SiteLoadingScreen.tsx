@@ -11,6 +11,10 @@ export default function SiteLoadingScreen() {
     const hide = () => {
       window.setTimeout(() => {
         setIsExiting(true);
+        document.documentElement.classList.add('site-opening');
+        window.setTimeout(() => {
+          document.documentElement.classList.remove('site-opening');
+        }, 1400);
         window.setTimeout(() => setIsVisible(false), 320);
       }, 650);
     };
@@ -23,6 +27,10 @@ export default function SiteLoadingScreen() {
 
     const safetyTimer = window.setTimeout(() => {
       setIsExiting(true);
+      document.documentElement.classList.add('site-opening');
+      window.setTimeout(() => {
+        document.documentElement.classList.remove('site-opening');
+      }, 1400);
       window.setTimeout(() => setIsVisible(false), 320);
     }, 2800);
 
@@ -40,7 +48,10 @@ export default function SiteLoadingScreen() {
       role="status"
       aria-live="polite"
     >
+      <span className="site-loading-kicker">SMART &amp; DRIVE / MOBILITY SYSTEM</span>
       <div className="site-loading-mark">
+        <span className="site-loading-orbit site-loading-orbit--outer" aria-hidden="true" />
+        <span className="site-loading-orbit site-loading-orbit--inner" aria-hidden="true" />
         <Image
           src="/main-logo.png"
           alt="Smart & Drive"
@@ -50,7 +61,7 @@ export default function SiteLoadingScreen() {
         />
         <span className="site-loading-line" aria-hidden="true" />
       </div>
-      <span className="site-loading-label">טוענים את חוויית Smart &amp; Drive</span>
+      <span className="site-loading-label">החוויה שלך מתחילה עכשיו</span>
     </div>
   );
 }
