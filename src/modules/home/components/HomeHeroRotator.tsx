@@ -203,7 +203,7 @@ export function HomeHeroRotator({
                     alt={`${model.manufacturer} ${model.name}`}
                     fill
                     sizes="(max-width: 767px) 92vw, (max-width: 1024px) 75vw, 620px"
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'contain', objectPosition: 'center bottom' }}
                     placeholder="blur"
                     blurDataURL={TRANSPARENT_DATA_URL}
                     onError={(event) => {

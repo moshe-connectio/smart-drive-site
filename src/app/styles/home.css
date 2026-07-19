@@ -894,6 +894,30 @@ html.a11y-no-animations .home-hero-video {
 .home-hero-rotator-stage {
   display: grid;
 }
+
+/* Product imagery uses a quiet studio surface instead of a white image box. */
+.vehicle-gallery-main,
+.vehicle-gallery-placeholder {
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(99, 135, 168, 0.24) 0%, transparent 54%),
+    linear-gradient(180deg, #26384b 0%, #172536 58%, #0c1521 100%);
+}
+.vehicle-gallery-main::after {
+  content: '';
+  position: absolute;
+  inset-inline: 8%;
+  bottom: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 190, 223, 0.5), transparent);
+  box-shadow: 0 0.8rem 1.3rem rgba(0, 0, 0, 0.42);
+  pointer-events: none;
+}
+.vehicle-gallery-image {
+  position: relative;
+  z-index: 1;
+  object-position: center bottom;
+  filter: drop-shadow(0 1.4rem 1rem rgba(0, 0, 0, 0.32));
+}
 .home-hero-rotator-stage > .home-hero-rotator-slide {
   grid-area: 1 / 1;
 }
@@ -2275,6 +2299,7 @@ html.a11y-no-animations .home-hero-video {
 
 .home-search-result-link {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   gap: 0;
   height: 100%;
@@ -2327,22 +2352,39 @@ html.a11y-no-animations .home-hero-video {
   border-radius: 0;
   overflow: hidden;
   position: relative;
-  background: linear-gradient(145deg, #dce1e5 0%, #f0f2f3 100%);
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(99, 135, 168, 0.3) 0%, transparent 52%),
+    linear-gradient(180deg, #26384b 0%, #172536 58%, #0c1521 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.home-search-result-media::after {
+  content: '';
+  position: absolute;
+  inset-inline: 8%;
+  bottom: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 190, 223, 0.55), transparent);
+  box-shadow: 0 0.8rem 1.3rem rgba(0, 0, 0, 0.4);
+  pointer-events: none;
 }
 .home-search-result-media img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: center bottom;
   display: block;
   padding: 0.65rem 1.4rem;
+  position: relative;
+  z-index: 1;
   transition: transform 0.35s ease;
 }
 .home-search-result-link:hover .home-search-result-media img { transform: scale(1.045); }
 .home-search-result-media-fallback {
-  color: var(--color-silver-500);
+  position: relative;
+  z-index: 1;
+  color: rgba(214, 231, 244, 0.66);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2382,6 +2424,8 @@ html.a11y-no-animations .home-hero-video {
   gap: 0.75rem;
   text-align: end;
   white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
   padding: 0.8rem 1.1rem 1rem;
   border-top: 1px solid #d4d9dd;
 }
@@ -2428,7 +2472,10 @@ html.a11y-no-animations .home-hero-video {
   .home-search-result-link {
     grid-template-rows: auto 1fr auto;
   }
-  .home-search-result-media { aspect-ratio: 16 / 8; }
+  .home-search-result-media {
+    aspect-ratio: 16 / 8.5;
+    min-height: 9.25rem;
+  }
   .home-search-result-body { padding: 0.9rem 1rem 0.7rem; }
   .home-search-result-price {
     align-items: center;

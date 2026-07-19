@@ -41,7 +41,7 @@ export default function VehicleImageGallery({
     return (
       <div className="w-full">
         {/* Main Placeholder */}
-        <div className="w-full h-52 rounded-lg overflow-hidden mb-2 flex items-center justify-center" style={{ background: 'var(--color-gray-200)' }}>
+        <div className="vehicle-gallery-placeholder w-full h-52 rounded-lg overflow-hidden mb-2 flex items-center justify-center">
           <svg className="w-12 h-12" style={{ color: 'var(--color-silver-500)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
@@ -67,13 +67,13 @@ export default function VehicleImageGallery({
   return (
     <div className="w-full">
       {/* Main Image Display */}
-      <div className={`relative w-full ${imageHeight} rounded-lg overflow-hidden mb-2 sm:mb-3 p-2 sm:p-3`} style={{ background: 'var(--color-gray-200)' }}>
+      <div className={`vehicle-gallery-main relative w-full ${imageHeight} rounded-lg overflow-hidden mb-2 sm:mb-3 p-2 sm:p-3`}>
         <Image
           src={displayedImage.image_url}
           alt={displayedImage.alt_text || vehicleTitle}
           fill
           sizes={thumbSize === 'lg' ? '(max-width: 768px) 100vw, 640px' : '(max-width: 640px) 100vw, 400px'}
-          className="object-cover hover:scale-105 transition-transform duration-300"
+          className="vehicle-gallery-image object-contain hover:scale-105 transition-transform duration-300"
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
           priority={thumbSize === 'lg'}
@@ -117,7 +117,7 @@ export default function VehicleImageGallery({
                 alt={`Thumbnail ${image.alt_text || `image ${index + 1}`}`}
                 fill
                 sizes="96px"
-                className="object-cover"
+                className="object-contain"
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
               />
