@@ -122,7 +122,6 @@ export default function LeadForm({
           id={`${formId}-name`}
           type="text"
           autoComplete="name"
-          placeholder="ישראל ישראלי"
           required
           value={fields.name}
           onChange={(e) => setField('name', e.target.value)}
@@ -149,7 +148,6 @@ export default function LeadForm({
           id={`${formId}-phone`}
           type="tel"
           autoComplete="tel"
-          placeholder="050-000-0000"
           required
           dir="ltr"
           value={fields.phone}
@@ -178,7 +176,6 @@ export default function LeadForm({
             id={`${formId}-email`}
             type="email"
             autoComplete="email"
-            placeholder="example@email.com"
             dir="ltr"
             value={fields.email}
             onChange={(e) => setField('email', e.target.value)}
@@ -205,7 +202,6 @@ export default function LeadForm({
           <textarea
             id={`${formId}-message`}
             rows={3}
-            placeholder="כתבו כאן..."
             value={fields.message}
             onChange={(e) => setField('message', e.target.value)}
             className={inputClass + ' resize-none'}
