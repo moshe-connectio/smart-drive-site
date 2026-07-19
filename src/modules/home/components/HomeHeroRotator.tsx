@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { BLUR_DATA_URL } from '@shared/utils/imagePlaceholder';
+import { TRANSPARENT_DATA_URL } from '@shared/utils/imagePlaceholder';
 import { formatPrice } from '@shared/utils/formatting';
 
 export type ShowcaseModel = {
@@ -204,7 +204,10 @@ export function HomeHeroRotator({
                     sizes="(max-width: 767px) 92vw, (max-width: 1024px) 75vw, 620px"
                     style={{ objectFit: 'contain' }}
                     placeholder="blur"
-                    blurDataURL={BLUR_DATA_URL}
+                    blurDataURL={TRANSPARENT_DATA_URL}
+                    onError={(event) => {
+                      event.currentTarget.style.opacity = '0';
+                    }}
                     priority={slideIndex < visibleCount}
                   />
                 </Link>

@@ -27,3 +27,9 @@ const toBase64 = (str: string): string =>
 
 /** Inline blur placeholder data URL, safe for both server and client render. */
 export const BLUR_DATA_URL = `data:image/svg+xml;base64,${toBase64(shimmer)}`;
+
+const transparentPlaceholder =
+  '<svg width="8" height="6" viewBox="0 0 8 6" xmlns="http://www.w3.org/2000/svg"><rect width="8" height="6" fill="none"/></svg>';
+
+/** Transparent placeholder for image surfaces that must never flash white. */
+export const TRANSPARENT_DATA_URL = `data:image/svg+xml;base64,${toBase64(transparentPlaceholder)}`;
